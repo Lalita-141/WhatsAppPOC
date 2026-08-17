@@ -1,0 +1,563 @@
+
+-- =========================================================
+-- DATABASE
+-- =========================================================
+
+CREATE DATABASE IF NOT EXISTS enterprise_whatsapp
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+USE enterprise_whatsapp;
+
+
+-- =========================================================
+-- 0. ORGANIZATION MASTER
+-- =========================================================
+
+CREATE TABLE organization_master (
+    org_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    organization_name VARCHAR(200) NOT NULL,
+    contact VARCHAR(30) NULL,
+    email VARCHAR(150) NULL,
+    location VARCHAR(255) NULL,
+    gst VARCHAR(50) NULL,
+
+    -- Audit columns
+    created_by BIGINT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    INDEX idx_org_name (organization_name),
+    INDEX idx_org_email (email),
+    INDEX idx_org_deleted_at (deleted_at)
+
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 1. USER MASTER
+-- =========================================================
+
+CREATE TABLE user_master (
+    user_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NULL,
+
+    mobile_no VARCHAR(20) NOT NULL,
+
+    profile_photo VARCHAR(500) NULL,
+
+    about VARCHAR(500) NULL,
+
+    last_seen DATETIME NULL,
+
+    -- Audit columns
+    created_by BIGINT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    INDEX idx_user_mobile (mobile_no),
+    INDEX idx_user_deleted_at (deleted_at)
+
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 2. USER ORGANIZATION
+-- =========================================================
+-- This is the most important table for the enterprise design.
+--
+-- A user can belong to multiple organizations.
+--
+-- Example:
+--
+-- Lalita -> HNT
+-- Lalita -> SBI
+--
+-- Each relationship gets a different user_organization_id.
+-- =========================================================
+
+CREATE TABLE user_organization (
+    user_organization_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    user_id BIGINT UNSIGNED NOT NULL,
+
+    org_id BIGINT UNSIGNED NOT NULL,
+
+    -- Optional enterprise role
+    role VARCHAR(100) NULL,
+
+    -- Audit columns
+    created_by BIGINT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    CONSTRAINT fk_user_org_user
+        FOREIGN KEY (user_id)
+        REFERENCES user_master(user_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_user_org_org
+        FOREIGN KEY (org_id)
+        REFERENCES organization_master(org_id)
+        ON DELETE CASCADE,
+
+    -- Same user cannot be mapped to same organization twice
+    UNIQUE KEY uq_user_organization
+        (user_id, org_id),
+
+    INDEX idx_user_org_user
+        (user_id),
+
+    INDEX idx_user_org_org
+        (org_id),
+
+    INDEX idx_user_org_deleted_at
+        (deleted_at)
+
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 3. REGISTER OTP
+-- =========================================================
+
+CREATE TABLE register_otp (
+    register_otp_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    org_id BIGINT UNSIGNED NOT NULL,
+
+    country_code VARCHAR(10) NOT NULL,
+
+    mobile_no VARCHAR(20) NOT NULL,
+
+    otp VARCHAR(10) NOT NULL,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    expires_at DATETIME NOT NULL,
+
+    is_validated BOOLEAN NOT NULL DEFAULT FALSE,
+
+    trail_count INT UNSIGNED NOT NULL DEFAULT 0,
+
+    block_time DATETIME NULL,
+
+    -- Audit columns
+    created_by BIGINT UNSIGNED NULL,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    CONSTRAINT fk_register_otp_org
+        FOREIGN KEY (org_id)
+        REFERENCES organization_master(org_id)
+        ON DELETE CASCADE,
+
+    INDEX idx_register_otp_org
+        (org_id),
+
+    INDEX idx_register_otp_mobile
+        (country_code, mobile_no),
+
+    INDEX idx_register_otp_expires
+        (expires_at),
+
+    INDEX idx_register_otp_deleted_at
+        (deleted_at)
+
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 4. PERSONAL CHAT HISTORY
+-- =========================================================
+--
+-- IMPORTANT:
+-- sender and receiver use user_organization_id
+-- NOT user_id.
+--
+-- This keeps communication inside the enterprise context.
+-- =========================================================
+
+CREATE TABLE personal_chat_history (
+    chat_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    sender_user_organization_id BIGINT UNSIGNED NOT NULL,
+
+    receiver_user_organization_id BIGINT UNSIGNED NOT NULL,
+
+    message TEXT NULL,
+
+    media JSON NULL,
+
+    send_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    receive_time DATETIME NULL,
+
+    status ENUM(
+        'SENT',
+        'DELIVERED',
+        'SEEN'
+    ) NOT NULL DEFAULT 'SENT',
+
+    -- Audit columns
+    created_by BIGINT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    CONSTRAINT fk_personal_chat_sender_org
+        FOREIGN KEY (sender_user_organization_id)
+        REFERENCES user_organization(user_organization_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_personal_chat_receiver_org
+        FOREIGN KEY (receiver_user_organization_id)
+        REFERENCES user_organization(user_organization_id)
+        ON DELETE CASCADE,
+
+    INDEX idx_personal_chat_sender_receiver
+        (
+            sender_user_organization_id,
+            receiver_user_organization_id
+        ),
+
+    INDEX idx_personal_chat_receiver_sender
+        (
+            receiver_user_organization_id,
+            sender_user_organization_id
+        ),
+
+    INDEX idx_personal_chat_send_time
+        (send_time),
+
+    INDEX idx_personal_chat_deleted_at
+        (deleted_at)
+
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 5. WP GROUP
+-- =========================================================
+
+CREATE TABLE wp_group (
+    group_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    org_id BIGINT UNSIGNED NOT NULL,
+
+    group_name VARCHAR(150) NOT NULL,
+
+    created_by BIGINT UNSIGNED NULL,
+
+    group_description VARCHAR(500) NULL,
+
+    group_icon VARCHAR(500) NULL,
+
+    -- Audit columns
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    CONSTRAINT fk_group_org
+        FOREIGN KEY (org_id)
+        REFERENCES organization_master(org_id)
+        ON DELETE CASCADE,
+
+    INDEX idx_group_org
+        (org_id),
+
+    INDEX idx_group_deleted_at
+        (deleted_at)
+
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 6. GROUP MEMBER
+-- =========================================================
+--
+-- member_id is replaced by user_organization_id.
+-- =========================================================
+
+CREATE TABLE group_member (
+    group_member_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    group_id BIGINT UNSIGNED NOT NULL,
+
+    user_organization_id BIGINT UNSIGNED NOT NULL,
+
+    role ENUM(
+        'ADMIN',
+        'USER'
+    ) NOT NULL DEFAULT 'USER',
+
+    joined_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    -- Audit columns
+    created_by BIGINT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    CONSTRAINT fk_group_member_group
+        FOREIGN KEY (group_id)
+        REFERENCES wp_group(group_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_group_member_user_org
+        FOREIGN KEY (user_organization_id)
+        REFERENCES user_organization(user_organization_id)
+        ON DELETE CASCADE,
+
+    -- Prevent duplicate active relationship
+    UNIQUE KEY uq_group_member
+        (group_id, user_organization_id),
+
+    INDEX idx_group_member_group
+        (group_id),
+
+    INDEX idx_group_member_user_org
+        (user_organization_id),
+
+    INDEX idx_group_member_deleted_at
+        (deleted_at)
+
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 7. GROUP CHAT
+-- =========================================================
+
+CREATE TABLE group_chat (
+    group_chat_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    group_id BIGINT UNSIGNED NOT NULL,
+
+    sender_user_organization_id BIGINT UNSIGNED NOT NULL,
+
+    message TEXT NULL,
+
+    media JSON NULL,
+
+    send_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    status ENUM(
+        'SENT',
+        'DELIVERED',
+        'SEEN'
+    ) NOT NULL DEFAULT 'SENT',
+
+    -- Audit columns
+    created_by BIGINT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    CONSTRAINT fk_group_chat_group
+        FOREIGN KEY (group_id)
+        REFERENCES wp_group(group_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_group_chat_sender_org
+        FOREIGN KEY (sender_user_organization_id)
+        REFERENCES user_organization(user_organization_id)
+        ON DELETE CASCADE,
+
+    INDEX idx_group_chat_group
+        (group_id),
+
+    INDEX idx_group_chat_sender_org
+        (sender_user_organization_id),
+
+    INDEX idx_group_chat_send_time
+        (send_time),
+
+    INDEX idx_group_chat_deleted_at
+        (deleted_at)
+
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 8. GROUP CHAT VIEW
+-- =========================================================
+--
+-- recieved_to -> user_organization_id
+-- read_by     -> user_organization_id
+-- =========================================================
+
+CREATE TABLE group_chat_view (
+    group_chat_view_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    group_chat_id BIGINT UNSIGNED NOT NULL,
+
+    received_to_user_organization_id BIGINT UNSIGNED NOT NULL,
+
+    read_by_user_organization_id BIGINT UNSIGNED NULL,
+
+    received_time DATETIME NULL,
+
+    read_time DATETIME NULL,
+
+    -- Audit columns
+    created_by BIGINT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    CONSTRAINT fk_group_chat_view_chat
+        FOREIGN KEY (group_chat_id)
+        REFERENCES group_chat(group_chat_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_group_chat_view_received_to
+        FOREIGN KEY (received_to_user_organization_id)
+        REFERENCES user_organization(user_organization_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_group_chat_view_read_by
+        FOREIGN KEY (read_by_user_organization_id)
+        REFERENCES user_organization(user_organization_id)
+        ON DELETE SET NULL,
+
+    -- One delivery/read record per user per message
+    UNIQUE KEY uq_group_chat_view
+        (
+            group_chat_id,
+            received_to_user_organization_id
+        ),
+
+    INDEX idx_group_chat_view_chat
+        (group_chat_id),
+
+    INDEX idx_group_chat_view_received_to
+        (received_to_user_organization_id),
+
+    INDEX idx_group_chat_view_deleted_at
+        (deleted_at)
+
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 9. USER SETTING
+-- =========================================================
+--
+-- Settings belong to a user's organization relationship.
+-- =========================================================
+
+CREATE TABLE user_setting (
+    setting_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    user_organization_id BIGINT UNSIGNED NOT NULL UNIQUE,
+
+    about_privacy ENUM(
+        'EVERYONE',
+        'CONTACTS',
+        'NOBODY'
+    ) NOT NULL DEFAULT 'EVERYONE',
+
+    profile_privacy ENUM(
+        'EVERYONE',
+        'CONTACTS',
+        'NOBODY'
+    ) NOT NULL DEFAULT 'CONTACTS',
+
+    last_seen_privacy ENUM(
+        'EVERYONE',
+        'CONTACTS',
+        'NOBODY'
+    ) NOT NULL DEFAULT 'EVERYONE',
+
+    read_receipts BOOLEAN NOT NULL DEFAULT TRUE,
+
+    typing_indicator BOOLEAN NOT NULL DEFAULT TRUE,
+
+    status_privacy ENUM(
+        'EVERYONE',
+        'CONTACTS',
+        'NOBODY'
+    ) NOT NULL DEFAULT 'CONTACTS',
+
+    -- Audit columns
+    created_by BIGINT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_by BIGINT UNSIGNED NULL,
+    updated_at DATETIME NULL
+        DEFAULT NULL
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    deleted_by BIGINT UNSIGNED NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
+
+    CONSTRAINT fk_user_setting_user_org
+        FOREIGN KEY (user_organization_id)
+        REFERENCES user_organization(user_organization_id)
+        ON DELETE CASCADE,
+
+    INDEX idx_user_setting_deleted_at
+        (deleted_at)
+
+) ENGINE=InnoDB;
