@@ -15,6 +15,7 @@ import { ChatsTab } from './tabs/ChatsTab';
 import { UpdatesTab } from './tabs/UpdatesTab';
 import { CommunitiesTab } from './tabs/CommunitiesTab';
 import { CallsTab } from './tabs/CallsTab';
+import { useContactSync } from '../../contacts/hooks/useContactSync';
 
 interface HomeScreenProps {
   apiBaseUrl: string;
@@ -39,6 +40,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const [profile, setProfile] = useState<MeResponse | null>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [profileError, setProfileError] = useState<string | null>(null);
+
+  // Call our new contact sync hook
+  const { isSyncing, syncMessage } = useContactSync(apiBaseUrl, accessToken, nextStep === 'LOGIN');
+
 
   // Fetch user profile /me if successfully logged in
   useEffect(() => {
@@ -84,7 +89,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <Text style={[styles.headerTitle, { color: isDark ? theme.text : theme.primary }]}>
           WhatsApp
         </Text>
-        
+
         {/* Right Action Icons */}
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.headerIcon}>
@@ -104,6 +109,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* Sync Status Banner */}
+      {syncMessage && (
+        <View style={{ backgroundColor: theme.surface, padding: 8, alignItems: 'center', borderBottomWidth: 1, borderBottomColor: theme.border }}>
+          <Text style={{ color: isSyncing ? theme.primary : theme.text, fontSize: 12, fontWeight: '600' }}>
+            {syncMessage}
+          </Text>
+        </View>
+      )}
 
       {/* Main Tab Content */}
       <View style={{ flex: 1 }}>
@@ -213,7 +227,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               {/* Account Details */}
               <View style={[styles.settingsCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
                 <Text style={[styles.cardTitle, { color: theme.text }]}>Verification Info</Text>
-                
+
                 <View style={styles.detailRow}>
                   <Text style={[styles.label, { color: theme.textSecondary }]}>Flow Status</Text>
                   <View style={[styles.badge, { backgroundColor: nextStep === 'LOGIN' ? theme.success : theme.warning }]}>

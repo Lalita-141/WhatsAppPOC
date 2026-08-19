@@ -30,7 +30,7 @@ export const useAuthFlow = () => {
   const [serverOtpHint, setServerOtpHint] = useState<string | null>(null);
 
   // Developer/Testing custom base IP
-  const [customIp, setCustomIp] = useState('');
+  const [customIp, setCustomIp] = useState('172.20.1.72');
 
   // Compute Base URL dynamically
   const apiBaseUrl = getDefaultApiBaseUrl(customIp);
