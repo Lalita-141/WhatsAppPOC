@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   FlatList,
   Platform,
+  StatusBar,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../../../src/core/theme';
 import { SyncedContacts, RegisteredContact, NotRegisteredContact } from '../hooks/useContactSync';
 
@@ -15,9 +17,15 @@ interface ContactsModalProps {
   isVisible: boolean;
   onClose: () => void;
   contacts: SyncedContacts | null;
+  onSelectContact?: (contact: RegisteredContact) => void;
 }
 
-export const ContactsModal: React.FC<ContactsModalProps> = ({ isVisible, onClose, contacts }) => {
+export const ContactsModal: React.FC<ContactsModalProps> = ({
+  isVisible,
+  onClose,
+  contacts,
+  onSelectContact,
+}) => {
   const { theme, isDark } = useTheme();
 
   // Combine both lists with a type flag for rendering
@@ -26,12 +34,29 @@ export const ContactsModal: React.FC<ContactsModalProps> = ({ isVisible, onClose
     ...(contacts?.notRegistered.map(c => ({ ...c, type: 'notRegistered' as const })) || []),
   ];
 
+  const handleContactPress = (item: any) => {
+    if (item.type === 'registered' && onSelectContact) {
+      onSelectContact({
+        userId: item.userId,
+        userOrganizationId: item.userOrganizationId,
+        name: item.name,
+        phone: item.phone,
+      });
+      onClose();
+    }
+  };
+
   const renderItem = ({ item }: { item: any }) => {
     const isRegistered = item.type === 'registered';
     const avatarLetter = item.name ? item.name.charAt(0).toUpperCase() : '?';
 
     return (
-      <View style={[styles.contactItem, { borderBottomColor: theme.border }]}>
+      <TouchableOpacity
+        style={[styles.contactItem, { borderBottomColor: theme.border }]}
+        onPress={() => handleContactPress(item)}
+        disabled={!isRegistered}
+        activeOpacity={0.7}
+      >
         <View style={[styles.avatar, { backgroundColor: isRegistered ? theme.primary : theme.border }]}>
           <Text style={styles.avatarText}>{avatarLetter}</Text>
         </View>
@@ -50,22 +75,37 @@ export const ContactsModal: React.FC<ContactsModalProps> = ({ isVisible, onClose
             <Text style={[styles.inviteText, { color: theme.primary }]}>Invite</Text>
           </TouchableOpacity>
         )}
-      </View>
+      </TouchableOpacity>
     );
   };
 
+  const insets = useSafeAreaInsets();
+  const topInset = Platform.OS === 'android' ? Math.max(insets.top, StatusBar.currentHeight || 0) : insets.top;
+  const bottomInset = insets.bottom;
+
   return (
-    <Modal visible={isVisible} animationType="slide" transparent>
+    <Modal visible={isVisible} animationType="slide" transparent statusBarTranslucent={true}>
       <View style={[styles.modalOverlay, { backgroundColor: theme.background }]}>
+        <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+
         {/* Header */}
-        <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border }]}>
+        <View
+          style={[
+            styles.header,
+            {
+              backgroundColor: theme.surface,
+              borderBottomColor: theme.border,
+              paddingTop: topInset > 0 ? topInset + 6 : 12,
+            },
+          ]}
+        >
           <View style={styles.headerTitleContainer}>
             <Text style={[styles.headerTitle, { color: theme.text }]}>Select contact</Text>
             <Text style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
               {allContacts.length} contacts
             </Text>
           </View>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <TouchableOpacity onPress={onClose} style={styles.closeButton} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
             <Text style={{ color: theme.primary, fontSize: 16, fontWeight: '600' }}>Back</Text>
           </TouchableOpacity>
         </View>
@@ -76,7 +116,7 @@ export const ContactsModal: React.FC<ContactsModalProps> = ({ isVisible, onClose
             data={allContacts}
             keyExtractor={(item, index) => `${item.phone}-${index}`}
             renderItem={renderItem}
-            contentContainerStyle={styles.listContainer}
+            contentContainerStyle={[styles.listContainer, { paddingBottom: Math.max(bottomInset, 24) }]}
           />
         ) : (
           <View style={styles.emptyContainer}>

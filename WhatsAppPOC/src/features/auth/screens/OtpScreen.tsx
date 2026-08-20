@@ -39,12 +39,12 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
 }) => {
   const { theme } = useTheme();
   const inputRef = useRef<any>(null);
-  const [countdown, setCountdown] = useState(10);
+  const [countdown, setCountdown] = useState(5);
   const [isAutoFilled, setIsAutoFilled] = useState(false);
 
   // Reset countdown and auto-fill state whenever serverOtpHint updates or screen is opened
   useEffect(() => {
-    setCountdown(10);
+    setCountdown(5);
     setIsAutoFilled(false);
 
     const timer = setInterval(() => {
@@ -60,7 +60,7 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
     return () => clearInterval(timer);
   }, [serverOtpHint]);
 
-  // When 10 seconds elapse, automatically fill the OTP from the API response
+  // When 5 seconds elapse, automatically fill the OTP from the API response
   useEffect(() => {
     if (countdown === 0 && serverOtpHint && !isAutoFilled) {
       setOtp(String(serverOtpHint));

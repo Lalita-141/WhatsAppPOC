@@ -17,6 +17,8 @@ import { CommunitiesTab } from './tabs/CommunitiesTab';
 import { CallsTab } from './tabs/CallsTab';
 import { useContactSync } from '../../contacts/hooks/useContactSync';
 import { ContactsModal } from '../../contacts/components/ContactsModal';
+import { ChatScreen, ChatRecipient } from '../../chat/screens/ChatScreen';
+import { LastMessage } from '../../chat/services/chatApi';
 
 interface HomeScreenProps {
   apiBaseUrl: string;
@@ -46,7 +48,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const { isSyncing, syncMessage, syncedContacts } = useContactSync(apiBaseUrl, accessToken, nextStep === 'LOGIN');
 
   const [isContactsModalVisible, setIsContactsModalVisible] = useState(false);
+  const [activeChatRecipient, setActiveChatRecipient] = useState<ChatRecipient | null>(null);
+  const [activeChatLastMessage, setActiveChatLastMessage] = useState<LastMessage | null>(null);
+  const [chatRefreshKey, setChatRefreshKey] = useState(0);
 
+  const handleOpenChat = (recipient: ChatRecipient, initialLastMessage?: LastMessage | null) => {
+    setActiveChatRecipient(recipient);
+    setActiveChatLastMessage(initialLastMessage || null);
+  };
 
   // Fetch user profile /me if successfully logged in
   useEffect(() => {
@@ -73,7 +82,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const renderTabContent = () => {
     switch (activeTab) {
       case 'chats':
-        return <ChatsTab />;
+        return (
+          <ChatsTab
+            key={chatRefreshKey}
+            apiBaseUrl={apiBaseUrl}
+            accessToken={accessToken}
+            onOpenChat={handleOpenChat}
+            onOpenContacts={() => setIsContactsModalVisible(true)}
+          />
+        );
       case 'updates':
         return <UpdatesTab />;
       case 'communities':
@@ -81,9 +98,31 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       case 'calls':
         return <CallsTab />;
       default:
-        return <ChatsTab />;
+        return (
+          <ChatsTab
+            key={chatRefreshKey}
+            apiBaseUrl={apiBaseUrl}
+            accessToken={accessToken}
+            onOpenChat={handleOpenChat}
+            onOpenContacts={() => setIsContactsModalVisible(true)}
+          />
+        );
     }
   };
+
+  // Render ChatScreen directly when a conversation is open
+  if (activeChatRecipient) {
+    return (
+      <ChatScreen
+        apiBaseUrl={apiBaseUrl}
+        accessToken={accessToken}
+        recipient={activeChatRecipient}
+        initialLastMessage={activeChatLastMessage}
+        onBack={() => setActiveChatRecipient(null)}
+        onMessageSent={() => setChatRefreshKey(k => k + 1)}
+      />
+    );
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -353,6 +392,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         isVisible={isContactsModalVisible}
         onClose={() => setIsContactsModalVisible(false)}
         contacts={syncedContacts}
+        onSelectContact={(contact) => {
+          handleOpenChat({
+            userOrganizationId: contact.userOrganizationId,
+            name: contact.name,
+            mobileNo: contact.phone,
+          });
+        }}
       />
     </View>
   );
