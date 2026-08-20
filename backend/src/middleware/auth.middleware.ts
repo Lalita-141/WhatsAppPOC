@@ -45,11 +45,11 @@ export const authenticate = (
     const decoded = jwt.verify(token, secret) as {
       userId: string;
       organizationId: string;
-      userOrganizationId: string;
+      userOrganizationId?: string;
       type: string;
     };
 
-    if (decoded.type !== "ACCESS") {
+    if (decoded.type !== "ACCESS" && decoded.type !== "ORGANIZATION_SETUP") {
       throw new ApiError(
         403,
         "INVALID_TOKEN_TYPE",
@@ -60,31 +60,33 @@ export const authenticate = (
     req.user = {
       userId: BigInt(decoded.userId),
       organizationId: BigInt(decoded.organizationId),
-      userOrganizationId: BigInt(decoded.userOrganizationId),
+      userOrganizationId: decoded.userOrganizationId
+        ? BigInt(decoded.userOrganizationId)
+        : BigInt(0),
     };
 
     next();
- } catch (error) {
-  if (error instanceof jwt.TokenExpiredError) {
-    return next(
-      new ApiError(
-        401,
-        "TOKEN_EXPIRED",
-        "Session expired. Please login again.",
-      ),
-    );
-  }
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      return next(
+        new ApiError(
+          401,
+          "TOKEN_EXPIRED",
+          "Session expired. Please login again.",
+        ),
+      );
+    }
 
-  if (error instanceof jwt.JsonWebTokenError) {
-    return next(
-      new ApiError(
-        401,
-        "INVALID_TOKEN",
-        "Invalid or malformed authentication token.",
-      ),
-    );
-  }
+    if (error instanceof jwt.JsonWebTokenError) {
+      return next(
+        new ApiError(
+          401,
+          "INVALID_TOKEN",
+          "Invalid or malformed authentication token.",
+        ),
+      );
+    }
 
-  next(error);
-}
+    next(error);
+  }
 };

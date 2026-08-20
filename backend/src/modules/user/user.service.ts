@@ -1,6 +1,6 @@
 import { ApiError } from "../../utils/api-error.js";
 import prisma from "../../config/database.js";
-
+import { normalizeIndianPhoneNumber } from "../../utils/phone.js";
 import {
   findUserByMobile,
   createUser,
@@ -47,8 +47,11 @@ export const profileSetup = async (
    * 2. Check whether user already exists
    */
 
+  const normalizedMobileNo =
+    normalizeIndianPhoneNumber(input.mobileNo);
+
   const existingUser = await findUserByMobile(
-    input.mobileNo,
+    normalizedMobileNo,
   );
 
   if (existingUser) {
@@ -71,7 +74,7 @@ export const profileSetup = async (
     const user = await createUser(tx, {
       firstName: input.firstName.trim(),
       lastName: input.lastName?.trim(),
-      mobileNo: input.mobileNo,
+      mobileNo: normalizedMobileNo,
       about: input.about?.trim(),
     });
 
@@ -147,29 +150,29 @@ export const updateProfile = async (userId: string, updateData: profileUpdateInp
     );
   }
 
- const updatedUser = await prisma.user_master.update({
-  where: {
-    user_id: BigInt(userId),
-  },
-  data: {
-...updateData,
-updated_at: new Date(),
-updated_by: BigInt(userId),
-  },
-});
+  const updatedUser = await prisma.user_master.update({
+    where: {
+      user_id: BigInt(userId),
+    },
+    data: {
+      ...updateData,
+      updated_at: new Date(),
+      updated_by: BigInt(userId),
+    },
+  });
 
-return {
-  userId: updatedUser.user_id.toString(),
-  firstName: updatedUser.first_name,
-  lastName: updatedUser.last_name,
-  mobileNo: updatedUser.mobile_no,
-  about: updatedUser.about,
- 
-  updatedAt: updatedUser.updated_at,
-  updatedBy: updatedUser.updated_by?.toString() || null,
-  
+  return {
+    userId: updatedUser.user_id.toString(),
+    firstName: updatedUser.first_name,
+    lastName: updatedUser.last_name,
+    mobileNo: updatedUser.mobile_no,
+    about: updatedUser.about,
 
-};
+    updatedAt: updatedUser.updated_at,
+    updatedBy: updatedUser.updated_by?.toString() || null,
+
+
+  };
 
   return updatedUser;
 };

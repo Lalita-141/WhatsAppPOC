@@ -7,6 +7,8 @@ import authRouter from "./modules/auth/auth.route.js";
 import userRoutes from "./modules/user/user.route.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import organizationRoutes from "./modules/organization/organization.route.js";
+import chatRoutes from "./modules/chat/chat.route.js";
+
 const app = express();
 
 app.use(helmet());
@@ -39,6 +41,12 @@ app.use(
   "/api/v1/organization",
   organizationRoutes,
 );
+
+app.use(
+  "/api/v1/chat",
+  chatRoutes,
+);
+
 // Error middleware MUST be after routes
 app.use(errorMiddleware);
 

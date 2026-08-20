@@ -18,6 +18,7 @@ import {
   generateOrganizationSetupToken,
 } from "../../utils/jwt.js";
 
+import { normalizeIndianPhoneNumber } from "../../utils/phone.js";
 
 interface SendOtpInput {
   orgCode: string;
@@ -30,7 +31,7 @@ interface VerifyOtpInput {
   countryId: string;
   mobileNo: string;
   otp: string;
-}          
+}
 
 const generateOtp = (): string => {
   return Math.floor(1000 + Math.random() * 9000).toString();
@@ -39,7 +40,8 @@ const generateOtp = (): string => {
 export const sendOtp = async (input: SendOtpInput) => {
   // 1. Check organization
   const organization = await findOrganizationByCode(input.orgCode);
-
+  const normalizedMobileNo =
+    normalizeIndianPhoneNumber(input.mobileNo);
   if (!organization) {
     throw new ApiError(
       404,
@@ -68,7 +70,7 @@ export const sendOtp = async (input: SendOtpInput) => {
   const latestOtp = await findLatestOtp({
     orgId: organization.org_id,
     countryCode: country.country_code,
-    mobileNo: input.mobileNo,
+    mobileNo: normalizedMobileNo,
   });
 
   if (latestOtp) {
@@ -101,7 +103,7 @@ export const sendOtp = async (input: SendOtpInput) => {
   const recentOtpRequests = await countRecentOtpRequests({
     orgId: organization.org_id,
     countryCode: country.country_code,
-    mobileNo: input.mobileNo,
+    mobileNo: normalizedMobileNo,
     since: fifteenMinutesAgo,
   });
 
@@ -122,7 +124,7 @@ export const sendOtp = async (input: SendOtpInput) => {
   await expirePreviousOtps({
     orgId: organization.org_id,
     countryCode: country.country_code,
-    mobileNo: input.mobileNo,
+    mobileNo: normalizedMobileNo,
   });
 
   // --------------------------------------------------
@@ -143,24 +145,26 @@ export const sendOtp = async (input: SendOtpInput) => {
   await createOtp({
     orgId: organization.org_id,
     countryCode: country.country_code,
-    mobileNo: input.mobileNo,
+    mobileNo: normalizedMobileNo,
     otp,
     expiresAt,
   });
 
   // Development only
   console.log(
-    `OTP for ${country.country_code}${input.mobileNo}: ${otp}`,
+    `OTP for ${country.country_code}${normalizedMobileNo}: ${otp}`,
   );
 
   return {
     expiresIn: 300,
+    otp: otp,
   };
 };
 
 export const verifyOtp = async (input: VerifyOtpInput) => {
   const organization = await findOrganizationByCode(input.orgCode);
-
+  const normalizedMobileNo =
+    normalizeIndianPhoneNumber(input.mobileNo);
   if (!organization) {
     throw new ApiError(
       404,
@@ -182,7 +186,7 @@ export const verifyOtp = async (input: VerifyOtpInput) => {
   const otpRecord = await findLatestOtp({
     orgId: organization.org_id,
     countryCode: country.country_code,
-    mobileNo: input.mobileNo,
+    mobileNo: normalizedMobileNo,
   });
 
   if (!otpRecord) {
@@ -254,62 +258,62 @@ export const verifyOtp = async (input: VerifyOtpInput) => {
   await validateOtp(otpRecord.register_otp_id);
 
   // Check whether user already exists
-  const user = await findUserByMobile(input.mobileNo);
+  const user = await findUserByMobile(normalizedMobileNo);
 
   if (!user) {
-  const profileSetupToken =
-    generateProfileSetupToken({
-      orgId: organization.org_id.toString(),
-      countryId: input.countryId,
-      mobileNo: input.mobileNo,
-      type: "PROFILE_SETUP",
-    });
+    const profileSetupToken =
+      generateProfileSetupToken({
+        orgId: organization.org_id.toString(),
+        countryId: input.countryId,
+        mobileNo: normalizedMobileNo,
+        type: "PROFILE_SETUP",
+      });
 
-  return {
-    verified: true,
-    isNewUser: true,
-    nextStep: "PROFILE_SETUP",
-    token: profileSetupToken,
-  };
-}
+    return {
+      verified: true,
+      isNewUser: true,
+      nextStep: "PROFILE_SETUP",
+      token: profileSetupToken,
+    };
+  }
 
   const userOrganization = await findUserOrganization(
     user.user_id,
     organization.org_id,
   );
 
-if (!userOrganization) {
-  const organizationSetupToken =
-    generateOrganizationSetupToken({
+  if (!userOrganization) {
+    const organizationSetupToken =
+      generateOrganizationSetupToken({
+        userId: user.user_id.toString(),
+        organizationId: organization.org_id.toString(),
+        type: "ORGANIZATION_SETUP",
+      });
+
+    return {
+      verified: true,
+      isNewUser: false,
+      nextStep: "ORGANIZATION_SETUP",
+      token: organizationSetupToken,
       userId: user.user_id.toString(),
-      organizationId: organization.org_id.toString(),
-      type: "ORGANIZATION_SETUP",
-    });
+    };
+  }
+
+  const accessToken = generateAccessToken({
+    userId: user.user_id.toString(),
+    organizationId: organization.org_id.toString(),
+    userOrganizationId:
+      userOrganization.user_organization_id.toString(),
+    type: "ACCESS",
+  });
 
   return {
     verified: true,
     isNewUser: false,
-    nextStep: "ORGANIZATION_SETUP",
-    token: organizationSetupToken,
+    nextStep: "LOGIN",
+    token: accessToken,
     userId: user.user_id.toString(),
+    userOrganizationId:
+      userOrganization.user_organization_id.toString(),
   };
-}
-
-  const accessToken = generateAccessToken({
-  userId: user.user_id.toString(),
-  organizationId: organization.org_id.toString(),
-  userOrganizationId:
-    userOrganization.user_organization_id.toString(),
-  type: "ACCESS",
-});
-
-return {
-  verified: true,
-  isNewUser: false,
-  nextStep: "LOGIN",
-  token: accessToken,
-  userId: user.user_id.toString(),
-  userOrganizationId:
-    userOrganization.user_organization_id.toString(),
-};
 };
