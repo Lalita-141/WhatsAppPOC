@@ -16,6 +16,7 @@ import { UpdatesTab } from './tabs/UpdatesTab';
 import { CommunitiesTab } from './tabs/CommunitiesTab';
 import { CallsTab } from './tabs/CallsTab';
 import { useContactSync } from '../../contacts/hooks/useContactSync';
+import { ContactsModal } from '../../contacts/components/ContactsModal';
 
 interface HomeScreenProps {
   apiBaseUrl: string;
@@ -42,7 +43,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const [profileError, setProfileError] = useState<string | null>(null);
 
   // Call our new contact sync hook
-  const { isSyncing, syncMessage } = useContactSync(apiBaseUrl, accessToken, nextStep === 'LOGIN');
+  const { isSyncing, syncMessage, syncedContacts } = useContactSync(apiBaseUrl, accessToken, nextStep === 'LOGIN');
+
+  const [isContactsModalVisible, setIsContactsModalVisible] = useState(false);
 
 
   // Fetch user profile /me if successfully logged in
@@ -122,6 +125,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       {/* Main Tab Content */}
       <View style={{ flex: 1 }}>
         {renderTabContent()}
+
+        {/* Floating Action Button for Chats Tab */}
+        {activeTab === 'chats' && (
+          <TouchableOpacity
+            style={[styles.fab, { backgroundColor: theme.primary }]}
+            onPress={() => setIsContactsModalVisible(true)}
+          >
+            <Text style={styles.fabIcon}>💬</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       {/* Bottom Tab Navigation Bar */}
@@ -336,6 +349,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </View>
         </View>
       </Modal>
+      <ContactsModal
+        isVisible={isContactsModalVisible}
+        onClose={() => setIsContactsModalVisible(false)}
+        contacts={syncedContacts}
+      />
     </View>
   );
 };
@@ -485,5 +503,24 @@ const styles = StyleSheet.create({
   actionButtonText: {
     fontSize: 14,
     fontWeight: '700',
+  },
+  fab: {
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  fabIcon: {
+    fontSize: 24,
+    color: '#fff',
   },
 });

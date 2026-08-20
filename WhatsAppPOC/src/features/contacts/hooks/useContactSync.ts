@@ -3,9 +3,27 @@ import { Platform, PermissionsAndroid } from 'react-native';
 import Contacts from 'react-native-contacts';
 import { syncContacts } from '../services/contactApi';
 
+export interface RegisteredContact {
+    userId: string;
+    userOrganizationId: string;
+    name: string;
+    phone: string;
+}
+
+export interface NotRegisteredContact {
+    name: string;
+    phone: string;
+}
+
+export interface SyncedContacts {
+    registered: RegisteredContact[];
+    notRegistered: NotRegisteredContact[];
+}
+
 export const useContactSync = (apiBaseUrl: string, accessToken: string, shouldSync: boolean) => {
     const [isSyncing, setIsSyncing] = useState(false);
     const [syncMessage, setSyncMessage] = useState<string | null>(null);
+    const [syncedContacts, setSyncedContacts] = useState<SyncedContacts | null>(null);
 
     useEffect(() => {
         if (!shouldSync) return;
@@ -50,7 +68,10 @@ export const useContactSync = (apiBaseUrl: string, accessToken: string, shouldSy
                     // Send to backend
                     if (formattedContacts.length > 0) {
                         setSyncMessage(`Sending ${formattedContacts.length} contacts to backend...`);
-                        await syncContacts(apiBaseUrl, accessToken, { contacts: formattedContacts });
+                        const response = await syncContacts(apiBaseUrl, accessToken, { contacts: formattedContacts });
+                        if (response && response.data) {
+                            setSyncedContacts(response.data);
+                        }
                         setSyncMessage('✅ Contacts synced successfully!');
                     } else {
                         setSyncMessage('⚠️ No phone numbers found in contacts.');
@@ -73,5 +94,5 @@ export const useContactSync = (apiBaseUrl: string, accessToken: string, shouldSy
         performSync();
     }, [apiBaseUrl, accessToken, shouldSync]);
 
-    return { isSyncing, syncMessage };
+    return { isSyncing, syncMessage, syncedContacts };
 };
