@@ -1,5 +1,5 @@
 export const syncContacts = async (apiBaseUrl: string, accessToken: string, contactsPayload: any) => {
-    const url = `${apiBaseUrl}/api/v1/chat/contacts/check`;
+    const url = `${apiBaseUrl}/chat/contacts/check`;
     const response = await fetch(url, {
         method: 'POST',
         headers: {
