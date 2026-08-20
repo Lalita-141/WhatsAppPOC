@@ -7,6 +7,7 @@ import {
     getChatContactsController,
     sendPersonalMessageController,
 } from "./chat.controller.js";
+import conversationRoutes from "./conversation/conversation.route.js";
 
 const router = Router();
 
@@ -29,4 +30,5 @@ router.get(
     getChatContactsController,
 );
 
+router.use("/", conversationRoutes);
 export default router;
