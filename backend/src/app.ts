@@ -27,6 +27,8 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(pinoHttp());
 
 app.get("/api/v1/health", (_req, res) => {
+  console.log("HEALTH API HIT");
+
   res.status(200).json({
     success: true,
     message: "Enterprise Chat API is running",
