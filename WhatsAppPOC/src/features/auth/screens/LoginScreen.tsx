@@ -54,6 +54,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   errorMessage,
 }) => {
   const { theme } = useTheme();
+  const [countrySearchQuery, setCountrySearchQuery] = useState('');
   const [countries, setCountries] = useState<Country[]>(OFFLINE_FALLBACK_COUNTRIES);
   const [isCountryModalVisible, setIsCountryModalVisible] = useState(false);
   const [isDevSettingsOpen, setIsDevSettingsOpen] = useState(false);
@@ -86,9 +87,21 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     fetchCountries();
   }, [apiBaseUrl]);
 
+  const filteredCountries = countries.filter((c) => {
+    const query = countrySearchQuery.trim().toLowerCase();
+    if (!query) return true;
+    return (
+      c.countryName.toLowerCase().includes(query) ||
+      c.countryCode.toLowerCase().includes(query) ||
+      (c.isoCode && c.isoCode.toLowerCase().includes(query)) ||
+      (c.iso3Code && c.iso3Code.toLowerCase().includes(query))
+    );
+  });
+
   const selectCountry = (country: Country) => {
     setSelectedCountry(country);
     setIsCountryModalVisible(false);
+    setCountrySearchQuery('');
   };
 
   return (
@@ -244,19 +257,66 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         </View>
 
         {/* Country Picker Modal */}
-        <Modal visible={isCountryModalVisible} animationType="slide" transparent>
+        <Modal
+          visible={isCountryModalVisible}
+          animationType="slide"
+          transparent
+          onRequestClose={() => {
+            setIsCountryModalVisible(false);
+            setCountrySearchQuery('');
+          }}
+        >
           <View style={styles.modalOverlay}>
             <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
               <View style={[styles.modalHeader, { borderBottomColor: theme.border }]}>
                 <Text style={[styles.modalTitle, { color: theme.text }]}>Choose a Country</Text>
-                <TouchableOpacity onPress={() => setIsCountryModalVisible(false)}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsCountryModalVisible(false);
+                    setCountrySearchQuery('');
+                  }}
+                >
                   <Text style={{ color: theme.primary, fontWeight: '700', fontSize: 16 }}>Close</Text>
                 </TouchableOpacity>
               </View>
 
+              {/* Search Bar */}
+              <View style={styles.modalSearchContainer}>
+                <View
+                  style={[
+                    styles.modalSearchBar,
+                    {
+                      backgroundColor: theme.surface,
+                      borderColor: theme.border,
+                    },
+                  ]}
+                >
+                  <Text style={{ color: theme.placeholder, fontSize: 14, marginRight: 8 }}>🔍</Text>
+                  <TextInput
+                    style={[styles.modalSearchInput, { color: theme.text }]}
+                    value={countrySearchQuery}
+                    onChangeText={setCountrySearchQuery}
+                    placeholder="Search country or code..."
+                    placeholderTextColor={theme.placeholder}
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    clearButtonMode="while-editing"
+                  />
+                  {countrySearchQuery.length > 0 && (
+                    <TouchableOpacity
+                      onPress={() => setCountrySearchQuery('')}
+                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    >
+                      <Text style={{ color: theme.placeholder, fontSize: 14, fontWeight: '700' }}>✕</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
+
               <FlatList
-                data={countries}
+                data={filteredCountries}
                 keyExtractor={(item) => item.countryId}
+                keyboardShouldPersistTaps="handled"
                 renderItem={({ item }) => (
                   <TouchableOpacity
                     style={[styles.countryItem, { borderBottomColor: theme.border }]}
@@ -266,9 +326,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     <Text style={[styles.countryItemName, { color: theme.text }]}>
                       {item.countryName}
                     </Text>
-                    <Text style={{ color: theme.textSecondary }}>{item.countryCode}</Text>
+                    <Text style={{ color: theme.textSecondary, fontWeight: '600' }}>{item.countryCode}</Text>
                   </TouchableOpacity>
                 )}
+                ListEmptyComponent={
+                  <View style={styles.emptyContainer}>
+                    <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
+                      No country found matching "{countrySearchQuery}"
+                    </Text>
+                  </View>
+                }
               />
             </View>
           </View>
@@ -424,6 +491,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
+  modalSearchContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  modalSearchBar: {
+    height: 44,
+    borderWidth: 1,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+  },
+  modalSearchInput: {
+    flex: 1,
+    height: '100%',
+    padding: 0,
+    fontSize: 15,
+  },
   countryItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -437,5 +522,14 @@ const styles = StyleSheet.create({
   countryItemName: {
     flex: 1,
     fontSize: 16,
+  },
+  emptyContainer: {
+    padding: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyText: {
+    fontSize: 14,
+    textAlign: 'center',
   },
 });

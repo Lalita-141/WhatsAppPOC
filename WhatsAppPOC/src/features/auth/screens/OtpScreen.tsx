@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -39,6 +39,34 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
 }) => {
   const { theme } = useTheme();
   const inputRef = useRef<any>(null);
+  const [countdown, setCountdown] = useState(10);
+  const [isAutoFilled, setIsAutoFilled] = useState(false);
+
+  // Reset countdown and auto-fill state whenever serverOtpHint updates or screen is opened
+  useEffect(() => {
+    setCountdown(10);
+    setIsAutoFilled(false);
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [serverOtpHint]);
+
+  // When 10 seconds elapse, automatically fill the OTP from the API response
+  useEffect(() => {
+    if (countdown === 0 && serverOtpHint && !isAutoFilled) {
+      setOtp(String(serverOtpHint));
+      setIsAutoFilled(true);
+    }
+  }, [countdown, serverOtpHint, isAutoFilled, setOtp]);
 
   const handleOtpChange = (text: string) => {
     // Only allow numbers
@@ -48,6 +76,13 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
 
   const handleBoxPress = () => {
     inputRef.current?.focus();
+  };
+
+  const handleManualAutoFill = () => {
+    if (serverOtpHint) {
+      setOtp(String(serverOtpHint));
+      setIsAutoFilled(true);
+    }
   };
 
   return (
@@ -69,6 +104,26 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
           <TouchableOpacity onPress={onBack}>
             <Text style={[styles.linkText, { color: theme.primary }]}>Wrong number?</Text>
           </TouchableOpacity>
+        </View>
+
+        {/* 30s Auto Detection Banner */}
+        <View style={[styles.timerBanner, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          {countdown > 0 ? (
+            <Text style={[styles.timerText, { color: theme.textSecondary }]}>
+              ⏱️ Auto-filling OTP in{' '}
+              <Text style={{ color: theme.primary, fontWeight: '700' }}>
+                0:{countdown < 10 ? `0${countdown}` : countdown}
+              </Text>
+            </Text>
+          ) : isAutoFilled ? (
+            <Text style={[styles.timerText, { color: theme.primary, fontWeight: '600' }]}>
+              ✅ OTP auto-detected and filled
+            </Text>
+          ) : (
+            <Text style={[styles.timerText, { color: theme.textSecondary }]}>
+              SMS detection completed
+            </Text>
+          )}
         </View>
 
         {/* Custom 4-Box OTP UI */}
@@ -115,11 +170,15 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
 
         {/* Server OTP Hint for Testing */}
         {serverOtpHint && (
-          <View style={[styles.hintContainer, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          <TouchableOpacity
+            style={[styles.hintContainer, { backgroundColor: theme.surface, borderColor: theme.border }]}
+            onPress={handleManualAutoFill}
+            activeOpacity={0.7}
+          >
             <Text style={[styles.hintText, { color: theme.primary }]}>
-              🔧 Test OTP Helper: <Text style={{ fontWeight: 'bold' }}>{serverOtpHint}</Text>
+              🔧 Test OTP Helper: <Text style={{ fontWeight: 'bold' }}>{serverOtpHint}</Text> (Tap to fill now)
             </Text>
-          </View>
+          </TouchableOpacity>
         )}
 
         {/* Action Controls */}
@@ -143,10 +202,16 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
           </TouchableOpacity>
 
           <View style={styles.resendRow}>
-            <Text style={{ color: theme.textSecondary }}>Didn't receive code?</Text>
-            <TouchableOpacity onPress={onResendOtp}>
-              <Text style={[styles.resendLink, { color: theme.primary }]}> Resend OTP</Text>
-            </TouchableOpacity>
+            <Text style={{ color: theme.textSecondary }}>Didn't receive code? </Text>
+            {countdown > 0 ? (
+              <Text style={{ color: theme.textSecondary, fontWeight: '600' }}>
+                Resend in 0:{countdown < 10 ? `0${countdown}` : countdown}
+              </Text>
+            ) : (
+              <TouchableOpacity onPress={onResendOtp}>
+                <Text style={[styles.resendLink, { color: theme.primary }]}>Resend OTP</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </ScrollView>
@@ -163,7 +228,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 20,
   },
   title: {
     fontSize: 24,
@@ -180,10 +245,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+  timerBanner: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    borderWidth: 1,
+    alignSelf: 'center',
+    marginBottom: 12,
+  },
+  timerText: {
+    fontSize: 13,
+    fontWeight: '500',
+  },
   otpOuterContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 24,
+    marginVertical: 16,
   },
   otpGrid: {
     flexDirection: 'row',
@@ -245,6 +322,7 @@ const styles = StyleSheet.create({
   resendRow: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 16,
   },
   resendLink: {

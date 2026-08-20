@@ -58,8 +58,11 @@ export const useAuthFlow = () => {
         mobileNo
       );
 
-      if (response && response.data && response.data.otp) {
-        setServerOtpHint(response.data.otp);
+      const rawOtp =
+        (response && response.data && (response.data as any).otp) ||
+        (response as any)?.otp;
+      if (rawOtp) {
+        setServerOtpHint(String(rawOtp));
       }
 
       setCurrentScreen('otp');
