@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './src/services/api/queryClient';
 import { ThemeProvider, useTheme } from './src/core/theme';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { socket } from './src/services/socket';
@@ -67,15 +69,15 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-
-
   return (
-    <SafeAreaProvider>
-      <ThemeProvider>
-        <NavigationContainer>
-          <MainApp />
-        </NavigationContainer>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <NavigationContainer>
+            <MainApp />
+          </NavigationContainer>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }

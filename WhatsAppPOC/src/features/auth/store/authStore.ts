@@ -8,7 +8,7 @@ import {
   verifyOtp,
   setupProfile,
   setupOrganization,
-} from '../services/authApi';
+} from '../api/authApi';
 
 interface AuthState {
   // Input Settings

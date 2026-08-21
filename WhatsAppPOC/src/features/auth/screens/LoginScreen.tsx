@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../../core/theme';
-import { Country, getCountries } from '../services/authApi';
+import { Country, getCountries } from '../api/authApi';
 import { useAuthStore } from '../store/authStore';
 
 // Fail-safe default country list in case the backend is offline or empty

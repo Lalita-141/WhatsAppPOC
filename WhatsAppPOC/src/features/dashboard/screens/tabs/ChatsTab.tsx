@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,7 +10,8 @@ import {
   RefreshControl,
 } from 'react-native';
 import { useTheme } from '../../../../core/theme';
-import { getConversations, Conversation, LastMessage } from '../../../chat/services/chatApi';
+import { Conversation, LastMessage } from '../../../chat/api/chatApi';
+import { useConversationsQuery } from '../../../chat/api/chatQueries';
 import { ChatRecipient } from '../../../chat/screens/ChatScreen';
 
 const AVATAR_COLORS = [
@@ -41,43 +42,24 @@ interface ChatsTabProps {
 }
 
 export const ChatsTab: React.FC<ChatsTabProps> = ({
-  apiBaseUrl,
   accessToken,
   onOpenChat,
   onOpenContacts,
 }) => {
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [fetchError, setFetchError] = useState<string | null>(null);
 
-  const fetchChatConversations = useCallback(async (isRefresh = false) => {
-    if (!apiBaseUrl || !accessToken) return;
+  // TanStack Query for Conversations
+  const {
+    data: conversationsData,
+    isLoading,
+    isRefetching: isRefreshing,
+    error: fetchErrorObj,
+    refetch,
+  } = useConversationsQuery(accessToken, Boolean(accessToken));
 
-    if (isRefresh) {
-      setIsRefreshing(true);
-    } else {
-      setIsLoading(true);
-    }
-    setFetchError(null);
-
-    try {
-      const data = await getConversations(apiBaseUrl, accessToken);
-      setConversations(data || []);
-    } catch (err: any) {
-      console.warn('Failed to fetch conversations from API:', err);
-      setFetchError(err.message || 'Could not load conversations');
-    } finally {
-      setIsLoading(false);
-      setIsRefreshing(false);
-    }
-  }, [apiBaseUrl, accessToken]);
-
-  useEffect(() => {
-    fetchChatConversations();
-  }, [fetchChatConversations]);
+  const conversations = conversationsData || [];
+  const fetchError = fetchErrorObj ? fetchErrorObj.message : null;
 
   const filteredConversations = conversations.filter(conv => {
     const q = searchQuery.toLowerCase();
@@ -175,7 +157,9 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
-              onRefresh={() => fetchChatConversations(true)}
+              onRefresh={() => {
+                refetch();
+              }}
               tintColor={theme.primary}
               colors={[theme.primary]}
             />

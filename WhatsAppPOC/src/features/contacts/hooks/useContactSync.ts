@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Platform, PermissionsAndroid } from 'react-native';
 import Contacts from 'react-native-contacts';
-import { syncContacts } from '../services/contactApi';
+import { syncContacts } from '../api/contactApi';
 
 export interface RegisteredContact {
     userId: string;

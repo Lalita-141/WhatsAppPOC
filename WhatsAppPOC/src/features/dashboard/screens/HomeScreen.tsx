@@ -12,7 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useTheme, ThemeMode } from '../../../core/theme';
 import { useAuthStore } from '../../auth/store/authStore';
-import { getMe, MeResponse } from '../../auth/services/authApi';
+import { getMe, MeResponse } from '../../auth/api/authApi';
 import { ChatsTab } from './tabs/ChatsTab';
 import { UpdatesTab } from './tabs/UpdatesTab';
 import { CommunitiesTab } from './tabs/CommunitiesTab';
@@ -20,7 +20,7 @@ import { CallsTab } from './tabs/CallsTab';
 import { useContactSync } from '../../contacts/hooks/useContactSync';
 import { ContactsModal } from '../../contacts/components/ContactsModal';
 import { ChatScreen, ChatRecipient } from '../../chat/screens/ChatScreen';
-import { LastMessage } from '../../chat/services/chatApi';
+import { LastMessage } from '../../chat/api/chatApi';
 
 export const HomeScreen: React.FC = () => {
   type TabType = 'chats' | 'updates' | 'communities' | 'calls';

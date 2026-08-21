@@ -14,7 +14,8 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../../core/theme';
-import { sendPersonalMessage, getPersonalChatHistory, LastMessage } from '../services/chatApi';
+import { getPersonalChatHistory, LastMessage } from '../api/chatApi';
+import { useSendPersonalMessageMutation } from '../api/chatQueries';
 
 export interface ChatRecipient {
   userOrganizationId: string;
@@ -58,13 +59,16 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   const bottomInset = insets.bottom;
 
   const [inputMessage, setInputMessage] = useState('');
-  const [isSending, setIsSending] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState<boolean>(false);
   const [paginationLimit, setPaginationLimit] = useState<number>(30);
   const [sendError, setSendError] = useState<string | null>(null);
+
+  // TanStack Query Mutation for sending message
+  const sendMessageMutation = useSendPersonalMessageMutation();
+  const isSending = sendMessageMutation.isPending;
 
   // Initialize messages list
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
@@ -252,17 +256,16 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     // Add optimistic message and clear input
     setMessages(prev => [...prev, optimisticMessage]);
     setInputMessage('');
-    setIsSending(true);
     setSendError(null);
     setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
 
     try {
-      const sentData = await sendPersonalMessage(
-        apiBaseUrl,
+      const sentData = await sendMessageMutation.mutateAsync({
+        baseUrl: apiBaseUrl,
         accessToken,
-        recipient.userOrganizationId,
-        text
-      );
+        receiverUserOrganizationId: recipient.userOrganizationId,
+        message: text,
+      });
 
       // Update message with server confirmation
       setMessages(prev =>
@@ -295,8 +298,6 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
             : m
         )
       );
-    } finally {
-      setIsSending(false);
     }
   };
 
