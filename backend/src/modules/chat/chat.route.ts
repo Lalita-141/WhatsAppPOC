@@ -8,6 +8,7 @@ import {
     sendPersonalMessageController,
 } from "./chat.controller.js";
 import conversationRoutes from "./conversation/conversation.route.js";
+import personalRoutes from "./personal/personal.route.js";
 
 const router = Router();
 
@@ -31,4 +32,9 @@ router.get(
 );
 
 router.use("/", conversationRoutes);
+
+router.use(
+    "/",
+    personalRoutes,
+);
 export default router;
