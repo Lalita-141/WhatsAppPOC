@@ -12,8 +12,10 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../../core/theme';
 import { Country, getCountries } from '../services/authApi';
+import { useAuthStore } from '../store/authStore';
 
 // Fail-safe default country list in case the backend is offline or empty
 const OFFLINE_FALLBACK_COUNTRIES: Country[] = [
@@ -24,35 +26,22 @@ const OFFLINE_FALLBACK_COUNTRIES: Country[] = [
   { countryId: '5', countryName: 'Singapore', countryCode: '+65', isoCode: 'SG', iso3Code: 'SGP', flag: '🇸🇬' },
 ];
 
-interface LoginScreenProps {
-  apiBaseUrl: string;
-  orgCode: string;
-  setOrgCode: (val: string) => void;
-  mobileNo: string;
-  setMobileNo: (val: string) => void;
-  selectedCountry: Country | null;
-  setSelectedCountry: (val: Country) => void;
-  customIp: string;
-  setCustomIp: (val: string) => void;
-  onSendOtp: () => Promise<void>;
-  isLoading: boolean;
-  errorMessage: string | null;
-}
-
-export const LoginScreen: React.FC<LoginScreenProps> = ({
-  apiBaseUrl,
-  orgCode,
-  setOrgCode,
-  mobileNo,
-  setMobileNo,
-  selectedCountry,
-  setSelectedCountry,
-  customIp,
-  setCustomIp,
-  onSendOtp,
-  isLoading,
-  errorMessage,
-}) => {
+export const LoginScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const {
+    apiBaseUrl,
+    orgCode,
+    setOrgCode,
+    mobileNo,
+    setMobileNo,
+    selectedCountry,
+    setSelectedCountry,
+    customIp,
+    setCustomIp,
+    handleSendOtp,
+    isLoading,
+    errorMessage,
+  } = useAuthStore();
   const { theme } = useTheme();
   const [countrySearchQuery, setCountrySearchQuery] = useState('');
   const [countries, setCountries] = useState<Country[]>(OFFLINE_FALLBACK_COUNTRIES);
@@ -208,7 +197,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           {/* Submit Button */}
           <TouchableOpacity
             style={[styles.submitButton, { backgroundColor: theme.primary }]}
-            onPress={onSendOtp}
+            onPress={() => handleSendOtp(navigation)}
             disabled={isLoading}
           >
             {isLoading ? (

@@ -10,25 +10,20 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../../core/theme';
+import { useAuthStore } from '../store/authStore';
 
-interface OrganizationSetupScreenProps {
-  token: string;
-  mobileNo: string;
-  onSaveOrg: (orgCode: string) => Promise<void>;
-  onCancel: () => void;
-  isLoading: boolean;
-  errorMessage: string | null;
-}
-
-export const OrganizationSetupScreen: React.FC<OrganizationSetupScreenProps> = ({
-  token,
-  mobileNo,
-  onSaveOrg,
-  onCancel,
-  isLoading,
-  errorMessage,
-}) => {
+export const OrganizationSetupScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const {
+    accessToken: token,
+    mobileNo,
+    handleOrganizationSetupSave,
+    handleBackToLogin,
+    isLoading,
+    errorMessage,
+  } = useAuthStore();
   const { theme } = useTheme();
   const [orgCode, setOrgCode] = useState('');
   const [isTokenOpen, setIsTokenOpen] = useState(false);
@@ -37,7 +32,7 @@ export const OrganizationSetupScreen: React.FC<OrganizationSetupScreenProps> = (
     if (!orgCode.trim()) {
       return;
     }
-    onSaveOrg(orgCode.trim().toUpperCase());
+    handleOrganizationSetupSave(orgCode.trim().toUpperCase(), navigation);
   };
 
   return (
@@ -120,7 +115,7 @@ export const OrganizationSetupScreen: React.FC<OrganizationSetupScreenProps> = (
 
             <TouchableOpacity
               style={[styles.cancelButton, { borderColor: theme.border }]}
-              onPress={onCancel}
+              onPress={() => handleBackToLogin(navigation)}
               disabled={isLoading}
             >
               <Text style={[styles.cancelButtonText, { color: theme.textSecondary }]}>Cancel</Text>

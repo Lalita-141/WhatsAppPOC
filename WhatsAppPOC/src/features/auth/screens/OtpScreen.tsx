@@ -10,33 +10,25 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../../core/theme';
+import { useAuthStore } from '../store/authStore';
 
-interface OtpScreenProps {
-  mobileNo: string;
-  countryCode: string;
-  otp: string;
-  setOtp: (val: string) => void;
-  onVerifyOtp: () => Promise<void>;
-  onResendOtp: () => Promise<void>;
-  onBack: () => void;
-  isLoading: boolean;
-  errorMessage: string | null;
-  serverOtpHint?: string | null; // Display the OTP returned by server for easy testing
-}
-
-export const OtpScreen: React.FC<OtpScreenProps> = ({
-  mobileNo,
-  countryCode,
-  otp,
-  setOtp,
-  onVerifyOtp,
-  onResendOtp,
-  onBack,
-  isLoading,
-  errorMessage,
-  serverOtpHint,
-}) => {
+export const OtpScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const {
+    mobileNo,
+    selectedCountry,
+    otp,
+    setOtp,
+    handleVerifyOtp,
+    handleResendOtp,
+    handleBackToLogin,
+    isLoading,
+    errorMessage,
+    serverOtpHint,
+  } = useAuthStore();
+  const countryCode = selectedCountry ? selectedCountry.countryCode : '';
   const { theme } = useTheme();
   const inputRef = useRef<any>(null);
   const [countdown, setCountdown] = useState(5);
@@ -101,7 +93,7 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
             </Text>
             .
           </Text>
-          <TouchableOpacity onPress={onBack}>
+          <TouchableOpacity onPress={() => handleBackToLogin(navigation)}>
             <Text style={[styles.linkText, { color: theme.primary }]}>Wrong number?</Text>
           </TouchableOpacity>
         </View>
@@ -191,7 +183,7 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
 
           <TouchableOpacity
             style={[styles.submitButton, { backgroundColor: theme.primary }]}
-            onPress={onVerifyOtp}
+            onPress={() => handleVerifyOtp(navigation)}
             disabled={isLoading || otp.length < 4}
           >
             {isLoading ? (
@@ -208,7 +200,7 @@ export const OtpScreen: React.FC<OtpScreenProps> = ({
                 Resend in 0:{countdown < 10 ? `0${countdown}` : countdown}
               </Text>
             ) : (
-              <TouchableOpacity onPress={onResendOtp}>
+              <TouchableOpacity onPress={() => handleResendOtp(navigation)}>
                 <Text style={[styles.resendLink, { color: theme.primary }]}>Resend OTP</Text>
               </TouchableOpacity>
             )}

@@ -10,31 +10,24 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../../core/theme';
+import { useAuthStore } from '../store/authStore';
 
-interface ProfileSetupScreenProps {
-  token: string;
-  orgCode: string;
-  countryCode: string;
-  countryId: string;
-  mobileNo: string;
-  onSaveProfile: (firstName: string, lastName: string, about: string) => Promise<void>;
-  onCancel: () => void;
-  isLoading: boolean;
-  errorMessage: string | null;
-}
-
-export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
-  token,
-  orgCode,
-  countryCode,
-  countryId,
-  mobileNo,
-  onSaveProfile,
-  onCancel,
-  isLoading,
-  errorMessage,
-}) => {
+export const ProfileSetupScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const {
+    accessToken: token,
+    orgCode,
+    selectedCountry,
+    mobileNo,
+    handleProfileSetupSave,
+    handleBackToLogin,
+    isLoading,
+    errorMessage,
+  } = useAuthStore();
+  const countryCode = selectedCountry ? selectedCountry.countryCode : '';
+  const countryId = selectedCountry ? selectedCountry.countryId : '';
   const { theme } = useTheme();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -45,7 +38,7 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
     if (!firstName.trim()) {
       return;
     }
-    onSaveProfile(firstName, lastName, about);
+    handleProfileSetupSave(firstName, lastName, about, navigation);
   };
 
   return (
@@ -176,7 +169,7 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
 
             <TouchableOpacity
               style={[styles.cancelButton, { borderColor: theme.border }]}
-              onPress={onCancel}
+              onPress={() => handleBackToLogin(navigation)}
               disabled={isLoading}
             >
               <Text style={[styles.cancelButtonText, { color: theme.textSecondary }]}>Cancel</Text>

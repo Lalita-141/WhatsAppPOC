@@ -28,7 +28,10 @@ export const useContactSync = (apiBaseUrl: string, accessToken: string, shouldSy
     useEffect(() => {
         if (!shouldSync) return;
 
+        let isMounted = true;
+
         const performSync = async () => {
+            if (!isMounted) return;
             setIsSyncing(true);
             setSyncMessage("Requesting permission...");
             try {
@@ -69,7 +72,7 @@ export const useContactSync = (apiBaseUrl: string, accessToken: string, shouldSy
                     if (formattedContacts.length > 0) {
                         setSyncMessage(`Sending ${formattedContacts.length} contacts to backend...`);
                         const response = await syncContacts(apiBaseUrl, accessToken, { contacts: formattedContacts });
-                        if (response && response.data) {
+                        if (response && response.data && isMounted) {
                             setSyncedContacts(response.data);
                         }
                         setSyncMessage('✅ Contacts synced successfully!');
@@ -83,15 +86,24 @@ export const useContactSync = (apiBaseUrl: string, accessToken: string, shouldSy
                 setSyncMessage(`❌ Error: ${err.message}`);
                 console.error('Error syncing contacts:', err);
             } finally {
-                setIsSyncing(false);
-                // Clear the message after 5 seconds if it was successful
-                setTimeout(() => {
-                    setSyncMessage(null);
-                }, 5000);
+                if (isMounted) {
+                    setIsSyncing(false);
+                    // Clear the message after 5 seconds if it was successful
+                    setTimeout(() => {
+                        if (isMounted) setSyncMessage(null);
+                    }, 5000);
+                }
             }
         };
 
-        performSync();
+        const timeoutId = setTimeout(() => {
+            performSync();
+        }, 1000);
+
+        return () => {
+            isMounted = false;
+            clearTimeout(timeoutId);
+        };
     }, [apiBaseUrl, accessToken, shouldSync]);
 
     return { isSyncing, syncMessage, syncedContacts };

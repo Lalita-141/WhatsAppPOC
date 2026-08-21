@@ -9,7 +9,9 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme, ThemeMode } from '../../../core/theme';
+import { useAuthStore } from '../../auth/store/authStore';
 import { getMe, MeResponse } from '../../auth/services/authApi';
 import { ChatsTab } from './tabs/ChatsTab';
 import { UpdatesTab } from './tabs/UpdatesTab';
@@ -20,23 +22,16 @@ import { ContactsModal } from '../../contacts/components/ContactsModal';
 import { ChatScreen, ChatRecipient } from '../../chat/screens/ChatScreen';
 import { LastMessage } from '../../chat/services/chatApi';
 
-interface HomeScreenProps {
-  apiBaseUrl: string;
-  accessToken: string;
-  nextStep: 'PROFILE_SETUP' | 'ORGANIZATION_SETUP' | 'LOGIN';
-  onLogout: () => void;
-  onTestProfileSetup: () => void;
-}
-
-type TabType = 'chats' | 'updates' | 'communities' | 'calls';
-
-export const HomeScreen: React.FC<HomeScreenProps> = ({
-  apiBaseUrl,
-  accessToken,
-  nextStep,
-  onLogout,
-  onTestProfileSetup,
-}) => {
+export const HomeScreen: React.FC = () => {
+  type TabType = 'chats' | 'updates' | 'communities' | 'calls';
+  const navigation = useNavigation();
+  const {
+    apiBaseUrl,
+    accessToken,
+    nextStep,
+    handleLogout,
+    testProfileSetupNavigate,
+  } = useAuthStore();
   const { theme, isDark, themeMode, setThemeMode } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('chats');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -368,7 +363,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   style={[styles.actionButton, { borderColor: theme.error }]}
                   onPress={() => {
                     setIsSettingsOpen(false);
-                    onLogout();
+                    handleLogout(navigation);
                   }}
                 >
                   <Text style={[styles.actionButtonText, { color: theme.error }]}>Log Out</Text>
@@ -378,7 +373,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   style={[styles.actionButton, { borderColor: theme.primary }]}
                   onPress={() => {
                     setIsSettingsOpen(false);
-                    onTestProfileSetup();
+                    testProfileSetupNavigate(navigation);
                   }}
                 >
                   <Text style={[styles.actionButtonText, { color: theme.primary }]}>🔧 Test Profile Setup UI</Text>
