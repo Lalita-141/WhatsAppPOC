@@ -17,27 +17,27 @@ function MainApp() {
   const { theme, isDark } = useTheme();
   const insets = useSafeAreaInsets();
 
-  useEffect(() => {
-    socket.connect();
+  // useEffect(() => {
+  //   socket.connect();
 
-    socket.on("connect", () => {
-      console.warn("socket connected " + socket.id);
-    })
-    socket.on("connect_error", (err) => {
-      console.warn("Socket connection error:", err.message);
-    });
+  //   socket.on("connect", () => {
+  //     console.warn("socket connected " + socket.id);
+  //   })
+  //   socket.on("connect_error", (err) => {
+  //     console.warn("Socket connection error:", err.message);
+  //   });
 
-    socket.on("disconnect", () => {
-      console.warn("Socket disconnected");
-    })
+  //   socket.on("disconnect", () => {
+  //     console.warn("Socket disconnected");
+  //   })
 
-    return () => {
-      socket.off("connect")
-      socket.off("connect_error")
-      socket.off("disconnect")
-      socket.disconnect();
-    }
-  }, [])
+  //   return () => {
+  //     socket.off("connect")
+  //     socket.off("connect_error")
+  //     socket.off("disconnect")
+  //     socket.disconnect();
+  //   }
+  // }, [])
 
   return (
     <View

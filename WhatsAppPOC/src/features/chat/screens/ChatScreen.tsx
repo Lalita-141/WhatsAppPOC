@@ -15,7 +15,8 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../../core/theme';
 import { getPersonalChatHistory, LastMessage } from '../api/chatApi';
-import { useSendPersonalMessageMutation } from '../api/chatQueries';
+// import { useSendPersonalMessageMutation } from '../api/chatQueries';
+import { socket } from '../../../services/socket';
 
 export interface ChatRecipient {
   userOrganizationId: string;
@@ -67,8 +68,8 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   const [sendError, setSendError] = useState<string | null>(null);
 
   // TanStack Query Mutation for sending message
-  const sendMessageMutation = useSendPersonalMessageMutation();
-  const isSending = sendMessageMutation.isPending;
+  // const sendMessageMutation = useSendPersonalMessageMutation();
+  // const isSending = sendMessageMutation.isPending;
 
   // Initialize messages list
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
@@ -90,7 +91,114 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   });
 
   const flatListRef = useRef<FlatList>(null);
+  // message:new handler
+  useEffect(() => {
+    const handleNewMessage = (message: any) => {
+      console.log("NEW MESSAGE:", message);
 
+      // Only handle messages for this chat
+      if (
+        message.senderUserOrganizationId !==
+        recipient.userOrganizationId
+      ) {
+        return;
+      }
+
+      const newMessage: ChatMessage = {
+        id: message.messageId,
+        chatId: message.messageId,
+        message: message.message ?? '',
+        senderUserOrganizationId:
+          message.senderUserOrganizationId,
+        receiverUserOrganizationId:
+          message.receiverUserOrganizationId,
+        status: message.status ?? 'SENT',
+        sendTime: message.sendTime,
+        isMine: false,
+      };
+
+      setMessages((previous) => {
+        // Prevent duplicate message
+        if (
+          previous.some(
+            (item) => item.id === newMessage.id
+          )
+        ) {
+          return previous;
+        }
+
+        return [...previous, newMessage];
+      });
+
+      setTimeout(() => {
+        flatListRef.current?.scrollToEnd({
+          animated: true,
+        });
+      }, 100);
+    };
+
+    socket.on("message:new", handleNewMessage);
+
+    return () => {
+      socket.off("message:new", handleNewMessage);
+    };
+  }, [recipient.userOrganizationId]);
+
+  // message:sent conformation
+  useEffect(() => {
+    const handleMessageSent = (message: any) => {
+      console.log("MESSAGE SAVED:", message);
+
+      const serverMessage: ChatMessage = {
+        id: message.messageId,
+        chatId: message.messageId,
+        message: message.message ?? '',
+        senderUserOrganizationId:
+          message.senderUserOrganizationId,
+        receiverUserOrganizationId:
+          message.receiverUserOrganizationId,
+        status: message.status ?? 'SENT',
+        sendTime: message.sendTime,
+        isMine: true,
+      };
+
+      setMessages((previous) => {
+        // If server message already exists, don't add again
+        if (
+          previous.some(
+            (item) => item.id === serverMessage.id
+          )
+        ) {
+          return previous;
+        }
+
+        // Find optimistic message with same text
+        const optimisticIndex = previous.findIndex(
+          (item) =>
+            item.status === 'SENDING' &&
+            item.isMine &&
+            item.message === serverMessage.message
+        );
+
+        // Replace optimistic message
+        if (optimisticIndex !== -1) {
+          const updated = [...previous];
+
+          updated[optimisticIndex] = serverMessage;
+
+          return updated;
+        }
+
+        return [...previous, serverMessage];
+      });
+    };
+
+    socket.on("message:sent", handleMessageSent);
+
+    return () => {
+      socket.off("message:sent", handleMessageSent);
+    };
+  }, []);
   // Fetch full chat history for this specific userOrganizationId
   useEffect(() => {
     if (!apiBaseUrl || !accessToken || !recipient.userOrganizationId) return;
@@ -239,66 +347,56 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     }
   };
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = () => {
     const text = inputMessage.trim();
-    if (!text || isSending) return;
+
+    if (!text) {
+      return;
+    }
+
+    // Make sure Socket.IO is connected
+    if (!socket.connected) {
+      setSendError(
+        'Connection lost. Please wait and try again.'
+      );
+      return;
+    }
 
     const tempId = `temp-${Date.now()}`;
+
     const optimisticMessage: ChatMessage = {
       id: tempId,
       message: text,
-      receiverUserOrganizationId: recipient.userOrganizationId,
+      receiverUserOrganizationId:
+        recipient.userOrganizationId,
       status: 'SENDING',
       sendTime: new Date().toISOString(),
       isMine: true,
     };
 
-    // Add optimistic message and clear input
-    setMessages(prev => [...prev, optimisticMessage]);
+    // Show message immediately
+    setMessages((previous) => [
+      ...previous,
+      optimisticMessage,
+    ]);
+
+    // Clear input
     setInputMessage('');
     setSendError(null);
-    setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
 
-    try {
-      const sentData = await sendMessageMutation.mutateAsync({
-        baseUrl: apiBaseUrl,
-        accessToken,
-        receiverUserOrganizationId: recipient.userOrganizationId,
-        message: text,
+    // Scroll to bottom
+    setTimeout(() => {
+      flatListRef.current?.scrollToEnd({
+        animated: true,
       });
+    }, 100);
 
-      // Update message with server confirmation
-      setMessages(prev =>
-        prev.map(m =>
-          m.id === tempId
-            ? {
-                ...m,
-                id: sentData.chatId || tempId,
-                chatId: sentData.chatId,
-                status: (sentData.status as any) || 'SENT',
-                sendTime: sentData.sendTime || m.sendTime,
-                senderUserOrganizationId: sentData.senderUserOrganizationId,
-              }
-            : m
-        )
-      );
-
-      onMessageSent?.();
-    } catch (err: any) {
-      console.error('Failed to send message:', err);
-      setSendError(err.message || 'Failed to send message');
-      // Update status to indicate failed
-      setMessages(prev =>
-        prev.map(m =>
-          m.id === tempId
-            ? {
-                ...m,
-                status: 'SENDING',
-              }
-            : m
-        )
-      );
-    }
+    // Send message through Socket.IO
+    socket.emit('message:send', {
+      receiverUserOrganizationId:
+        recipient.userOrganizationId,
+      message: text,
+    });
   };
 
   const renderStatusIcon = (status: ChatMessage['status']) => {
@@ -501,13 +599,14 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
             <TouchableOpacity
               style={[styles.sendButton, { backgroundColor: theme.primary }]}
               onPress={handleSendMessage}
-              disabled={isSending}
+            // disabled={isSending}
             >
-              {isSending ? (
+              {/* {isSending ? (
                 <ActivityIndicator size="small" color="#FFFFFF" />
               ) : (
                 <Text style={styles.sendIcon}>➤</Text>
-              )}
+              )} */}
+              <Text style={styles.sendIcon}>➤</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity style={[styles.micButton, { backgroundColor: theme.primary }]}>

@@ -9,6 +9,7 @@ import {
   setupProfile,
   setupOrganization,
 } from '../api/authApi';
+import { connectSocket, disconnectSocket } from '../../../services/socket';
 
 interface AuthState {
   // Input Settings
@@ -133,11 +134,14 @@ export const useAuthStore = create<AuthState>()(
 
           set({ accessToken: data.token, nextStep: data.nextStep });
 
+
+
           if (data.nextStep === 'PROFILE_SETUP') {
             navigation.navigate('profile_setup');
           } else if (data.nextStep === 'ORGANIZATION_SETUP') {
             navigation.navigate('organization_setup');
           } else {
+            connectSocket(data.token);
             set({ otp: '' });
             navigation.reset({ index: 0, routes: [{ name: 'home' }] });
           }
@@ -159,6 +163,8 @@ export const useAuthStore = create<AuthState>()(
       },
 
       handleLogout: (navigation) => {
+        disconnectSocket();
+
         set({ accessToken: '', otp: '', errorMessage: null, serverOtpHint: null });
         navigation.reset({ index: 0, routes: [{ name: 'login' }] });
       },
@@ -192,6 +198,7 @@ export const useAuthStore = create<AuthState>()(
                 state.otp
               );
               set({ accessToken: data.token, nextStep: data.nextStep, otp: '' });
+              connectSocket(data.token);
               navigation.reset({ index: 0, routes: [{ name: 'home' }] });
               return;
             } catch (verifyErr) {
@@ -233,6 +240,7 @@ export const useAuthStore = create<AuthState>()(
                 state.otp
               );
               set({ accessToken: data.token, nextStep: data.nextStep, otp: '' });
+              connectSocket(data.token);
               navigation.reset({ index: 0, routes: [{ name: 'home' }] });
               return;
             } catch (verifyErr) {
@@ -262,7 +270,7 @@ export const useAuthStore = create<AuthState>()(
       name: 'auth-storage', // unique name
       storage: createJSONStorage(() => zustandStorage), // use MMKV
       // Don't persist sensitive stuff like otp, or transient UI states
-      partialize: (state) => ({ 
+      partialize: (state) => ({
         accessToken: state.accessToken,
         orgCode: state.orgCode,
         mobileNo: state.mobileNo,
