@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 import {
     sendPersonalMessage,
+    markMessageDelivered,
 } from "../modules/chat/personal/personal.service.js";
 
 interface AccessTokenPayload {
@@ -330,6 +331,116 @@ export const initializeSocket = (
                                     error instanceof Error
                                         ? error.message
                                         : "Unable to send message",
+                            },
+                        );
+                    }
+                },
+            );
+
+            // on socket message delivered
+            socket.on(
+                "message:delivered",
+                async (data) => {
+
+                    try {
+
+                        const receiver =
+                            authenticatedSocket.user;
+
+                        if (!receiver) {
+                            socket.emit(
+                                "message:error",
+                                {
+                                    errorCode: "UNAUTHORIZED",
+                                    message:
+                                        "Socket authentication required",
+                                },
+                            );
+
+                            return;
+                        }
+
+
+                        if (!data?.messageId) {
+                            socket.emit(
+                                "message:error",
+                                {
+                                    errorCode: "MESSAGE_ID_REQUIRED",
+                                    message:
+                                        "Message ID is required",
+                                },
+                            );
+
+                            return;
+                        }
+
+
+                        let chatId: bigint;
+
+                        try {
+
+                            chatId =
+                                BigInt(data.messageId);
+
+                        } catch {
+
+                            socket.emit(
+                                "message:error",
+                                {
+                                    errorCode: "INVALID_MESSAGE_ID",
+                                    message:
+                                        "Invalid message ID",
+                                },
+                            );
+
+                            return;
+                        }
+
+
+                        // ---------------------------------------------
+                        // Update database
+                        // ---------------------------------------------
+
+                        const delivered =
+                            await markMessageDelivered(
+                                chatId,
+                                receiver.userOrganizationId,
+                            );
+
+
+                        // ---------------------------------------------
+                        // Notify original sender
+                        // ---------------------------------------------
+
+                        io.to(
+                            `user:${delivered.senderUserOrganizationId}`,
+                        ).emit(
+                            "message:delivered",
+                            delivered,
+                        );
+
+
+                        console.log(
+                            `Message ${delivered.messageId} delivered to ${delivered.receiverUserOrganizationId}`,
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            "message:delivered error:",
+                            error,
+                        );
+
+                        socket.emit(
+                            "message:error",
+                            {
+                                errorCode:
+                                    "DELIVERY_UPDATE_FAILED",
+
+                                message:
+                                    error instanceof Error
+                                        ? error.message
+                                        : "Unable to update delivery status",
                             },
                         );
                     }

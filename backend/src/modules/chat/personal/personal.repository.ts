@@ -139,3 +139,71 @@ export const createPersonalMessage = async (data: {
         },
     });
 };
+
+// ======================================================
+// Mark personal message as delivered
+// ======================================================
+
+export const markPersonalMessageDelivered = async (
+    chatId: bigint,
+    receiverUserOrganizationId: bigint,
+) => {
+
+    return await prisma.personal_chat_history.updateMany({
+        where: {
+            chat_id: chatId,
+
+            receiver_user_organization_id:
+                receiverUserOrganizationId,
+
+            deleted_at: null,
+
+            status: "SENT",
+        },
+
+        data: {
+            status: "DELIVERED",
+
+            receive_time:
+                new Date(),
+
+            updated_at:
+                new Date(),
+
+            updated_by:
+                receiverUserOrganizationId,
+        },
+    });
+};
+
+// ======================================================
+// Find personal message
+// ======================================================
+
+export const findPersonalMessageById = async (
+    chatId: bigint,
+) => {
+
+    return await prisma.personal_chat_history.findFirst({
+        where: {
+            chat_id: chatId,
+            deleted_at: null,
+        },
+
+        select: {
+            chat_id: true,
+
+            sender_user_organization_id: true,
+
+            receiver_user_organization_id: true,
+
+            message: true,
+
+            status: true,
+
+            receive_time: true,
+
+            send_time: true,
+        },
+    });
+};

@@ -4,8 +4,9 @@ import {
     findPersonalChatHistory,
     findUserOrganizationById,
     createPersonalMessage,
+    markPersonalMessageDelivered,
+    findPersonalMessageById,
 } from "./personal.repository.js";
-
 
 export const getPersonalChatHistory = async (
     currentUserOrganizationId: bigint,
@@ -266,5 +267,98 @@ export const sendPersonalMessage = async (
 
         status:
             savedMessage.status,
+    };
+};
+
+// ======================================================
+// Mark Personal Message Delivered
+// ======================================================
+
+export const markMessageDelivered = async (
+    chatId: bigint,
+    receiverUserOrganizationId: bigint,
+) => {
+
+    // ---------------------------------------------
+    // 1. Find message
+    // ---------------------------------------------
+
+    const message =
+        await findPersonalMessageById(chatId);
+
+    if (!message) {
+        throw new ApiError(
+            404,
+            "MESSAGE_NOT_FOUND",
+            "Message not found",
+        );
+    }
+
+
+    // ---------------------------------------------
+    // 2. Make sure current user is receiver
+    // ---------------------------------------------
+
+    if (
+        message.receiver_user_organization_id !==
+        receiverUserOrganizationId
+    ) {
+        throw new ApiError(
+            403,
+            "INVALID_RECEIVER",
+            "You cannot update this message",
+        );
+    }
+
+
+    // ---------------------------------------------
+    // 3. Already delivered
+    // ---------------------------------------------
+
+    if (
+        message.status === "DELIVERED" ||
+        message.status === "SEEN"
+    ) {
+        return {
+            messageId: chatId.toString(),
+
+            senderUserOrganizationId:
+                message.sender_user_organization_id.toString(),
+
+            receiverUserOrganizationId:
+                message.receiver_user_organization_id.toString(),
+
+            status: message.status,
+
+            receiveTime:
+                message.receive_time,
+        };
+    }
+
+
+    // ---------------------------------------------
+    // 4. Update status
+    // ---------------------------------------------
+
+    await markPersonalMessageDelivered(
+        chatId,
+        receiverUserOrganizationId,
+    );
+
+
+    return {
+        messageId:
+            chatId.toString(),
+
+        senderUserOrganizationId:
+            message.sender_user_organization_id.toString(),
+
+        receiverUserOrganizationId:
+            message.receiver_user_organization_id.toString(),
+
+        status: "DELIVERED",
+
+        receiveTime:
+            new Date(),
     };
 };
