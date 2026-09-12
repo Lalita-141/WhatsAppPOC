@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,6 +13,7 @@ import { useTheme } from '../../../../core/theme';
 import { Conversation, LastMessage } from '../../../chat/api/chatApi';
 import { useConversationsQuery } from '../../../chat/api/chatQueries';
 import { ChatRecipient } from '../../../chat/screens/ChatScreen';
+import { socket } from '../../../../services/socket';
 
 const AVATAR_COLORS = [
   '#25D366',
@@ -59,6 +60,61 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
   } = useConversationsQuery(accessToken, Boolean(accessToken));
 
   const conversations = conversationsData || [];
+
+  useEffect(() => {
+    if (!accessToken) {
+      return;
+    }
+
+    const handleNewMessage = (message: any) => {
+      console.log("ChatsTab - new message received:", message);
+
+      // --------------------------------------------------
+      // 1. Tell backend that receiver received the message
+      // --------------------------------------------------
+      if (message?.messageId) {
+        socket.emit("message:delivered", {
+          messageId: message.messageId,
+        });
+
+        console.log(
+          "MESSAGE DELIVERED:",
+          message.messageId
+        );
+      }
+
+      // --------------------------------------------------
+      // 2. Refresh conversation list
+      // --------------------------------------------------
+      refetch();
+    };
+
+    const handleMessageDelivered = (message: any) => {
+      console.log(
+        "ChatsTab - message delivered:",
+        message
+      );
+
+      // Update latest message status in conversation list
+      refetch();
+    };
+
+    socket.on("message:new", handleNewMessage);
+
+    socket.on(
+      "message:delivered",
+      handleMessageDelivered
+    );
+
+    return () => {
+      socket.off("message:new", handleNewMessage);
+
+      socket.off(
+        "message:delivered",
+        handleMessageDelivered
+      );
+    };
+  }, [accessToken, refetch]);
   const fetchError = fetchErrorObj ? fetchErrorObj.message : null;
 
   const filteredConversations = conversations.filter(conv => {

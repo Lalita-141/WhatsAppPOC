@@ -130,6 +130,11 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
         return [...previous, newMessage];
       });
 
+      // tell backend that receiver has seen this message
+      socket.emit("message:delivered", {
+        messageId: message.messageId,
+      });
+
       setTimeout(() => {
         flatListRef.current?.scrollToEnd({
           animated: true,
@@ -143,6 +148,50 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       socket.off("message:new", handleNewMessage);
     };
   }, [recipient.userOrganizationId]);
+
+  // deliverly acknowledge
+  useEffect(() => {
+
+    const handleMessageDelivered = (
+      message: any,
+    ) => {
+
+      console.log(
+        "Message delivered:",
+        message,
+      );
+
+      setMessages((previous) =>
+        previous.map((item) =>
+          item.chatId === message.messageId
+            ? {
+              ...item,
+              status: "DELIVERED",
+              receiveTime:
+                message.receiveTime,
+            }
+            : item,
+        ),
+      );
+    };
+
+
+    socket.on(
+      "message:delivered",
+      handleMessageDelivered,
+    );
+
+
+    return () => {
+
+      socket.off(
+        "message:delivered",
+        handleMessageDelivered,
+      );
+
+    };
+
+  }, []);
 
   // message:sent conformation
   useEffect(() => {
@@ -233,6 +282,21 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
           );
 
           setMessages(mappedMessages);
+          // --------------------------------------------------
+          // Mark received messages as DELIVERED
+          // --------------------------------------------------
+
+          mappedMessages.forEach((message) => {
+            if (
+              !message.isMine &&
+              message.status === 'SENT' &&
+              message.id
+            ) {
+              socket.emit('message:delivered', {
+                messageId: message.id,
+              });
+            }
+          });
           setHasMore(result.pagination?.hasMore ?? (!!result.pagination?.nextCursor));
           setNextCursor(result.pagination?.nextCursor ?? null);
           if (result.pagination?.limit) {
