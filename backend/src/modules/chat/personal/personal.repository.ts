@@ -207,3 +207,59 @@ export const findPersonalMessageById = async (
         },
     });
 };
+
+// ======================================================
+// Mark personal messages as READ
+// ======================================================
+
+export const markPersonalMessagesAsRead = async (
+    currentUserOrganizationId: bigint,
+    otherUserOrganizationId: bigint,
+) => {
+
+    // Find messages that were sent by the other user
+    // and received by the current user.
+    const messages =
+        await prisma.personal_chat_history.findMany({
+            where: {
+                deleted_at: null,
+
+                sender_user_organization_id:
+                    otherUserOrganizationId,
+
+                receiver_user_organization_id:
+                    currentUserOrganizationId,
+
+                status: {
+                    in: ["SENT", "DELIVERED"],
+                },
+            },
+
+            select: {
+                chat_id: true,
+                sender_user_organization_id: true,
+                receiver_user_organization_id: true,
+            },
+        });
+
+    if (messages.length === 0) {
+        return [];
+    }
+
+    // Update all pending messages to READ
+    await prisma.personal_chat_history.updateMany({
+        where: {
+            chat_id: {
+                in: messages.map(
+                    (message) => message.chat_id,
+                ),
+            },
+        },
+
+        data: {
+            status: "READ",
+        },
+    });
+
+    return messages;
+};

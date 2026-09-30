@@ -6,6 +6,7 @@ import {
     createPersonalMessage,
     markPersonalMessageDelivered,
     findPersonalMessageById,
+    markPersonalMessagesAsRead
 } from "./personal.repository.js";
 
 export const getPersonalChatHistory = async (
@@ -360,5 +361,102 @@ export const markMessageDelivered = async (
 
         receiveTime:
             new Date(),
+    };
+};
+
+// ======================================================
+// Mark Personal Messages As Read
+// ======================================================
+
+export const markPersonalMessagesRead = async (
+    currentUserOrganizationId: bigint,
+    otherUserOrganizationId: bigint,
+) => {
+
+    // --------------------------------------------------
+    // 1. Cannot mark own chat as read
+    // --------------------------------------------------
+
+    if (
+        currentUserOrganizationId ===
+        otherUserOrganizationId
+    ) {
+        throw new ApiError(
+            400,
+            "INVALID_CHAT_USER",
+            "You cannot mark your own messages as read",
+        );
+    }
+
+    // --------------------------------------------------
+    // 2. Validate current user
+    // --------------------------------------------------
+
+    const currentUser =
+        await findUserOrganizationById(
+            currentUserOrganizationId,
+        );
+
+    if (!currentUser) {
+        throw new ApiError(
+            404,
+            "USER_NOT_FOUND",
+            "Current user organization membership not found",
+        );
+    }
+
+    // --------------------------------------------------
+    // 3. Validate other user
+    // --------------------------------------------------
+
+    const otherUser =
+        await findUserOrganizationById(
+            otherUserOrganizationId,
+        );
+
+    if (!otherUser) {
+        throw new ApiError(
+            404,
+            "USER_NOT_FOUND",
+            "Other user organization membership not found",
+        );
+    }
+
+    // --------------------------------------------------
+    // 4. Same organization check
+    // --------------------------------------------------
+
+    if (
+        currentUser.org_id !==
+        otherUser.org_id
+    ) {
+        throw new ApiError(
+            403,
+            "ORGANIZATION_MISMATCH",
+            "Users do not belong to the same organization",
+        );
+    }
+
+    // --------------------------------------------------
+    // 5. Mark messages as READ
+    // --------------------------------------------------
+
+    const messages =
+        await markPersonalMessagesAsRead(
+            currentUserOrganizationId,
+            otherUserOrganizationId,
+        );
+
+    return {
+        messageIds: messages.map(
+            (message) =>
+                message.chat_id.toString(),
+        ),
+
+        senderUserOrganizationId:
+            otherUserOrganizationId.toString(),
+
+        readerUserOrganizationId:
+            currentUserOrganizationId.toString(),
     };
 };

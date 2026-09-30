@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import {
     sendPersonalMessage,
     markMessageDelivered,
+    markPersonalMessagesRead
 } from "../modules/chat/personal/personal.service.js";
 
 interface AccessTokenPayload {
@@ -446,6 +447,86 @@ export const initializeSocket = (
                     }
                 },
             );
+
+            // message read
+            // --------------------------------------------------
+            // MESSAGE READ
+            // --------------------------------------------------
+
+            socket.on("message:read", async (data) => {
+
+                try {
+
+                    const authenticatedSocket =
+                        socket as AuthenticatedSocket;
+
+                    const currentUserOrganizationId =
+                        authenticatedSocket.user
+                            ?.userOrganizationId;
+
+                    if (!currentUserOrganizationId) {
+                        return;
+                    }
+
+                    // ----------------------------------------------
+                    // Validate other user
+                    // ----------------------------------------------
+
+                    const otherUserOrganizationId =
+                        BigInt(data?.otherUserOrganizationId);
+
+                    if (
+                        currentUserOrganizationId ===
+                        otherUserOrganizationId
+                    ) {
+                        return;
+                    }
+
+                    // ----------------------------------------------
+                    // Mark messages READ
+                    // ----------------------------------------------
+
+                    const result =
+                        await markPersonalMessagesRead(
+                            currentUserOrganizationId,
+                            otherUserOrganizationId,
+                        );
+
+                    // Nothing changed
+                    if (result.messageIds.length === 0) {
+                        return;
+                    }
+
+                    console.log(
+                        "Messages marked READ:",
+                        result.messageIds,
+                    );
+
+                    // ----------------------------------------------
+                    // Notify original sender
+                    // ----------------------------------------------
+
+                    io.to(
+                        `user:${result.senderUserOrganizationId}`,
+                    ).emit(
+                        "message:read",
+                        {
+                            messageIds:
+                                result.messageIds,
+
+                            readerUserOrganizationId:
+                                result.readerUserOrganizationId,
+                        },
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "message:read error:",
+                        error,
+                    );
+                }
+            });
         },
     );
 
