@@ -294,6 +294,48 @@ export const initializeSocket = (
                 },
             );
 
+            // --------------------------------------------------
+            // TYPING INDICATOR (typing:start & typing:stop)
+            // --------------------------------------------------
+
+            socket.on("typing:start", (data) => {
+                try {
+                    const senderUserOrganizationId =
+                        authenticatedSocket.user?.userOrganizationId?.toString();
+                    const receiverUserOrganizationId =
+                        data?.receiverUserOrganizationId?.toString();
+
+                    if (!senderUserOrganizationId || !receiverUserOrganizationId) {
+                        return;
+                    }
+
+                    io.to(`user:${receiverUserOrganizationId}`).emit("typing:start", {
+                        senderUserOrganizationId,
+                    });
+                } catch (error) {
+                    console.error("typing:start error:", error);
+                }
+            });
+
+            socket.on("typing:stop", (data) => {
+                try {
+                    const senderUserOrganizationId =
+                        authenticatedSocket.user?.userOrganizationId?.toString();
+                    const receiverUserOrganizationId =
+                        data?.receiverUserOrganizationId?.toString();
+
+                    if (!senderUserOrganizationId || !receiverUserOrganizationId) {
+                        return;
+                    }
+
+                    io.to(`user:${receiverUserOrganizationId}`).emit("typing:stop", {
+                        senderUserOrganizationId,
+                    });
+                } catch (error) {
+                    console.error("typing:stop error:", error);
+                }
+            });
+
             // send Message Event
 
             socket.on(

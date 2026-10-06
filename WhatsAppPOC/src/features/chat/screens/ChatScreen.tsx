@@ -115,6 +115,11 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   const [recipientLastSeen, setRecipientLastSeen] = useState<string | null>(
     recipient.lastSeen || null
   );
+  const [isRecipientTyping, setIsRecipientTyping] = useState(false);
+
+  const isTypingRef = useRef(false);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const recipientTypingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // TanStack Query Mutation for sending message
   // const sendMessageMutation = useSendPersonalMessageMutation();
@@ -383,6 +388,61 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       socket.off("presence:update", handlePresenceUpdate);
     };
   }, [recipient.userOrganizationId, accessToken]);
+
+  // Real-time typing indicator listener for recipient
+  useEffect(() => {
+    if (!recipient.userOrganizationId) return;
+
+    const handleTypingStart = (data: any) => {
+      if (String(data?.senderUserOrganizationId) === String(recipient.userOrganizationId)) {
+        setIsRecipientTyping(true);
+
+        // Safety fallback: auto-clear after 3500ms if no stop event is received
+        if (recipientTypingTimeoutRef.current) {
+          clearTimeout(recipientTypingTimeoutRef.current);
+        }
+        recipientTypingTimeoutRef.current = setTimeout(() => {
+          setIsRecipientTyping(false);
+        }, 3500);
+      }
+    };
+
+    const handleTypingStop = (data: any) => {
+      if (String(data?.senderUserOrganizationId) === String(recipient.userOrganizationId)) {
+        if (recipientTypingTimeoutRef.current) {
+          clearTimeout(recipientTypingTimeoutRef.current);
+        }
+        setIsRecipientTyping(false);
+      }
+    };
+
+    socket.on("typing:start", handleTypingStart);
+    socket.on("typing:stop", handleTypingStop);
+
+    return () => {
+      if (recipientTypingTimeoutRef.current) {
+        clearTimeout(recipientTypingTimeoutRef.current);
+      }
+      socket.off("typing:start", handleTypingStart);
+      socket.off("typing:stop", handleTypingStop);
+    };
+  }, [recipient.userOrganizationId]);
+
+  // Cleanup active typing when leaving ChatScreen
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      if (isTypingRef.current && recipient.userOrganizationId && socket.connected) {
+        isTypingRef.current = false;
+        socket.emit("typing:stop", {
+          receiverUserOrganizationId: recipient.userOrganizationId,
+        });
+      }
+    };
+  }, [recipient.userOrganizationId]);
+
   // Fetch full chat history for this specific userOrganizationId
   useEffect(() => {
     if (!apiBaseUrl || !accessToken || !recipient.userOrganizationId) return;
@@ -553,11 +613,65 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     }
   };
 
+  const handleTypingChange = (text: string) => {
+    setInputMessage(text);
+
+    if (!recipient.userOrganizationId || !socket.connected) return;
+
+    const trimmed = text.trim();
+
+    if (trimmed.length > 0) {
+      // Send typing:start once when user starts typing
+      if (!isTypingRef.current) {
+        isTypingRef.current = true;
+        socket.emit('typing:start', {
+          receiverUserOrganizationId: recipient.userOrganizationId,
+        });
+      }
+
+      // Reset auto-stop inactivity timer (2000ms)
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+
+      typingTimeoutRef.current = setTimeout(() => {
+        if (isTypingRef.current) {
+          isTypingRef.current = false;
+          socket.emit('typing:stop', {
+            receiverUserOrganizationId: recipient.userOrganizationId,
+          });
+        }
+      }, 2000);
+    } else {
+      // If text is cleared, stop typing immediately
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      if (isTypingRef.current) {
+        isTypingRef.current = false;
+        socket.emit('typing:stop', {
+          receiverUserOrganizationId: recipient.userOrganizationId,
+        });
+      }
+    }
+  };
+
   const handleSendMessage = () => {
     const text = inputMessage.trim();
 
     if (!text) {
       return;
+    }
+
+    // Immediately stop typing indicator
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    if (isTypingRef.current && recipient.userOrganizationId && socket.connected) {
+      isTypingRef.current = false;
+      socket.emit('typing:stop', {
+        receiverUserOrganizationId: recipient.userOrganizationId,
+      });
     }
 
     // Make sure Socket.IO is connected
@@ -659,11 +773,18 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
           <Text
             style={[
               styles.headerSubtitle,
-              { color: isRecipientOnline ? theme.primary : theme.textSecondary },
+              {
+                color:
+                  isRecipientTyping || isRecipientOnline
+                    ? theme.primary
+                    : theme.textSecondary,
+              },
             ]}
             numberOfLines={1}
           >
-            {isRecipientOnline
+            {isRecipientTyping
+              ? 'typing...'
+              : isRecipientOnline
               ? 'online'
               : formatLastSeen(recipientLastSeen) || recipient.about || recipient.mobileNo || ''}
           </Text>
@@ -800,7 +921,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
             placeholder="Message"
             placeholderTextColor={theme.placeholder}
             value={inputMessage}
-            onChangeText={setInputMessage}
+            onChangeText={handleTypingChange}
             multiline
             maxLength={1000}
           />
