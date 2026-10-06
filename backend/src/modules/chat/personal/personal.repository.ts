@@ -246,7 +246,7 @@ export const markPersonalMessagesAsRead = async (
         return [];
     }
 
-    // Update all pending messages to READ
+    // Update all pending messages to SEEN
     await prisma.personal_chat_history.updateMany({
         where: {
             chat_id: {

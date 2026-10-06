@@ -99,11 +99,26 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
       refetch();
     };
 
+    const handleMessageRead = (message: any) => {
+      console.log(
+        "ChatsTab - message read:",
+        message
+      );
+
+      // Update latest message status to read/seen in conversation list
+      refetch();
+    };
+
     socket.on("message:new", handleNewMessage);
 
     socket.on(
       "message:delivered",
       handleMessageDelivered
+    );
+
+    socket.on(
+      "message:read",
+      handleMessageRead
     );
 
     return () => {
@@ -112,6 +127,11 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
       socket.off(
         "message:delivered",
         handleMessageDelivered
+      );
+
+      socket.off(
+        "message:read",
+        handleMessageRead
       );
     };
   }, [accessToken, refetch]);
@@ -157,6 +177,7 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
       case 'DELIVERED':
         return <Text style={{ color: theme.placeholder, fontSize: 13, marginRight: 2 }}>✓✓</Text>;
       case 'READ':
+      case 'SEEN':
         return <Text style={{ color: '#53BDEB', fontSize: 13, marginRight: 2 }}>✓✓</Text>;
       default:
         return <Text style={{ color: theme.placeholder, fontSize: 13, marginRight: 2 }}>✓</Text>;

@@ -32,7 +32,7 @@ export interface ChatMessage {
   message: string;
   senderUserOrganizationId?: string;
   receiverUserOrganizationId?: string;
-  status: 'SENDING' | 'SENT' | 'DELIVERED' | 'READ';
+  status: 'SENDING' | 'SENT' | 'DELIVERED' | 'READ' | 'SEEN';
   sendTime: string;
   isMine: boolean;
 }
@@ -130,9 +130,13 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
         return [...previous, newMessage];
       });
 
-      // tell backend that receiver has seen this message
+      // tell backend that receiver has seen and read this message
       socket.emit("message:delivered", {
         messageId: message.messageId,
+      });
+
+      socket.emit("message:read", {
+        otherUserOrganizationId: recipient.userOrganizationId,
       });
 
       setTimeout(() => {
@@ -248,6 +252,35 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       socket.off("message:sent", handleMessageSent);
     };
   }, []);
+
+  // message:read confirmation (blue tick)
+  useEffect(() => {
+    const handleMessageRead = (data: any) => {
+      console.log("ChatScreen - messages read by recipient:", data);
+      const readIds = Array.isArray(data?.messageIds) ? data.messageIds : [];
+
+      setMessages((previous) =>
+        previous.map((item) => {
+          if (
+            readIds.includes(item.chatId || item.id) ||
+            (data?.readerUserOrganizationId === recipient.userOrganizationId && item.isMine)
+          ) {
+            return {
+              ...item,
+              status: 'SEEN',
+            };
+          }
+          return item;
+        })
+      );
+    };
+
+    socket.on("message:read", handleMessageRead);
+
+    return () => {
+      socket.off("message:read", handleMessageRead);
+    };
+  }, [recipient.userOrganizationId]);
   // Fetch full chat history for this specific userOrganizationId
   useEffect(() => {
     if (!apiBaseUrl || !accessToken || !recipient.userOrganizationId) return;
@@ -296,6 +329,13 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
                 messageId: message.id,
               });
             }
+          });
+
+          // --------------------------------------------------
+          // Mark messages as READ for this conversation
+          // --------------------------------------------------
+          socket.emit('message:read', {
+            otherUserOrganizationId: recipient.userOrganizationId,
           });
           setHasMore(result.pagination?.hasMore ?? (!!result.pagination?.nextCursor));
           setNextCursor(result.pagination?.nextCursor ?? null);
@@ -472,7 +512,8 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       case 'DELIVERED':
         return <Text style={styles.statusCheck}>✓✓</Text>;
       case 'READ':
-        return <Text style={[styles.statusCheck, { color: '#53BDEB' }]}>✓✓</Text>;
+      case 'SEEN':
+        return <Text style={[styles.statusCheck, { color: '#03f9ccff' }]}>✓✓</Text>;
       default:
         return <Text style={styles.statusCheck}>✓</Text>;
     }
