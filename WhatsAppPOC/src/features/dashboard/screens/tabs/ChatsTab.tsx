@@ -284,9 +284,27 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
 
                   {/* Right Meta Info */}
                   <View style={styles.chatMeta}>
-                    <Text style={[styles.timeText, { color: theme.textSecondary }]}>
+                    <Text
+                      style={[
+                        styles.timeText,
+                        {
+                          color:
+                            conv.unreadCount && conv.unreadCount > 0
+                              ? theme.primary
+                              : theme.textSecondary,
+                        },
+                      ]}
+                    >
                       {timeString}
                     </Text>
+
+                    {Boolean(conv.unreadCount && conv.unreadCount > 0) && (
+                      <View style={[styles.unreadBadge, { backgroundColor: theme.primary }]}>
+                        <Text style={styles.unreadBadgeText}>
+                          {conv.unreadCount! > 99 ? '99+' : conv.unreadCount}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 </TouchableOpacity>
               );
@@ -395,6 +413,20 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 11,
     fontWeight: '600',
+  },
+  unreadBadge: {
+    minWidth: 20,
+    height: 20,
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 4,
+  },
+  unreadBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 11,
+    fontWeight: '700',
   },
   emptyContainer: {
     flex: 1,

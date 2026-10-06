@@ -18,6 +18,7 @@ export interface Conversation {
   about?: string | null;
   lastSeen?: string | null;
   lastMessage?: LastMessage | null;
+  unreadCount?: number;
 }
 
 export interface ConversationsResponse {

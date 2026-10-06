@@ -113,8 +113,11 @@ export const HomeScreen: React.FC = () => {
         accessToken={accessToken}
         recipient={activeChatRecipient}
         initialLastMessage={activeChatLastMessage}
-        onBack={() => setActiveChatRecipient(null)}
-        onMessageSent={() => setChatRefreshKey(k => k + 1)}
+        onBack={() => {
+          setActiveChatRecipient(null);
+          setChatRefreshKey((k) => k + 1);
+        }}
+        onMessageSent={() => setChatRefreshKey((k) => k + 1)}
       />
     );
   }
