@@ -21,6 +21,7 @@ import { useContactSync } from '../../contacts/hooks/useContactSync';
 import { ContactsModal } from '../../contacts/components/ContactsModal';
 import { ChatScreen, ChatRecipient } from '../../chat/screens/ChatScreen';
 import { LastMessage } from '../../chat/api/chatApi';
+import { connectSocket } from '../../../services/socket';
 
 export const HomeScreen: React.FC = () => {
   type TabType = 'chats' | 'updates' | 'communities' | 'calls';
@@ -54,6 +55,10 @@ export const HomeScreen: React.FC = () => {
 
   // Fetch user profile /me if successfully logged in
   useEffect(() => {
+    if (accessToken) {
+      connectSocket(accessToken);
+    }
+
     if (nextStep === 'LOGIN') {
       const fetchProfile = async () => {
         setIsLoadingProfile(true);

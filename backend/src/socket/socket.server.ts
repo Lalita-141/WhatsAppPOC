@@ -25,6 +25,9 @@ interface AuthenticatedSocket extends Socket {
 
 let io: SocketIOServer;
 
+// In-memory presence map: userOrganizationId -> Set of active socket IDs
+const onlineUsers = new Map<string, Set<string>>();
+
 export const initializeSocket = (
     httpServer: HttpServer,
 ) => {
@@ -117,10 +120,11 @@ export const initializeSocket = (
             console.log("User Organization:", authenticatedSocket.user?.userOrganizationId.toString());
 
             // --------------------------------------------------
-            // Join user-specific room
+            // Join user-specific & organization rooms
             // --------------------------------------------------
 
             const userOrganizationId = authenticatedSocket.user?.userOrganizationId?.toString();
+            const organizationId = authenticatedSocket.user?.organizationId?.toString();
 
             if (!userOrganizationId) {
                 socket.disconnect(true);
@@ -128,15 +132,46 @@ export const initializeSocket = (
             }
 
             const userRoom =
-                `user:${userOrganizationId.toString()}`;
+                `user:${userOrganizationId}`;
 
             socket.join(userRoom);
+
+            if (organizationId) {
+                const orgRoom = `org:${organizationId}`;
+                socket.join(orgRoom);
+            }
 
             console.log(
                 `Socket ${socket.id} joined ${userRoom}`,
             );
 
-            // disconnect logic
+            // --------------------------------------------------
+            // Track online presence (Multi-socket support)
+            // --------------------------------------------------
+
+            if (!onlineUsers.has(userOrganizationId)) {
+                onlineUsers.set(userOrganizationId, new Set());
+            }
+
+            const userSockets = onlineUsers.get(userOrganizationId)!;
+            const isFirstSocket = userSockets.size === 0;
+            userSockets.add(socket.id);
+
+            // Broadcast online status if this is user's first active connection
+            if (isFirstSocket && organizationId) {
+                io.to(`org:${organizationId}`).emit("presence:update", {
+                    userOrganizationId,
+                    isOnline: true,
+                });
+
+                console.log(
+                    `User ${userOrganizationId} is now ONLINE`,
+                );
+            }
+
+            // --------------------------------------------------
+            // Disconnect logic
+            // --------------------------------------------------
 
             socket.on(
                 "disconnect",
@@ -148,6 +183,68 @@ export const initializeSocket = (
                         reason,
                     );
 
+                    if (userOrganizationId) {
+                        const sockets = onlineUsers.get(userOrganizationId);
+                        if (sockets) {
+                            sockets.delete(socket.id);
+
+                            // Only mark offline if all active connections for this user are gone
+                            if (sockets.size === 0) {
+                                onlineUsers.delete(userOrganizationId);
+
+                                if (organizationId) {
+                                    io.to(`org:${organizationId}`).emit(
+                                        "presence:update",
+                                        {
+                                            userOrganizationId,
+                                            isOnline: false,
+                                        },
+                                    );
+                                }
+
+                                console.log(
+                                    `User ${userOrganizationId} is now OFFLINE`,
+                                );
+                            }
+                        }
+                    }
+                },
+            );
+
+            // --------------------------------------------------
+            // PRESENCE GET (Query single user online status)
+            // --------------------------------------------------
+
+            socket.on(
+                "presence:get",
+                (data) => {
+                    try {
+                        const targetUserOrgId =
+                            data?.targetUserOrganizationId?.toString();
+
+                        if (!targetUserOrgId) {
+                            return;
+                        }
+
+                        const isOnline = Boolean(
+                            onlineUsers.has(targetUserOrgId) &&
+                            onlineUsers.get(targetUserOrgId)!.size > 0,
+                        );
+
+                        socket.emit(
+                            "presence:status",
+                            {
+                                userOrganizationId:
+                                    targetUserOrgId,
+                                isOnline,
+                            },
+                        );
+                    } catch (error) {
+                        console.error(
+                            "presence:get error:",
+                            error,
+                        );
+                    }
                 },
             );
 

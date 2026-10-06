@@ -16,7 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../../core/theme';
 import { getPersonalChatHistory, LastMessage } from '../api/chatApi';
 // import { useSendPersonalMessageMutation } from '../api/chatQueries';
-import { socket } from '../../../services/socket';
+import { connectSocket, socket } from '../../../services/socket';
 
 export interface ChatRecipient {
   userOrganizationId: string;
@@ -66,6 +66,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   const [hasMore, setHasMore] = useState<boolean>(false);
   const [paginationLimit, setPaginationLimit] = useState<number>(30);
   const [sendError, setSendError] = useState<string | null>(null);
+  const [isRecipientOnline, setIsRecipientOnline] = useState(false);
 
   // TanStack Query Mutation for sending message
   // const sendMessageMutation = useSendPersonalMessageMutation();
@@ -281,6 +282,53 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       socket.off("message:read", handleMessageRead);
     };
   }, [recipient.userOrganizationId]);
+
+  // Real-time online/offline presence tracking
+  useEffect(() => {
+    if (!recipient.userOrganizationId) return;
+
+    if (accessToken) {
+      connectSocket(accessToken);
+    }
+
+    const queryPresence = () => {
+      console.log("ChatScreen - emitting presence:get for:", recipient.userOrganizationId);
+      socket.emit("presence:get", {
+        targetUserOrganizationId: String(recipient.userOrganizationId),
+      });
+    };
+
+    // 1. Query immediately
+    queryPresence();
+
+    // 2. Query when socket connects/reconnects
+    socket.on("connect", queryPresence);
+
+    // 3. Direct response listener
+    const handlePresenceStatus = (data: any) => {
+      console.log("ChatScreen - presence:status received:", data);
+      if (String(data?.userOrganizationId) === String(recipient.userOrganizationId)) {
+        setIsRecipientOnline(Boolean(data.isOnline));
+      }
+    };
+
+    // 4. Real-time broadcast listener
+    const handlePresenceUpdate = (data: any) => {
+      console.log("ChatScreen - presence:update received:", data);
+      if (String(data?.userOrganizationId) === String(recipient.userOrganizationId)) {
+        setIsRecipientOnline(Boolean(data.isOnline));
+      }
+    };
+
+    socket.on("presence:status", handlePresenceStatus);
+    socket.on("presence:update", handlePresenceUpdate);
+
+    return () => {
+      socket.off("connect", queryPresence);
+      socket.off("presence:status", handlePresenceStatus);
+      socket.off("presence:update", handlePresenceUpdate);
+    };
+  }, [recipient.userOrganizationId, accessToken]);
   // Fetch full chat history for this specific userOrganizationId
   useEffect(() => {
     if (!apiBaseUrl || !accessToken || !recipient.userOrganizationId) return;
@@ -554,8 +602,14 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
           <Text style={[styles.headerName, { color: theme.text }]} numberOfLines={1}>
             {recipient.name}
           </Text>
-          <Text style={[styles.headerSubtitle, { color: theme.textSecondary }]} numberOfLines={1}>
-            {recipient.about || recipient.mobileNo || 'online'}
+          <Text
+            style={[
+              styles.headerSubtitle,
+              { color: isRecipientOnline ? theme.primary : theme.textSecondary },
+            ]}
+            numberOfLines={1}
+          >
+            {isRecipientOnline ? 'online' : recipient.about || recipient.mobileNo || ''}
           </Text>
         </View>
 
