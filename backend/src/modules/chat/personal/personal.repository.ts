@@ -257,7 +257,7 @@ export const markPersonalMessagesAsRead = async (
         },
 
         data: {
-            status: "READ",
+            status: "SEEN",
         },
     });
 

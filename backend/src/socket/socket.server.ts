@@ -82,37 +82,23 @@ export const initializeSocket = (
 
             authenticatedSocket.user = {
                 userId: BigInt(decoded.userId),
-                organizationId: BigInt(
-                    decoded.organizationId,
-                ),
-                userOrganizationId: BigInt(
-                    decoded.userOrganizationId,
-                ),
+                organizationId: BigInt(decoded.organizationId),
+                userOrganizationId: BigInt(decoded.userOrganizationId),
             };
 
             next();
 
         } catch (error) {
 
-            if (
-                error instanceof jwt.TokenExpiredError
-            ) {
-                return next(
-                    new Error("TOKEN_EXPIRED"),
-                );
+            if (error instanceof jwt.TokenExpiredError) {
+                return next(new Error("TOKEN_EXPIRED"));
             }
 
-            if (
-                error instanceof jwt.JsonWebTokenError
-            ) {
-                return next(
-                    new Error("INVALID_TOKEN"),
-                );
+            if (error instanceof jwt.JsonWebTokenError) {
+                return next(new Error("INVALID_TOKEN"));
             }
 
-            next(
-                new Error("Socket authentication failed"),
-            );
+            next(new Error("Socket authentication failed"));
         }
     });
 
@@ -124,33 +110,17 @@ export const initializeSocket = (
         "connection",
         (socket) => {
 
-            const authenticatedSocket =
-                socket as AuthenticatedSocket;
+            const authenticatedSocket = socket as AuthenticatedSocket;
 
-            console.log(
-                "Socket connected:",
-                socket.id,
-            );
-
-            console.log(
-                "User:",
-                authenticatedSocket.user?.userId.toString(),
-            );
-
-            console.log(
-                "User Organization:",
-                authenticatedSocket.user
-                    ?.userOrganizationId.toString(),
-            );
+            console.log("Socket connected:", socket.id);
+            console.log("User:", authenticatedSocket.user?.userId.toString());
+            console.log("User Organization:", authenticatedSocket.user?.userOrganizationId.toString());
 
             // --------------------------------------------------
             // Join user-specific room
             // --------------------------------------------------
 
-
-            const userOrganizationId =
-                authenticatedSocket.user
-                    ?.userOrganizationId;
+            const userOrganizationId = authenticatedSocket.user?.userOrganizationId?.toString();
 
             if (!userOrganizationId) {
                 socket.disconnect(true);

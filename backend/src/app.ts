@@ -1,13 +1,13 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-// import pinoHttp from "pino-http";
 import countryRoutes from "./modules/country/country.route.js";
 import authRouter from "./modules/auth/auth.route.js";
 import userRoutes from "./modules/user/user.route.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import organizationRoutes from "./modules/organization/organization.route.js";
 import chatRoutes from "./modules/chat/chat.route.js";
+import pinoHttp from "pino-http";
 
 const app = express();
 
@@ -37,17 +37,9 @@ app.get("/api/v1/health", (_req, res) => {
 
 app.use("/api/v1", countryRoutes);
 app.use("/api/v1/auth", authRouter);
-
 app.use("/api/v1/user", userRoutes);
-app.use(
-  "/api/v1/organization",
-  organizationRoutes,
-);
-
-app.use(
-  "/api/v1/chat",
-  chatRoutes,
-);
+app.use("/api/v1/organization", organizationRoutes);
+app.use("/api/v1/chat", chatRoutes);
 
 // Error middleware MUST be after routes
 app.use(errorMiddleware);
