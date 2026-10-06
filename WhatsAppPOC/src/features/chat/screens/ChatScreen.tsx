@@ -394,6 +394,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     if (!recipient.userOrganizationId) return;
 
     const handleTypingStart = (data: any) => {
+      console.log("ChatScreen - typing:start received:", data, "expected sender:", recipient.userOrganizationId);
       if (String(data?.senderUserOrganizationId) === String(recipient.userOrganizationId)) {
         setIsRecipientTyping(true);
 
@@ -408,6 +409,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     };
 
     const handleTypingStop = (data: any) => {
+      console.log("ChatScreen - typing:stop received:", data, "expected sender:", recipient.userOrganizationId);
       if (String(data?.senderUserOrganizationId) === String(recipient.userOrganizationId)) {
         if (recipientTypingTimeoutRef.current) {
           clearTimeout(recipientTypingTimeoutRef.current);
@@ -616,7 +618,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   const handleTypingChange = (text: string) => {
     setInputMessage(text);
 
-    if (!recipient.userOrganizationId || !socket.connected) return;
+    if (!recipient.userOrganizationId) return;
 
     const trimmed = text.trim();
 
@@ -624,6 +626,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       // Send typing:start once when user starts typing
       if (!isTypingRef.current) {
         isTypingRef.current = true;
+        console.log("ChatScreen - emitting typing:start to receiver:", recipient.userOrganizationId);
         socket.emit('typing:start', {
           receiverUserOrganizationId: recipient.userOrganizationId,
         });
@@ -637,6 +640,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       typingTimeoutRef.current = setTimeout(() => {
         if (isTypingRef.current) {
           isTypingRef.current = false;
+          console.log("ChatScreen - auto-inactivity emitting typing:stop to receiver:", recipient.userOrganizationId);
           socket.emit('typing:stop', {
             receiverUserOrganizationId: recipient.userOrganizationId,
           });
@@ -649,6 +653,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       }
       if (isTypingRef.current) {
         isTypingRef.current = false;
+        console.log("ChatScreen - text cleared emitting typing:stop to receiver:", recipient.userOrganizationId);
         socket.emit('typing:stop', {
           receiverUserOrganizationId: recipient.userOrganizationId,
         });

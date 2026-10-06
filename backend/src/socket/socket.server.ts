@@ -305,6 +305,10 @@ export const initializeSocket = (
                     const receiverUserOrganizationId =
                         data?.receiverUserOrganizationId?.toString();
 
+                    console.log(
+                        `[Socket] typing:start from ${senderUserOrganizationId} to ${receiverUserOrganizationId}`,
+                    );
+
                     if (!senderUserOrganizationId || !receiverUserOrganizationId) {
                         return;
                     }
@@ -323,6 +327,10 @@ export const initializeSocket = (
                         authenticatedSocket.user?.userOrganizationId?.toString();
                     const receiverUserOrganizationId =
                         data?.receiverUserOrganizationId?.toString();
+
+                    console.log(
+                        `[Socket] typing:stop from ${senderUserOrganizationId} to ${receiverUserOrganizationId}`,
+                    );
 
                     if (!senderUserOrganizationId || !receiverUserOrganizationId) {
                         return;
