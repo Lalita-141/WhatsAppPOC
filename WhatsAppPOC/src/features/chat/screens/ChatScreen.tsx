@@ -24,7 +24,52 @@ export interface ChatRecipient {
   mobileNo?: string;
   about?: string | null;
   profilePhoto?: string | null;
+  lastSeen?: string | null;
 }
+
+export const formatLastSeen = (dateStr?: string | null): string => {
+  if (!dateStr) return '';
+  try {
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return '';
+
+    const now = new Date();
+    const timeFormatted = date.toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+    const isToday =
+      date.getDate() === now.getDate() &&
+      date.getMonth() === now.getMonth() &&
+      date.getFullYear() === now.getFullYear();
+
+    if (isToday) {
+      return `last seen today at ${timeFormatted}`;
+    }
+
+    const yesterday = new Date(now);
+    yesterday.setDate(now.getDate() - 1);
+    const isYesterday =
+      date.getDate() === yesterday.getDate() &&
+      date.getMonth() === yesterday.getMonth() &&
+      date.getFullYear() === yesterday.getFullYear();
+
+    if (isYesterday) {
+      return `last seen yesterday at ${timeFormatted}`;
+    }
+
+    const dateFormatted = date.toLocaleDateString([], {
+      day: 'numeric',
+      month: 'short',
+    });
+
+    return `last seen ${dateFormatted} at ${timeFormatted}`;
+  } catch {
+    return '';
+  }
+};
 
 export interface ChatMessage {
   id: string;
@@ -67,6 +112,9 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   const [paginationLimit, setPaginationLimit] = useState<number>(30);
   const [sendError, setSendError] = useState<string | null>(null);
   const [isRecipientOnline, setIsRecipientOnline] = useState(false);
+  const [recipientLastSeen, setRecipientLastSeen] = useState<string | null>(
+    recipient.lastSeen || null
+  );
 
   // TanStack Query Mutation for sending message
   // const sendMessageMutation = useSendPersonalMessageMutation();
@@ -309,6 +357,9 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       console.log("ChatScreen - presence:status received:", data);
       if (String(data?.userOrganizationId) === String(recipient.userOrganizationId)) {
         setIsRecipientOnline(Boolean(data.isOnline));
+        if (data.lastSeen !== undefined) {
+          setRecipientLastSeen(data.lastSeen);
+        }
       }
     };
 
@@ -317,6 +368,9 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       console.log("ChatScreen - presence:update received:", data);
       if (String(data?.userOrganizationId) === String(recipient.userOrganizationId)) {
         setIsRecipientOnline(Boolean(data.isOnline));
+        if (data.lastSeen !== undefined) {
+          setRecipientLastSeen(data.lastSeen);
+        }
       }
     };
 
@@ -609,7 +663,9 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
             ]}
             numberOfLines={1}
           >
-            {isRecipientOnline ? 'online' : recipient.about || recipient.mobileNo || ''}
+            {isRecipientOnline
+              ? 'online'
+              : formatLastSeen(recipientLastSeen) || recipient.about || recipient.mobileNo || ''}
           </Text>
         </View>
 

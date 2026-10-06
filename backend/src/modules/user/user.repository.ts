@@ -62,4 +62,37 @@ export const getUserById = async (userId: string) => {
     },
   });
   return user;
-}
+};
+
+export const updateUserLastSeen = async (userId: bigint, lastSeen: Date) => {
+  return await prisma.user_master.update({
+    where: {
+      user_id: userId,
+    },
+    data: {
+      last_seen: lastSeen,
+    },
+    select: {
+      user_id: true,
+      last_seen: true,
+    },
+  });
+};
+
+export const getUserLastSeenByUserOrgId = async (userOrganizationId: bigint) => {
+  const userOrg = await prisma.user_organization.findFirst({
+    where: {
+      user_organization_id: userOrganizationId,
+      deleted_at: null,
+    },
+    select: {
+      user_master: {
+        select: {
+          last_seen: true,
+        },
+      },
+    },
+  });
+
+  return userOrg?.user_master?.last_seen ?? null;
+};

@@ -193,6 +193,7 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
           mobileNo: conv.mobileNo,
           about: conv.about,
           profilePhoto: conv.profilePhoto,
+          lastSeen: conv.lastSeen,
         },
         conv.lastMessage
       );

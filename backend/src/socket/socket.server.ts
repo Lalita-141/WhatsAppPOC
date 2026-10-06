@@ -8,6 +8,11 @@ import {
     markPersonalMessagesRead
 } from "../modules/chat/personal/personal.service.js";
 
+import {
+    updateUserLastSeen,
+    getUserLastSeenByUserOrgId
+} from "../modules/user/user.repository.js";
+
 interface AccessTokenPayload {
     userId: string;
     organizationId: string;
@@ -162,6 +167,7 @@ export const initializeSocket = (
                 io.to(`org:${organizationId}`).emit("presence:update", {
                     userOrganizationId,
                     isOnline: true,
+                    lastSeen: null,
                 });
 
                 console.log(
@@ -192,18 +198,35 @@ export const initializeSocket = (
                             if (sockets.size === 0) {
                                 onlineUsers.delete(userOrganizationId);
 
+                                const lastSeen = new Date();
+
+                                // Persist last_seen to DB
+                                if (authenticatedSocket.user?.userId) {
+                                    updateUserLastSeen(
+                                        authenticatedSocket.user.userId,
+                                        lastSeen,
+                                    ).catch((err) => {
+                                        console.error(
+                                            "Failed to update last_seen:",
+                                            err,
+                                        );
+                                    });
+                                }
+
                                 if (organizationId) {
                                     io.to(`org:${organizationId}`).emit(
                                         "presence:update",
                                         {
                                             userOrganizationId,
                                             isOnline: false,
+                                            lastSeen:
+                                                lastSeen.toISOString(),
                                         },
                                     );
                                 }
 
                                 console.log(
-                                    `User ${userOrganizationId} is now OFFLINE`,
+                                    `User ${userOrganizationId} is now OFFLINE (last seen: ${lastSeen.toISOString()})`,
                                 );
                             }
                         }
@@ -217,7 +240,7 @@ export const initializeSocket = (
 
             socket.on(
                 "presence:get",
-                (data) => {
+                async (data) => {
                     try {
                         const targetUserOrgId =
                             data?.targetUserOrganizationId?.toString();
@@ -231,12 +254,35 @@ export const initializeSocket = (
                             onlineUsers.get(targetUserOrgId)!.size > 0,
                         );
 
+                        let lastSeen: string | null = null;
+
+                        // If user is offline, fetch their persisted last_seen from DB
+                        if (!isOnline) {
+                            try {
+                                const dbLastSeen =
+                                    await getUserLastSeenByUserOrgId(
+                                        BigInt(targetUserOrgId),
+                                    );
+
+                                if (dbLastSeen) {
+                                    lastSeen =
+                                        dbLastSeen.toISOString();
+                                }
+                            } catch (dbErr) {
+                                console.error(
+                                    "Failed to fetch last_seen for presence:get:",
+                                    dbErr,
+                                );
+                            }
+                        }
+
                         socket.emit(
                             "presence:status",
                             {
                                 userOrganizationId:
                                     targetUserOrgId,
                                 isOnline,
+                                lastSeen,
                             },
                         );
                     } catch (error) {
