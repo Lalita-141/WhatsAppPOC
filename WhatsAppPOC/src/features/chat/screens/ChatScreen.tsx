@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   StatusBar,
   Keyboard,
+  Animated,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../../core/theme';
@@ -91,6 +92,72 @@ interface ChatScreenProps {
   onMessageSent?: () => void;
 }
 
+const TypingDots: React.FC<{ isDark: boolean }> = ({ isDark }) => {
+  const dot1 = useRef(new Animated.Value(0)).current;
+  const dot2 = useRef(new Animated.Value(0)).current;
+  const dot3 = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const createDotAnimation = (animValue: Animated.Value, delay: number) => {
+      return Animated.loop(
+        Animated.sequence([
+          Animated.delay(delay),
+          Animated.timing(animValue, {
+            toValue: -5,
+            duration: 260,
+            useNativeDriver: true,
+          }),
+          Animated.timing(animValue, {
+            toValue: 0,
+            duration: 260,
+            useNativeDriver: true,
+          }),
+          Animated.delay(Math.max(0, 520 - delay)),
+        ])
+      );
+    };
+
+    const anim1 = createDotAnimation(dot1, 0);
+    const anim2 = createDotAnimation(dot2, 160);
+    const anim3 = createDotAnimation(dot3, 320);
+
+    anim1.start();
+    anim2.start();
+    anim3.start();
+
+    return () => {
+      anim1.stop();
+      anim2.stop();
+      anim3.stop();
+    };
+  }, [dot1, dot2, dot3]);
+
+  const dotColor = isDark ? '#8696A0' : '#667781';
+
+  return (
+    <View style={styles.typingDotsContainer}>
+      <Animated.View
+        style={[
+          styles.typingDot,
+          { backgroundColor: dotColor, transform: [{ translateY: dot1 }] },
+        ]}
+      />
+      <Animated.View
+        style={[
+          styles.typingDot,
+          { backgroundColor: dotColor, transform: [{ translateY: dot2 }] },
+        ]}
+      />
+      <Animated.View
+        style={[
+          styles.typingDot,
+          { backgroundColor: dotColor, transform: [{ translateY: dot3 }] },
+        ]}
+      />
+    </View>
+  );
+};
+
 export const ChatScreen: React.FC<ChatScreenProps> = ({
   apiBaseUrl,
   accessToken,
@@ -118,8 +185,8 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   const [isRecipientTyping, setIsRecipientTyping] = useState(false);
 
   const isTypingRef = useRef(false);
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const recipientTypingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const recipientTypingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // TanStack Query Mutation for sending message
   // const sendMessageMutation = useSendPersonalMessageMutation();
@@ -605,6 +672,15 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     };
   }, []);
 
+  // Auto-scroll to bottom when recipient starts typing
+  useEffect(() => {
+    if (isRecipientTyping) {
+      setTimeout(() => {
+        flatListRef.current?.scrollToEnd({ animated: true });
+      }, 100);
+    }
+  }, [isRecipientTyping]);
+
   const formatMessageTime = (dateStr: string) => {
     try {
       const d = new Date(dateStr);
@@ -899,6 +975,28 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
               </View>
             );
           }}
+          ListFooterComponent={
+            isRecipientTyping ? (
+              <View
+                style={[
+                  styles.messageBubbleContainer,
+                  styles.theirMessageContainer,
+                  { marginBottom: 8 },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.messageBubble,
+                    styles.theirBubble,
+                    styles.typingBubble,
+                    { backgroundColor: isDark ? '#202C33' : '#FFFFFF' },
+                  ]}
+                >
+                  <TypingDots isDark={isDark} />
+                </View>
+              </View>
+            ) : undefined
+          }
         />
 
         {/* Input Bar */}
@@ -1137,5 +1235,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 4,
+  },
+  typingBubble: {
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    minHeight: 34,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+  },
+  typingDotsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 14,
+    width: 34,
+    gap: 4,
+  },
+  typingDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
 });
