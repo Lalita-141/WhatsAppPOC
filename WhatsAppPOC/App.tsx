@@ -11,9 +11,17 @@ import { queryClient } from './src/services/api/queryClient';
 import { ThemeProvider, useTheme } from './src/core/theme';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { socket } from './src/services/socket';
+import { getFCMToken, requestNotificationPermission } from './src/services/notifications/fcmService';
 
 function MainApp() {
+  useEffect(() => {
+    const setupFCM = async () => {
+      await requestNotificationPermission();
+      await getFCMToken();
+    };
 
+    setupFCM();
+  }, []);
   const { theme, isDark } = useTheme();
   const insets = useSafeAreaInsets();
 

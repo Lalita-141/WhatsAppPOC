@@ -187,6 +187,7 @@ model user_organization {
   organization_master                                                                          organization_master     @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_org_org")
   user_master                                                                                  user_master             @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_org_user")
   user_setting                                                                                 user_setting?
+  user_devices user_device[]
 
   @@unique([user_id, org_id], map: "uq_user_organization")
   @@index([deleted_at], map: "idx_user_org_deleted_at")
@@ -212,6 +213,26 @@ model user_setting {
   user_organization    user_organization              @relation(fields: [user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_setting_user_org")
 
   @@index([deleted_at], map: "idx_user_setting_deleted_at")
+}
+
+model user_device {
+  device_id            BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
+  user_organization_id BigInt            @db.UnsignedBigInt
+  fcm_token            String            @unique(map: "uq_user_device_fcm") @db.VarChar(500)
+  device_type          String?           @db.VarChar(20)
+  device_name          String?           @db.VarChar(100)
+  is_active            Boolean           @default(true)
+  created_at           DateTime          @default(now()) @db.DateTime(0)
+  updated_at           DateTime?         @db.DateTime(0)
+
+  user_organization user_organization @relation(
+    fields: [user_organization_id],
+    references: [user_organization_id],
+    onDelete: Cascade,
+    map: "fk_user_device_user_org"
+  )
+
+  @@index([user_organization_id], map: "idx_user_device_user_org")
 }
 
 model wp_group {

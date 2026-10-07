@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "586617790632",
+    "project_id": "hntwhatsapppoc",
+    "storage_bucket": "hntwhatsapppoc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586617790632:android:127634db7977721d3b629d",
+        "android_client_info": {
+          "package_name": "com.whatsapppoc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXnClNSqPGyffpLljOrKvOyWyJ97MiUxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
