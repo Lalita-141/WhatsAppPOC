@@ -405,6 +405,7 @@ export const ModelName = {
   register_otp: 'register_otp',
   user_master: 'user_master',
   user_organization: 'user_organization',
+  user_device: 'user_device',
   user_setting: 'user_setting',
   wp_group: 'wp_group',
   country_master: 'country_master'
@@ -423,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "group_chat" | "group_chat_view" | "group_member" | "organization_master" | "personal_chat_history" | "register_otp" | "user_master" | "user_organization" | "user_setting" | "wp_group" | "country_master"
+    modelProps: "group_chat" | "group_chat_view" | "group_member" | "organization_master" | "personal_chat_history" | "register_otp" | "user_master" | "user_organization" | "user_device" | "user_setting" | "wp_group" | "country_master"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -955,6 +956,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    user_device: {
+      payload: Prisma.$user_devicePayload<ExtArgs>
+      fields: Prisma.user_deviceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.user_deviceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_devicePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.user_deviceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_devicePayload>
+        }
+        findFirst: {
+          args: Prisma.user_deviceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_devicePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.user_deviceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_devicePayload>
+        }
+        findMany: {
+          args: Prisma.user_deviceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_devicePayload>[]
+        }
+        create: {
+          args: Prisma.user_deviceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_devicePayload>
+        }
+        createMany: {
+          args: Prisma.user_deviceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.user_deviceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_devicePayload>
+        }
+        update: {
+          args: Prisma.user_deviceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_devicePayload>
+        }
+        deleteMany: {
+          args: Prisma.user_deviceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.user_deviceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.user_deviceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_devicePayload>
+        }
+        aggregate: {
+          args: Prisma.User_deviceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUser_device>
+        }
+        groupBy: {
+          args: Prisma.user_deviceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.User_deviceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.user_deviceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.User_deviceCountAggregateOutputType> | number
+        }
+      }
+    }
     user_setting: {
       payload: Prisma.$user_settingPayload<ExtArgs>
       fields: Prisma.user_settingFieldRefs
@@ -1341,6 +1408,20 @@ export const User_organizationScalarFieldEnum = {
 export type User_organizationScalarFieldEnum = (typeof User_organizationScalarFieldEnum)[keyof typeof User_organizationScalarFieldEnum]
 
 
+export const User_deviceScalarFieldEnum = {
+  device_id: 'device_id',
+  user_organization_id: 'user_organization_id',
+  fcm_token: 'fcm_token',
+  device_type: 'device_type',
+  device_name: 'device_name',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type User_deviceScalarFieldEnum = (typeof User_deviceScalarFieldEnum)[keyof typeof User_deviceScalarFieldEnum]
+
+
 export const User_settingScalarFieldEnum = {
   setting_id: 'setting_id',
   user_organization_id: 'user_organization_id',
@@ -1489,6 +1570,15 @@ export const user_organizationOrderByRelevanceFieldEnum = {
 } as const
 
 export type user_organizationOrderByRelevanceFieldEnum = (typeof user_organizationOrderByRelevanceFieldEnum)[keyof typeof user_organizationOrderByRelevanceFieldEnum]
+
+
+export const user_deviceOrderByRelevanceFieldEnum = {
+  fcm_token: 'fcm_token',
+  device_type: 'device_type',
+  device_name: 'device_name'
+} as const
+
+export type user_deviceOrderByRelevanceFieldEnum = (typeof user_deviceOrderByRelevanceFieldEnum)[keyof typeof user_deviceOrderByRelevanceFieldEnum]
 
 
 export const wp_groupOrderByRelevanceFieldEnum = {
@@ -1780,6 +1870,7 @@ export type GlobalOmitConfig = {
   register_otp?: Prisma.register_otpOmit
   user_master?: Prisma.user_masterOmit
   user_organization?: Prisma.user_organizationOmit
+  user_device?: Prisma.user_deviceOmit
   user_setting?: Prisma.user_settingOmit
   wp_group?: Prisma.wp_groupOmit
   country_master?: Prisma.country_masterOmit

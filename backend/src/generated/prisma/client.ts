@@ -82,6 +82,11 @@ export type user_master = Prisma.user_masterModel
  */
 export type user_organization = Prisma.user_organizationModel
 /**
+ * Model user_device
+ * 
+ */
+export type user_device = Prisma.user_deviceModel
+/**
  * Model user_setting
  * 
  */

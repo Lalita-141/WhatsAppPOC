@@ -59,6 +59,7 @@ export const ModelName = {
   register_otp: 'register_otp',
   user_master: 'user_master',
   user_organization: 'user_organization',
+  user_device: 'user_device',
   user_setting: 'user_setting',
   wp_group: 'wp_group',
   country_master: 'country_master'
@@ -229,6 +230,20 @@ export const User_organizationScalarFieldEnum = {
 export type User_organizationScalarFieldEnum = (typeof User_organizationScalarFieldEnum)[keyof typeof User_organizationScalarFieldEnum]
 
 
+export const User_deviceScalarFieldEnum = {
+  device_id: 'device_id',
+  user_organization_id: 'user_organization_id',
+  fcm_token: 'fcm_token',
+  device_type: 'device_type',
+  device_name: 'device_name',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type User_deviceScalarFieldEnum = (typeof User_deviceScalarFieldEnum)[keyof typeof User_deviceScalarFieldEnum]
+
+
 export const User_settingScalarFieldEnum = {
   setting_id: 'setting_id',
   user_organization_id: 'user_organization_id',
@@ -377,6 +392,15 @@ export const user_organizationOrderByRelevanceFieldEnum = {
 } as const
 
 export type user_organizationOrderByRelevanceFieldEnum = (typeof user_organizationOrderByRelevanceFieldEnum)[keyof typeof user_organizationOrderByRelevanceFieldEnum]
+
+
+export const user_deviceOrderByRelevanceFieldEnum = {
+  fcm_token: 'fcm_token',
+  device_type: 'device_type',
+  device_name: 'device_name'
+} as const
+
+export type user_deviceOrderByRelevanceFieldEnum = (typeof user_deviceOrderByRelevanceFieldEnum)[keyof typeof user_deviceOrderByRelevanceFieldEnum]
 
 
 export const wp_groupOrderByRelevanceFieldEnum = {
