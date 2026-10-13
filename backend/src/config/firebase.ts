@@ -34,16 +34,22 @@ export const initializeFirebase = () => {
             return admin;
         }
 
-        // 3. Try default local file in config directory
-        const defaultPath = path.resolve(process.cwd(), "serviceAccountKey.json");
-        if (fs.existsSync(defaultPath)) {
-            const serviceAccount = JSON.parse(fs.readFileSync(defaultPath, "utf-8"));
-            admin.initializeApp({
-                credential: admin.credential.cert(serviceAccount),
-            });
-            isFirebaseInitialized = true;
-            console.log("Firebase Admin initialized using default serviceAccountKey.json");
-            return admin;
+        // 3. Try default local file in current directory or backend directory
+        const possiblePaths = [
+            path.resolve(process.cwd(), "serviceAccountKey.json"),
+            path.resolve(process.cwd(), "backend", "serviceAccountKey.json"),
+        ];
+
+        for (const candidatePath of possiblePaths) {
+            if (fs.existsSync(candidatePath)) {
+                const serviceAccount = JSON.parse(fs.readFileSync(candidatePath, "utf-8"));
+                admin.initializeApp({
+                    credential: admin.credential.cert(serviceAccount),
+                });
+                isFirebaseInitialized = true;
+                console.log(`Firebase Admin initialized using cert from: ${candidatePath}`);
+                return admin;
+            }
         }
 
         // 4. Fallback to Google Application Default Credentials
