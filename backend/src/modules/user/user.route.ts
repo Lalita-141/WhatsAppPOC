@@ -5,6 +5,10 @@ import {
   getMyProfileController,
   updateProfileController
 } from "./user.controller.js";
+import {
+  registerDeviceController,
+  unregisterDeviceController
+} from "../device/device.controller.js";
 import { authenticate } from "../../middleware/auth.middleware.js";
 
 const router = Router();
@@ -18,4 +22,7 @@ router.get('/getProfile', authenticate, getMyProfileController);
 
 router.put('/updateProfile', authenticate, updateProfileController);
 
-export default router
+router.post('/device', authenticate, registerDeviceController);
+router.delete('/device', authenticate, unregisterDeviceController);
+
+export default router;

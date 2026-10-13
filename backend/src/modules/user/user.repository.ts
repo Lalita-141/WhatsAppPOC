@@ -96,3 +96,25 @@ export const getUserLastSeenByUserOrgId = async (userOrganizationId: bigint) => 
 
   return userOrg?.user_master?.last_seen ?? null;
 };
+
+export const getUserNameByUserOrgId = async (userOrganizationId: bigint) => {
+  const userOrg = await prisma.user_organization.findFirst({
+    where: {
+      user_organization_id: userOrganizationId,
+      deleted_at: null,
+    },
+    select: {
+      user_master: {
+        select: {
+          first_name: true,
+          last_name: true,
+        },
+      },
+    },
+  });
+
+  if (!userOrg?.user_master) return "Someone";
+  return [userOrg.user_master.first_name, userOrg.user_master.last_name]
+    .filter(Boolean)
+    .join(" ") || "Someone";
+};

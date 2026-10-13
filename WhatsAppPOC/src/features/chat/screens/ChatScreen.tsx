@@ -456,6 +456,19 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     };
   }, [recipient.userOrganizationId, accessToken]);
 
+  // Tell socket server that user is actively viewing this chat (prevents duplicate FCM push notifications)
+  useEffect(() => {
+    if (!recipient.userOrganizationId) return;
+
+    socket.emit("chat:active", {
+      activeWithUserOrganizationId: String(recipient.userOrganizationId),
+    });
+
+    return () => {
+      socket.emit("chat:inactive");
+    };
+  }, [recipient.userOrganizationId]);
+
   // Real-time typing indicator listener for recipient
   useEffect(() => {
     if (!recipient.userOrganizationId) return;

@@ -10,8 +10,10 @@ import {
 
 import {
     updateUserLastSeen,
-    getUserLastSeenByUserOrgId
+    getUserLastSeenByUserOrgId,
+    getUserNameByUserOrgId
 } from "../modules/user/user.repository.js";
+import { sendPersonalChatPushNotification } from "../modules/notification/notification.service.js";
 
 interface AccessTokenPayload {
     userId: string;
@@ -32,6 +34,9 @@ let io: SocketIOServer;
 
 // In-memory presence map: userOrganizationId -> Set of active socket IDs
 const onlineUsers = new Map<string, Set<string>>();
+
+// In-memory active chat map: socket.id -> targetUserOrganizationId (the contact whose chat is open)
+const activeChatMap = new Map<string, string>();
 
 export const initializeSocket = (
     httpServer: HttpServer,
@@ -189,6 +194,8 @@ export const initializeSocket = (
                         reason,
                     );
 
+                    activeChatMap.delete(socket.id);
+
                     if (userOrganizationId) {
                         const sockets = onlineUsers.get(userOrganizationId);
                         if (sockets) {
@@ -344,6 +351,23 @@ export const initializeSocket = (
                 }
             });
 
+            // --------------------------------------------------
+            // ACTIVE CHAT TRACKING (To prevent duplicate FCM push notifications)
+            // --------------------------------------------------
+
+            socket.on("chat:active", (data) => {
+                const targetUserOrgId = data?.activeWithUserOrganizationId?.toString();
+                if (targetUserOrgId) {
+                    activeChatMap.set(socket.id, targetUserOrgId);
+                    console.log(`[Socket] ${socket.id} active in chat with ${targetUserOrgId}`);
+                }
+            });
+
+            socket.on("chat:inactive", () => {
+                activeChatMap.delete(socket.id);
+                console.log(`[Socket] ${socket.id} inactive in chat`);
+            });
+
             // send Message Event
 
             socket.on(
@@ -474,6 +498,35 @@ export const initializeSocket = (
                         console.log(
                             `Message ${savedMessage.messageId} sent from ${sender.userOrganizationId} to ${receiverId}`,
                         );
+
+                        // --------------------------------------------------
+                        // 7. FCM Push Notification (Multi-Device)
+                        // --------------------------------------------------
+                        // Only send FCM if receiver is NOT actively viewing this chat session
+                        const receiverSockets = onlineUsers.get(receiverId.toString());
+                        const isReceiverActivelyViewingChat = Array.from(receiverSockets || []).some(
+                            (socketId) => activeChatMap.get(socketId) === sender.userOrganizationId.toString(),
+                        );
+
+                        if (!isReceiverActivelyViewingChat) {
+                            getUserNameByUserOrgId(sender.userOrganizationId)
+                                .then((senderName) => {
+                                    return sendPersonalChatPushNotification({
+                                        receiverUserOrganizationId: receiverId,
+                                        senderUserOrganizationId: sender.userOrganizationId,
+                                        senderName,
+                                        messageText: savedMessage.message || "New message",
+                                        chatId: savedMessage.messageId,
+                                    });
+                                })
+                                .catch((err) => {
+                                    console.error("[Socket] Failed to send push notification:", err);
+                                });
+                        } else {
+                            console.log(
+                                `[PushNotification] Skipped: receiver ${receiverId} is actively viewing chat with sender ${sender.userOrganizationId}`,
+                            );
+                        }
 
                     } catch (error) {
 

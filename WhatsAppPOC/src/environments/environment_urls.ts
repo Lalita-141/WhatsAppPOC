@@ -24,4 +24,7 @@ export const apiPath = {
   conversations: baseUrl + 'chat/conversations',
   sendPersonalMessage: baseUrl + 'chat/personal-chat/send',
   personalHistory: baseUrl + 'chat/personal/{userOrganizationId}/messages',
+
+  // Device & FCM Token
+  device: baseUrl + 'user/device',
 };

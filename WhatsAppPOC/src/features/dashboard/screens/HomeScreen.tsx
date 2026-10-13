@@ -22,6 +22,11 @@ import { ContactsModal } from '../../contacts/components/ContactsModal';
 import { ChatScreen, ChatRecipient } from '../../chat/screens/ChatScreen';
 import { LastMessage } from '../../chat/api/chatApi';
 import { connectSocket } from '../../../services/socket';
+import {
+  registerDeviceTokenWithBackend,
+  setupNotificationListeners,
+  NotificationChatData,
+} from '../../../services/notificationService';
 
 export const HomeScreen: React.FC = () => {
   type TabType = 'chats' | 'updates' | 'communities' | 'calls';
@@ -77,6 +82,31 @@ export const HomeScreen: React.FC = () => {
       fetchProfile();
     }
   }, [apiBaseUrl, accessToken, nextStep]);
+
+  // Setup push notifications: register token with backend & listen for notification taps
+  useEffect(() => {
+    if (!accessToken) return;
+
+    // Register FCM device token
+    registerDeviceTokenWithBackend(accessToken);
+
+    // Setup notification handlers (foreground alert & notification tap navigation)
+    const unsubscribeNotifications = setupNotificationListeners(
+      (data: NotificationChatData) => {
+        if (data.senderUserOrganizationId) {
+          handleOpenChat({
+            userOrganizationId: data.senderUserOrganizationId,
+            name: data.senderName || 'Chat',
+          });
+        }
+      },
+      () => activeChatRecipient?.userOrganizationId || null
+    );
+
+    return () => {
+      unsubscribeNotifications();
+    };
+  }, [accessToken, activeChatRecipient]);
 
   // Render correct tab contents
   const renderTabContent = () => {
