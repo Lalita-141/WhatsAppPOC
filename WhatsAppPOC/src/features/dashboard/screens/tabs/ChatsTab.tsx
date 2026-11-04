@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   StyleSheet,
   Text,
   TextInput,
@@ -10,10 +11,20 @@ import {
   RefreshControl,
 } from 'react-native';
 import { useTheme } from '../../../../core/theme';
-import { Conversation, LastMessage } from '../../../chat/api/chatApi';
+import {
+  ApiChatMessage,
+  Conversation,
+  LastMessage,
+  MuteOption,
+  searchMessages,
+  updateConversation,
+} from '../../../chat/api/chatApi';
 import { useConversationsQuery } from '../../../chat/api/chatQueries';
 import { ChatRecipient } from '../../../chat/screens/ChatScreen';
 import { socket } from '../../../../services/socket';
+import { GroupSummary, listGroups, setGroupPreferences } from '../../../group/api/groupApi';
+import { attachmentLabel } from '../../../../services/media/mediaService';
+import { Avatar } from '../../../../components/media/Avatar';
 
 const AVATAR_COLORS = [
   '#25D366',
@@ -35,20 +46,28 @@ const getAvatarBg = (name: string) => {
   return AVATAR_COLORS[index];
 };
 
+const SELF_CHAT_NAME = 'You';
+const SELF_CHAT_HINT = 'Message yourself';
+
 interface ChatsTabProps {
   apiBaseUrl?: string;
   accessToken?: string;
   onOpenChat?: (recipient: ChatRecipient, initialLastMessage?: LastMessage | null) => void;
+  onOpenGroup?: (groupId: string, name: string) => void;
   onOpenContacts?: () => void;
 }
 
 export const ChatsTab: React.FC<ChatsTabProps> = ({
   accessToken,
   onOpenChat,
+  onOpenGroup,
   onOpenContacts,
 }) => {
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
+  const [showArchived, setShowArchived] = useState(false);
+  const [unreadOnly, setUnreadOnly] = useState(false);
+  const [messageHits, setMessageHits] = useState<ApiChatMessage[]>([]);
 
   // TanStack Query for Conversations
   const {
@@ -57,9 +76,88 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
     isRefetching: isRefreshing,
     error: fetchErrorObj,
     refetch,
-  } = useConversationsQuery(accessToken, Boolean(accessToken));
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useConversationsQuery(accessToken, Boolean(accessToken), showArchived);
 
   const conversations = conversationsData || [];
+
+  const [groups, setGroups] = useState<GroupSummary[]>([]);
+  const loadGroups = React.useCallback(() => {
+    if (accessToken) listGroups(accessToken).then(setGroups).catch(() => undefined);
+  }, [accessToken]);
+
+  useEffect(() => {
+    loadGroups();
+    const events = ['group:message:new', 'group:updated', 'group:added', 'group:removed'];
+    events.forEach((event) => socket.on(event, loadGroups));
+    return () => events.forEach((event) => socket.off(event, loadGroups));
+  }, [loadGroups]);
+
+  const visibleGroups = groups.filter(
+    (g) =>
+      g.isArchived === showArchived &&
+      (!unreadOnly || g.unreadCount > 0) &&
+      (!searchQuery || g.name.toLowerCase().includes(searchQuery.toLowerCase())),
+  );
+
+  const openGroupOptions = (group: GroupSummary) =>
+    Alert.alert(group.name, undefined, [
+      { text: group.isPinned ? 'Unpin' : 'Pin', onPress: () => setGroupPreferences(accessToken!, group.groupId, { pinned: !group.isPinned }).then(loadGroups) },
+      group.mutedUntil
+        ? { text: 'Unmute', onPress: () => setGroupPreferences(accessToken!, group.groupId, { muted: false }).then(loadGroups) }
+        : { text: 'Mute', onPress: () => setGroupPreferences(accessToken!, group.groupId, { muted: 'forever' }).then(loadGroups) },
+      { text: group.isArchived ? 'Unarchive' : 'Archive', onPress: () => setGroupPreferences(accessToken!, group.groupId, { archived: !group.isArchived }).then(loadGroups) },
+      { text: 'Cancel', style: 'cancel' as const },
+    ]);
+
+  // Message search runs on the server once the query is long enough.
+  useEffect(() => {
+    const q = searchQuery.trim();
+    if (!accessToken || q.length < 2) {
+      setMessageHits([]);
+      return;
+    }
+    const timer = setTimeout(() => {
+      searchMessages(accessToken, q)
+        .then((result) => setMessageHits(result.messages))
+        .catch(() => setMessageHits([]));
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [accessToken, searchQuery]);
+
+  const changeConversation = (conv: Conversation, changes: { pinned?: boolean; muted?: MuteOption; archived?: boolean }) => {
+    if (!accessToken) return;
+    updateConversation(accessToken, conv.userOrganizationId, changes)
+      .then(() => refetch())
+      .catch((err) => Alert.alert('Could not update chat', err?.message || 'Please try again.'));
+  };
+
+  const openChatOptions = (conv: Conversation) => {
+    const isMuted = Boolean(conv.mutedUntil);
+    Alert.alert(conv.isSelf ? SELF_CHAT_NAME : conv.name || conv.mobileNo, undefined, [
+      { text: conv.isPinned ? 'Unpin chat' : 'Pin chat', onPress: () => changeConversation(conv, { pinned: !conv.isPinned }) },
+      ...(!conv.isSelf
+        ? [
+            isMuted
+              ? { text: 'Unmute', onPress: () => changeConversation(conv, { muted: false }) }
+              : {
+                  text: 'Mute',
+                  onPress: () =>
+                    Alert.alert('Mute notifications', undefined, [
+                      { text: '8 hours', onPress: () => changeConversation(conv, { muted: '8h' }) },
+                      { text: '1 week', onPress: () => changeConversation(conv, { muted: '1w' }) },
+                      { text: 'Always', onPress: () => changeConversation(conv, { muted: 'forever' }) },
+                      { text: 'Cancel', style: 'cancel' as const },
+                    ]),
+                },
+          ]
+        : []),
+      { text: conv.isArchived ? 'Unarchive chat' : 'Archive chat', onPress: () => changeConversation(conv, { archived: !conv.isArchived }) },
+      { text: 'Cancel', style: 'cancel' as const },
+    ]);
+  };
 
   useEffect(() => {
     if (!accessToken) {
@@ -67,20 +165,19 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
     }
 
     const handleNewMessage = (message: any) => {
-      console.log("ChatsTab - new message received:", message);
 
       // --------------------------------------------------
       // 1. Tell backend that receiver received the message
       // --------------------------------------------------
-      if (message?.messageId) {
+      if (
+        message?.messageId &&
+        !message.isMine &&
+        message.status === 'SENT'
+      ) {
         socket.emit("message:delivered", {
           messageId: message.messageId,
         });
 
-        console.log(
-          "MESSAGE DELIVERED:",
-          message.messageId
-        );
       }
 
       // --------------------------------------------------
@@ -90,26 +187,20 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
     };
 
     const handleMessageDelivered = (message: any) => {
-      console.log(
-        "ChatsTab - message delivered:",
-        message
-      );
 
       // Update latest message status in conversation list
       refetch();
     };
 
     const handleMessageRead = (message: any) => {
-      console.log(
-        "ChatsTab - message read:",
-        message
-      );
 
       // Update latest message status to read/seen in conversation list
       refetch();
     };
 
     socket.on("message:new", handleNewMessage);
+    socket.on("conversation:updated", handleMessageRead);
+    socket.on("message:updated", handleMessageRead);
 
     socket.on(
       "message:delivered",
@@ -123,6 +214,8 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
 
     return () => {
       socket.off("message:new", handleNewMessage);
+      socket.off("conversation:updated", handleMessageRead);
+      socket.off("message:updated", handleMessageRead);
 
       socket.off(
         "message:delivered",
@@ -138,7 +231,13 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
   const fetchError = fetchErrorObj ? fetchErrorObj.message : null;
 
   const filteredConversations = conversations.filter(conv => {
+    if (unreadOnly && !conv.unreadCount) {
+      return false;
+    }
     const q = searchQuery.toLowerCase();
+    if (conv.isSelf && SELF_CHAT_NAME.toLowerCase().includes(q)) {
+      return true;
+    }
     const nameMatch = conv.name?.toLowerCase().includes(q) ||
       `${conv.firstName || ''} ${conv.lastName || ''}`.toLowerCase().includes(q);
     const phoneMatch = conv.mobileNo?.includes(q);
@@ -189,7 +288,13 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
       onOpenChat(
         {
           userOrganizationId: conv.userOrganizationId,
-          name: conv.name || `${conv.firstName || ''} ${conv.lastName || ''}`.trim() || conv.mobileNo,
+          name: conv.isSelf
+            ? SELF_CHAT_NAME
+            : conv.name || `${conv.firstName || ''} ${conv.lastName || ''}`.trim() || conv.mobileNo,
+          isSelf: conv.isSelf,
+          isBlocked: conv.isBlocked,
+          profilePhotoMediaId: conv.profilePhotoMediaId,
+          mutedUntil: conv.mutedUntil,
           mobileNo: conv.mobileNo,
           about: conv.about,
           profilePhoto: conv.profilePhoto,
@@ -221,6 +326,26 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
         </View>
       </View>
 
+      {/* Filters */}
+      <View style={styles.filterRow}>
+        {showArchived ? (
+          <TouchableOpacity onPress={() => setShowArchived(false)} style={[styles.chip, { backgroundColor: theme.surface }]}>
+            <Text style={{ color: theme.text, fontWeight: '600' }}>← Archived chats</Text>
+          </TouchableOpacity>
+        ) : (
+          ([['All', false], ['Unread', true]] as const).map(([label, value]) => (
+            <TouchableOpacity
+              key={label}
+              onPress={() => setUnreadOnly(value)}
+              style={[styles.chip, { backgroundColor: unreadOnly === value ? theme.primary : theme.surface }]}
+              accessibilityState={{ selected: unreadOnly === value }}
+            >
+              <Text style={{ color: unreadOnly === value ? theme.surface : theme.text, fontWeight: '600' }}>{label}</Text>
+            </TouchableOpacity>
+          ))
+        )}
+      </View>
+
       {/* Loading Indicator */}
       {isLoading && conversations.length === 0 ? (
         <View style={styles.centerContainer}>
@@ -245,15 +370,71 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
             />
           }
         >
-          {filteredConversations.length > 0 ? (
+          {fetchError && conversations.length === 0 && (
+            <TouchableOpacity style={[styles.archivedRow, { borderBottomColor: theme.border }]} onPress={() => refetch()}>
+              <Text style={{ color: theme.error }}>Could not load chats: {fetchError}</Text>
+              <Text style={{ color: theme.primary, marginTop: 4, fontWeight: '600' }}>Tap to try again</Text>
+            </TouchableOpacity>
+          )}
+          {!showArchived && !searchQuery && (
+            <TouchableOpacity
+              style={[styles.archivedRow, { borderBottomColor: theme.border }]}
+              onPress={() => setShowArchived(true)}
+            >
+              <Text style={{ color: theme.textSecondary, fontSize: 15 }}>🗄  Archived</Text>
+            </TouchableOpacity>
+          )}
+          {visibleGroups.map((group) => (
+            <TouchableOpacity
+              key={`group-${group.groupId}`}
+              style={[styles.chatItem, { borderBottomColor: theme.border }]}
+              onPress={() => onOpenGroup?.(group.groupId, group.name)}
+              onLongPress={() => openGroupOptions(group)}
+              delayLongPress={300}
+            >
+              <View style={[styles.avatar, { backgroundColor: getAvatarBg(group.name) }]}>
+                <Text style={styles.avatarText}>👥</Text>
+              </View>
+              <View style={styles.chatDetails}>
+                <Text style={[styles.chatName, { color: theme.text }]} numberOfLines={1}>{group.name}</Text>
+                <Text style={[styles.lastMessage, { color: theme.textSecondary }]} numberOfLines={1}>
+                  {group.lastMessage
+                    ? group.lastMessage.isDeleted
+                      ? '🚫 This message was deleted'
+                      : group.lastMessage.messageType === 'SYSTEM'
+                      ? group.lastMessage.message
+                      : `${group.lastMessage.isMine ? 'You' : group.lastMessage.senderName}: ${group.lastMessage.message || attachmentLabel(group.lastMessage.messageType) || ''}`
+                    : 'No messages yet'}
+                </Text>
+              </View>
+              <View style={styles.chatMeta}>
+                <Text style={[styles.timeText, { color: group.unreadCount ? theme.primary : theme.textSecondary }]}>
+                  {formatConversationTime(group.lastMessage?.sendTime)}
+                </Text>
+                <View style={{ flexDirection: 'row', gap: 4, marginTop: 4 }}>
+                  {group.mutedUntil && <Text style={{ fontSize: 12, color: theme.textSecondary }}>🔕</Text>}
+                  {group.isPinned && <Text style={{ fontSize: 12, color: theme.textSecondary }}>📌</Text>}
+                </View>
+                {group.unreadCount > 0 && (
+                  <View style={[styles.unreadBadge, { backgroundColor: theme.primary }]}>
+                    <Text style={styles.unreadBadgeText}>{group.unreadCount > 99 ? '99+' : group.unreadCount}</Text>
+                  </View>
+                )}
+              </View>
+            </TouchableOpacity>
+          ))}
+          {filteredConversations.length > 0 || visibleGroups.length > 0 ? (
             filteredConversations.map((conv) => {
-              const displayName =
-                conv.name ||
-                `${conv.firstName || ''} ${conv.lastName || ''}`.trim() ||
-                conv.mobileNo;
-              const avatarLetter = displayName ? displayName.charAt(0).toUpperCase() : '?';
-              const avatarColor = getAvatarBg(displayName);
-              const lastMsgText = conv.lastMessage?.message || conv.about || 'Tap to chat';
+              const displayName = conv.isSelf
+                ? SELF_CHAT_NAME
+                : conv.name ||
+                  `${conv.firstName || ''} ${conv.lastName || ''}`.trim() ||
+                  conv.mobileNo;
+              const lastMsgText =
+                (conv.lastMessage?.isDeleted ? '🚫 This message was deleted' : null) ||
+                conv.lastMessage?.message ||
+                attachmentLabel(conv.lastMessage?.messageType) ||
+                (conv.isSelf ? SELF_CHAT_HINT : conv.about || 'Tap to chat');
               const timeString = formatConversationTime(conv.lastMessage?.sendTime);
 
               return (
@@ -261,10 +442,12 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
                   key={conv.userOrganizationId || conv.userId}
                   style={[styles.chatItem, { borderBottomColor: theme.border }]}
                   onPress={() => handleChatPress(conv)}
+                  onLongPress={() => openChatOptions(conv)}
+                  delayLongPress={300}
                 >
                   {/* Avatar */}
-                  <View style={[styles.avatar, { backgroundColor: avatarColor }]}>
-                    <Text style={styles.avatarText}>{avatarLetter}</Text>
+                  <View style={styles.avatar}>
+                    <Avatar name={displayName} mediaId={conv.profilePhotoMediaId} />
                   </View>
 
                   {/* Middle Details */}
@@ -272,8 +455,11 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
                     <Text style={[styles.chatName, { color: theme.text }]} numberOfLines={1}>
                       {displayName}
                     </Text>
+                    {conv.isBlocked && (
+                      <Text style={{ color: theme.error, fontSize: 11 }}>Blocked</Text>
+                    )}
                     <View style={styles.messageRow}>
-                      {renderCheckmarks(conv.lastMessage?.status)}
+                      {!conv.isSelf && renderCheckmarks(conv.lastMessage?.status)}
                       <Text
                         style={[styles.lastMessage, { color: theme.textSecondary }]}
                         numberOfLines={1}
@@ -299,6 +485,10 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
                       {timeString}
                     </Text>
 
+                    <View style={{ flexDirection: 'row', gap: 4, marginTop: 4 }}>
+                      {conv.mutedUntil && <Text style={{ fontSize: 12, color: theme.textSecondary }}>🔕</Text>}
+                      {conv.isPinned && <Text style={{ fontSize: 12, color: theme.textSecondary }}>📌</Text>}
+                    </View>
                     {Boolean(conv.unreadCount && conv.unreadCount > 0) && (
                       <View style={[styles.unreadBadge, { backgroundColor: theme.primary }]}>
                         <Text style={styles.unreadBadgeText}>
@@ -331,6 +521,37 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
               )}
             </View>
           )}
+          {hasNextPage && !searchQuery && (
+            <TouchableOpacity style={{ padding: 16, alignItems: 'center' }} onPress={() => fetchNextPage()} disabled={isFetchingNextPage}>
+              <Text style={{ color: theme.primary, fontWeight: '600' }}>{isFetchingNextPage ? 'Loading…' : 'Load more chats'}</Text>
+            </TouchableOpacity>
+          )}
+          {messageHits.length > 0 && (
+            <View>
+              <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>Messages</Text>
+              {messageHits.map((hit) => {
+                const peer = hit.isMine ? hit.receiverUserOrganizationId : hit.senderUserOrganizationId;
+                const conv = conversations.find((c) => c.userOrganizationId === peer);
+                return (
+                  <TouchableOpacity
+                    key={hit.messageId}
+                    style={[styles.chatItem, { borderBottomColor: theme.border }]}
+                    onPress={() => conv && handleChatPress(conv)}
+                  >
+                    <View style={styles.chatDetails}>
+                      <Text style={[styles.chatName, { color: theme.text }]} numberOfLines={1}>
+                        {conv?.isSelf ? SELF_CHAT_NAME : conv?.name || 'Chat'}
+                      </Text>
+                      <Text style={[styles.lastMessage, { color: theme.textSecondary }]} numberOfLines={2}>
+                        {hit.isMine ? 'You: ' : ''}{hit.message}
+                      </Text>
+                    </View>
+                    <Text style={[styles.timeText, { color: theme.textSecondary }]}>{formatConversationTime(hit.sendTime)}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
         </ScrollView>
       )}
     </View>
@@ -338,6 +559,29 @@ export const ChatsTab: React.FC<ChatsTabProps> = ({
 };
 
 const styles = StyleSheet.create({
+  filterRow: {
+    flexDirection: 'row',
+    gap: 8,
+    paddingHorizontal: 16,
+    paddingBottom: 6,
+  },
+  chip: {
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 16,
+  },
+  archivedRow: {
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+  },
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 4,
+  },
   searchContainer: {
     paddingHorizontal: 16,
     paddingVertical: 8,

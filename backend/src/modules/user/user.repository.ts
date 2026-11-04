@@ -1,10 +1,14 @@
 import prisma from "../../config/database.js";
 
-export const findUserByMobile = async (mobileNo: string) => {
+// Includes soft-deleted users, because their row still owns the unique number.
+export const findUserByMobile = async (
+  countryCode: string,
+  mobileNo: string,
+) => {
   return await prisma.user_master.findFirst({
     where: {
+      country_code: countryCode,
       mobile_no: mobileNo,
-      deleted_at: null,
     },
   });
 };
@@ -14,6 +18,7 @@ export const createUser = async (
   data: {
     firstName: string;
     lastName?: string;
+    countryCode: string;
     mobileNo: string;
     about?: string;
   },
@@ -22,6 +27,7 @@ export const createUser = async (
     data: {
       first_name: data.firstName,
       last_name: data.lastName || null,
+      country_code: data.countryCode,
       mobile_no: data.mobileNo,
       about: data.about || null,
     },
@@ -51,6 +57,18 @@ export const createUserSetting = async (
   return await tx.user_setting.create({
     data: {
       user_organization_id: userOrganizationId,
+    },
+  });
+};
+
+export const createSelfConversation = async (
+  tx: any,
+  userOrganizationId: bigint,
+) => {
+  return await tx.conversation_state.create({
+    data: {
+      owner_user_organization_id: userOrganizationId,
+      peer_user_organization_id: userOrganizationId,
     },
   });
 };
@@ -117,4 +135,45 @@ export const getUserNameByUserOrgId = async (userOrganizationId: bigint) => {
   return [userOrg.user_master.first_name, userOrg.user_master.last_name]
     .filter(Boolean)
     .join(" ") || "Someone";
+};
+
+export const getLastSeenPrivacy = async (userOrganizationId: bigint) => {
+  const setting = await prisma.user_setting.findUnique({
+    where: {
+      user_organization_id: userOrganizationId,
+    },
+    select: {
+      last_seen_privacy: true,
+    },
+  });
+
+  return setting?.last_seen_privacy ?? "EVERYONE";
+};
+
+// "Contacts" means people you have exchanged a message with until Phase 4 adds
+// a stored contact list.
+export const hasExchangedMessages = async (
+  userOrganizationIdA: bigint,
+  userOrganizationIdB: bigint,
+) => {
+  const message = await prisma.personal_chat_history.findFirst({
+    where: {
+      deleted_at: null,
+      OR: [
+        {
+          sender_user_organization_id: userOrganizationIdA,
+          receiver_user_organization_id: userOrganizationIdB,
+        },
+        {
+          sender_user_organization_id: userOrganizationIdB,
+          receiver_user_organization_id: userOrganizationIdA,
+        },
+      ],
+    },
+    select: {
+      chat_id: true,
+    },
+  });
+
+  return Boolean(message);
 };

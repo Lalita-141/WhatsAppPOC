@@ -3,100 +3,151 @@ import { Server as SocketIOServer, Socket } from "socket.io";
 import jwt from "jsonwebtoken";
 
 import {
-    sendPersonalMessage,
-    markMessageDelivered,
-    markPersonalMessagesRead
-} from "../modules/chat/personal/personal.service.js";
+    canReach,
+    markMessagesDelivered,
+    markRead,
+    MAX_MESSAGE_LENGTH,
+    sendMessage,
+    typingAllowed,
+} from "../modules/chat/messages/message.service.js";
 
 import {
     updateUserLastSeen,
     getUserLastSeenByUserOrgId,
-    getUserNameByUserOrgId
+    getLastSeenPrivacy,
+    hasExchangedMessages,
 } from "../modules/user/user.repository.js";
-import { sendPersonalChatPushNotification } from "../modules/notification/notification.service.js";
-
-interface AccessTokenPayload {
-    userId: string;
-    organizationId: string;
-    userOrganizationId: string;
-    type: "ACCESS";
-}
+import { deliverGroupMessage, deliverNewMessage, emitToMember, emitToMembers, groupChatKey } from "./delivery.js";
+import {
+    markGroupDelivered,
+    markGroupRead,
+    participatingMemberIds,
+    requireMember,
+    sendGroupMessage,
+    toGroupMessageDto,
+} from "../modules/group/group.service.js";
+import prisma from "../config/database.js";
+import { activeChatMap, onlineUsers, userRoom as roomOf } from "./presence.state.js";
+import { getActiveSessionContext } from "../modules/auth/session.service.js";
+import { env } from "../config/env.js";
+import { logger } from "../config/logger.js";
+import { ApiError } from "../utils/api-error.js";
+import { verifyAccessToken } from "../utils/jwt.js";
+import { registerSocketServer, sessionRoom } from "./socket.registry.js";
+import { registerCallHandlers } from "./call.handlers.js";
+import { toMessageDto } from "../modules/chat/messages/message.service.js";
 
 interface AuthenticatedSocket extends Socket {
     user?: {
         userId: bigint;
         organizationId: bigint;
         userOrganizationId: bigint;
+        sessionId: bigint;
     };
 }
 
+const MAX_SOCKET_PAYLOAD_BYTES = 64 * 1024;
+const PEER_ACCESS_CACHE_MS = 60 * 1000;
+const RATE_WINDOW_MS = 10 * 1000;
+
+// Maximum events per socket in each 10-second window.
+const EVENT_LIMITS: Record<string, number> = {
+    "message:send": 30,
+    "message:delivered": 120,
+    "message:read": 60,
+    "typing": 40,
+    "presence:get": 60,
+    "group:message:send": 30,
+    "call": 10,
+    "signal": 400,
+};
+
+const parseId = (value: unknown): bigint | null => {
+    const text = typeof value === "number" ? String(value) : value;
+
+    if (typeof text !== "string" || !/^\d{1,20}$/.test(text)) {
+        return null;
+    }
+
+    return BigInt(text);
+};
+
+// Only errors written for clients are forwarded. Others could expose internals.
+export const toSocketError = (
+    error: unknown,
+    fallbackCode: string,
+    fallbackMessage: string,
+) => {
+    if (error instanceof ApiError) {
+        return {
+            errorCode: error.errorCode,
+            message: error.message,
+        };
+    }
+
+    return {
+        errorCode: fallbackCode,
+        message: fallbackMessage,
+    };
+};
+
 let io: SocketIOServer;
 
-// In-memory presence map: userOrganizationId -> Set of active socket IDs
-const onlineUsers = new Map<string, Set<string>>();
-
-// In-memory active chat map: socket.id -> targetUserOrganizationId (the contact whose chat is open)
-const activeChatMap = new Map<string, string>();
 
 export const initializeSocket = (
     httpServer: HttpServer,
 ) => {
     io = new SocketIOServer(httpServer, {
         cors: {
-            origin: "*",
+            origin: env.corsOrigins,
         },
+        maxHttpBufferSize: MAX_SOCKET_PAYLOAD_BYTES,
     });
+
+    registerSocketServer(io);
 
     // --------------------------------------------------
     // Socket authentication middleware
     // --------------------------------------------------
 
-    io.use((socket, next) => {
+    io.use(async (socket, next) => {
         try {
             const token = socket.handshake.auth?.token;
 
-            if (!token) {
+            if (!token || typeof token !== "string") {
                 return next(
                     new Error("Authentication token is required"),
                 );
             }
 
-            const secret = process.env.JWT_ACCESS_SECRET;
+            const decoded = verifyAccessToken(token);
 
-            if (!secret) {
-                return next(
-                    new Error(
-                        "JWT_ACCESS_SECRET is not configured",
-                    ),
-                );
-            }
-
-            const decoded = jwt.verify(
-                token,
-                secret,
-            ) as AccessTokenPayload;
-
-            if (decoded.type !== "ACCESS") {
+            if (decoded.type !== "ACCESS" || !decoded.sessionId) {
                 return next(
                     new Error("Invalid token type"),
                 );
             }
 
-            if (!decoded.userOrganizationId) {
-                return next(
-                    new Error(
-                        "User organization ID is missing",
-                    ),
-                );
+            const session = await getActiveSessionContext(
+                BigInt(decoded.sessionId),
+            );
+
+            if (
+                !session ||
+                session.user_organization_id.toString() !==
+                    decoded.userOrganizationId
+            ) {
+                return next(new Error("SESSION_REVOKED"));
             }
 
             const authenticatedSocket =
                 socket as AuthenticatedSocket;
 
             authenticatedSocket.user = {
-                userId: BigInt(decoded.userId),
-                organizationId: BigInt(decoded.organizationId),
-                userOrganizationId: BigInt(decoded.userOrganizationId),
+                userId: session.user_organization.user_id,
+                organizationId: session.user_organization.org_id,
+                userOrganizationId: session.user_organization_id,
+                sessionId: session.session_id,
             };
 
             next();
@@ -110,6 +161,8 @@ export const initializeSocket = (
             if (error instanceof jwt.JsonWebTokenError) {
                 return next(new Error("INVALID_TOKEN"));
             }
+
+            logger.error({ err: error }, "Socket authentication failed");
 
             next(new Error("Socket authentication failed"));
         }
@@ -125,9 +178,70 @@ export const initializeSocket = (
 
             const authenticatedSocket = socket as AuthenticatedSocket;
 
-            console.log("Socket connected:", socket.id);
-            console.log("User:", authenticatedSocket.user?.userId.toString());
-            console.log("User Organization:", authenticatedSocket.user?.userOrganizationId.toString());
+            const eventCounters = new Map<string, { count: number; resetAt: number }>();
+            const peerAccessCache = new Map<string, { allowed: boolean; expiresAt: number }>();
+
+            const isEventAllowed = (event: string) => {
+                const now = Date.now();
+                const counter = eventCounters.get(event);
+
+                if (!counter || counter.resetAt <= now) {
+                    eventCounters.set(event, { count: 1, resetAt: now + RATE_WINDOW_MS });
+                    return true;
+                }
+
+                counter.count += 1;
+
+                return counter.count <= EVENT_LIMITS[event];
+            };
+
+            // Uses the same rule as sending a message: same organization, no block.
+            const canReachMember = async (targetUserOrganizationId: bigint) => {
+                const key = targetUserOrganizationId.toString();
+                const cached = peerAccessCache.get(key);
+
+                if (cached && cached.expiresAt > Date.now()) {
+                    return cached.allowed;
+                }
+
+                const allowed = await canReach(
+                    authenticatedSocket.user!.userOrganizationId,
+                    targetUserOrganizationId,
+                );
+
+                peerAccessCache.set(key, {
+                    allowed,
+                    expiresAt: Date.now() + PEER_ACCESS_CACHE_MS,
+                });
+
+                return allowed;
+            };
+
+            // Status changes are only broadcast for people who share them with everyone.
+            const broadcastPresence = (
+                isOnline: boolean,
+                lastSeen: string | null,
+            ) => {
+                const member = authenticatedSocket.user;
+
+                if (!member) {
+                    return;
+                }
+
+                getLastSeenPrivacy(member.userOrganizationId)
+                    .then((privacy) => {
+                        if (privacy === "EVERYONE") {
+                            io.to(`org:${member.organizationId}`).emit("presence:update", {
+                                userOrganizationId: member.userOrganizationId.toString(),
+                                isOnline,
+                                lastSeen,
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        logger.error({ err }, "Failed to broadcast presence");
+                    });
+            };
 
             // --------------------------------------------------
             // Join user-specific & organization rooms
@@ -145,15 +259,12 @@ export const initializeSocket = (
                 `user:${userOrganizationId}`;
 
             socket.join(userRoom);
+            socket.join(sessionRoom(authenticatedSocket.user!.sessionId));
 
             if (organizationId) {
                 const orgRoom = `org:${organizationId}`;
                 socket.join(orgRoom);
             }
-
-            console.log(
-                `Socket ${socket.id} joined ${userRoom}`,
-            );
 
             // --------------------------------------------------
             // Track online presence (Multi-socket support)
@@ -168,16 +279,8 @@ export const initializeSocket = (
             userSockets.add(socket.id);
 
             // Broadcast online status if this is user's first active connection
-            if (isFirstSocket && organizationId) {
-                io.to(`org:${organizationId}`).emit("presence:update", {
-                    userOrganizationId,
-                    isOnline: true,
-                    lastSeen: null,
-                });
-
-                console.log(
-                    `User ${userOrganizationId} is now ONLINE`,
-                );
+            if (isFirstSocket) {
+                broadcastPresence(true, null);
             }
 
             // --------------------------------------------------
@@ -186,13 +289,7 @@ export const initializeSocket = (
 
             socket.on(
                 "disconnect",
-                (reason) => {
-
-                    console.log(
-                        "Socket disconnected:",
-                        socket.id,
-                        reason,
-                    );
+                () => {
 
                     activeChatMap.delete(socket.id);
 
@@ -213,28 +310,11 @@ export const initializeSocket = (
                                         authenticatedSocket.user.userId,
                                         lastSeen,
                                     ).catch((err) => {
-                                        console.error(
-                                            "Failed to update last_seen:",
-                                            err,
-                                        );
+                                        logger.error({ err }, "Failed to update last_seen");
                                     });
                                 }
 
-                                if (organizationId) {
-                                    io.to(`org:${organizationId}`).emit(
-                                        "presence:update",
-                                        {
-                                            userOrganizationId,
-                                            isOnline: false,
-                                            lastSeen:
-                                                lastSeen.toISOString(),
-                                        },
-                                    );
-                                }
-
-                                console.log(
-                                    `User ${userOrganizationId} is now OFFLINE (last seen: ${lastSeen.toISOString()})`,
-                                );
+                                broadcastPresence(false, lastSeen.toISOString());
                             }
                         }
                     }
@@ -249,37 +329,42 @@ export const initializeSocket = (
                 "presence:get",
                 async (data) => {
                     try {
-                        const targetUserOrgId =
-                            data?.targetUserOrganizationId?.toString();
+                        const targetId = parseId(data?.targetUserOrganizationId);
+                        const viewerId = authenticatedSocket.user?.userOrganizationId;
 
-                        if (!targetUserOrgId) {
+                        if (!targetId || !viewerId || !isEventAllowed("presence:get")) {
                             return;
                         }
 
-                        const isOnline = Boolean(
-                            onlineUsers.has(targetUserOrgId) &&
-                            onlineUsers.get(targetUserOrgId)!.size > 0,
-                        );
+                        const targetUserOrgId = targetId.toString();
+
+                        // People the viewer may not see get the same answer as an
+                        // offline user, so this cannot be used to find accounts.
+                        let isVisible = await canReachMember(targetId);
+
+                        if (isVisible) {
+                            const privacy = await getLastSeenPrivacy(targetId);
+
+                            isVisible =
+                                privacy === "EVERYONE" ||
+                                (privacy === "CONTACTS" &&
+                                    (await hasExchangedMessages(viewerId, targetId)));
+                        }
+
+                        const isOnline =
+                            isVisible &&
+                            Boolean(onlineUsers.get(targetUserOrgId)?.size);
 
                         let lastSeen: string | null = null;
 
                         // If user is offline, fetch their persisted last_seen from DB
-                        if (!isOnline) {
-                            try {
-                                const dbLastSeen =
-                                    await getUserLastSeenByUserOrgId(
-                                        BigInt(targetUserOrgId),
-                                    );
+                        if (isVisible && !isOnline) {
+                            const dbLastSeen =
+                                await getUserLastSeenByUserOrgId(targetId);
 
-                                if (dbLastSeen) {
-                                    lastSeen =
-                                        dbLastSeen.toISOString();
-                                }
-                            } catch (dbErr) {
-                                console.error(
-                                    "Failed to fetch last_seen for presence:get:",
-                                    dbErr,
-                                );
+                            if (dbLastSeen) {
+                                lastSeen =
+                                    dbLastSeen.toISOString();
                             }
                         }
 
@@ -293,10 +378,7 @@ export const initializeSocket = (
                             },
                         );
                     } catch (error) {
-                        console.error(
-                            "presence:get error:",
-                            error,
-                        );
+                        logger.error({ err: error }, "presence:get failed");
                     }
                 },
             );
@@ -305,444 +387,330 @@ export const initializeSocket = (
             // TYPING INDICATOR (typing:start & typing:stop)
             // --------------------------------------------------
 
-            socket.on("typing:start", (data) => {
+            const relayTyping = async (
+                event: "typing:start" | "typing:stop",
+                data: { receiverUserOrganizationId?: unknown } | undefined,
+            ) => {
                 try {
                     const senderUserOrganizationId =
                         authenticatedSocket.user?.userOrganizationId?.toString();
-                    const receiverUserOrganizationId =
-                        data?.receiverUserOrganizationId?.toString();
+                    const receiverId = parseId(data?.receiverUserOrganizationId);
 
-                    console.log(
-                        `[Socket] typing:start from ${senderUserOrganizationId} to ${receiverUserOrganizationId}`,
-                    );
-
-                    if (!senderUserOrganizationId || !receiverUserOrganizationId) {
+                    if (
+                        !senderUserOrganizationId ||
+                        !receiverId ||
+                        !isEventAllowed("typing") ||
+                        receiverId === authenticatedSocket.user?.userOrganizationId ||
+                        !(await canReachMember(receiverId)) ||
+                        !(await typingAllowed(authenticatedSocket.user!.userOrganizationId))
+                    ) {
                         return;
                     }
 
-                    io.to(`user:${receiverUserOrganizationId}`).emit("typing:start", {
+                    io.to(`user:${receiverId}`).emit(event, {
                         senderUserOrganizationId,
                     });
                 } catch (error) {
-                    console.error("typing:start error:", error);
+                    logger.error({ err: error }, `${event} failed`);
                 }
-            });
+            };
 
-            socket.on("typing:stop", (data) => {
-                try {
-                    const senderUserOrganizationId =
-                        authenticatedSocket.user?.userOrganizationId?.toString();
-                    const receiverUserOrganizationId =
-                        data?.receiverUserOrganizationId?.toString();
-
-                    console.log(
-                        `[Socket] typing:stop from ${senderUserOrganizationId} to ${receiverUserOrganizationId}`,
-                    );
-
-                    if (!senderUserOrganizationId || !receiverUserOrganizationId) {
-                        return;
-                    }
-
-                    io.to(`user:${receiverUserOrganizationId}`).emit("typing:stop", {
-                        senderUserOrganizationId,
-                    });
-                } catch (error) {
-                    console.error("typing:stop error:", error);
-                }
-            });
+            socket.on("typing:start", (data) => relayTyping("typing:start", data));
+            socket.on("typing:stop", (data) => relayTyping("typing:stop", data));
 
             // --------------------------------------------------
             // ACTIVE CHAT TRACKING (To prevent duplicate FCM push notifications)
             // --------------------------------------------------
 
             socket.on("chat:active", (data) => {
-                const targetUserOrgId = data?.activeWithUserOrganizationId?.toString();
+                const targetUserOrgId = parseId(data?.activeWithUserOrganizationId);
+                const groupId = parseId(data?.activeGroupId);
                 if (targetUserOrgId) {
-                    activeChatMap.set(socket.id, targetUserOrgId);
-                    console.log(`[Socket] ${socket.id} active in chat with ${targetUserOrgId}`);
+                    activeChatMap.set(socket.id, targetUserOrgId.toString());
+                } else if (groupId) {
+                    activeChatMap.set(socket.id, groupChatKey(groupId));
                 }
             });
 
             socket.on("chat:inactive", () => {
                 activeChatMap.delete(socket.id);
-                console.log(`[Socket] ${socket.id} inactive in chat`);
             });
 
-            // send Message Event
+            // --------------------------------------------------
+            // SEND MESSAGE
+            // --------------------------------------------------
 
-            socket.on(
-                "message:send",
-                async (data) => {
+            socket.on("message:send", async (data) => {
+                const clientMessageId =
+                    typeof data?.clientMessageId === "string" ? data.clientMessageId : null;
 
-                    try {
+                const fail = (errorCode: string, message: string) =>
+                    socket.emit("message:error", { errorCode, message, clientMessageId });
 
-                        // --------------------------------------------------
-                        // 1. Get authenticated sender
-                        // --------------------------------------------------
+                try {
+                    const sender = authenticatedSocket.user;
 
-                        const sender =
-                            authenticatedSocket.user;
+                    if (!sender) {
+                        return fail("UNAUTHORIZED", "Socket authentication required");
+                    }
 
-                        if (!sender) {
-                            socket.emit(
-                                "message:error",
-                                {
-                                    errorCode: "UNAUTHORIZED",
-                                    message: "Socket authentication required",
-                                },
-                            );
+                    if (!isEventAllowed("message:send")) {
+                        return fail("RATE_LIMITED", "You are sending messages too quickly");
+                    }
 
-                            return;
-                        }
-
-
-                        // --------------------------------------------------
-                        // 2. Validate request
-                        // --------------------------------------------------
-
-                        const receiverUserOrganizationId =
-                            data?.receiverUserOrganizationId;
-
-                        const message =
-                            data?.message;
-
-                        const media =
-                            data?.media;
-
-
-                        if (
-                            !receiverUserOrganizationId
-                        ) {
-
-                            socket.emit(
-                                "message:error",
-                                {
-                                    errorCode:
-                                        "RECEIVER_REQUIRED",
-
-                                    message:
-                                        "Receiver user organization ID is required",
-                                },
-                            );
-
-                            return;
-                        }
-
-
-                        // --------------------------------------------------
-                        // 3. Convert receiver ID
-                        // --------------------------------------------------
-
-                        let receiverId: bigint;
-
-                        try {
-
-                            receiverId =
-                                BigInt(
-                                    receiverUserOrganizationId,
-                                );
-
-                        } catch {
-
-                            socket.emit(
-                                "message:error",
-                                {
-                                    errorCode:
-                                        "INVALID_RECEIVER",
-
-                                    message:
-                                        "Invalid receiver user organization ID",
-                                },
-                            );
-
-                            return;
-                        }
-
-
-                        // --------------------------------------------------
-                        // 4. Save message
-                        // --------------------------------------------------
-
-                        const savedMessage =
-                            await sendPersonalMessage(
-                                sender.userOrganizationId,
-                                receiverId,
-                                message,
-                                media,
-                            );
-
-
-                        // --------------------------------------------------
-                        // 5. Send confirmation to sender
-                        // --------------------------------------------------
-
-                        socket.emit(
-                            "message:sent",
-                            savedMessage,
-                        );
-
-
-                        // --------------------------------------------------
-                        // 6. Deliver to receiver
-                        // --------------------------------------------------
-
-                        const receiverRoom =
-                            `user:${receiverId.toString()}`;
-
-                        io.to(receiverRoom).emit(
-                            "message:new",
-                            savedMessage,
-                        );
-
-
-                        console.log(
-                            `Message ${savedMessage.messageId} sent from ${sender.userOrganizationId} to ${receiverId}`,
-                        );
-
-                        // --------------------------------------------------
-                        // 7. FCM Push Notification (Multi-Device)
-                        // --------------------------------------------------
-                        // Only send FCM if receiver is NOT actively viewing this chat session
-                        const receiverSockets = onlineUsers.get(receiverId.toString());
-                        const isReceiverActivelyViewingChat = Array.from(receiverSockets || []).some(
-                            (socketId) => activeChatMap.get(socketId) === sender.userOrganizationId.toString(),
-                        );
-
-                        if (!isReceiverActivelyViewingChat) {
-                            getUserNameByUserOrgId(sender.userOrganizationId)
-                                .then((senderName) => {
-                                    return sendPersonalChatPushNotification({
-                                        receiverUserOrganizationId: receiverId,
-                                        senderUserOrganizationId: sender.userOrganizationId,
-                                        senderName,
-                                        messageText: savedMessage.message || "New message",
-                                        chatId: savedMessage.messageId,
-                                    });
-                                })
-                                .catch((err) => {
-                                    console.error("[Socket] Failed to send push notification:", err);
-                                });
-                        } else {
-                            console.log(
-                                `[PushNotification] Skipped: receiver ${receiverId} is actively viewing chat with sender ${sender.userOrganizationId}`,
-                            );
-                        }
-
-                    } catch (error) {
-
-                        console.error(
-                            "message:send error:",
-                            error,
-                        );
-
-
-                        socket.emit(
-                            "message:error",
-                            {
-                                errorCode:
-                                    error instanceof Error
-                                        ? "MESSAGE_SEND_FAILED"
-                                        : "UNKNOWN_ERROR",
-
-                                message:
-                                    error instanceof Error
-                                        ? error.message
-                                        : "Unable to send message",
-                            },
+                    const hasMedia = data?.mediaId !== undefined && data?.mediaId !== null;
+                    if (
+                        (typeof data?.message !== "string" && !(hasMedia && (data?.message === undefined || data?.message === null))) ||
+                        (typeof data?.message === "string" && data.message.length > MAX_MESSAGE_LENGTH)
+                    ) {
+                        return fail(
+                            "INVALID_MESSAGE",
+                            `Message must be text of at most ${MAX_MESSAGE_LENGTH} characters`,
                         );
                     }
-                },
-            );
 
-            // on socket message delivered
-            socket.on(
-                "message:delivered",
-                async (data) => {
-
-                    try {
-
-                        const receiver =
-                            authenticatedSocket.user;
-
-                        if (!receiver) {
-                            socket.emit(
-                                "message:error",
-                                {
-                                    errorCode: "UNAUTHORIZED",
-                                    message:
-                                        "Socket authentication required",
-                                },
-                            );
-
-                            return;
-                        }
-
-
-                        if (!data?.messageId) {
-                            socket.emit(
-                                "message:error",
-                                {
-                                    errorCode: "MESSAGE_ID_REQUIRED",
-                                    message:
-                                        "Message ID is required",
-                                },
-                            );
-
-                            return;
-                        }
-
-
-                        let chatId: bigint;
-
-                        try {
-
-                            chatId =
-                                BigInt(data.messageId);
-
-                        } catch {
-
-                            socket.emit(
-                                "message:error",
-                                {
-                                    errorCode: "INVALID_MESSAGE_ID",
-                                    message:
-                                        "Invalid message ID",
-                                },
-                            );
-
-                            return;
-                        }
-
-
-                        // ---------------------------------------------
-                        // Update database
-                        // ---------------------------------------------
-
-                        const delivered =
-                            await markMessageDelivered(
-                                chatId,
-                                receiver.userOrganizationId,
-                            );
-
-
-                        // ---------------------------------------------
-                        // Notify original sender
-                        // ---------------------------------------------
-
-                        io.to(
-                            `user:${delivered.senderUserOrganizationId}`,
-                        ).emit(
-                            "message:delivered",
-                            delivered,
-                        );
-
-
-                        console.log(
-                            `Message ${delivered.messageId} delivered to ${delivered.receiverUserOrganizationId}`,
-                        );
-
-                    } catch (error) {
-
-                        console.error(
-                            "message:delivered error:",
-                            error,
-                        );
-
-                        socket.emit(
-                            "message:error",
-                            {
-                                errorCode:
-                                    "DELIVERY_UPDATE_FAILED",
-
-                                message:
-                                    error instanceof Error
-                                        ? error.message
-                                        : "Unable to update delivery status",
-                            },
-                        );
+                    // Files arrive through the upload API; only their ID is sent here.
+                    if (data?.media !== undefined && data?.media !== null) {
+                        return fail("MEDIA_NOT_SUPPORTED", "Attach files through the upload API");
                     }
-                },
-            );
 
-            // message read
+                    let mediaId: bigint | null = null;
+                    if (data?.mediaId !== undefined && data?.mediaId !== null) {
+                        mediaId = parseId(data.mediaId);
+                        if (!mediaId) return fail("INVALID_MEDIA", "Invalid media ID");
+                    }
+
+                    if (!data?.receiverUserOrganizationId) {
+                        return fail("RECEIVER_REQUIRED", "Receiver user organization ID is required");
+                    }
+
+                    const receiverId = parseId(data.receiverUserOrganizationId);
+
+                    if (!receiverId) {
+                        return fail("INVALID_RECEIVER", "Invalid receiver user organization ID");
+                    }
+
+                    let replyToMessageId: bigint | null = null;
+
+                    if (data.replyToMessageId !== undefined && data.replyToMessageId !== null) {
+                        replyToMessageId = parseId(data.replyToMessageId);
+
+                        if (!replyToMessageId) {
+                            return fail("INVALID_REPLY", "Invalid reply message ID");
+                        }
+                    }
+
+                    const { message, created } = await sendMessage({
+                        sender: sender.userOrganizationId,
+                        receiver: receiverId,
+                        message: data.message,
+                        clientMessageId,
+                        replyToMessageId,
+                        mediaId,
+                    });
+
+                    // The acknowledgement carries clientMessageId, so the client
+                    // replaces exactly the optimistic bubble it created.
+                    socket.emit("message:sent", toMessageDto(message, sender.userOrganizationId));
+
+                    if (created) {
+                        deliverNewMessage(message, socket.id);
+                    }
+                } catch (error) {
+                    logger.error({ err: error }, "message:send failed");
+
+                    const { errorCode, message } = toSocketError(
+                        error,
+                        "MESSAGE_SEND_FAILED",
+                        "Unable to send message",
+                    );
+                    fail(errorCode, message);
+                }
+            });
+
+            // --------------------------------------------------
+            // MESSAGE DELIVERED (one ID or a batch after reconnecting)
+            // --------------------------------------------------
+
+            socket.on("message:delivered", async (data) => {
+                try {
+                    const receiver = authenticatedSocket.user;
+
+                    if (!receiver || !isEventAllowed("message:delivered")) {
+                        return;
+                    }
+
+                    const raw = Array.isArray(data?.messageIds)
+                        ? data.messageIds
+                        : [data?.messageId];
+                    const chatIds = raw
+                        .map(parseId)
+                        .filter((id: bigint | null): id is bigint => id !== null);
+
+                    if (chatIds.length === 0) {
+                        return socket.emit("message:error", {
+                            errorCode: "MESSAGE_ID_REQUIRED",
+                            message: "Message ID is required",
+                        });
+                    }
+
+                    const delivered = await markMessagesDelivered(
+                        chatIds,
+                        receiver.userOrganizationId,
+                    );
+
+                    for (const row of delivered) {
+                        io.to(roomOf(row.sender_user_organization_id)).emit("message:delivered", {
+                            messageId: row.chat_id.toString(),
+                            senderUserOrganizationId: row.sender_user_organization_id.toString(),
+                            receiverUserOrganizationId: receiver.userOrganizationId.toString(),
+                            status: "DELIVERED",
+                            receiveTime: row.receive_time,
+                        });
+                    }
+                } catch (error) {
+                    logger.error({ err: error }, "message:delivered failed");
+
+                    socket.emit(
+                        "message:error",
+                        toSocketError(error, "DELIVERY_UPDATE_FAILED", "Unable to update delivery status"),
+                    );
+                }
+            });
+
             // --------------------------------------------------
             // MESSAGE READ
             // --------------------------------------------------
 
             socket.on("message:read", async (data) => {
-
                 try {
+                    const reader = authenticatedSocket.user?.userOrganizationId;
+                    const peer = parseId(data?.otherUserOrganizationId);
 
-                    const authenticatedSocket =
-                        socket as AuthenticatedSocket;
-
-                    const currentUserOrganizationId =
-                        authenticatedSocket.user
-                            ?.userOrganizationId;
-
-                    if (!currentUserOrganizationId) {
+                    if (!reader || !peer || !isEventAllowed("message:read") || reader === peer) {
                         return;
                     }
 
-                    // ----------------------------------------------
-                    // Validate other user
-                    // ----------------------------------------------
+                    const result = await markRead(reader, peer);
 
-                    const otherUserOrganizationId =
-                        BigInt(data?.otherUserOrganizationId);
-
-                    if (
-                        currentUserOrganizationId ===
-                        otherUserOrganizationId
-                    ) {
+                    if (result.chatIds.length === 0) {
                         return;
                     }
 
-                    // ----------------------------------------------
-                    // Mark messages READ
-                    // ----------------------------------------------
+                    // The reader's other devices clear their unread badge.
+                    emitToMember(reader, "conversation:updated", {
+                        peerUserOrganizationId: peer.toString(),
+                        unreadCount: 0,
+                    });
 
-                    const result =
-                        await markPersonalMessagesRead(
-                            currentUserOrganizationId,
-                            otherUserOrganizationId,
-                        );
-
-                    // Nothing changed
-                    if (result.messageIds.length === 0) {
-                        return;
+                    // Blue ticks only when both people allow read receipts.
+                    if (result.notifySender) {
+                        io.to(roomOf(peer)).emit("message:read", {
+                            messageIds: result.chatIds.map((id) => id.toString()),
+                            readerUserOrganizationId: reader.toString(),
+                            readTime: result.readTime,
+                        });
                     }
-
-                    console.log(
-                        "Messages marked READ:",
-                        result.messageIds,
-                    );
-
-                    // ----------------------------------------------
-                    // Notify original sender
-                    // ----------------------------------------------
-
-                    io.to(
-                        `user:${result.senderUserOrganizationId}`,
-                    ).emit(
-                        "message:read",
-                        {
-                            messageIds:
-                                result.messageIds,
-
-                            readerUserOrganizationId:
-                                result.readerUserOrganizationId,
-                        },
-                    );
-
                 } catch (error) {
-
-                    console.error(
-                        "message:read error:",
-                        error,
-                    );
+                    logger.error({ err: error }, "message:read failed");
                 }
             });
+
+            // --------------------------------------------------
+            // GROUP MESSAGES
+            // --------------------------------------------------
+
+            socket.on("group:message:send", async (data) => {
+                const clientMessageId = typeof data?.clientMessageId === "string" ? data.clientMessageId : null;
+                const fail = (errorCode: string, message: string) =>
+                    socket.emit("group:message:error", { errorCode, message, clientMessageId, groupId: data?.groupId ?? null });
+
+                try {
+                    const sender = authenticatedSocket.user!;
+                    if (!isEventAllowed("group:message:send")) {
+                        return fail("RATE_LIMITED", "You are sending messages too quickly");
+                    }
+                    if (data?.media !== undefined && data?.media !== null) {
+                        return fail("MEDIA_NOT_SUPPORTED", "Attach files through the upload API");
+                    }
+                    const groupId = parseId(data?.groupId);
+                    if (!groupId) return fail("INVALID_GROUP", "Invalid group");
+                    const replyToMessageId = data?.replyToMessageId ? parseId(data.replyToMessageId) : null;
+                    const mediaId = data?.mediaId ? parseId(data.mediaId) : null;
+                    if (data?.mediaId && !mediaId) return fail("INVALID_MEDIA", "Invalid media ID");
+
+                    const { row, recipients, created } = await sendGroupMessage({
+                        sender: sender.userOrganizationId,
+                        groupId,
+                        message: data?.message,
+                        clientMessageId,
+                        replyToMessageId,
+                        mediaId,
+                    });
+
+                    socket.emit("group:message:sent", toGroupMessageDto(row, sender.userOrganizationId));
+
+                    if (created) {
+                        const group = await prisma.wp_group.findUniqueOrThrow({ where: { group_id: groupId }, select: { group_name: true } });
+                        await deliverGroupMessage(row, recipients, group.group_name, socket.id);
+                    }
+                } catch (error) {
+                    logger.error({ err: error }, "group:message:send failed");
+                    const { errorCode, message } = toSocketError(error, "MESSAGE_SEND_FAILED", "Unable to send message");
+                    fail(errorCode, message);
+                }
+            });
+
+            socket.on("group:message:delivered", async (data) => {
+                try {
+                    const viewer = authenticatedSocket.user!.userOrganizationId;
+                    if (!isEventAllowed("message:delivered")) return;
+                    const ids = (Array.isArray(data?.messageIds) ? data.messageIds : [data?.messageId])
+                        .map(parseId)
+                        .filter((id: bigint | null): id is bigint => id !== null);
+                    for (const item of await markGroupDelivered(viewer, ids)) {
+                        io.to(roomOf(item.sender)).emit("group:message:receipt", {
+                            groupId: item.groupId.toString(),
+                            messageId: item.messageId.toString(),
+                        });
+                    }
+                } catch (error) {
+                    logger.error({ err: error }, "group:message:delivered failed");
+                }
+            });
+
+            socket.on("group:message:read", async (data) => {
+                try {
+                    const viewer = authenticatedSocket.user!.userOrganizationId;
+                    const groupId = parseId(data?.groupId);
+                    if (!groupId || !isEventAllowed("message:read")) return;
+                    const read = await markGroupRead(viewer, groupId);
+                    emitToMember(viewer, "group:updated", { groupId: groupId.toString() });
+                    for (const sender of new Set(read.map((r) => r.sender.toString()))) {
+                        io.to(roomOf(sender)).emit("group:message:receipt", { groupId: groupId.toString() });
+                    }
+                } catch (error) {
+                    logger.error({ err: error }, "group:message:read failed");
+                }
+            });
+
+            const relayGroupTyping = async (event: "group:typing:start" | "group:typing:stop", data: any) => {
+                try {
+                    const sender = authenticatedSocket.user!.userOrganizationId;
+                    const groupId = parseId(data?.groupId);
+                    if (!groupId || !isEventAllowed("typing") || !(await typingAllowed(sender))) return;
+                    const { group } = await requireMember(groupId, sender);
+                    const members = (await participatingMemberIds(groupId, group.org_id)).filter((m) => m !== sender);
+                    emitToMembers(members, event, () => ({ groupId: groupId.toString(), senderUserOrganizationId: sender.toString() }));
+                } catch {
+                    // Not a member: ignored without saying whether the group exists.
+                }
+            };
+
+            registerCallHandlers(io, socket, authenticatedSocket.user!.userOrganizationId, isEventAllowed);
+
+            socket.on("group:typing:start", (data) => relayGroupTyping("group:typing:start", data));
+            socket.on("group:typing:stop", (data) => relayGroupTyping("group:typing:stop", data));
         },
     );
 

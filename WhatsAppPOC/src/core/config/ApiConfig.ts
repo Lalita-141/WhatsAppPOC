@@ -1,12 +1,12 @@
 import { Platform } from 'react-native';
-import { environments } from '../../environments/environment_constant';
+import { activeBaseUrl, environments } from '../../environments/environment_constant';
 import { apiPath } from '../../environments/environment_urls';
 
 export const API_PORT = 5001;
 export const DEFAULT_HOST = '172.20.1.72';
 
 // Global Base URL from environments
-export const API_BASE_URL = environments.dev.replace(/\/$/, '');
+export const API_BASE_URL = activeBaseUrl.replace(/\/$/, '');
 
 export const getDefaultApiBaseUrl = (customIp?: string | null): string => {
   if (customIp && customIp.trim().length > 0) {

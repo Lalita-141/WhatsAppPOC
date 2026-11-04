@@ -30,6 +30,8 @@ export type Group_chatAvgAggregateOutputType = {
   group_chat_id: number | null
   group_id: number | null
   sender_user_organization_id: number | null
+  reply_to_group_chat_id: number | null
+  media_id: number | null
   created_by: number | null
   updated_by: number | null
   deleted_by: number | null
@@ -39,6 +41,8 @@ export type Group_chatSumAggregateOutputType = {
   group_chat_id: bigint | null
   group_id: bigint | null
   sender_user_organization_id: bigint | null
+  reply_to_group_chat_id: bigint | null
+  media_id: bigint | null
   created_by: bigint | null
   updated_by: bigint | null
   deleted_by: bigint | null
@@ -51,6 +55,12 @@ export type Group_chatMinAggregateOutputType = {
   message: string | null
   send_time: Date | null
   status: $Enums.group_chat_status | null
+  message_type: string | null
+  client_message_id: string | null
+  reply_to_group_chat_id: bigint | null
+  media_id: bigint | null
+  forwarded: boolean | null
+  deleted_for_everyone_at: Date | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -66,6 +76,12 @@ export type Group_chatMaxAggregateOutputType = {
   message: string | null
   send_time: Date | null
   status: $Enums.group_chat_status | null
+  message_type: string | null
+  client_message_id: string | null
+  reply_to_group_chat_id: bigint | null
+  media_id: bigint | null
+  forwarded: boolean | null
+  deleted_for_everyone_at: Date | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -82,6 +98,12 @@ export type Group_chatCountAggregateOutputType = {
   media: number
   send_time: number
   status: number
+  message_type: number
+  client_message_id: number
+  reply_to_group_chat_id: number
+  media_id: number
+  forwarded: number
+  deleted_for_everyone_at: number
   created_by: number
   created_at: number
   updated_by: number
@@ -96,6 +118,8 @@ export type Group_chatAvgAggregateInputType = {
   group_chat_id?: true
   group_id?: true
   sender_user_organization_id?: true
+  reply_to_group_chat_id?: true
+  media_id?: true
   created_by?: true
   updated_by?: true
   deleted_by?: true
@@ -105,6 +129,8 @@ export type Group_chatSumAggregateInputType = {
   group_chat_id?: true
   group_id?: true
   sender_user_organization_id?: true
+  reply_to_group_chat_id?: true
+  media_id?: true
   created_by?: true
   updated_by?: true
   deleted_by?: true
@@ -117,6 +143,12 @@ export type Group_chatMinAggregateInputType = {
   message?: true
   send_time?: true
   status?: true
+  message_type?: true
+  client_message_id?: true
+  reply_to_group_chat_id?: true
+  media_id?: true
+  forwarded?: true
+  deleted_for_everyone_at?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -132,6 +164,12 @@ export type Group_chatMaxAggregateInputType = {
   message?: true
   send_time?: true
   status?: true
+  message_type?: true
+  client_message_id?: true
+  reply_to_group_chat_id?: true
+  media_id?: true
+  forwarded?: true
+  deleted_for_everyone_at?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -148,6 +186,12 @@ export type Group_chatCountAggregateInputType = {
   media?: true
   send_time?: true
   status?: true
+  message_type?: true
+  client_message_id?: true
+  reply_to_group_chat_id?: true
+  media_id?: true
+  forwarded?: true
+  deleted_for_everyone_at?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -251,6 +295,12 @@ export type Group_chatGroupByOutputType = {
   media: runtime.JsonValue | null
   send_time: Date
   status: $Enums.group_chat_status
+  message_type: string
+  client_message_id: string | null
+  reply_to_group_chat_id: bigint | null
+  media_id: bigint | null
+  forwarded: boolean
+  deleted_for_everyone_at: Date | null
   created_by: bigint | null
   created_at: Date
   updated_by: bigint | null
@@ -290,6 +340,12 @@ export type group_chatWhereInput = {
   media?: Prisma.JsonNullableFilter<"group_chat">
   send_time?: Prisma.DateTimeFilter<"group_chat"> | Date | string
   status?: Prisma.Enumgroup_chat_statusFilter<"group_chat"> | $Enums.group_chat_status
+  message_type?: Prisma.StringFilter<"group_chat"> | string
+  client_message_id?: Prisma.StringNullableFilter<"group_chat"> | string | null
+  reply_to_group_chat_id?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
+  media_id?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
+  forwarded?: Prisma.BoolFilter<"group_chat"> | boolean
+  deleted_for_everyone_at?: Prisma.DateTimeNullableFilter<"group_chat"> | Date | string | null
   created_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"group_chat"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
@@ -299,6 +355,9 @@ export type group_chatWhereInput = {
   wp_group?: Prisma.XOR<Prisma.Wp_groupScalarRelationFilter, Prisma.wp_groupWhereInput>
   user_organization?: Prisma.XOR<Prisma.User_organizationScalarRelationFilter, Prisma.user_organizationWhereInput>
   group_chat_view?: Prisma.Group_chat_viewListRelationFilter
+  reply_to?: Prisma.XOR<Prisma.Group_chatNullableScalarRelationFilter, Prisma.group_chatWhereInput> | null
+  replies?: Prisma.Group_chatListRelationFilter
+  media_file?: Prisma.XOR<Prisma.Media_fileNullableScalarRelationFilter, Prisma.media_fileWhereInput> | null
 }
 
 export type group_chatOrderByWithRelationInput = {
@@ -309,6 +368,12 @@ export type group_chatOrderByWithRelationInput = {
   media?: Prisma.SortOrderInput | Prisma.SortOrder
   send_time?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  reply_to_group_chat_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  media_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -318,11 +383,15 @@ export type group_chatOrderByWithRelationInput = {
   wp_group?: Prisma.wp_groupOrderByWithRelationInput
   user_organization?: Prisma.user_organizationOrderByWithRelationInput
   group_chat_view?: Prisma.group_chat_viewOrderByRelationAggregateInput
+  reply_to?: Prisma.group_chatOrderByWithRelationInput
+  replies?: Prisma.group_chatOrderByRelationAggregateInput
+  media_file?: Prisma.media_fileOrderByWithRelationInput
   _relevance?: Prisma.group_chatOrderByRelevanceInput
 }
 
 export type group_chatWhereUniqueInput = Prisma.AtLeast<{
   group_chat_id?: bigint | number
+  sender_user_organization_id_client_message_id?: Prisma.group_chatSender_user_organization_idClient_message_idCompoundUniqueInput
   AND?: Prisma.group_chatWhereInput | Prisma.group_chatWhereInput[]
   OR?: Prisma.group_chatWhereInput[]
   NOT?: Prisma.group_chatWhereInput | Prisma.group_chatWhereInput[]
@@ -332,6 +401,12 @@ export type group_chatWhereUniqueInput = Prisma.AtLeast<{
   media?: Prisma.JsonNullableFilter<"group_chat">
   send_time?: Prisma.DateTimeFilter<"group_chat"> | Date | string
   status?: Prisma.Enumgroup_chat_statusFilter<"group_chat"> | $Enums.group_chat_status
+  message_type?: Prisma.StringFilter<"group_chat"> | string
+  client_message_id?: Prisma.StringNullableFilter<"group_chat"> | string | null
+  reply_to_group_chat_id?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
+  media_id?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
+  forwarded?: Prisma.BoolFilter<"group_chat"> | boolean
+  deleted_for_everyone_at?: Prisma.DateTimeNullableFilter<"group_chat"> | Date | string | null
   created_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"group_chat"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
@@ -341,7 +416,10 @@ export type group_chatWhereUniqueInput = Prisma.AtLeast<{
   wp_group?: Prisma.XOR<Prisma.Wp_groupScalarRelationFilter, Prisma.wp_groupWhereInput>
   user_organization?: Prisma.XOR<Prisma.User_organizationScalarRelationFilter, Prisma.user_organizationWhereInput>
   group_chat_view?: Prisma.Group_chat_viewListRelationFilter
-}, "group_chat_id">
+  reply_to?: Prisma.XOR<Prisma.Group_chatNullableScalarRelationFilter, Prisma.group_chatWhereInput> | null
+  replies?: Prisma.Group_chatListRelationFilter
+  media_file?: Prisma.XOR<Prisma.Media_fileNullableScalarRelationFilter, Prisma.media_fileWhereInput> | null
+}, "group_chat_id" | "sender_user_organization_id_client_message_id">
 
 export type group_chatOrderByWithAggregationInput = {
   group_chat_id?: Prisma.SortOrder
@@ -351,6 +429,12 @@ export type group_chatOrderByWithAggregationInput = {
   media?: Prisma.SortOrderInput | Prisma.SortOrder
   send_time?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  reply_to_group_chat_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  media_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -375,6 +459,12 @@ export type group_chatScalarWhereWithAggregatesInput = {
   media?: Prisma.JsonNullableWithAggregatesFilter<"group_chat">
   send_time?: Prisma.DateTimeWithAggregatesFilter<"group_chat"> | Date | string
   status?: Prisma.Enumgroup_chat_statusWithAggregatesFilter<"group_chat"> | $Enums.group_chat_status
+  message_type?: Prisma.StringWithAggregatesFilter<"group_chat"> | string
+  client_message_id?: Prisma.StringNullableWithAggregatesFilter<"group_chat"> | string | null
+  reply_to_group_chat_id?: Prisma.BigIntNullableWithAggregatesFilter<"group_chat"> | bigint | number | null
+  media_id?: Prisma.BigIntNullableWithAggregatesFilter<"group_chat"> | bigint | number | null
+  forwarded?: Prisma.BoolWithAggregatesFilter<"group_chat"> | boolean
+  deleted_for_everyone_at?: Prisma.DateTimeNullableWithAggregatesFilter<"group_chat"> | Date | string | null
   created_by?: Prisma.BigIntNullableWithAggregatesFilter<"group_chat"> | bigint | number | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"group_chat"> | Date | string
   updated_by?: Prisma.BigIntNullableWithAggregatesFilter<"group_chat"> | bigint | number | null
@@ -389,6 +479,10 @@ export type group_chatCreateInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -398,6 +492,9 @@ export type group_chatCreateInput = {
   wp_group: Prisma.wp_groupCreateNestedOneWithoutGroup_chatInput
   user_organization: Prisma.user_organizationCreateNestedOneWithoutGroup_chatInput
   group_chat_view?: Prisma.group_chat_viewCreateNestedManyWithoutGroup_chatInput
+  reply_to?: Prisma.group_chatCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.group_chatCreateNestedManyWithoutReply_toInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutGroup_messagesInput
 }
 
 export type group_chatUncheckedCreateInput = {
@@ -408,6 +505,12 @@ export type group_chatUncheckedCreateInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -415,6 +518,7 @@ export type group_chatUncheckedCreateInput = {
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
   group_chat_view?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutGroup_chatInput
+  replies?: Prisma.group_chatUncheckedCreateNestedManyWithoutReply_toInput
 }
 
 export type group_chatUpdateInput = {
@@ -423,6 +527,10 @@ export type group_chatUpdateInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -432,6 +540,9 @@ export type group_chatUpdateInput = {
   wp_group?: Prisma.wp_groupUpdateOneRequiredWithoutGroup_chatNestedInput
   user_organization?: Prisma.user_organizationUpdateOneRequiredWithoutGroup_chatNestedInput
   group_chat_view?: Prisma.group_chat_viewUpdateManyWithoutGroup_chatNestedInput
+  reply_to?: Prisma.group_chatUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.group_chatUpdateManyWithoutReply_toNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutGroup_messagesNestedInput
 }
 
 export type group_chatUncheckedUpdateInput = {
@@ -442,6 +553,12 @@ export type group_chatUncheckedUpdateInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -449,6 +566,7 @@ export type group_chatUncheckedUpdateInput = {
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_chat_view?: Prisma.group_chat_viewUncheckedUpdateManyWithoutGroup_chatNestedInput
+  replies?: Prisma.group_chatUncheckedUpdateManyWithoutReply_toNestedInput
 }
 
 export type group_chatCreateManyInput = {
@@ -459,6 +577,12 @@ export type group_chatCreateManyInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -473,6 +597,10 @@ export type group_chatUpdateManyMutationInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -489,6 +617,12 @@ export type group_chatUncheckedUpdateManyInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -497,10 +631,30 @@ export type group_chatUncheckedUpdateManyInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type Group_chatNullableScalarRelationFilter = {
+  is?: Prisma.group_chatWhereInput | null
+  isNot?: Prisma.group_chatWhereInput | null
+}
+
+export type Group_chatListRelationFilter = {
+  every?: Prisma.group_chatWhereInput
+  some?: Prisma.group_chatWhereInput
+  none?: Prisma.group_chatWhereInput
+}
+
+export type group_chatOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type group_chatOrderByRelevanceInput = {
   fields: Prisma.group_chatOrderByRelevanceFieldEnum | Prisma.group_chatOrderByRelevanceFieldEnum[]
   sort: Prisma.SortOrder
   search: string
+}
+
+export type group_chatSender_user_organization_idClient_message_idCompoundUniqueInput = {
+  sender_user_organization_id: bigint | number
+  client_message_id: string
 }
 
 export type group_chatCountOrderByAggregateInput = {
@@ -511,6 +665,12 @@ export type group_chatCountOrderByAggregateInput = {
   media?: Prisma.SortOrder
   send_time?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrder
+  reply_to_group_chat_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -523,6 +683,8 @@ export type group_chatAvgOrderByAggregateInput = {
   group_chat_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
   sender_user_organization_id?: Prisma.SortOrder
+  reply_to_group_chat_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
@@ -535,6 +697,12 @@ export type group_chatMaxOrderByAggregateInput = {
   message?: Prisma.SortOrder
   send_time?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrder
+  reply_to_group_chat_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -550,6 +718,12 @@ export type group_chatMinOrderByAggregateInput = {
   message?: Prisma.SortOrder
   send_time?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrder
+  reply_to_group_chat_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -562,6 +736,8 @@ export type group_chatSumOrderByAggregateInput = {
   group_chat_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
   sender_user_organization_id?: Prisma.SortOrder
+  reply_to_group_chat_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
@@ -572,14 +748,24 @@ export type Group_chatScalarRelationFilter = {
   isNot?: Prisma.group_chatWhereInput
 }
 
-export type Group_chatListRelationFilter = {
-  every?: Prisma.group_chatWhereInput
-  some?: Prisma.group_chatWhereInput
-  none?: Prisma.group_chatWhereInput
+export type group_chatCreateNestedOneWithoutRepliesInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutRepliesInput, Prisma.group_chatUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutRepliesInput
+  connect?: Prisma.group_chatWhereUniqueInput
 }
 
-export type group_chatOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type group_chatCreateNestedManyWithoutReply_toInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutReply_toInput, Prisma.group_chatUncheckedCreateWithoutReply_toInput> | Prisma.group_chatCreateWithoutReply_toInput[] | Prisma.group_chatUncheckedCreateWithoutReply_toInput[]
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutReply_toInput | Prisma.group_chatCreateOrConnectWithoutReply_toInput[]
+  createMany?: Prisma.group_chatCreateManyReply_toInputEnvelope
+  connect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+}
+
+export type group_chatUncheckedCreateNestedManyWithoutReply_toInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutReply_toInput, Prisma.group_chatUncheckedCreateWithoutReply_toInput> | Prisma.group_chatCreateWithoutReply_toInput[] | Prisma.group_chatUncheckedCreateWithoutReply_toInput[]
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutReply_toInput | Prisma.group_chatCreateOrConnectWithoutReply_toInput[]
+  createMany?: Prisma.group_chatCreateManyReply_toInputEnvelope
+  connect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
 }
 
 export type BigIntFieldUpdateOperationsInput = {
@@ -602,6 +788,18 @@ export type Enumgroup_chat_statusFieldUpdateOperationsInput = {
   set?: $Enums.group_chat_status
 }
 
+export type StringFieldUpdateOperationsInput = {
+  set?: string
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type NullableBigIntFieldUpdateOperationsInput = {
   set?: bigint | number | null
   increment?: bigint | number
@@ -610,8 +808,42 @@ export type NullableBigIntFieldUpdateOperationsInput = {
   divide?: bigint | number
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type group_chatUpdateOneWithoutRepliesNestedInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutRepliesInput, Prisma.group_chatUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutRepliesInput
+  upsert?: Prisma.group_chatUpsertWithoutRepliesInput
+  disconnect?: Prisma.group_chatWhereInput | boolean
+  delete?: Prisma.group_chatWhereInput | boolean
+  connect?: Prisma.group_chatWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.group_chatUpdateToOneWithWhereWithoutRepliesInput, Prisma.group_chatUpdateWithoutRepliesInput>, Prisma.group_chatUncheckedUpdateWithoutRepliesInput>
+}
+
+export type group_chatUpdateManyWithoutReply_toNestedInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutReply_toInput, Prisma.group_chatUncheckedCreateWithoutReply_toInput> | Prisma.group_chatCreateWithoutReply_toInput[] | Prisma.group_chatUncheckedCreateWithoutReply_toInput[]
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutReply_toInput | Prisma.group_chatCreateOrConnectWithoutReply_toInput[]
+  upsert?: Prisma.group_chatUpsertWithWhereUniqueWithoutReply_toInput | Prisma.group_chatUpsertWithWhereUniqueWithoutReply_toInput[]
+  createMany?: Prisma.group_chatCreateManyReply_toInputEnvelope
+  set?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  disconnect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  delete?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  connect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  update?: Prisma.group_chatUpdateWithWhereUniqueWithoutReply_toInput | Prisma.group_chatUpdateWithWhereUniqueWithoutReply_toInput[]
+  updateMany?: Prisma.group_chatUpdateManyWithWhereWithoutReply_toInput | Prisma.group_chatUpdateManyWithWhereWithoutReply_toInput[]
+  deleteMany?: Prisma.group_chatScalarWhereInput | Prisma.group_chatScalarWhereInput[]
+}
+
+export type group_chatUncheckedUpdateManyWithoutReply_toNestedInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutReply_toInput, Prisma.group_chatUncheckedCreateWithoutReply_toInput> | Prisma.group_chatCreateWithoutReply_toInput[] | Prisma.group_chatUncheckedCreateWithoutReply_toInput[]
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutReply_toInput | Prisma.group_chatCreateOrConnectWithoutReply_toInput[]
+  upsert?: Prisma.group_chatUpsertWithWhereUniqueWithoutReply_toInput | Prisma.group_chatUpsertWithWhereUniqueWithoutReply_toInput[]
+  createMany?: Prisma.group_chatCreateManyReply_toInputEnvelope
+  set?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  disconnect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  delete?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  connect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  update?: Prisma.group_chatUpdateWithWhereUniqueWithoutReply_toInput | Prisma.group_chatUpdateWithWhereUniqueWithoutReply_toInput[]
+  updateMany?: Prisma.group_chatUpdateManyWithWhereWithoutReply_toInput | Prisma.group_chatUpdateManyWithWhereWithoutReply_toInput[]
+  deleteMany?: Prisma.group_chatScalarWhereInput | Prisma.group_chatScalarWhereInput[]
 }
 
 export type group_chatCreateNestedOneWithoutGroup_chat_viewInput = {
@@ -712,12 +944,58 @@ export type group_chatUncheckedUpdateManyWithoutWp_groupNestedInput = {
   deleteMany?: Prisma.group_chatScalarWhereInput | Prisma.group_chatScalarWhereInput[]
 }
 
-export type group_chatCreateWithoutGroup_chat_viewInput = {
+export type group_chatCreateNestedManyWithoutMedia_fileInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutMedia_fileInput, Prisma.group_chatUncheckedCreateWithoutMedia_fileInput> | Prisma.group_chatCreateWithoutMedia_fileInput[] | Prisma.group_chatUncheckedCreateWithoutMedia_fileInput[]
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutMedia_fileInput | Prisma.group_chatCreateOrConnectWithoutMedia_fileInput[]
+  createMany?: Prisma.group_chatCreateManyMedia_fileInputEnvelope
+  connect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+}
+
+export type group_chatUncheckedCreateNestedManyWithoutMedia_fileInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutMedia_fileInput, Prisma.group_chatUncheckedCreateWithoutMedia_fileInput> | Prisma.group_chatCreateWithoutMedia_fileInput[] | Prisma.group_chatUncheckedCreateWithoutMedia_fileInput[]
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutMedia_fileInput | Prisma.group_chatCreateOrConnectWithoutMedia_fileInput[]
+  createMany?: Prisma.group_chatCreateManyMedia_fileInputEnvelope
+  connect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+}
+
+export type group_chatUpdateManyWithoutMedia_fileNestedInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutMedia_fileInput, Prisma.group_chatUncheckedCreateWithoutMedia_fileInput> | Prisma.group_chatCreateWithoutMedia_fileInput[] | Prisma.group_chatUncheckedCreateWithoutMedia_fileInput[]
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutMedia_fileInput | Prisma.group_chatCreateOrConnectWithoutMedia_fileInput[]
+  upsert?: Prisma.group_chatUpsertWithWhereUniqueWithoutMedia_fileInput | Prisma.group_chatUpsertWithWhereUniqueWithoutMedia_fileInput[]
+  createMany?: Prisma.group_chatCreateManyMedia_fileInputEnvelope
+  set?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  disconnect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  delete?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  connect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  update?: Prisma.group_chatUpdateWithWhereUniqueWithoutMedia_fileInput | Prisma.group_chatUpdateWithWhereUniqueWithoutMedia_fileInput[]
+  updateMany?: Prisma.group_chatUpdateManyWithWhereWithoutMedia_fileInput | Prisma.group_chatUpdateManyWithWhereWithoutMedia_fileInput[]
+  deleteMany?: Prisma.group_chatScalarWhereInput | Prisma.group_chatScalarWhereInput[]
+}
+
+export type group_chatUncheckedUpdateManyWithoutMedia_fileNestedInput = {
+  create?: Prisma.XOR<Prisma.group_chatCreateWithoutMedia_fileInput, Prisma.group_chatUncheckedCreateWithoutMedia_fileInput> | Prisma.group_chatCreateWithoutMedia_fileInput[] | Prisma.group_chatUncheckedCreateWithoutMedia_fileInput[]
+  connectOrCreate?: Prisma.group_chatCreateOrConnectWithoutMedia_fileInput | Prisma.group_chatCreateOrConnectWithoutMedia_fileInput[]
+  upsert?: Prisma.group_chatUpsertWithWhereUniqueWithoutMedia_fileInput | Prisma.group_chatUpsertWithWhereUniqueWithoutMedia_fileInput[]
+  createMany?: Prisma.group_chatCreateManyMedia_fileInputEnvelope
+  set?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  disconnect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  delete?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  connect?: Prisma.group_chatWhereUniqueInput | Prisma.group_chatWhereUniqueInput[]
+  update?: Prisma.group_chatUpdateWithWhereUniqueWithoutMedia_fileInput | Prisma.group_chatUpdateWithWhereUniqueWithoutMedia_fileInput[]
+  updateMany?: Prisma.group_chatUpdateManyWithWhereWithoutMedia_fileInput | Prisma.group_chatUpdateManyWithWhereWithoutMedia_fileInput[]
+  deleteMany?: Prisma.group_chatScalarWhereInput | Prisma.group_chatScalarWhereInput[]
+}
+
+export type group_chatCreateWithoutRepliesInput = {
   group_chat_id?: bigint | number
   message?: string | null
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -726,6 +1004,214 @@ export type group_chatCreateWithoutGroup_chat_viewInput = {
   deleted_at?: Date | string | null
   wp_group: Prisma.wp_groupCreateNestedOneWithoutGroup_chatInput
   user_organization: Prisma.user_organizationCreateNestedOneWithoutGroup_chatInput
+  group_chat_view?: Prisma.group_chat_viewCreateNestedManyWithoutGroup_chatInput
+  reply_to?: Prisma.group_chatCreateNestedOneWithoutRepliesInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutGroup_messagesInput
+}
+
+export type group_chatUncheckedCreateWithoutRepliesInput = {
+  group_chat_id?: bigint | number
+  group_id: bigint | number
+  sender_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat_view?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutGroup_chatInput
+}
+
+export type group_chatCreateOrConnectWithoutRepliesInput = {
+  where: Prisma.group_chatWhereUniqueInput
+  create: Prisma.XOR<Prisma.group_chatCreateWithoutRepliesInput, Prisma.group_chatUncheckedCreateWithoutRepliesInput>
+}
+
+export type group_chatCreateWithoutReply_toInput = {
+  group_chat_id?: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  wp_group: Prisma.wp_groupCreateNestedOneWithoutGroup_chatInput
+  user_organization: Prisma.user_organizationCreateNestedOneWithoutGroup_chatInput
+  group_chat_view?: Prisma.group_chat_viewCreateNestedManyWithoutGroup_chatInput
+  replies?: Prisma.group_chatCreateNestedManyWithoutReply_toInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutGroup_messagesInput
+}
+
+export type group_chatUncheckedCreateWithoutReply_toInput = {
+  group_chat_id?: bigint | number
+  group_id: bigint | number
+  sender_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat_view?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutGroup_chatInput
+  replies?: Prisma.group_chatUncheckedCreateNestedManyWithoutReply_toInput
+}
+
+export type group_chatCreateOrConnectWithoutReply_toInput = {
+  where: Prisma.group_chatWhereUniqueInput
+  create: Prisma.XOR<Prisma.group_chatCreateWithoutReply_toInput, Prisma.group_chatUncheckedCreateWithoutReply_toInput>
+}
+
+export type group_chatCreateManyReply_toInputEnvelope = {
+  data: Prisma.group_chatCreateManyReply_toInput | Prisma.group_chatCreateManyReply_toInput[]
+  skipDuplicates?: boolean
+}
+
+export type group_chatUpsertWithoutRepliesInput = {
+  update: Prisma.XOR<Prisma.group_chatUpdateWithoutRepliesInput, Prisma.group_chatUncheckedUpdateWithoutRepliesInput>
+  create: Prisma.XOR<Prisma.group_chatCreateWithoutRepliesInput, Prisma.group_chatUncheckedCreateWithoutRepliesInput>
+  where?: Prisma.group_chatWhereInput
+}
+
+export type group_chatUpdateToOneWithWhereWithoutRepliesInput = {
+  where?: Prisma.group_chatWhereInput
+  data: Prisma.XOR<Prisma.group_chatUpdateWithoutRepliesInput, Prisma.group_chatUncheckedUpdateWithoutRepliesInput>
+}
+
+export type group_chatUpdateWithoutRepliesInput = {
+  group_chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  wp_group?: Prisma.wp_groupUpdateOneRequiredWithoutGroup_chatNestedInput
+  user_organization?: Prisma.user_organizationUpdateOneRequiredWithoutGroup_chatNestedInput
+  group_chat_view?: Prisma.group_chat_viewUpdateManyWithoutGroup_chatNestedInput
+  reply_to?: Prisma.group_chatUpdateOneWithoutRepliesNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutGroup_messagesNestedInput
+}
+
+export type group_chatUncheckedUpdateWithoutRepliesInput = {
+  group_chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat_view?: Prisma.group_chat_viewUncheckedUpdateManyWithoutGroup_chatNestedInput
+}
+
+export type group_chatUpsertWithWhereUniqueWithoutReply_toInput = {
+  where: Prisma.group_chatWhereUniqueInput
+  update: Prisma.XOR<Prisma.group_chatUpdateWithoutReply_toInput, Prisma.group_chatUncheckedUpdateWithoutReply_toInput>
+  create: Prisma.XOR<Prisma.group_chatCreateWithoutReply_toInput, Prisma.group_chatUncheckedCreateWithoutReply_toInput>
+}
+
+export type group_chatUpdateWithWhereUniqueWithoutReply_toInput = {
+  where: Prisma.group_chatWhereUniqueInput
+  data: Prisma.XOR<Prisma.group_chatUpdateWithoutReply_toInput, Prisma.group_chatUncheckedUpdateWithoutReply_toInput>
+}
+
+export type group_chatUpdateManyWithWhereWithoutReply_toInput = {
+  where: Prisma.group_chatScalarWhereInput
+  data: Prisma.XOR<Prisma.group_chatUpdateManyMutationInput, Prisma.group_chatUncheckedUpdateManyWithoutReply_toInput>
+}
+
+export type group_chatScalarWhereInput = {
+  AND?: Prisma.group_chatScalarWhereInput | Prisma.group_chatScalarWhereInput[]
+  OR?: Prisma.group_chatScalarWhereInput[]
+  NOT?: Prisma.group_chatScalarWhereInput | Prisma.group_chatScalarWhereInput[]
+  group_chat_id?: Prisma.BigIntFilter<"group_chat"> | bigint | number
+  group_id?: Prisma.BigIntFilter<"group_chat"> | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFilter<"group_chat"> | bigint | number
+  message?: Prisma.StringNullableFilter<"group_chat"> | string | null
+  media?: Prisma.JsonNullableFilter<"group_chat">
+  send_time?: Prisma.DateTimeFilter<"group_chat"> | Date | string
+  status?: Prisma.Enumgroup_chat_statusFilter<"group_chat"> | $Enums.group_chat_status
+  message_type?: Prisma.StringFilter<"group_chat"> | string
+  client_message_id?: Prisma.StringNullableFilter<"group_chat"> | string | null
+  reply_to_group_chat_id?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
+  media_id?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
+  forwarded?: Prisma.BoolFilter<"group_chat"> | boolean
+  deleted_for_everyone_at?: Prisma.DateTimeNullableFilter<"group_chat"> | Date | string | null
+  created_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
+  created_at?: Prisma.DateTimeFilter<"group_chat"> | Date | string
+  updated_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
+  updated_at?: Prisma.DateTimeNullableFilter<"group_chat"> | Date | string | null
+  deleted_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"group_chat"> | Date | string | null
+}
+
+export type group_chatCreateWithoutGroup_chat_viewInput = {
+  group_chat_id?: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  wp_group: Prisma.wp_groupCreateNestedOneWithoutGroup_chatInput
+  user_organization: Prisma.user_organizationCreateNestedOneWithoutGroup_chatInput
+  reply_to?: Prisma.group_chatCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.group_chatCreateNestedManyWithoutReply_toInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutGroup_messagesInput
 }
 
 export type group_chatUncheckedCreateWithoutGroup_chat_viewInput = {
@@ -736,12 +1222,19 @@ export type group_chatUncheckedCreateWithoutGroup_chat_viewInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  replies?: Prisma.group_chatUncheckedCreateNestedManyWithoutReply_toInput
 }
 
 export type group_chatCreateOrConnectWithoutGroup_chat_viewInput = {
@@ -766,6 +1259,10 @@ export type group_chatUpdateWithoutGroup_chat_viewInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -774,6 +1271,9 @@ export type group_chatUpdateWithoutGroup_chat_viewInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   wp_group?: Prisma.wp_groupUpdateOneRequiredWithoutGroup_chatNestedInput
   user_organization?: Prisma.user_organizationUpdateOneRequiredWithoutGroup_chatNestedInput
+  reply_to?: Prisma.group_chatUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.group_chatUpdateManyWithoutReply_toNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutGroup_messagesNestedInput
 }
 
 export type group_chatUncheckedUpdateWithoutGroup_chat_viewInput = {
@@ -784,12 +1284,19 @@ export type group_chatUncheckedUpdateWithoutGroup_chat_viewInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.group_chatUncheckedUpdateManyWithoutReply_toNestedInput
 }
 
 export type group_chatCreateWithoutUser_organizationInput = {
@@ -798,6 +1305,10 @@ export type group_chatCreateWithoutUser_organizationInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -806,6 +1317,9 @@ export type group_chatCreateWithoutUser_organizationInput = {
   deleted_at?: Date | string | null
   wp_group: Prisma.wp_groupCreateNestedOneWithoutGroup_chatInput
   group_chat_view?: Prisma.group_chat_viewCreateNestedManyWithoutGroup_chatInput
+  reply_to?: Prisma.group_chatCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.group_chatCreateNestedManyWithoutReply_toInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutGroup_messagesInput
 }
 
 export type group_chatUncheckedCreateWithoutUser_organizationInput = {
@@ -815,6 +1329,12 @@ export type group_chatUncheckedCreateWithoutUser_organizationInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -822,6 +1342,7 @@ export type group_chatUncheckedCreateWithoutUser_organizationInput = {
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
   group_chat_view?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutGroup_chatInput
+  replies?: Prisma.group_chatUncheckedCreateNestedManyWithoutReply_toInput
 }
 
 export type group_chatCreateOrConnectWithoutUser_organizationInput = {
@@ -850,31 +1371,16 @@ export type group_chatUpdateManyWithWhereWithoutUser_organizationInput = {
   data: Prisma.XOR<Prisma.group_chatUpdateManyMutationInput, Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationInput>
 }
 
-export type group_chatScalarWhereInput = {
-  AND?: Prisma.group_chatScalarWhereInput | Prisma.group_chatScalarWhereInput[]
-  OR?: Prisma.group_chatScalarWhereInput[]
-  NOT?: Prisma.group_chatScalarWhereInput | Prisma.group_chatScalarWhereInput[]
-  group_chat_id?: Prisma.BigIntFilter<"group_chat"> | bigint | number
-  group_id?: Prisma.BigIntFilter<"group_chat"> | bigint | number
-  sender_user_organization_id?: Prisma.BigIntFilter<"group_chat"> | bigint | number
-  message?: Prisma.StringNullableFilter<"group_chat"> | string | null
-  media?: Prisma.JsonNullableFilter<"group_chat">
-  send_time?: Prisma.DateTimeFilter<"group_chat"> | Date | string
-  status?: Prisma.Enumgroup_chat_statusFilter<"group_chat"> | $Enums.group_chat_status
-  created_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
-  created_at?: Prisma.DateTimeFilter<"group_chat"> | Date | string
-  updated_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
-  updated_at?: Prisma.DateTimeNullableFilter<"group_chat"> | Date | string | null
-  deleted_by?: Prisma.BigIntNullableFilter<"group_chat"> | bigint | number | null
-  deleted_at?: Prisma.DateTimeNullableFilter<"group_chat"> | Date | string | null
-}
-
 export type group_chatCreateWithoutWp_groupInput = {
   group_chat_id?: bigint | number
   message?: string | null
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -883,6 +1389,9 @@ export type group_chatCreateWithoutWp_groupInput = {
   deleted_at?: Date | string | null
   user_organization: Prisma.user_organizationCreateNestedOneWithoutGroup_chatInput
   group_chat_view?: Prisma.group_chat_viewCreateNestedManyWithoutGroup_chatInput
+  reply_to?: Prisma.group_chatCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.group_chatCreateNestedManyWithoutReply_toInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutGroup_messagesInput
 }
 
 export type group_chatUncheckedCreateWithoutWp_groupInput = {
@@ -892,6 +1401,12 @@ export type group_chatUncheckedCreateWithoutWp_groupInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -899,6 +1414,7 @@ export type group_chatUncheckedCreateWithoutWp_groupInput = {
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
   group_chat_view?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutGroup_chatInput
+  replies?: Prisma.group_chatUncheckedCreateNestedManyWithoutReply_toInput
 }
 
 export type group_chatCreateOrConnectWithoutWp_groupInput = {
@@ -927,6 +1443,166 @@ export type group_chatUpdateManyWithWhereWithoutWp_groupInput = {
   data: Prisma.XOR<Prisma.group_chatUpdateManyMutationInput, Prisma.group_chatUncheckedUpdateManyWithoutWp_groupInput>
 }
 
+export type group_chatCreateWithoutMedia_fileInput = {
+  group_chat_id?: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  wp_group: Prisma.wp_groupCreateNestedOneWithoutGroup_chatInput
+  user_organization: Prisma.user_organizationCreateNestedOneWithoutGroup_chatInput
+  group_chat_view?: Prisma.group_chat_viewCreateNestedManyWithoutGroup_chatInput
+  reply_to?: Prisma.group_chatCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.group_chatCreateNestedManyWithoutReply_toInput
+}
+
+export type group_chatUncheckedCreateWithoutMedia_fileInput = {
+  group_chat_id?: bigint | number
+  group_id: bigint | number
+  sender_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat_view?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutGroup_chatInput
+  replies?: Prisma.group_chatUncheckedCreateNestedManyWithoutReply_toInput
+}
+
+export type group_chatCreateOrConnectWithoutMedia_fileInput = {
+  where: Prisma.group_chatWhereUniqueInput
+  create: Prisma.XOR<Prisma.group_chatCreateWithoutMedia_fileInput, Prisma.group_chatUncheckedCreateWithoutMedia_fileInput>
+}
+
+export type group_chatCreateManyMedia_fileInputEnvelope = {
+  data: Prisma.group_chatCreateManyMedia_fileInput | Prisma.group_chatCreateManyMedia_fileInput[]
+  skipDuplicates?: boolean
+}
+
+export type group_chatUpsertWithWhereUniqueWithoutMedia_fileInput = {
+  where: Prisma.group_chatWhereUniqueInput
+  update: Prisma.XOR<Prisma.group_chatUpdateWithoutMedia_fileInput, Prisma.group_chatUncheckedUpdateWithoutMedia_fileInput>
+  create: Prisma.XOR<Prisma.group_chatCreateWithoutMedia_fileInput, Prisma.group_chatUncheckedCreateWithoutMedia_fileInput>
+}
+
+export type group_chatUpdateWithWhereUniqueWithoutMedia_fileInput = {
+  where: Prisma.group_chatWhereUniqueInput
+  data: Prisma.XOR<Prisma.group_chatUpdateWithoutMedia_fileInput, Prisma.group_chatUncheckedUpdateWithoutMedia_fileInput>
+}
+
+export type group_chatUpdateManyWithWhereWithoutMedia_fileInput = {
+  where: Prisma.group_chatScalarWhereInput
+  data: Prisma.XOR<Prisma.group_chatUpdateManyMutationInput, Prisma.group_chatUncheckedUpdateManyWithoutMedia_fileInput>
+}
+
+export type group_chatCreateManyReply_toInput = {
+  group_chat_id?: bigint | number
+  group_id: bigint | number
+  sender_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+}
+
+export type group_chatUpdateWithoutReply_toInput = {
+  group_chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  wp_group?: Prisma.wp_groupUpdateOneRequiredWithoutGroup_chatNestedInput
+  user_organization?: Prisma.user_organizationUpdateOneRequiredWithoutGroup_chatNestedInput
+  group_chat_view?: Prisma.group_chat_viewUpdateManyWithoutGroup_chatNestedInput
+  replies?: Prisma.group_chatUpdateManyWithoutReply_toNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutGroup_messagesNestedInput
+}
+
+export type group_chatUncheckedUpdateWithoutReply_toInput = {
+  group_chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat_view?: Prisma.group_chat_viewUncheckedUpdateManyWithoutGroup_chatNestedInput
+  replies?: Prisma.group_chatUncheckedUpdateManyWithoutReply_toNestedInput
+}
+
+export type group_chatUncheckedUpdateManyWithoutReply_toInput = {
+  group_chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 export type group_chatCreateManyUser_organizationInput = {
   group_chat_id?: bigint | number
   group_id: bigint | number
@@ -934,6 +1610,12 @@ export type group_chatCreateManyUser_organizationInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -948,6 +1630,10 @@ export type group_chatUpdateWithoutUser_organizationInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -956,6 +1642,9 @@ export type group_chatUpdateWithoutUser_organizationInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   wp_group?: Prisma.wp_groupUpdateOneRequiredWithoutGroup_chatNestedInput
   group_chat_view?: Prisma.group_chat_viewUpdateManyWithoutGroup_chatNestedInput
+  reply_to?: Prisma.group_chatUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.group_chatUpdateManyWithoutReply_toNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutGroup_messagesNestedInput
 }
 
 export type group_chatUncheckedUpdateWithoutUser_organizationInput = {
@@ -965,6 +1654,12 @@ export type group_chatUncheckedUpdateWithoutUser_organizationInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -972,6 +1667,7 @@ export type group_chatUncheckedUpdateWithoutUser_organizationInput = {
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_chat_view?: Prisma.group_chat_viewUncheckedUpdateManyWithoutGroup_chatNestedInput
+  replies?: Prisma.group_chatUncheckedUpdateManyWithoutReply_toNestedInput
 }
 
 export type group_chatUncheckedUpdateManyWithoutUser_organizationInput = {
@@ -981,6 +1677,12 @@ export type group_chatUncheckedUpdateManyWithoutUser_organizationInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -996,6 +1698,12 @@ export type group_chatCreateManyWp_groupInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Date | string
   status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  media_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1010,6 +1718,10 @@ export type group_chatUpdateWithoutWp_groupInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1018,6 +1730,9 @@ export type group_chatUpdateWithoutWp_groupInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_organization?: Prisma.user_organizationUpdateOneRequiredWithoutGroup_chatNestedInput
   group_chat_view?: Prisma.group_chat_viewUpdateManyWithoutGroup_chatNestedInput
+  reply_to?: Prisma.group_chatUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.group_chatUpdateManyWithoutReply_toNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutGroup_messagesNestedInput
 }
 
 export type group_chatUncheckedUpdateWithoutWp_groupInput = {
@@ -1027,6 +1742,12 @@ export type group_chatUncheckedUpdateWithoutWp_groupInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1034,6 +1755,7 @@ export type group_chatUncheckedUpdateWithoutWp_groupInput = {
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_chat_view?: Prisma.group_chat_viewUncheckedUpdateManyWithoutGroup_chatNestedInput
+  replies?: Prisma.group_chatUncheckedUpdateManyWithoutReply_toNestedInput
 }
 
 export type group_chatUncheckedUpdateManyWithoutWp_groupInput = {
@@ -1043,6 +1765,100 @@ export type group_chatUncheckedUpdateManyWithoutWp_groupInput = {
   media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type group_chatCreateManyMedia_fileInput = {
+  group_chat_id?: bigint | number
+  group_id: bigint | number
+  sender_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  status?: $Enums.group_chat_status
+  message_type?: string
+  client_message_id?: string | null
+  reply_to_group_chat_id?: bigint | number | null
+  forwarded?: boolean
+  deleted_for_everyone_at?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+}
+
+export type group_chatUpdateWithoutMedia_fileInput = {
+  group_chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  wp_group?: Prisma.wp_groupUpdateOneRequiredWithoutGroup_chatNestedInput
+  user_organization?: Prisma.user_organizationUpdateOneRequiredWithoutGroup_chatNestedInput
+  group_chat_view?: Prisma.group_chat_viewUpdateManyWithoutGroup_chatNestedInput
+  reply_to?: Prisma.group_chatUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.group_chatUpdateManyWithoutReply_toNestedInput
+}
+
+export type group_chatUncheckedUpdateWithoutMedia_fileInput = {
+  group_chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat_view?: Prisma.group_chat_viewUncheckedUpdateManyWithoutGroup_chatNestedInput
+  replies?: Prisma.group_chatUncheckedUpdateManyWithoutReply_toNestedInput
+}
+
+export type group_chatUncheckedUpdateManyWithoutMedia_fileInput = {
+  group_chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.Enumgroup_chat_statusFieldUpdateOperationsInput | $Enums.group_chat_status
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reply_to_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1058,10 +1874,12 @@ export type group_chatUncheckedUpdateManyWithoutWp_groupInput = {
 
 export type Group_chatCountOutputType = {
   group_chat_view: number
+  replies: number
 }
 
 export type Group_chatCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group_chat_view?: boolean | Group_chatCountOutputTypeCountGroup_chat_viewArgs
+  replies?: boolean | Group_chatCountOutputTypeCountRepliesArgs
 }
 
 /**
@@ -1081,6 +1899,13 @@ export type Group_chatCountOutputTypeCountGroup_chat_viewArgs<ExtArgs extends ru
   where?: Prisma.group_chat_viewWhereInput
 }
 
+/**
+ * Group_chatCountOutputType without action
+ */
+export type Group_chatCountOutputTypeCountRepliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.group_chatWhereInput
+}
+
 
 export type group_chatSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   group_chat_id?: boolean
@@ -1090,6 +1915,12 @@ export type group_chatSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   media?: boolean
   send_time?: boolean
   status?: boolean
+  message_type?: boolean
+  client_message_id?: boolean
+  reply_to_group_chat_id?: boolean
+  media_id?: boolean
+  forwarded?: boolean
+  deleted_for_everyone_at?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
@@ -1099,6 +1930,9 @@ export type group_chatSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   wp_group?: boolean | Prisma.wp_groupDefaultArgs<ExtArgs>
   user_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
   group_chat_view?: boolean | Prisma.group_chat$group_chat_viewArgs<ExtArgs>
+  reply_to?: boolean | Prisma.group_chat$reply_toArgs<ExtArgs>
+  replies?: boolean | Prisma.group_chat$repliesArgs<ExtArgs>
+  media_file?: boolean | Prisma.group_chat$media_fileArgs<ExtArgs>
   _count?: boolean | Prisma.Group_chatCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group_chat"]>
 
@@ -1112,6 +1946,12 @@ export type group_chatSelectScalar = {
   media?: boolean
   send_time?: boolean
   status?: boolean
+  message_type?: boolean
+  client_message_id?: boolean
+  reply_to_group_chat_id?: boolean
+  media_id?: boolean
+  forwarded?: boolean
+  deleted_for_everyone_at?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
@@ -1120,11 +1960,14 @@ export type group_chatSelectScalar = {
   deleted_at?: boolean
 }
 
-export type group_chatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"group_chat_id" | "group_id" | "sender_user_organization_id" | "message" | "media" | "send_time" | "status" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["group_chat"]>
+export type group_chatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"group_chat_id" | "group_id" | "sender_user_organization_id" | "message" | "media" | "send_time" | "status" | "message_type" | "client_message_id" | "reply_to_group_chat_id" | "media_id" | "forwarded" | "deleted_for_everyone_at" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["group_chat"]>
 export type group_chatInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   wp_group?: boolean | Prisma.wp_groupDefaultArgs<ExtArgs>
   user_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
   group_chat_view?: boolean | Prisma.group_chat$group_chat_viewArgs<ExtArgs>
+  reply_to?: boolean | Prisma.group_chat$reply_toArgs<ExtArgs>
+  replies?: boolean | Prisma.group_chat$repliesArgs<ExtArgs>
+  media_file?: boolean | Prisma.group_chat$media_fileArgs<ExtArgs>
   _count?: boolean | Prisma.Group_chatCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1134,6 +1977,9 @@ export type $group_chatPayload<ExtArgs extends runtime.Types.Extensions.Internal
     wp_group: Prisma.$wp_groupPayload<ExtArgs>
     user_organization: Prisma.$user_organizationPayload<ExtArgs>
     group_chat_view: Prisma.$group_chat_viewPayload<ExtArgs>[]
+    reply_to: Prisma.$group_chatPayload<ExtArgs> | null
+    replies: Prisma.$group_chatPayload<ExtArgs>[]
+    media_file: Prisma.$media_filePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     group_chat_id: bigint
@@ -1143,6 +1989,12 @@ export type $group_chatPayload<ExtArgs extends runtime.Types.Extensions.Internal
     media: runtime.JsonValue | null
     send_time: Date
     status: $Enums.group_chat_status
+    message_type: string
+    client_message_id: string | null
+    reply_to_group_chat_id: bigint | null
+    media_id: bigint | null
+    forwarded: boolean
+    deleted_for_everyone_at: Date | null
     created_by: bigint | null
     created_at: Date
     updated_by: bigint | null
@@ -1492,6 +2344,9 @@ export interface Prisma__group_chatClient<T, Null = never, ExtArgs extends runti
   wp_group<T extends Prisma.wp_groupDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.wp_groupDefaultArgs<ExtArgs>>): Prisma.Prisma__wp_groupClient<runtime.Types.Result.GetResult<Prisma.$wp_groupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user_organization<T extends Prisma.user_organizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organizationDefaultArgs<ExtArgs>>): Prisma.Prisma__user_organizationClient<runtime.Types.Result.GetResult<Prisma.$user_organizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   group_chat_view<T extends Prisma.group_chat$group_chat_viewArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.group_chat$group_chat_viewArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$group_chat_viewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reply_to<T extends Prisma.group_chat$reply_toArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.group_chat$reply_toArgs<ExtArgs>>): Prisma.Prisma__group_chatClient<runtime.Types.Result.GetResult<Prisma.$group_chatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  replies<T extends Prisma.group_chat$repliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.group_chat$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$group_chatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  media_file<T extends Prisma.group_chat$media_fileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.group_chat$media_fileArgs<ExtArgs>>): Prisma.Prisma__media_fileClient<runtime.Types.Result.GetResult<Prisma.$media_filePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1528,6 +2383,12 @@ export interface group_chatFieldRefs {
   readonly media: Prisma.FieldRef<"group_chat", 'Json'>
   readonly send_time: Prisma.FieldRef<"group_chat", 'DateTime'>
   readonly status: Prisma.FieldRef<"group_chat", 'group_chat_status'>
+  readonly message_type: Prisma.FieldRef<"group_chat", 'String'>
+  readonly client_message_id: Prisma.FieldRef<"group_chat", 'String'>
+  readonly reply_to_group_chat_id: Prisma.FieldRef<"group_chat", 'BigInt'>
+  readonly media_id: Prisma.FieldRef<"group_chat", 'BigInt'>
+  readonly forwarded: Prisma.FieldRef<"group_chat", 'Boolean'>
+  readonly deleted_for_everyone_at: Prisma.FieldRef<"group_chat", 'DateTime'>
   readonly created_by: Prisma.FieldRef<"group_chat", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"group_chat", 'DateTime'>
   readonly updated_by: Prisma.FieldRef<"group_chat", 'BigInt'>
@@ -1903,6 +2764,68 @@ export type group_chat$group_chat_viewArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.Group_chat_viewScalarFieldEnum | Prisma.Group_chat_viewScalarFieldEnum[]
+}
+
+/**
+ * group_chat.reply_to
+ */
+export type group_chat$reply_toArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the group_chat
+   */
+  select?: Prisma.group_chatSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the group_chat
+   */
+  omit?: Prisma.group_chatOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.group_chatInclude<ExtArgs> | null
+  where?: Prisma.group_chatWhereInput
+}
+
+/**
+ * group_chat.replies
+ */
+export type group_chat$repliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the group_chat
+   */
+  select?: Prisma.group_chatSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the group_chat
+   */
+  omit?: Prisma.group_chatOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.group_chatInclude<ExtArgs> | null
+  where?: Prisma.group_chatWhereInput
+  orderBy?: Prisma.group_chatOrderByWithRelationInput | Prisma.group_chatOrderByWithRelationInput[]
+  cursor?: Prisma.group_chatWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Group_chatScalarFieldEnum | Prisma.Group_chatScalarFieldEnum[]
+}
+
+/**
+ * group_chat.media_file
+ */
+export type group_chat$media_fileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the media_file
+   */
+  select?: Prisma.media_fileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the media_file
+   */
+  omit?: Prisma.media_fileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.media_fileInclude<ExtArgs> | null
+  where?: Prisma.media_fileWhereInput
 }
 
 /**

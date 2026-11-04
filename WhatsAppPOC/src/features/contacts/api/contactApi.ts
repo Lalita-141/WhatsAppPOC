@@ -1,21 +1,23 @@
 import { apiPath } from '../../../environments/environment_urls';
 import { fetchApi } from '../../../services/api/httpService';
 
-export interface SyncedContactItem {
-  userId: string;
-  userOrganizationId: string;
-  name: string;
-  firstName?: string;
-  lastName?: string;
-  mobileNo: string;
-  about?: string | null;
-  profilePhoto?: string | null;
+export interface SyncContactsResult {
+  registered: {
+    userId: string;
+    userOrganizationId: string;
+    name: string;
+    phone: string;
+  }[];
+  notRegistered: {
+    name: string;
+    phone: string;
+  }[];
 }
 
 export interface SyncContactsResponse {
   success: boolean;
   message: string;
-  data: SyncedContactItem[];
+  data: SyncContactsResult;
 }
 
 export const syncContacts = async (

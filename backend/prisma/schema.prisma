@@ -15,6 +15,12 @@ model group_chat {
   media                       Json?
   send_time                   DateTime          @default(now()) @db.DateTime(0)
   status                      group_chat_status @default(SENT)
+  message_type                String            @default("TEXT") @db.VarChar(20)
+  client_message_id           String?           @db.VarChar(64)
+  reply_to_group_chat_id      BigInt?           @db.UnsignedBigInt
+  media_id                    BigInt?           @db.UnsignedBigInt
+  forwarded                   Boolean           @default(false)
+  deleted_for_everyone_at     DateTime?         @db.DateTime(0)
   created_by                  BigInt?           @db.UnsignedBigInt
   created_at                  DateTime          @default(now()) @db.DateTime(0)
   updated_by                  BigInt?           @db.UnsignedBigInt
@@ -24,7 +30,14 @@ model group_chat {
   wp_group                    wp_group          @relation(fields: [group_id], references: [group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_group_chat_group")
   user_organization           user_organization @relation(fields: [sender_user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_group_chat_sender_org")
   group_chat_view             group_chat_view[]
+  reply_to                    group_chat?       @relation("group_chat_reply", fields: [reply_to_group_chat_id], references: [group_chat_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_group_chat_reply_to")
+  replies                     group_chat[]      @relation("group_chat_reply")
+  media_file                  media_file?       @relation(fields: [media_id], references: [media_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_group_chat_media")
 
+  @@unique([sender_user_organization_id, client_message_id], map: "uq_group_chat_client_message")
+  @@index([group_id, group_chat_id], map: "idx_group_chat_group_id")
+  @@index([reply_to_group_chat_id], map: "idx_group_chat_reply_to")
+  @@index([media_id], map: "idx_group_chat_media")
   @@index([deleted_at], map: "idx_group_chat_deleted_at")
   @@index([group_id], map: "idx_group_chat_group")
   @@index([send_time], map: "idx_group_chat_send_time")
@@ -61,6 +74,11 @@ model group_member {
   user_organization_id BigInt            @db.UnsignedBigInt
   role                 group_member_role @default(USER)
   joined_at            DateTime          @default(now()) @db.DateTime(0)
+  last_read_group_chat_id BigInt?        @db.UnsignedBigInt
+  muted_until          DateTime?         @db.DateTime(0)
+  pinned_at            DateTime?         @db.DateTime(0)
+  archived_at          DateTime?         @db.DateTime(0)
+  invited_by           BigInt?           @db.UnsignedBigInt
   created_by           BigInt?           @db.UnsignedBigInt
   created_at           DateTime          @default(now()) @db.DateTime(0)
   updated_by           BigInt?           @db.UnsignedBigInt
@@ -78,7 +96,7 @@ model group_member {
 
 model organization_master {
   org_id            BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
-  org_code          String              @db.VarChar(50)
+  org_code          String              @unique(map: "uq_org_code") @db.VarChar(50)
   organization_name String              @db.VarChar(200)
   contact           String?             @db.VarChar(30)
   email             String?             @db.VarChar(150)
@@ -93,6 +111,18 @@ model organization_master {
   register_otp      register_otp[]
   user_organization user_organization[]
   wp_group          wp_group[]
+  setting           organization_setting?
+  relationships_requested organization_relationship[] @relation("relationship_requester")
+  relationships_received  organization_relationship[] @relation("relationship_target")
+  audit_logs        organization_audit_log[]
+  departments       department[]
+  invites           organization_invite[]
+  join_requests     organization_join_request[]
+  broadcasts        org_broadcast[]
+  broadcast_targets org_broadcast_target[]
+  broadcast_recipients org_broadcast_recipient[]
+  channels          channel[]
+  communities       community[]
 
   @@index([deleted_at], map: "idx_org_deleted_at")
   @@index([email], map: "idx_org_email")
@@ -108,16 +138,37 @@ model personal_chat_history {
   send_time                                                                                DateTime                     @default(now()) @db.DateTime(0)
   receive_time                                                                             DateTime?                    @db.DateTime(0)
   status                                                                                   personal_chat_history_status @default(SENT)
+  client_message_id                                                                        String?                      @db.VarChar(64)
+  media_id                                                                                 BigInt?                      @db.UnsignedBigInt
+  message_type                                                                             String                       @default("TEXT") @db.VarChar(20)
+  reply_to_chat_id                                                                         BigInt?                      @db.UnsignedBigInt
+  forwarded                                                                                Boolean                      @default(false)
+  edited_at                                                                                DateTime?                    @db.DateTime(0)
+  deleted_for_everyone_at                                                                  DateTime?                    @db.DateTime(0)
+  read_time                                                                                DateTime?                    @db.DateTime(0)
+  pinned_at                                                                                DateTime?                    @db.DateTime(0)
+  pinned_by                                                                                BigInt?                      @db.UnsignedBigInt
   created_by                                                                               BigInt?                      @db.UnsignedBigInt
   created_at                                                                               DateTime                     @default(now()) @db.DateTime(0)
   updated_by                                                                               BigInt?                      @db.UnsignedBigInt
   updated_at                                                                               DateTime?                    @db.DateTime(0)
   deleted_by                                                                               BigInt?                      @db.UnsignedBigInt
   deleted_at                                                                               DateTime?                    @db.DateTime(0)
+  conversation_states                                                                      conversation_state[]
+  reply_to                                                                                 personal_chat_history?       @relation("personal_chat_reply", fields: [reply_to_chat_id], references: [chat_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_personal_chat_reply_to")
+  replies                                                                                  personal_chat_history[]      @relation("personal_chat_reply")
+  message_states                                                                           personal_message_state[]
+  media_file                                                                               media_file?                  @relation(fields: [media_id], references: [media_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_personal_chat_media")
+  reactions                                                                                message_reaction[]
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization user_organization            @relation("personal_chat_history_receiver_user_organization_idTouser_organization", fields: [receiver_user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_personal_chat_receiver_org")
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization   user_organization            @relation("personal_chat_history_sender_user_organization_idTouser_organization", fields: [sender_user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_personal_chat_sender_org")
 
+  @@unique([sender_user_organization_id, client_message_id], map: "uq_personal_chat_client_message")
   @@index([deleted_at], map: "idx_personal_chat_deleted_at")
+  @@index([sender_user_organization_id, receiver_user_organization_id, chat_id], map: "idx_personal_chat_pair_id")
+  @@index([receiver_user_organization_id, sender_user_organization_id, chat_id], map: "idx_personal_chat_pair_id_reverse")
+  @@index([reply_to_chat_id], map: "idx_personal_chat_reply_to")
+  @@index([media_id], map: "idx_personal_chat_media")
   @@index([receiver_user_organization_id, sender_user_organization_id], map: "idx_personal_chat_receiver_sender")
   @@index([send_time], map: "idx_personal_chat_send_time")
   @@index([sender_user_organization_id, receiver_user_organization_id], map: "idx_personal_chat_sender_receiver")
@@ -128,7 +179,7 @@ model register_otp {
   org_id              BigInt              @db.UnsignedBigInt
   country_code        String              @db.VarChar(10)
   mobile_no           String              @db.VarChar(20)
-  otp                 String              @db.VarChar(10)
+  otp                 String              @db.VarChar(128)
   created_at          DateTime            @default(now()) @db.DateTime(0)
   expires_at          DateTime            @db.DateTime(0)
   is_validated        Boolean             @default(false)
@@ -144,6 +195,7 @@ model register_otp {
   @@index([deleted_at], map: "idx_register_otp_deleted_at")
   @@index([expires_at], map: "idx_register_otp_expires")
   @@index([country_code, mobile_no], map: "idx_register_otp_mobile")
+  @@index([country_code, mobile_no, created_at], map: "idx_register_otp_mobile_created")
   @@index([org_id], map: "idx_register_otp_org")
 }
 
@@ -151,6 +203,7 @@ model user_master {
   user_id           BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
   first_name        String              @db.VarChar(100)
   last_name         String?             @db.VarChar(100)
+  country_code      String              @db.VarChar(10)
   mobile_no         String              @db.VarChar(20)
   profile_photo     String?             @db.VarChar(500)
   about             String?             @db.VarChar(500)
@@ -163,8 +216,12 @@ model user_master {
   deleted_at        DateTime?           @db.DateTime(0)
   user_organization user_organization[]
 
+  @@unique([country_code, mobile_no], map: "uq_user_mobile")
   @@index([deleted_at], map: "idx_user_deleted_at")
   @@index([mobile_no], map: "idx_user_mobile")
+  join_requests organization_join_request[]
+  profile_photo_media_id BigInt? @db.UnsignedBigInt
+  profile_photo_media    media_file? @relation("profile_photo", fields: [profile_photo_media_id], references: [media_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_user_profile_photo")
 }
 
 model user_organization {
@@ -172,6 +229,7 @@ model user_organization {
   user_id                                                                                      BigInt                  @db.UnsignedBigInt
   org_id                                                                                       BigInt                  @db.UnsignedBigInt
   role                                                                                         String?                 @db.VarChar(100)
+  department_id                                                                                BigInt?                 @db.UnsignedBigInt
   created_by                                                                                   BigInt?                 @db.UnsignedBigInt
   created_at                                                                                   DateTime                @default(now()) @db.DateTime(0)
   updated_by                                                                                   BigInt?                 @db.UnsignedBigInt
@@ -188,8 +246,31 @@ model user_organization {
   user_master                                                                                  user_master             @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_org_user")
   user_setting                                                                                 user_setting?
   user_devices                                                                                 user_device[]
+  user_sessions                                                                                user_session[]
+  owned_conversation_states                                                                    conversation_state[]    @relation("conversation_state_owner")
+  peer_conversation_states                                                                     conversation_state[]    @relation("conversation_state_peer")
+  message_states                                                                               personal_message_state[]
+  message_reactions                                                                            message_reaction[]
+  blocks_made                                                                                  user_block[]            @relation("user_block_blocker")
+  blocks_received                                                                              user_block[]            @relation("user_block_blocked")
+  reports_made                                                                                 user_report[]           @relation("user_report_reporter")
+  reports_received                                                                             user_report[]           @relation("user_report_reported")
+  department                                                                                   department?             @relation(fields: [department_id], references: [department_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_user_org_department")
+  audit_logs                                                                                   organization_audit_log[]
+  broadcasts_sent                                                                              org_broadcast[]
+  broadcasts_received                                                                          org_broadcast_recipient[]
+  invites_sent                                                                                 organization_invite[]
+  media_files                                                                                  media_file[]
+  status_posts                                                                                 status_post[]
+  status_views                                                                                 status_view[]
+  status_audiences                                                                             status_audience[]
+  channel_memberships                                                                          channel_member[]
+  channel_posts                                                                                channel_post[]
+  calls_made                                                                                   call_session[]          @relation("call_caller")
+  calls_received                                                                               call_session[]          @relation("call_callee")
 
   @@unique([user_id, org_id], map: "uq_user_organization")
+  @@index([department_id], map: "idx_user_org_department")
   @@index([deleted_at], map: "idx_user_org_deleted_at")
   @@index([org_id], map: "idx_user_org_org")
   @@index([user_id], map: "idx_user_org_user")
@@ -202,12 +283,37 @@ model user_device {
   device_type          String?   @db.VarChar(20)
   device_name          String?   @db.VarChar(100)
   is_active            Boolean   @default(true)
+  session_id           BigInt?   @db.UnsignedBigInt
   created_at           DateTime  @default(now()) @db.DateTime(0)
   updated_at           DateTime? @db.DateTime(0)
 
   user_organization user_organization @relation(fields: [user_organization_id], references: [user_organization_id], onDelete: Cascade, map: "fk_user_device_user_org")
+  user_session      user_session?     @relation(fields: [session_id], references: [session_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_user_device_session")
 
   @@index([user_organization_id], map: "idx_user_device_user_org")
+  @@index([session_id], map: "idx_user_device_session")
+}
+
+model user_session {
+  session_id                  BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  user_organization_id        BigInt    @db.UnsignedBigInt
+  refresh_token_hash          String    @unique(map: "uq_user_session_refresh") @db.Char(64)
+  previous_refresh_token_hash String?   @db.Char(64)
+  rotated_at                  DateTime? @db.DateTime(0)
+  device_type                 String?   @db.VarChar(20)
+  device_name                 String?   @db.VarChar(100)
+  created_at                  DateTime  @default(now()) @db.DateTime(0)
+  last_used_at                DateTime  @default(now()) @db.DateTime(0)
+  expires_at                  DateTime  @db.DateTime(0)
+  revoked_at                  DateTime? @db.DateTime(0)
+  revoke_reason               String?   @db.VarChar(30)
+
+  user_organization user_organization @relation(fields: [user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_session_user_org")
+  user_devices      user_device[]
+
+  @@index([user_organization_id, revoked_at], map: "idx_user_session_user_org")
+  @@index([previous_refresh_token_hash], map: "idx_user_session_previous")
+  @@index([expires_at], map: "idx_user_session_expires")
 }
 
 model user_setting {
@@ -219,6 +325,11 @@ model user_setting {
   read_receipts        Boolean                        @default(true)
   typing_indicator     Boolean                        @default(true)
   status_privacy       user_setting_status_privacy    @default(CONTACTS)
+  notify_messages      Boolean                        @default(true)
+  notify_groups        Boolean                        @default(true)
+  notify_announcements Boolean                        @default(true)
+  notify_calls         Boolean                        @default(true)
+  show_preview         Boolean                        @default(true)
   created_by           BigInt?                        @db.UnsignedBigInt
   created_at           DateTime                       @default(now()) @db.DateTime(0)
   updated_by           BigInt?                        @db.UnsignedBigInt
@@ -237,6 +348,9 @@ model wp_group {
   created_by          BigInt?             @db.UnsignedBigInt
   group_description   String?             @db.VarChar(500)
   group_icon          String?             @db.VarChar(500)
+  only_admins_can_send      Boolean         @default(false)
+  only_admins_can_edit_info Boolean         @default(false)
+  invite_code         String?             @unique(map: "uq_group_invite_code") @db.VarChar(32)
   created_at          DateTime            @default(now()) @db.DateTime(0)
   updated_by          BigInt?             @db.UnsignedBigInt
   updated_at          DateTime?           @db.DateTime(0)
@@ -244,6 +358,8 @@ model wp_group {
   deleted_at          DateTime?           @db.DateTime(0)
   group_chat          group_chat[]
   group_member        group_member[]
+  community_link      community_group?
+  announces_for       community?          @relation("community_announcements")
   organization_master organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_group_org")
 
   @@index([deleted_at], map: "idx_group_deleted_at")
@@ -309,4 +425,470 @@ enum user_setting_status_privacy {
   EVERYONE
   CONTACTS
   NOBODY
+}
+
+// One row per conversation per owner. A self-chat is the row where owner = peer,
+// so the unique key allows exactly one self-chat for each membership.
+model conversation_state {
+  conversation_state_id      BigInt                 @id @default(autoincrement()) @db.UnsignedBigInt
+  owner_user_organization_id BigInt                 @db.UnsignedBigInt
+  peer_user_organization_id  BigInt                 @db.UnsignedBigInt
+  last_message_id            BigInt?                @db.UnsignedBigInt
+  unread_count               Int                    @default(0) @db.UnsignedInt
+  pinned_at                  DateTime?              @db.DateTime(0)
+  muted_until                DateTime?              @db.DateTime(0)
+  archived_at                DateTime?              @db.DateTime(0)
+  created_at                 DateTime               @default(now()) @db.DateTime(0)
+  updated_at                 DateTime?              @db.DateTime(0)
+  owner                      user_organization      @relation("conversation_state_owner", fields: [owner_user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_conversation_state_owner")
+  peer                       user_organization      @relation("conversation_state_peer", fields: [peer_user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_conversation_state_peer")
+  last_message               personal_chat_history? @relation(fields: [last_message_id], references: [chat_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_conversation_state_last_message")
+
+  @@unique([owner_user_organization_id, peer_user_organization_id], map: "uq_conversation_state_pair")
+  @@index([peer_user_organization_id], map: "idx_conversation_state_peer")
+  @@index([last_message_id], map: "idx_conversation_state_last_message")
+}
+
+// Per-viewer state of a personal message: starred, or deleted for that viewer only.
+model personal_message_state {
+  personal_message_state_id BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  chat_id                   BigInt                @db.UnsignedBigInt
+  user_organization_id      BigInt                @db.UnsignedBigInt
+  starred_at                DateTime?             @db.DateTime(0)
+  deleted_at                DateTime?             @db.DateTime(0)
+  created_at                DateTime              @default(now()) @db.DateTime(0)
+  updated_at                DateTime?             @db.DateTime(0)
+  message                   personal_chat_history @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_message_state_chat")
+  user_organization         user_organization     @relation(fields: [user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_message_state_user_org")
+
+  @@unique([chat_id, user_organization_id], map: "uq_message_state")
+  @@index([user_organization_id, starred_at], map: "idx_message_state_starred")
+}
+
+// One reaction per person per message.
+model message_reaction {
+  message_reaction_id  BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  chat_id              BigInt                @db.UnsignedBigInt
+  user_organization_id BigInt                @db.UnsignedBigInt
+  emoji                String                @db.VarChar(16)
+  created_at           DateTime              @default(now()) @db.DateTime(0)
+  message              personal_chat_history @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_message_reaction_chat")
+  user_organization    user_organization     @relation(fields: [user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_message_reaction_user_org")
+
+  @@unique([chat_id, user_organization_id], map: "uq_message_reaction")
+  @@index([user_organization_id], map: "idx_message_reaction_user_org")
+}
+
+model user_block {
+  user_block_id                BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
+  blocker_user_organization_id BigInt            @db.UnsignedBigInt
+  blocked_user_organization_id BigInt            @db.UnsignedBigInt
+  created_at                   DateTime          @default(now()) @db.DateTime(0)
+  blocker                      user_organization @relation("user_block_blocker", fields: [blocker_user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_block_blocker")
+  blocked                      user_organization @relation("user_block_blocked", fields: [blocked_user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_block_blocked")
+
+  @@unique([blocker_user_organization_id, blocked_user_organization_id], map: "uq_user_block_pair")
+  @@index([blocked_user_organization_id], map: "idx_user_block_blocked")
+}
+
+model user_report {
+  user_report_id                BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
+  reporter_user_organization_id BigInt            @db.UnsignedBigInt
+  reported_user_organization_id BigInt            @db.UnsignedBigInt
+  chat_id                       BigInt?           @db.UnsignedBigInt
+  reason                        String            @db.VarChar(50)
+  details                       String?           @db.Text
+  created_at                    DateTime          @default(now()) @db.DateTime(0)
+  reporter                      user_organization @relation("user_report_reporter", fields: [reporter_user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_report_reporter")
+  reported                      user_organization @relation("user_report_reported", fields: [reported_user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_report_reported")
+
+  @@index([reporter_user_organization_id], map: "idx_user_report_reporter")
+  @@index([reported_user_organization_id], map: "idx_user_report_reported")
+}
+
+enum external_policy {
+  INTERNAL_ONLY
+  SELECTED_ORGANIZATIONS
+  ALL_ORGANIZATIONS
+  DISABLED
+}
+
+enum permission_scope {
+  EVERYONE
+  ADMINS
+  NOBODY
+}
+
+enum join_mode {
+  OPEN
+  APPROVAL
+}
+
+enum relationship_status {
+  PENDING
+  APPROVED
+  REJECTED
+  REVOKED
+}
+
+enum join_request_status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// One row per organization. Defaults keep the behavior from before Phase 5:
+// internal chat on, no external communication.
+model organization_setting {
+  org_id                      BigInt              @id @db.UnsignedBigInt
+  internal_chat_enabled       Boolean             @default(true)
+  external_policy             external_policy     @default(INTERNAL_ONLY)
+  group_creation              permission_scope    @default(EVERYONE)
+  external_participants       permission_scope    @default(ADMINS)
+  broadcast_permission        permission_scope    @default(ADMINS)
+  file_sharing_enabled        Boolean             @default(true)
+  calls_enabled               Boolean             @default(true)
+  max_upload_mb               Int                 @default(25) @db.UnsignedInt
+  join_mode                   join_mode           @default(APPROVAL)
+  updated_by                  BigInt?             @db.UnsignedBigInt
+  updated_at                  DateTime?           @db.DateTime(0)
+  organization                organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_org_setting_org")
+}
+
+// One row per pair of organizations. pair_key is "smaller_id:larger_id", so a
+// pair can never have two relationships, whichever side asked first.
+model organization_relationship {
+  relationship_id     BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  pair_key            String              @unique(map: "uq_org_relationship_pair") @db.VarChar(45)
+  requester_org_id    BigInt              @db.UnsignedBigInt
+  target_org_id       BigInt              @db.UnsignedBigInt
+  status              relationship_status @default(PENDING)
+  requested_by        BigInt?             @db.UnsignedBigInt
+  responded_by        BigInt?             @db.UnsignedBigInt
+  created_at          DateTime            @default(now()) @db.DateTime(0)
+  responded_at        DateTime?           @db.DateTime(0)
+  updated_at          DateTime?           @db.DateTime(0)
+  requester           organization_master @relation("relationship_requester", fields: [requester_org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_org_rel_requester")
+  target              organization_master @relation("relationship_target", fields: [target_org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_org_rel_target")
+
+  @@index([requester_org_id, status], map: "idx_org_rel_requester")
+  @@index([target_org_id, status], map: "idx_org_rel_target")
+}
+
+model organization_audit_log {
+  audit_log_id      BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  org_id            BigInt              @db.UnsignedBigInt
+  actor_user_org_id BigInt?             @db.UnsignedBigInt
+  action            String              @db.VarChar(60)
+  target_type       String?             @db.VarChar(40)
+  target_id         String?             @db.VarChar(40)
+  details           Json?
+  created_at        DateTime            @default(now()) @db.DateTime(0)
+  organization      organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_audit_org")
+  actor             user_organization?  @relation(fields: [actor_user_org_id], references: [user_organization_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_audit_actor")
+
+  @@index([org_id, audit_log_id], map: "idx_audit_org")
+}
+
+model department {
+  department_id BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  org_id        BigInt              @db.UnsignedBigInt
+  name          String              @db.VarChar(100)
+  created_at    DateTime            @default(now()) @db.DateTime(0)
+  organization  organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_department_org")
+  members       user_organization[]
+  broadcast_targets org_broadcast_target[]
+
+  @@unique([org_id, name], map: "uq_department_name")
+}
+
+// An admin invites a phone number. That number then joins without approval.
+model organization_invite {
+  invite_id    BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  org_id       BigInt              @db.UnsignedBigInt
+  country_code String              @db.VarChar(10)
+  mobile_no    String              @db.VarChar(20)
+  invited_by   BigInt?             @db.UnsignedBigInt
+  created_at   DateTime            @default(now()) @db.DateTime(0)
+  expires_at   DateTime            @db.DateTime(0)
+  accepted_at  DateTime?           @db.DateTime(0)
+  revoked_at   DateTime?           @db.DateTime(0)
+  organization organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_invite_org")
+  inviter      user_organization?  @relation(fields: [invited_by], references: [user_organization_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_invite_inviter")
+
+  @@unique([org_id, country_code, mobile_no], map: "uq_invite_phone")
+}
+
+// A verified person asking to join an organization they were not invited to.
+model organization_join_request {
+  join_request_id BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  org_id          BigInt              @db.UnsignedBigInt
+  user_id         BigInt              @db.UnsignedBigInt
+  status          join_request_status @default(PENDING)
+  decided_by      BigInt?             @db.UnsignedBigInt
+  created_at      DateTime            @default(now()) @db.DateTime(0)
+  decided_at      DateTime?           @db.DateTime(0)
+  organization    organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_join_request_org")
+  user            user_master         @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_join_request_user")
+
+  @@unique([org_id, user_id], map: "uq_join_request")
+  @@index([org_id, status], map: "idx_join_request_status")
+}
+
+// Recipients get their own row. Other organizations and recipients are never
+// listed to them; the sender sees per-organization totals.
+model org_broadcast {
+  broadcast_id        BigInt                    @id @default(autoincrement()) @db.UnsignedBigInt
+  sender_user_org_id  BigInt                    @db.UnsignedBigInt
+  sender_org_id       BigInt                    @db.UnsignedBigInt
+  title               String?                   @db.VarChar(150)
+  message             String                    @db.Text
+  is_announcement     Boolean                   @default(true)
+  created_at          DateTime                  @default(now()) @db.DateTime(0)
+  sender              user_organization         @relation(fields: [sender_user_org_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_broadcast_sender")
+  sender_organization organization_master       @relation(fields: [sender_org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_broadcast_sender_org")
+  targets             org_broadcast_target[]
+  recipients          org_broadcast_recipient[]
+
+  @@index([sender_org_id, broadcast_id], map: "idx_broadcast_sender_org")
+}
+
+model org_broadcast_target {
+  broadcast_target_id BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  broadcast_id        BigInt              @db.UnsignedBigInt
+  org_id              BigInt              @db.UnsignedBigInt
+  department_id       BigInt?             @db.UnsignedBigInt
+  broadcast           org_broadcast       @relation(fields: [broadcast_id], references: [broadcast_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_broadcast_target_broadcast")
+  organization        organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_broadcast_target_org")
+  department          department?         @relation(fields: [department_id], references: [department_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_broadcast_target_department")
+
+  @@index([broadcast_id], map: "idx_broadcast_target_broadcast")
+}
+
+model org_broadcast_recipient {
+  broadcast_recipient_id BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  broadcast_id           BigInt              @db.UnsignedBigInt
+  recipient_user_org_id  BigInt              @db.UnsignedBigInt
+  org_id                 BigInt              @db.UnsignedBigInt
+  delivered_at           DateTime?           @db.DateTime(0)
+  read_at                DateTime?           @db.DateTime(0)
+  broadcast              org_broadcast       @relation(fields: [broadcast_id], references: [broadcast_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_broadcast_recipient_broadcast")
+  recipient              user_organization   @relation(fields: [recipient_user_org_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_broadcast_recipient_user_org")
+  organization           organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_broadcast_recipient_org")
+
+  @@unique([broadcast_id, recipient_user_org_id], map: "uq_broadcast_recipient")
+  @@index([recipient_user_org_id, broadcast_id], map: "idx_broadcast_recipient_inbox")
+  @@index([broadcast_id, org_id], map: "idx_broadcast_recipient_org")
+}
+
+enum media_kind {
+  IMAGE
+  VIDEO
+  AUDIO
+  VOICE
+  DOCUMENT
+  AVATAR
+}
+
+enum media_status {
+  PENDING
+  READY
+}
+
+// File contents live in the storage provider (local disk or a bucket), never
+// in MySQL. This row holds what is needed to authorize and serve them.
+model media_file {
+  media_id             BigInt                  @id @default(autoincrement()) @db.UnsignedBigInt
+  owner_user_org_id    BigInt                  @db.UnsignedBigInt
+  kind                 media_kind
+  status               media_status            @default(PENDING)
+  storage_provider     String                  @db.VarChar(20)
+  storage_key          String                  @unique(map: "uq_media_storage_key") @db.VarChar(255)
+  thumbnail_key        String?                 @db.VarChar(255)
+  original_name        String                  @db.VarChar(255)
+  mime_type            String                  @db.VarChar(100)
+  declared_size        BigInt                  @db.UnsignedBigInt
+  size_bytes           BigInt?                 @db.UnsignedBigInt
+  checksum_sha256      String?                 @db.Char(64)
+  width                Int?                    @db.UnsignedInt
+  height               Int?                    @db.UnsignedInt
+  duration_ms          Int?                    @db.UnsignedInt
+  created_at           DateTime                @default(now()) @db.DateTime(0)
+  completed_at         DateTime?               @db.DateTime(0)
+  deleted_at           DateTime?               @db.DateTime(0)
+  owner                user_organization       @relation(fields: [owner_user_org_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_media_owner")
+  personal_messages    personal_chat_history[]
+  group_messages       group_chat[]
+  profile_photo_of     user_master[]           @relation("profile_photo")
+  status_posts         status_post[]
+  channel_posts        channel_post[]
+
+  @@index([owner_user_org_id, status], map: "idx_media_owner")
+}
+
+enum status_kind {
+  TEXT
+  IMAGE
+  VIDEO
+}
+
+enum status_audience_mode {
+  EVERYONE
+  CONTACTS
+  SELECTED
+}
+
+enum channel_role {
+  OWNER
+  ADMIN
+  FOLLOWER
+}
+
+// A 24-hour status update. The audience is fixed when it is posted.
+model status_post {
+  status_id         BigInt               @id @default(autoincrement()) @db.UnsignedBigInt
+  owner_user_org_id BigInt               @db.UnsignedBigInt
+  kind              status_kind
+  text              String?              @db.VarChar(700)
+  background_color  String?              @db.VarChar(9)
+  media_id          BigInt?              @db.UnsignedBigInt
+  audience          status_audience_mode
+  created_at        DateTime             @default(now()) @db.DateTime(0)
+  expires_at        DateTime             @db.DateTime(0)
+  deleted_at        DateTime?            @db.DateTime(0)
+  owner             user_organization    @relation(fields: [owner_user_org_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_status_owner")
+  media_file        media_file?          @relation(fields: [media_id], references: [media_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_status_media")
+  views             status_view[]
+  audience_members  status_audience[]
+
+  @@index([owner_user_org_id, expires_at], map: "idx_status_owner")
+  @@index([expires_at], map: "idx_status_expires")
+  @@index([media_id], map: "idx_status_media")
+}
+
+model status_audience {
+  status_id            BigInt            @db.UnsignedBigInt
+  user_organization_id BigInt            @db.UnsignedBigInt
+  status               status_post       @relation(fields: [status_id], references: [status_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_status_audience_status")
+  member               user_organization @relation(fields: [user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_status_audience_member")
+
+  @@id([status_id, user_organization_id])
+  @@index([user_organization_id], map: "idx_status_audience_member")
+}
+
+model status_view {
+  status_id      BigInt            @db.UnsignedBigInt
+  viewer_user_org_id BigInt        @db.UnsignedBigInt
+  viewed_at      DateTime          @default(now()) @db.DateTime(0)
+  status         status_post       @relation(fields: [status_id], references: [status_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_status_view_status")
+  viewer         user_organization @relation(fields: [viewer_user_org_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_status_view_viewer")
+
+  @@id([status_id, viewer_user_org_id])
+  @@index([viewer_user_org_id], map: "idx_status_view_viewer")
+}
+
+// A one-way channel. Followers never see who else follows.
+model channel {
+  channel_id   BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  org_id       BigInt              @db.UnsignedBigInt
+  name         String              @db.VarChar(150)
+  description  String?             @db.VarChar(500)
+  created_at   DateTime            @default(now()) @db.DateTime(0)
+  deleted_at   DateTime?           @db.DateTime(0)
+  organization organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_channel_org")
+  members      channel_member[]
+  posts        channel_post[]
+
+  @@index([org_id], map: "idx_channel_org")
+}
+
+model channel_member {
+  channel_id           BigInt            @db.UnsignedBigInt
+  user_organization_id BigInt            @db.UnsignedBigInt
+  role                 channel_role      @default(FOLLOWER)
+  muted                Boolean           @default(false)
+  last_read_post_id    BigInt?           @db.UnsignedBigInt
+  created_at           DateTime          @default(now()) @db.DateTime(0)
+  channel              channel           @relation(fields: [channel_id], references: [channel_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_channel_member_channel")
+  member               user_organization @relation(fields: [user_organization_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_channel_member_member")
+
+  @@id([channel_id, user_organization_id])
+  @@index([user_organization_id], map: "idx_channel_member_member")
+}
+
+model channel_post {
+  post_id            BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
+  channel_id         BigInt            @db.UnsignedBigInt
+  author_user_org_id BigInt            @db.UnsignedBigInt
+  text               String?           @db.Text
+  media_id           BigInt?           @db.UnsignedBigInt
+  created_at         DateTime          @default(now()) @db.DateTime(0)
+  deleted_at         DateTime?         @db.DateTime(0)
+  channel            channel           @relation(fields: [channel_id], references: [channel_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_channel_post_channel")
+  author             user_organization @relation(fields: [author_user_org_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_channel_post_author")
+  media_file         media_file?       @relation(fields: [media_id], references: [media_id], onDelete: SetNull, onUpdate: NoAction, map: "fk_channel_post_media")
+
+  @@index([channel_id, post_id], map: "idx_channel_post_channel")
+  @@index([media_id], map: "idx_channel_post_media")
+}
+
+// A community links groups; its announcement group reaches all their members.
+model community {
+  community_id          BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  org_id                BigInt              @db.UnsignedBigInt
+  name                  String              @db.VarChar(150)
+  description           String?             @db.VarChar(500)
+  announcement_group_id BigInt              @unique(map: "uq_community_announcements") @db.UnsignedBigInt
+  created_by            BigInt?             @db.UnsignedBigInt
+  created_at            DateTime            @default(now()) @db.DateTime(0)
+  deleted_at            DateTime?           @db.DateTime(0)
+  organization          organization_master @relation(fields: [org_id], references: [org_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_community_org")
+  announcement_group    wp_group            @relation("community_announcements", fields: [announcement_group_id], references: [group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_community_announcement_group")
+  groups                community_group[]
+}
+
+model community_group {
+  community_id BigInt    @db.UnsignedBigInt
+  group_id     BigInt    @unique(map: "uq_community_group") @db.UnsignedBigInt
+  added_at     DateTime  @default(now()) @db.DateTime(0)
+  community    community @relation(fields: [community_id], references: [community_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_community_group_community")
+  group        wp_group  @relation(fields: [group_id], references: [group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_community_group_group")
+
+  @@id([community_id, group_id])
+}
+
+enum call_type {
+  AUDIO
+  VIDEO
+}
+
+enum call_status {
+  RINGING
+  ONGOING
+  ENDED
+  MISSED
+  REJECTED
+  CANCELLED
+  BUSY
+  FAILED
+}
+
+// One-to-one calls. Media flows between the phones over WebRTC; the server
+// only relays signaling and keeps this record for call history.
+model call_session {
+  call_id            BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
+  caller_user_org_id BigInt            @db.UnsignedBigInt
+  callee_user_org_id BigInt            @db.UnsignedBigInt
+  type               call_type
+  status             call_status       @default(RINGING)
+  end_reason         String?           @db.VarChar(40)
+  created_at         DateTime          @default(now()) @db.DateTime(0)
+  answered_at        DateTime?         @db.DateTime(0)
+  ended_at           DateTime?         @db.DateTime(0)
+  caller             user_organization @relation("call_caller", fields: [caller_user_org_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_call_caller")
+  callee             user_organization @relation("call_callee", fields: [callee_user_org_id], references: [user_organization_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_call_callee")
+
+  @@index([caller_user_org_id, call_id], map: "idx_call_caller")
+  @@index([callee_user_org_id, call_id], map: "idx_call_callee")
+  @@index([status], map: "idx_call_status")
 }

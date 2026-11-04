@@ -13,7 +13,6 @@ export const requestNotificationPermission = async () => {
 
         const token = await getToken(messaging);
 
-        console.log('🔥 FCM TOKEN:', token);
 
         return token;
     } catch (error) {
@@ -26,7 +25,6 @@ export const getFCMToken = async () => {
     try {
         const token = await getToken(messaging);
 
-        console.log('🔥 FCM TOKEN:', token);
 
         return token;
     } catch (error) {

@@ -33,6 +33,21 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+		<string>audio</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Take photos and videos to send in chats.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Unlock the app with Face ID when app lock is on.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Record voice messages and videos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Choose photos and videos to send in chats and to set your profile photo.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Save photos and videos you receive.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>We need access to your contacts to find out which of your friends are already using the app.</string>
 	<key>RCTNewArchEnabled</key>

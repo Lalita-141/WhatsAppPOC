@@ -51,6 +51,11 @@ export type User_settingMinAggregateOutputType = {
   read_receipts: boolean | null
   typing_indicator: boolean | null
   status_privacy: $Enums.user_setting_status_privacy | null
+  notify_messages: boolean | null
+  notify_groups: boolean | null
+  notify_announcements: boolean | null
+  notify_calls: boolean | null
+  show_preview: boolean | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -68,6 +73,11 @@ export type User_settingMaxAggregateOutputType = {
   read_receipts: boolean | null
   typing_indicator: boolean | null
   status_privacy: $Enums.user_setting_status_privacy | null
+  notify_messages: boolean | null
+  notify_groups: boolean | null
+  notify_announcements: boolean | null
+  notify_calls: boolean | null
+  show_preview: boolean | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -85,6 +95,11 @@ export type User_settingCountAggregateOutputType = {
   read_receipts: number
   typing_indicator: number
   status_privacy: number
+  notify_messages: number
+  notify_groups: number
+  notify_announcements: number
+  notify_calls: number
+  show_preview: number
   created_by: number
   created_at: number
   updated_by: number
@@ -120,6 +135,11 @@ export type User_settingMinAggregateInputType = {
   read_receipts?: true
   typing_indicator?: true
   status_privacy?: true
+  notify_messages?: true
+  notify_groups?: true
+  notify_announcements?: true
+  notify_calls?: true
+  show_preview?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -137,6 +157,11 @@ export type User_settingMaxAggregateInputType = {
   read_receipts?: true
   typing_indicator?: true
   status_privacy?: true
+  notify_messages?: true
+  notify_groups?: true
+  notify_announcements?: true
+  notify_calls?: true
+  show_preview?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -154,6 +179,11 @@ export type User_settingCountAggregateInputType = {
   read_receipts?: true
   typing_indicator?: true
   status_privacy?: true
+  notify_messages?: true
+  notify_groups?: true
+  notify_announcements?: true
+  notify_calls?: true
+  show_preview?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -258,6 +288,11 @@ export type User_settingGroupByOutputType = {
   read_receipts: boolean
   typing_indicator: boolean
   status_privacy: $Enums.user_setting_status_privacy
+  notify_messages: boolean
+  notify_groups: boolean
+  notify_announcements: boolean
+  notify_calls: boolean
+  show_preview: boolean
   created_by: bigint | null
   created_at: Date
   updated_by: bigint | null
@@ -298,6 +333,11 @@ export type user_settingWhereInput = {
   read_receipts?: Prisma.BoolFilter<"user_setting"> | boolean
   typing_indicator?: Prisma.BoolFilter<"user_setting"> | boolean
   status_privacy?: Prisma.Enumuser_setting_status_privacyFilter<"user_setting"> | $Enums.user_setting_status_privacy
+  notify_messages?: Prisma.BoolFilter<"user_setting"> | boolean
+  notify_groups?: Prisma.BoolFilter<"user_setting"> | boolean
+  notify_announcements?: Prisma.BoolFilter<"user_setting"> | boolean
+  notify_calls?: Prisma.BoolFilter<"user_setting"> | boolean
+  show_preview?: Prisma.BoolFilter<"user_setting"> | boolean
   created_by?: Prisma.BigIntNullableFilter<"user_setting"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"user_setting"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"user_setting"> | bigint | number | null
@@ -316,6 +356,11 @@ export type user_settingOrderByWithRelationInput = {
   read_receipts?: Prisma.SortOrder
   typing_indicator?: Prisma.SortOrder
   status_privacy?: Prisma.SortOrder
+  notify_messages?: Prisma.SortOrder
+  notify_groups?: Prisma.SortOrder
+  notify_announcements?: Prisma.SortOrder
+  notify_calls?: Prisma.SortOrder
+  show_preview?: Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -337,6 +382,11 @@ export type user_settingWhereUniqueInput = Prisma.AtLeast<{
   read_receipts?: Prisma.BoolFilter<"user_setting"> | boolean
   typing_indicator?: Prisma.BoolFilter<"user_setting"> | boolean
   status_privacy?: Prisma.Enumuser_setting_status_privacyFilter<"user_setting"> | $Enums.user_setting_status_privacy
+  notify_messages?: Prisma.BoolFilter<"user_setting"> | boolean
+  notify_groups?: Prisma.BoolFilter<"user_setting"> | boolean
+  notify_announcements?: Prisma.BoolFilter<"user_setting"> | boolean
+  notify_calls?: Prisma.BoolFilter<"user_setting"> | boolean
+  show_preview?: Prisma.BoolFilter<"user_setting"> | boolean
   created_by?: Prisma.BigIntNullableFilter<"user_setting"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"user_setting"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"user_setting"> | bigint | number | null
@@ -355,6 +405,11 @@ export type user_settingOrderByWithAggregationInput = {
   read_receipts?: Prisma.SortOrder
   typing_indicator?: Prisma.SortOrder
   status_privacy?: Prisma.SortOrder
+  notify_messages?: Prisma.SortOrder
+  notify_groups?: Prisma.SortOrder
+  notify_announcements?: Prisma.SortOrder
+  notify_calls?: Prisma.SortOrder
+  show_preview?: Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -380,6 +435,11 @@ export type user_settingScalarWhereWithAggregatesInput = {
   read_receipts?: Prisma.BoolWithAggregatesFilter<"user_setting"> | boolean
   typing_indicator?: Prisma.BoolWithAggregatesFilter<"user_setting"> | boolean
   status_privacy?: Prisma.Enumuser_setting_status_privacyWithAggregatesFilter<"user_setting"> | $Enums.user_setting_status_privacy
+  notify_messages?: Prisma.BoolWithAggregatesFilter<"user_setting"> | boolean
+  notify_groups?: Prisma.BoolWithAggregatesFilter<"user_setting"> | boolean
+  notify_announcements?: Prisma.BoolWithAggregatesFilter<"user_setting"> | boolean
+  notify_calls?: Prisma.BoolWithAggregatesFilter<"user_setting"> | boolean
+  show_preview?: Prisma.BoolWithAggregatesFilter<"user_setting"> | boolean
   created_by?: Prisma.BigIntNullableWithAggregatesFilter<"user_setting"> | bigint | number | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"user_setting"> | Date | string
   updated_by?: Prisma.BigIntNullableWithAggregatesFilter<"user_setting"> | bigint | number | null
@@ -396,6 +456,11 @@ export type user_settingCreateInput = {
   read_receipts?: boolean
   typing_indicator?: boolean
   status_privacy?: $Enums.user_setting_status_privacy
+  notify_messages?: boolean
+  notify_groups?: boolean
+  notify_announcements?: boolean
+  notify_calls?: boolean
+  show_preview?: boolean
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -414,6 +479,11 @@ export type user_settingUncheckedCreateInput = {
   read_receipts?: boolean
   typing_indicator?: boolean
   status_privacy?: $Enums.user_setting_status_privacy
+  notify_messages?: boolean
+  notify_groups?: boolean
+  notify_announcements?: boolean
+  notify_calls?: boolean
+  show_preview?: boolean
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -430,6 +500,11 @@ export type user_settingUpdateInput = {
   read_receipts?: Prisma.BoolFieldUpdateOperationsInput | boolean
   typing_indicator?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_privacy?: Prisma.Enumuser_setting_status_privacyFieldUpdateOperationsInput | $Enums.user_setting_status_privacy
+  notify_messages?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_groups?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_announcements?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_calls?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  show_preview?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -448,6 +523,11 @@ export type user_settingUncheckedUpdateInput = {
   read_receipts?: Prisma.BoolFieldUpdateOperationsInput | boolean
   typing_indicator?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_privacy?: Prisma.Enumuser_setting_status_privacyFieldUpdateOperationsInput | $Enums.user_setting_status_privacy
+  notify_messages?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_groups?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_announcements?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_calls?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  show_preview?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -465,6 +545,11 @@ export type user_settingCreateManyInput = {
   read_receipts?: boolean
   typing_indicator?: boolean
   status_privacy?: $Enums.user_setting_status_privacy
+  notify_messages?: boolean
+  notify_groups?: boolean
+  notify_announcements?: boolean
+  notify_calls?: boolean
+  show_preview?: boolean
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -481,6 +566,11 @@ export type user_settingUpdateManyMutationInput = {
   read_receipts?: Prisma.BoolFieldUpdateOperationsInput | boolean
   typing_indicator?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_privacy?: Prisma.Enumuser_setting_status_privacyFieldUpdateOperationsInput | $Enums.user_setting_status_privacy
+  notify_messages?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_groups?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_announcements?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_calls?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  show_preview?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -498,6 +588,11 @@ export type user_settingUncheckedUpdateManyInput = {
   read_receipts?: Prisma.BoolFieldUpdateOperationsInput | boolean
   typing_indicator?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_privacy?: Prisma.Enumuser_setting_status_privacyFieldUpdateOperationsInput | $Enums.user_setting_status_privacy
+  notify_messages?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_groups?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_announcements?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_calls?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  show_preview?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -520,6 +615,11 @@ export type user_settingCountOrderByAggregateInput = {
   read_receipts?: Prisma.SortOrder
   typing_indicator?: Prisma.SortOrder
   status_privacy?: Prisma.SortOrder
+  notify_messages?: Prisma.SortOrder
+  notify_groups?: Prisma.SortOrder
+  notify_announcements?: Prisma.SortOrder
+  notify_calls?: Prisma.SortOrder
+  show_preview?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -545,6 +645,11 @@ export type user_settingMaxOrderByAggregateInput = {
   read_receipts?: Prisma.SortOrder
   typing_indicator?: Prisma.SortOrder
   status_privacy?: Prisma.SortOrder
+  notify_messages?: Prisma.SortOrder
+  notify_groups?: Prisma.SortOrder
+  notify_announcements?: Prisma.SortOrder
+  notify_calls?: Prisma.SortOrder
+  show_preview?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -562,6 +667,11 @@ export type user_settingMinOrderByAggregateInput = {
   read_receipts?: Prisma.SortOrder
   typing_indicator?: Prisma.SortOrder
   status_privacy?: Prisma.SortOrder
+  notify_messages?: Prisma.SortOrder
+  notify_groups?: Prisma.SortOrder
+  notify_announcements?: Prisma.SortOrder
+  notify_calls?: Prisma.SortOrder
+  show_preview?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -634,6 +744,11 @@ export type user_settingCreateWithoutUser_organizationInput = {
   read_receipts?: boolean
   typing_indicator?: boolean
   status_privacy?: $Enums.user_setting_status_privacy
+  notify_messages?: boolean
+  notify_groups?: boolean
+  notify_announcements?: boolean
+  notify_calls?: boolean
+  show_preview?: boolean
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -650,6 +765,11 @@ export type user_settingUncheckedCreateWithoutUser_organizationInput = {
   read_receipts?: boolean
   typing_indicator?: boolean
   status_privacy?: $Enums.user_setting_status_privacy
+  notify_messages?: boolean
+  notify_groups?: boolean
+  notify_announcements?: boolean
+  notify_calls?: boolean
+  show_preview?: boolean
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -682,6 +802,11 @@ export type user_settingUpdateWithoutUser_organizationInput = {
   read_receipts?: Prisma.BoolFieldUpdateOperationsInput | boolean
   typing_indicator?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_privacy?: Prisma.Enumuser_setting_status_privacyFieldUpdateOperationsInput | $Enums.user_setting_status_privacy
+  notify_messages?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_groups?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_announcements?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_calls?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  show_preview?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -698,6 +823,11 @@ export type user_settingUncheckedUpdateWithoutUser_organizationInput = {
   read_receipts?: Prisma.BoolFieldUpdateOperationsInput | boolean
   typing_indicator?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status_privacy?: Prisma.Enumuser_setting_status_privacyFieldUpdateOperationsInput | $Enums.user_setting_status_privacy
+  notify_messages?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_groups?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_announcements?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notify_calls?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  show_preview?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -717,6 +847,11 @@ export type user_settingSelect<ExtArgs extends runtime.Types.Extensions.Internal
   read_receipts?: boolean
   typing_indicator?: boolean
   status_privacy?: boolean
+  notify_messages?: boolean
+  notify_groups?: boolean
+  notify_announcements?: boolean
+  notify_calls?: boolean
+  show_preview?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
@@ -737,6 +872,11 @@ export type user_settingSelectScalar = {
   read_receipts?: boolean
   typing_indicator?: boolean
   status_privacy?: boolean
+  notify_messages?: boolean
+  notify_groups?: boolean
+  notify_announcements?: boolean
+  notify_calls?: boolean
+  show_preview?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
@@ -745,7 +885,7 @@ export type user_settingSelectScalar = {
   deleted_at?: boolean
 }
 
-export type user_settingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"setting_id" | "user_organization_id" | "about_privacy" | "profile_privacy" | "last_seen_privacy" | "read_receipts" | "typing_indicator" | "status_privacy" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["user_setting"]>
+export type user_settingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"setting_id" | "user_organization_id" | "about_privacy" | "profile_privacy" | "last_seen_privacy" | "read_receipts" | "typing_indicator" | "status_privacy" | "notify_messages" | "notify_groups" | "notify_announcements" | "notify_calls" | "show_preview" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["user_setting"]>
 export type user_settingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
 }
@@ -764,6 +904,11 @@ export type $user_settingPayload<ExtArgs extends runtime.Types.Extensions.Intern
     read_receipts: boolean
     typing_indicator: boolean
     status_privacy: $Enums.user_setting_status_privacy
+    notify_messages: boolean
+    notify_groups: boolean
+    notify_announcements: boolean
+    notify_calls: boolean
+    show_preview: boolean
     created_by: bigint | null
     created_at: Date
     updated_by: bigint | null
@@ -1148,6 +1293,11 @@ export interface user_settingFieldRefs {
   readonly read_receipts: Prisma.FieldRef<"user_setting", 'Boolean'>
   readonly typing_indicator: Prisma.FieldRef<"user_setting", 'Boolean'>
   readonly status_privacy: Prisma.FieldRef<"user_setting", 'user_setting_status_privacy'>
+  readonly notify_messages: Prisma.FieldRef<"user_setting", 'Boolean'>
+  readonly notify_groups: Prisma.FieldRef<"user_setting", 'Boolean'>
+  readonly notify_announcements: Prisma.FieldRef<"user_setting", 'Boolean'>
+  readonly notify_calls: Prisma.FieldRef<"user_setting", 'Boolean'>
+  readonly show_preview: Prisma.FieldRef<"user_setting", 'Boolean'>
   readonly created_by: Prisma.FieldRef<"user_setting", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"user_setting", 'DateTime'>
   readonly updated_by: Prisma.FieldRef<"user_setting", 'BigInt'>

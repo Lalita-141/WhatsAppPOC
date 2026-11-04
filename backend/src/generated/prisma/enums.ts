@@ -69,3 +69,118 @@ export const user_setting_status_privacy = {
 } as const
 
 export type user_setting_status_privacy = (typeof user_setting_status_privacy)[keyof typeof user_setting_status_privacy]
+
+
+export const external_policy = {
+  INTERNAL_ONLY: 'INTERNAL_ONLY',
+  SELECTED_ORGANIZATIONS: 'SELECTED_ORGANIZATIONS',
+  ALL_ORGANIZATIONS: 'ALL_ORGANIZATIONS',
+  DISABLED: 'DISABLED'
+} as const
+
+export type external_policy = (typeof external_policy)[keyof typeof external_policy]
+
+
+export const permission_scope = {
+  EVERYONE: 'EVERYONE',
+  ADMINS: 'ADMINS',
+  NOBODY: 'NOBODY'
+} as const
+
+export type permission_scope = (typeof permission_scope)[keyof typeof permission_scope]
+
+
+export const join_mode = {
+  OPEN: 'OPEN',
+  APPROVAL: 'APPROVAL'
+} as const
+
+export type join_mode = (typeof join_mode)[keyof typeof join_mode]
+
+
+export const relationship_status = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  REVOKED: 'REVOKED'
+} as const
+
+export type relationship_status = (typeof relationship_status)[keyof typeof relationship_status]
+
+
+export const join_request_status = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type join_request_status = (typeof join_request_status)[keyof typeof join_request_status]
+
+
+export const media_kind = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
+  AUDIO: 'AUDIO',
+  VOICE: 'VOICE',
+  DOCUMENT: 'DOCUMENT',
+  AVATAR: 'AVATAR'
+} as const
+
+export type media_kind = (typeof media_kind)[keyof typeof media_kind]
+
+
+export const media_status = {
+  PENDING: 'PENDING',
+  READY: 'READY'
+} as const
+
+export type media_status = (typeof media_status)[keyof typeof media_status]
+
+
+export const status_kind = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+} as const
+
+export type status_kind = (typeof status_kind)[keyof typeof status_kind]
+
+
+export const status_audience_mode = {
+  EVERYONE: 'EVERYONE',
+  CONTACTS: 'CONTACTS',
+  SELECTED: 'SELECTED'
+} as const
+
+export type status_audience_mode = (typeof status_audience_mode)[keyof typeof status_audience_mode]
+
+
+export const channel_role = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  FOLLOWER: 'FOLLOWER'
+} as const
+
+export type channel_role = (typeof channel_role)[keyof typeof channel_role]
+
+
+export const call_type = {
+  AUDIO: 'AUDIO',
+  VIDEO: 'VIDEO'
+} as const
+
+export type call_type = (typeof call_type)[keyof typeof call_type]
+
+
+export const call_status = {
+  RINGING: 'RINGING',
+  ONGOING: 'ONGOING',
+  ENDED: 'ENDED',
+  MISSED: 'MISSED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED',
+  BUSY: 'BUSY',
+  FAILED: 'FAILED'
+} as const
+
+export type call_status = (typeof call_status)[keyof typeof call_status]

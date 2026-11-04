@@ -21,6 +21,7 @@ export const registerDeviceController = async (
             fcmToken,
             deviceType,
             deviceName,
+            req.user!.sessionId,
         );
 
         return res.status(200).json({
@@ -41,7 +42,10 @@ export const unregisterDeviceController = async (
     try {
         const { fcmToken } = req.body;
 
-        const result = await unregisterDeviceToken(fcmToken);
+        const result = await unregisterDeviceToken(
+            fcmToken,
+            req.user!.userOrganizationId,
+        );
 
         return res.status(200).json({
             success: true,

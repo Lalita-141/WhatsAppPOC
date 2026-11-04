@@ -63,6 +63,11 @@ export type user_organization = Prisma.user_organizationModel
  */
 export type user_device = Prisma.user_deviceModel
 /**
+ * Model user_session
+ * 
+ */
+export type user_session = Prisma.user_sessionModel
+/**
  * Model user_setting
  * 
  */
@@ -77,3 +82,123 @@ export type wp_group = Prisma.wp_groupModel
  * 
  */
 export type country_master = Prisma.country_masterModel
+/**
+ * Model conversation_state
+ * 
+ */
+export type conversation_state = Prisma.conversation_stateModel
+/**
+ * Model personal_message_state
+ * 
+ */
+export type personal_message_state = Prisma.personal_message_stateModel
+/**
+ * Model message_reaction
+ * 
+ */
+export type message_reaction = Prisma.message_reactionModel
+/**
+ * Model user_block
+ * 
+ */
+export type user_block = Prisma.user_blockModel
+/**
+ * Model user_report
+ * 
+ */
+export type user_report = Prisma.user_reportModel
+/**
+ * Model organization_setting
+ * 
+ */
+export type organization_setting = Prisma.organization_settingModel
+/**
+ * Model organization_relationship
+ * 
+ */
+export type organization_relationship = Prisma.organization_relationshipModel
+/**
+ * Model organization_audit_log
+ * 
+ */
+export type organization_audit_log = Prisma.organization_audit_logModel
+/**
+ * Model department
+ * 
+ */
+export type department = Prisma.departmentModel
+/**
+ * Model organization_invite
+ * 
+ */
+export type organization_invite = Prisma.organization_inviteModel
+/**
+ * Model organization_join_request
+ * 
+ */
+export type organization_join_request = Prisma.organization_join_requestModel
+/**
+ * Model org_broadcast
+ * 
+ */
+export type org_broadcast = Prisma.org_broadcastModel
+/**
+ * Model org_broadcast_target
+ * 
+ */
+export type org_broadcast_target = Prisma.org_broadcast_targetModel
+/**
+ * Model org_broadcast_recipient
+ * 
+ */
+export type org_broadcast_recipient = Prisma.org_broadcast_recipientModel
+/**
+ * Model media_file
+ * 
+ */
+export type media_file = Prisma.media_fileModel
+/**
+ * Model status_post
+ * 
+ */
+export type status_post = Prisma.status_postModel
+/**
+ * Model status_audience
+ * 
+ */
+export type status_audience = Prisma.status_audienceModel
+/**
+ * Model status_view
+ * 
+ */
+export type status_view = Prisma.status_viewModel
+/**
+ * Model channel
+ * 
+ */
+export type channel = Prisma.channelModel
+/**
+ * Model channel_member
+ * 
+ */
+export type channel_member = Prisma.channel_memberModel
+/**
+ * Model channel_post
+ * 
+ */
+export type channel_post = Prisma.channel_postModel
+/**
+ * Model community
+ * 
+ */
+export type community = Prisma.communityModel
+/**
+ * Model community_group
+ * 
+ */
+export type community_group = Prisma.community_groupModel
+/**
+ * Model call_session
+ * 
+ */
+export type call_session = Prisma.call_sessionModel

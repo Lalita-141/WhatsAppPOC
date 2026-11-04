@@ -31,6 +31,7 @@ export type User_masterAvgAggregateOutputType = {
   created_by: number | null
   updated_by: number | null
   deleted_by: number | null
+  profile_photo_media_id: number | null
 }
 
 export type User_masterSumAggregateOutputType = {
@@ -38,12 +39,14 @@ export type User_masterSumAggregateOutputType = {
   created_by: bigint | null
   updated_by: bigint | null
   deleted_by: bigint | null
+  profile_photo_media_id: bigint | null
 }
 
 export type User_masterMinAggregateOutputType = {
   user_id: bigint | null
   first_name: string | null
   last_name: string | null
+  country_code: string | null
   mobile_no: string | null
   profile_photo: string | null
   about: string | null
@@ -54,12 +57,14 @@ export type User_masterMinAggregateOutputType = {
   updated_at: Date | null
   deleted_by: bigint | null
   deleted_at: Date | null
+  profile_photo_media_id: bigint | null
 }
 
 export type User_masterMaxAggregateOutputType = {
   user_id: bigint | null
   first_name: string | null
   last_name: string | null
+  country_code: string | null
   mobile_no: string | null
   profile_photo: string | null
   about: string | null
@@ -70,12 +75,14 @@ export type User_masterMaxAggregateOutputType = {
   updated_at: Date | null
   deleted_by: bigint | null
   deleted_at: Date | null
+  profile_photo_media_id: bigint | null
 }
 
 export type User_masterCountAggregateOutputType = {
   user_id: number
   first_name: number
   last_name: number
+  country_code: number
   mobile_no: number
   profile_photo: number
   about: number
@@ -86,6 +93,7 @@ export type User_masterCountAggregateOutputType = {
   updated_at: number
   deleted_by: number
   deleted_at: number
+  profile_photo_media_id: number
   _all: number
 }
 
@@ -95,6 +103,7 @@ export type User_masterAvgAggregateInputType = {
   created_by?: true
   updated_by?: true
   deleted_by?: true
+  profile_photo_media_id?: true
 }
 
 export type User_masterSumAggregateInputType = {
@@ -102,12 +111,14 @@ export type User_masterSumAggregateInputType = {
   created_by?: true
   updated_by?: true
   deleted_by?: true
+  profile_photo_media_id?: true
 }
 
 export type User_masterMinAggregateInputType = {
   user_id?: true
   first_name?: true
   last_name?: true
+  country_code?: true
   mobile_no?: true
   profile_photo?: true
   about?: true
@@ -118,12 +129,14 @@ export type User_masterMinAggregateInputType = {
   updated_at?: true
   deleted_by?: true
   deleted_at?: true
+  profile_photo_media_id?: true
 }
 
 export type User_masterMaxAggregateInputType = {
   user_id?: true
   first_name?: true
   last_name?: true
+  country_code?: true
   mobile_no?: true
   profile_photo?: true
   about?: true
@@ -134,12 +147,14 @@ export type User_masterMaxAggregateInputType = {
   updated_at?: true
   deleted_by?: true
   deleted_at?: true
+  profile_photo_media_id?: true
 }
 
 export type User_masterCountAggregateInputType = {
   user_id?: true
   first_name?: true
   last_name?: true
+  country_code?: true
   mobile_no?: true
   profile_photo?: true
   about?: true
@@ -150,6 +165,7 @@ export type User_masterCountAggregateInputType = {
   updated_at?: true
   deleted_by?: true
   deleted_at?: true
+  profile_photo_media_id?: true
   _all?: true
 }
 
@@ -243,6 +259,7 @@ export type User_masterGroupByOutputType = {
   user_id: bigint
   first_name: string
   last_name: string | null
+  country_code: string
   mobile_no: string
   profile_photo: string | null
   about: string | null
@@ -253,6 +270,7 @@ export type User_masterGroupByOutputType = {
   updated_at: Date | null
   deleted_by: bigint | null
   deleted_at: Date | null
+  profile_photo_media_id: bigint | null
   _count: User_masterCountAggregateOutputType | null
   _avg: User_masterAvgAggregateOutputType | null
   _sum: User_masterSumAggregateOutputType | null
@@ -282,6 +300,7 @@ export type user_masterWhereInput = {
   user_id?: Prisma.BigIntFilter<"user_master"> | bigint | number
   first_name?: Prisma.StringFilter<"user_master"> | string
   last_name?: Prisma.StringNullableFilter<"user_master"> | string | null
+  country_code?: Prisma.StringFilter<"user_master"> | string
   mobile_no?: Prisma.StringFilter<"user_master"> | string
   profile_photo?: Prisma.StringNullableFilter<"user_master"> | string | null
   about?: Prisma.StringNullableFilter<"user_master"> | string | null
@@ -292,13 +311,17 @@ export type user_masterWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"user_master"> | Date | string | null
   deleted_by?: Prisma.BigIntNullableFilter<"user_master"> | bigint | number | null
   deleted_at?: Prisma.DateTimeNullableFilter<"user_master"> | Date | string | null
+  profile_photo_media_id?: Prisma.BigIntNullableFilter<"user_master"> | bigint | number | null
   user_organization?: Prisma.User_organizationListRelationFilter
+  join_requests?: Prisma.Organization_join_requestListRelationFilter
+  profile_photo_media?: Prisma.XOR<Prisma.Media_fileNullableScalarRelationFilter, Prisma.media_fileWhereInput> | null
 }
 
 export type user_masterOrderByWithRelationInput = {
   user_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrderInput | Prisma.SortOrder
+  country_code?: Prisma.SortOrder
   mobile_no?: Prisma.SortOrder
   profile_photo?: Prisma.SortOrderInput | Prisma.SortOrder
   about?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -309,17 +332,22 @@ export type user_masterOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_by?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  profile_photo_media_id?: Prisma.SortOrderInput | Prisma.SortOrder
   user_organization?: Prisma.user_organizationOrderByRelationAggregateInput
+  join_requests?: Prisma.organization_join_requestOrderByRelationAggregateInput
+  profile_photo_media?: Prisma.media_fileOrderByWithRelationInput
   _relevance?: Prisma.user_masterOrderByRelevanceInput
 }
 
 export type user_masterWhereUniqueInput = Prisma.AtLeast<{
   user_id?: bigint | number
+  country_code_mobile_no?: Prisma.user_masterCountry_codeMobile_noCompoundUniqueInput
   AND?: Prisma.user_masterWhereInput | Prisma.user_masterWhereInput[]
   OR?: Prisma.user_masterWhereInput[]
   NOT?: Prisma.user_masterWhereInput | Prisma.user_masterWhereInput[]
   first_name?: Prisma.StringFilter<"user_master"> | string
   last_name?: Prisma.StringNullableFilter<"user_master"> | string | null
+  country_code?: Prisma.StringFilter<"user_master"> | string
   mobile_no?: Prisma.StringFilter<"user_master"> | string
   profile_photo?: Prisma.StringNullableFilter<"user_master"> | string | null
   about?: Prisma.StringNullableFilter<"user_master"> | string | null
@@ -330,13 +358,17 @@ export type user_masterWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeNullableFilter<"user_master"> | Date | string | null
   deleted_by?: Prisma.BigIntNullableFilter<"user_master"> | bigint | number | null
   deleted_at?: Prisma.DateTimeNullableFilter<"user_master"> | Date | string | null
+  profile_photo_media_id?: Prisma.BigIntNullableFilter<"user_master"> | bigint | number | null
   user_organization?: Prisma.User_organizationListRelationFilter
-}, "user_id">
+  join_requests?: Prisma.Organization_join_requestListRelationFilter
+  profile_photo_media?: Prisma.XOR<Prisma.Media_fileNullableScalarRelationFilter, Prisma.media_fileWhereInput> | null
+}, "user_id" | "country_code_mobile_no">
 
 export type user_masterOrderByWithAggregationInput = {
   user_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrderInput | Prisma.SortOrder
+  country_code?: Prisma.SortOrder
   mobile_no?: Prisma.SortOrder
   profile_photo?: Prisma.SortOrderInput | Prisma.SortOrder
   about?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -347,6 +379,7 @@ export type user_masterOrderByWithAggregationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_by?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  profile_photo_media_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.user_masterCountOrderByAggregateInput
   _avg?: Prisma.user_masterAvgOrderByAggregateInput
   _max?: Prisma.user_masterMaxOrderByAggregateInput
@@ -361,6 +394,7 @@ export type user_masterScalarWhereWithAggregatesInput = {
   user_id?: Prisma.BigIntWithAggregatesFilter<"user_master"> | bigint | number
   first_name?: Prisma.StringWithAggregatesFilter<"user_master"> | string
   last_name?: Prisma.StringNullableWithAggregatesFilter<"user_master"> | string | null
+  country_code?: Prisma.StringWithAggregatesFilter<"user_master"> | string
   mobile_no?: Prisma.StringWithAggregatesFilter<"user_master"> | string
   profile_photo?: Prisma.StringNullableWithAggregatesFilter<"user_master"> | string | null
   about?: Prisma.StringNullableWithAggregatesFilter<"user_master"> | string | null
@@ -371,12 +405,14 @@ export type user_masterScalarWhereWithAggregatesInput = {
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"user_master"> | Date | string | null
   deleted_by?: Prisma.BigIntNullableWithAggregatesFilter<"user_master"> | bigint | number | null
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"user_master"> | Date | string | null
+  profile_photo_media_id?: Prisma.BigIntNullableWithAggregatesFilter<"user_master"> | bigint | number | null
 }
 
 export type user_masterCreateInput = {
   user_id?: bigint | number
   first_name: string
   last_name?: string | null
+  country_code: string
   mobile_no: string
   profile_photo?: string | null
   about?: string | null
@@ -388,12 +424,15 @@ export type user_masterCreateInput = {
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
   user_organization?: Prisma.user_organizationCreateNestedManyWithoutUser_masterInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutUserInput
+  profile_photo_media?: Prisma.media_fileCreateNestedOneWithoutProfile_photo_ofInput
 }
 
 export type user_masterUncheckedCreateInput = {
   user_id?: bigint | number
   first_name: string
   last_name?: string | null
+  country_code: string
   mobile_no: string
   profile_photo?: string | null
   about?: string | null
@@ -404,13 +443,16 @@ export type user_masterUncheckedCreateInput = {
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  profile_photo_media_id?: bigint | number | null
   user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutUser_masterInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type user_masterUpdateInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
   mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
   profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -422,12 +464,15 @@ export type user_masterUpdateInput = {
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_organization?: Prisma.user_organizationUpdateManyWithoutUser_masterNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutUserNestedInput
+  profile_photo_media?: Prisma.media_fileUpdateOneWithoutProfile_photo_ofNestedInput
 }
 
 export type user_masterUncheckedUpdateInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
   mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
   profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -438,13 +483,16 @@ export type user_masterUncheckedUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profile_photo_media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutUser_masterNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type user_masterCreateManyInput = {
   user_id?: bigint | number
   first_name: string
   last_name?: string | null
+  country_code: string
   mobile_no: string
   profile_photo?: string | null
   about?: string | null
@@ -455,12 +503,14 @@ export type user_masterCreateManyInput = {
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  profile_photo_media_id?: bigint | number | null
 }
 
 export type user_masterUpdateManyMutationInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
   mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
   profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -477,6 +527,7 @@ export type user_masterUncheckedUpdateManyInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
   mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
   profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -487,6 +538,7 @@ export type user_masterUncheckedUpdateManyInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profile_photo_media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
 }
 
 export type user_masterOrderByRelevanceInput = {
@@ -495,10 +547,16 @@ export type user_masterOrderByRelevanceInput = {
   search: string
 }
 
+export type user_masterCountry_codeMobile_noCompoundUniqueInput = {
+  country_code: string
+  mobile_no: string
+}
+
 export type user_masterCountOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
+  country_code?: Prisma.SortOrder
   mobile_no?: Prisma.SortOrder
   profile_photo?: Prisma.SortOrder
   about?: Prisma.SortOrder
@@ -509,6 +567,7 @@ export type user_masterCountOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  profile_photo_media_id?: Prisma.SortOrder
 }
 
 export type user_masterAvgOrderByAggregateInput = {
@@ -516,12 +575,14 @@ export type user_masterAvgOrderByAggregateInput = {
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
+  profile_photo_media_id?: Prisma.SortOrder
 }
 
 export type user_masterMaxOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
+  country_code?: Prisma.SortOrder
   mobile_no?: Prisma.SortOrder
   profile_photo?: Prisma.SortOrder
   about?: Prisma.SortOrder
@@ -532,12 +593,14 @@ export type user_masterMaxOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  profile_photo_media_id?: Prisma.SortOrder
 }
 
 export type user_masterMinOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
+  country_code?: Prisma.SortOrder
   mobile_no?: Prisma.SortOrder
   profile_photo?: Prisma.SortOrder
   about?: Prisma.SortOrder
@@ -548,6 +611,7 @@ export type user_masterMinOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  profile_photo_media_id?: Prisma.SortOrder
 }
 
 export type user_masterSumOrderByAggregateInput = {
@@ -555,11 +619,22 @@ export type user_masterSumOrderByAggregateInput = {
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
+  profile_photo_media_id?: Prisma.SortOrder
 }
 
 export type User_masterScalarRelationFilter = {
   is?: Prisma.user_masterWhereInput
   isNot?: Prisma.user_masterWhereInput
+}
+
+export type User_masterListRelationFilter = {
+  every?: Prisma.user_masterWhereInput
+  some?: Prisma.user_masterWhereInput
+  none?: Prisma.user_masterWhereInput
+}
+
+export type user_masterOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type user_masterCreateNestedOneWithoutUser_organizationInput = {
@@ -576,10 +651,67 @@ export type user_masterUpdateOneRequiredWithoutUser_organizationNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.user_masterUpdateToOneWithWhereWithoutUser_organizationInput, Prisma.user_masterUpdateWithoutUser_organizationInput>, Prisma.user_masterUncheckedUpdateWithoutUser_organizationInput>
 }
 
+export type user_masterCreateNestedOneWithoutJoin_requestsInput = {
+  create?: Prisma.XOR<Prisma.user_masterCreateWithoutJoin_requestsInput, Prisma.user_masterUncheckedCreateWithoutJoin_requestsInput>
+  connectOrCreate?: Prisma.user_masterCreateOrConnectWithoutJoin_requestsInput
+  connect?: Prisma.user_masterWhereUniqueInput
+}
+
+export type user_masterUpdateOneRequiredWithoutJoin_requestsNestedInput = {
+  create?: Prisma.XOR<Prisma.user_masterCreateWithoutJoin_requestsInput, Prisma.user_masterUncheckedCreateWithoutJoin_requestsInput>
+  connectOrCreate?: Prisma.user_masterCreateOrConnectWithoutJoin_requestsInput
+  upsert?: Prisma.user_masterUpsertWithoutJoin_requestsInput
+  connect?: Prisma.user_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_masterUpdateToOneWithWhereWithoutJoin_requestsInput, Prisma.user_masterUpdateWithoutJoin_requestsInput>, Prisma.user_masterUncheckedUpdateWithoutJoin_requestsInput>
+}
+
+export type user_masterCreateNestedManyWithoutProfile_photo_mediaInput = {
+  create?: Prisma.XOR<Prisma.user_masterCreateWithoutProfile_photo_mediaInput, Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput> | Prisma.user_masterCreateWithoutProfile_photo_mediaInput[] | Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput[]
+  connectOrCreate?: Prisma.user_masterCreateOrConnectWithoutProfile_photo_mediaInput | Prisma.user_masterCreateOrConnectWithoutProfile_photo_mediaInput[]
+  createMany?: Prisma.user_masterCreateManyProfile_photo_mediaInputEnvelope
+  connect?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+}
+
+export type user_masterUncheckedCreateNestedManyWithoutProfile_photo_mediaInput = {
+  create?: Prisma.XOR<Prisma.user_masterCreateWithoutProfile_photo_mediaInput, Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput> | Prisma.user_masterCreateWithoutProfile_photo_mediaInput[] | Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput[]
+  connectOrCreate?: Prisma.user_masterCreateOrConnectWithoutProfile_photo_mediaInput | Prisma.user_masterCreateOrConnectWithoutProfile_photo_mediaInput[]
+  createMany?: Prisma.user_masterCreateManyProfile_photo_mediaInputEnvelope
+  connect?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+}
+
+export type user_masterUpdateManyWithoutProfile_photo_mediaNestedInput = {
+  create?: Prisma.XOR<Prisma.user_masterCreateWithoutProfile_photo_mediaInput, Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput> | Prisma.user_masterCreateWithoutProfile_photo_mediaInput[] | Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput[]
+  connectOrCreate?: Prisma.user_masterCreateOrConnectWithoutProfile_photo_mediaInput | Prisma.user_masterCreateOrConnectWithoutProfile_photo_mediaInput[]
+  upsert?: Prisma.user_masterUpsertWithWhereUniqueWithoutProfile_photo_mediaInput | Prisma.user_masterUpsertWithWhereUniqueWithoutProfile_photo_mediaInput[]
+  createMany?: Prisma.user_masterCreateManyProfile_photo_mediaInputEnvelope
+  set?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+  disconnect?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+  delete?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+  connect?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+  update?: Prisma.user_masterUpdateWithWhereUniqueWithoutProfile_photo_mediaInput | Prisma.user_masterUpdateWithWhereUniqueWithoutProfile_photo_mediaInput[]
+  updateMany?: Prisma.user_masterUpdateManyWithWhereWithoutProfile_photo_mediaInput | Prisma.user_masterUpdateManyWithWhereWithoutProfile_photo_mediaInput[]
+  deleteMany?: Prisma.user_masterScalarWhereInput | Prisma.user_masterScalarWhereInput[]
+}
+
+export type user_masterUncheckedUpdateManyWithoutProfile_photo_mediaNestedInput = {
+  create?: Prisma.XOR<Prisma.user_masterCreateWithoutProfile_photo_mediaInput, Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput> | Prisma.user_masterCreateWithoutProfile_photo_mediaInput[] | Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput[]
+  connectOrCreate?: Prisma.user_masterCreateOrConnectWithoutProfile_photo_mediaInput | Prisma.user_masterCreateOrConnectWithoutProfile_photo_mediaInput[]
+  upsert?: Prisma.user_masterUpsertWithWhereUniqueWithoutProfile_photo_mediaInput | Prisma.user_masterUpsertWithWhereUniqueWithoutProfile_photo_mediaInput[]
+  createMany?: Prisma.user_masterCreateManyProfile_photo_mediaInputEnvelope
+  set?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+  disconnect?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+  delete?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+  connect?: Prisma.user_masterWhereUniqueInput | Prisma.user_masterWhereUniqueInput[]
+  update?: Prisma.user_masterUpdateWithWhereUniqueWithoutProfile_photo_mediaInput | Prisma.user_masterUpdateWithWhereUniqueWithoutProfile_photo_mediaInput[]
+  updateMany?: Prisma.user_masterUpdateManyWithWhereWithoutProfile_photo_mediaInput | Prisma.user_masterUpdateManyWithWhereWithoutProfile_photo_mediaInput[]
+  deleteMany?: Prisma.user_masterScalarWhereInput | Prisma.user_masterScalarWhereInput[]
+}
+
 export type user_masterCreateWithoutUser_organizationInput = {
   user_id?: bigint | number
   first_name: string
   last_name?: string | null
+  country_code: string
   mobile_no: string
   profile_photo?: string | null
   about?: string | null
@@ -590,12 +722,15 @@ export type user_masterCreateWithoutUser_organizationInput = {
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutUserInput
+  profile_photo_media?: Prisma.media_fileCreateNestedOneWithoutProfile_photo_ofInput
 }
 
 export type user_masterUncheckedCreateWithoutUser_organizationInput = {
   user_id?: bigint | number
   first_name: string
   last_name?: string | null
+  country_code: string
   mobile_no: string
   profile_photo?: string | null
   about?: string | null
@@ -606,6 +741,8 @@ export type user_masterUncheckedCreateWithoutUser_organizationInput = {
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  profile_photo_media_id?: bigint | number | null
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type user_masterCreateOrConnectWithoutUser_organizationInput = {
@@ -628,6 +765,7 @@ export type user_masterUpdateWithoutUser_organizationInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
   mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
   profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -638,12 +776,266 @@ export type user_masterUpdateWithoutUser_organizationInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutUserNestedInput
+  profile_photo_media?: Prisma.media_fileUpdateOneWithoutProfile_photo_ofNestedInput
 }
 
 export type user_masterUncheckedUpdateWithoutUser_organizationInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
+  mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
+  profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_seen?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profile_photo_media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type user_masterCreateWithoutJoin_requestsInput = {
+  user_id?: bigint | number
+  first_name: string
+  last_name?: string | null
+  country_code: string
+  mobile_no: string
+  profile_photo?: string | null
+  about?: string | null
+  last_seen?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutUser_masterInput
+  profile_photo_media?: Prisma.media_fileCreateNestedOneWithoutProfile_photo_ofInput
+}
+
+export type user_masterUncheckedCreateWithoutJoin_requestsInput = {
+  user_id?: bigint | number
+  first_name: string
+  last_name?: string | null
+  country_code: string
+  mobile_no: string
+  profile_photo?: string | null
+  about?: string | null
+  last_seen?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  profile_photo_media_id?: bigint | number | null
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutUser_masterInput
+}
+
+export type user_masterCreateOrConnectWithoutJoin_requestsInput = {
+  where: Prisma.user_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_masterCreateWithoutJoin_requestsInput, Prisma.user_masterUncheckedCreateWithoutJoin_requestsInput>
+}
+
+export type user_masterUpsertWithoutJoin_requestsInput = {
+  update: Prisma.XOR<Prisma.user_masterUpdateWithoutJoin_requestsInput, Prisma.user_masterUncheckedUpdateWithoutJoin_requestsInput>
+  create: Prisma.XOR<Prisma.user_masterCreateWithoutJoin_requestsInput, Prisma.user_masterUncheckedCreateWithoutJoin_requestsInput>
+  where?: Prisma.user_masterWhereInput
+}
+
+export type user_masterUpdateToOneWithWhereWithoutJoin_requestsInput = {
+  where?: Prisma.user_masterWhereInput
+  data: Prisma.XOR<Prisma.user_masterUpdateWithoutJoin_requestsInput, Prisma.user_masterUncheckedUpdateWithoutJoin_requestsInput>
+}
+
+export type user_masterUpdateWithoutJoin_requestsInput = {
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
+  mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
+  profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_seen?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_organization?: Prisma.user_organizationUpdateManyWithoutUser_masterNestedInput
+  profile_photo_media?: Prisma.media_fileUpdateOneWithoutProfile_photo_ofNestedInput
+}
+
+export type user_masterUncheckedUpdateWithoutJoin_requestsInput = {
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
+  mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
+  profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_seen?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profile_photo_media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutUser_masterNestedInput
+}
+
+export type user_masterCreateWithoutProfile_photo_mediaInput = {
+  user_id?: bigint | number
+  first_name: string
+  last_name?: string | null
+  country_code: string
+  mobile_no: string
+  profile_photo?: string | null
+  about?: string | null
+  last_seen?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutUser_masterInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutUserInput
+}
+
+export type user_masterUncheckedCreateWithoutProfile_photo_mediaInput = {
+  user_id?: bigint | number
+  first_name: string
+  last_name?: string | null
+  country_code: string
+  mobile_no: string
+  profile_photo?: string | null
+  about?: string | null
+  last_seen?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutUser_masterInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type user_masterCreateOrConnectWithoutProfile_photo_mediaInput = {
+  where: Prisma.user_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_masterCreateWithoutProfile_photo_mediaInput, Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput>
+}
+
+export type user_masterCreateManyProfile_photo_mediaInputEnvelope = {
+  data: Prisma.user_masterCreateManyProfile_photo_mediaInput | Prisma.user_masterCreateManyProfile_photo_mediaInput[]
+  skipDuplicates?: boolean
+}
+
+export type user_masterUpsertWithWhereUniqueWithoutProfile_photo_mediaInput = {
+  where: Prisma.user_masterWhereUniqueInput
+  update: Prisma.XOR<Prisma.user_masterUpdateWithoutProfile_photo_mediaInput, Prisma.user_masterUncheckedUpdateWithoutProfile_photo_mediaInput>
+  create: Prisma.XOR<Prisma.user_masterCreateWithoutProfile_photo_mediaInput, Prisma.user_masterUncheckedCreateWithoutProfile_photo_mediaInput>
+}
+
+export type user_masterUpdateWithWhereUniqueWithoutProfile_photo_mediaInput = {
+  where: Prisma.user_masterWhereUniqueInput
+  data: Prisma.XOR<Prisma.user_masterUpdateWithoutProfile_photo_mediaInput, Prisma.user_masterUncheckedUpdateWithoutProfile_photo_mediaInput>
+}
+
+export type user_masterUpdateManyWithWhereWithoutProfile_photo_mediaInput = {
+  where: Prisma.user_masterScalarWhereInput
+  data: Prisma.XOR<Prisma.user_masterUpdateManyMutationInput, Prisma.user_masterUncheckedUpdateManyWithoutProfile_photo_mediaInput>
+}
+
+export type user_masterScalarWhereInput = {
+  AND?: Prisma.user_masterScalarWhereInput | Prisma.user_masterScalarWhereInput[]
+  OR?: Prisma.user_masterScalarWhereInput[]
+  NOT?: Prisma.user_masterScalarWhereInput | Prisma.user_masterScalarWhereInput[]
+  user_id?: Prisma.BigIntFilter<"user_master"> | bigint | number
+  first_name?: Prisma.StringFilter<"user_master"> | string
+  last_name?: Prisma.StringNullableFilter<"user_master"> | string | null
+  country_code?: Prisma.StringFilter<"user_master"> | string
+  mobile_no?: Prisma.StringFilter<"user_master"> | string
+  profile_photo?: Prisma.StringNullableFilter<"user_master"> | string | null
+  about?: Prisma.StringNullableFilter<"user_master"> | string | null
+  last_seen?: Prisma.DateTimeNullableFilter<"user_master"> | Date | string | null
+  created_by?: Prisma.BigIntNullableFilter<"user_master"> | bigint | number | null
+  created_at?: Prisma.DateTimeFilter<"user_master"> | Date | string
+  updated_by?: Prisma.BigIntNullableFilter<"user_master"> | bigint | number | null
+  updated_at?: Prisma.DateTimeNullableFilter<"user_master"> | Date | string | null
+  deleted_by?: Prisma.BigIntNullableFilter<"user_master"> | bigint | number | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"user_master"> | Date | string | null
+  profile_photo_media_id?: Prisma.BigIntNullableFilter<"user_master"> | bigint | number | null
+}
+
+export type user_masterCreateManyProfile_photo_mediaInput = {
+  user_id?: bigint | number
+  first_name: string
+  last_name?: string | null
+  country_code: string
+  mobile_no: string
+  profile_photo?: string | null
+  about?: string | null
+  last_seen?: Date | string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+}
+
+export type user_masterUpdateWithoutProfile_photo_mediaInput = {
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
+  mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
+  profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_seen?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_organization?: Prisma.user_organizationUpdateManyWithoutUser_masterNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutUserNestedInput
+}
+
+export type user_masterUncheckedUpdateWithoutProfile_photo_mediaInput = {
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
+  mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
+  profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_seen?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutUser_masterNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type user_masterUncheckedUpdateManyWithoutProfile_photo_mediaInput = {
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_code?: Prisma.StringFieldUpdateOperationsInput | string
   mobile_no?: Prisma.StringFieldUpdateOperationsInput | string
   profile_photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -663,10 +1055,12 @@ export type user_masterUncheckedUpdateWithoutUser_organizationInput = {
 
 export type User_masterCountOutputType = {
   user_organization: number
+  join_requests: number
 }
 
 export type User_masterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user_organization?: boolean | User_masterCountOutputTypeCountUser_organizationArgs
+  join_requests?: boolean | User_masterCountOutputTypeCountJoin_requestsArgs
 }
 
 /**
@@ -686,11 +1080,19 @@ export type User_masterCountOutputTypeCountUser_organizationArgs<ExtArgs extends
   where?: Prisma.user_organizationWhereInput
 }
 
+/**
+ * User_masterCountOutputType without action
+ */
+export type User_masterCountOutputTypeCountJoin_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.organization_join_requestWhereInput
+}
+
 
 export type user_masterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   user_id?: boolean
   first_name?: boolean
   last_name?: boolean
+  country_code?: boolean
   mobile_no?: boolean
   profile_photo?: boolean
   about?: boolean
@@ -701,7 +1103,10 @@ export type user_masterSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   updated_at?: boolean
   deleted_by?: boolean
   deleted_at?: boolean
+  profile_photo_media_id?: boolean
   user_organization?: boolean | Prisma.user_master$user_organizationArgs<ExtArgs>
+  join_requests?: boolean | Prisma.user_master$join_requestsArgs<ExtArgs>
+  profile_photo_media?: boolean | Prisma.user_master$profile_photo_mediaArgs<ExtArgs>
   _count?: boolean | Prisma.User_masterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user_master"]>
 
@@ -711,6 +1116,7 @@ export type user_masterSelectScalar = {
   user_id?: boolean
   first_name?: boolean
   last_name?: boolean
+  country_code?: boolean
   mobile_no?: boolean
   profile_photo?: boolean
   about?: boolean
@@ -721,11 +1127,14 @@ export type user_masterSelectScalar = {
   updated_at?: boolean
   deleted_by?: boolean
   deleted_at?: boolean
+  profile_photo_media_id?: boolean
 }
 
-export type user_masterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "first_name" | "last_name" | "mobile_no" | "profile_photo" | "about" | "last_seen" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["user_master"]>
+export type user_masterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "first_name" | "last_name" | "country_code" | "mobile_no" | "profile_photo" | "about" | "last_seen" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at" | "profile_photo_media_id", ExtArgs["result"]["user_master"]>
 export type user_masterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user_organization?: boolean | Prisma.user_master$user_organizationArgs<ExtArgs>
+  join_requests?: boolean | Prisma.user_master$join_requestsArgs<ExtArgs>
+  profile_photo_media?: boolean | Prisma.user_master$profile_photo_mediaArgs<ExtArgs>
   _count?: boolean | Prisma.User_masterCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -733,11 +1142,14 @@ export type $user_masterPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "user_master"
   objects: {
     user_organization: Prisma.$user_organizationPayload<ExtArgs>[]
+    join_requests: Prisma.$organization_join_requestPayload<ExtArgs>[]
+    profile_photo_media: Prisma.$media_filePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     user_id: bigint
     first_name: string
     last_name: string | null
+    country_code: string
     mobile_no: string
     profile_photo: string | null
     about: string | null
@@ -748,6 +1160,7 @@ export type $user_masterPayload<ExtArgs extends runtime.Types.Extensions.Interna
     updated_at: Date | null
     deleted_by: bigint | null
     deleted_at: Date | null
+    profile_photo_media_id: bigint | null
   }, ExtArgs["result"]["user_master"]>
   composites: {}
 }
@@ -1089,6 +1502,8 @@ readonly fields: user_masterFieldRefs;
 export interface Prisma__user_masterClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user_organization<T extends Prisma.user_master$user_organizationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_master$user_organizationArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_organizationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  join_requests<T extends Prisma.user_master$join_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_master$join_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$organization_join_requestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profile_photo_media<T extends Prisma.user_master$profile_photo_mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_master$profile_photo_mediaArgs<ExtArgs>>): Prisma.Prisma__media_fileClient<runtime.Types.Result.GetResult<Prisma.$media_filePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1121,6 +1536,7 @@ export interface user_masterFieldRefs {
   readonly user_id: Prisma.FieldRef<"user_master", 'BigInt'>
   readonly first_name: Prisma.FieldRef<"user_master", 'String'>
   readonly last_name: Prisma.FieldRef<"user_master", 'String'>
+  readonly country_code: Prisma.FieldRef<"user_master", 'String'>
   readonly mobile_no: Prisma.FieldRef<"user_master", 'String'>
   readonly profile_photo: Prisma.FieldRef<"user_master", 'String'>
   readonly about: Prisma.FieldRef<"user_master", 'String'>
@@ -1131,6 +1547,7 @@ export interface user_masterFieldRefs {
   readonly updated_at: Prisma.FieldRef<"user_master", 'DateTime'>
   readonly deleted_by: Prisma.FieldRef<"user_master", 'BigInt'>
   readonly deleted_at: Prisma.FieldRef<"user_master", 'DateTime'>
+  readonly profile_photo_media_id: Prisma.FieldRef<"user_master", 'BigInt'>
 }
     
 
@@ -1500,6 +1917,49 @@ export type user_master$user_organizationArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.User_organizationScalarFieldEnum | Prisma.User_organizationScalarFieldEnum[]
+}
+
+/**
+ * user_master.join_requests
+ */
+export type user_master$join_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the organization_join_request
+   */
+  select?: Prisma.organization_join_requestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the organization_join_request
+   */
+  omit?: Prisma.organization_join_requestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.organization_join_requestInclude<ExtArgs> | null
+  where?: Prisma.organization_join_requestWhereInput
+  orderBy?: Prisma.organization_join_requestOrderByWithRelationInput | Prisma.organization_join_requestOrderByWithRelationInput[]
+  cursor?: Prisma.organization_join_requestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Organization_join_requestScalarFieldEnum | Prisma.Organization_join_requestScalarFieldEnum[]
+}
+
+/**
+ * user_master.profile_photo_media
+ */
+export type user_master$profile_photo_mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the media_file
+   */
+  select?: Prisma.media_fileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the media_file
+   */
+  omit?: Prisma.media_fileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.media_fileInclude<ExtArgs> | null
+  where?: Prisma.media_fileWhereInput
 }
 
 /**

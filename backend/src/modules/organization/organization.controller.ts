@@ -3,7 +3,7 @@ import {
   NextFunction,
 } from "express";
 
-import { AuthRequest } from "../../middleware/auth.middleware.js";
+import { OrganizationSetupRequest } from "../../middleware/organization-setup.middleware.js";
 
 import { setupOrganization } from "./organization.service.js";
 
@@ -12,7 +12,7 @@ import {
 } from "./organization.validation.js";
 
 export const setupOrganizationController = async (
-  req: AuthRequest,
+  req: OrganizationSetupRequest,
   res: Response,
   next: NextFunction,
 ) => {
@@ -41,7 +41,17 @@ export const setupOrganizationController = async (
       userId: req.user.userId,
       organizationId: req.user.organizationId,
       orgCode: req.body.orgCode,
+      deviceType: req.body.deviceType?.toUpperCase(),
+      deviceName: req.body.deviceName,
     });
+
+    if (result.status === "PENDING_APPROVAL") {
+      return res.status(202).json({
+        success: true,
+        message: "Your request to join was sent to the organization's admins",
+        data: result,
+      });
+    }
 
     return res.status(201).json({
       success: true,

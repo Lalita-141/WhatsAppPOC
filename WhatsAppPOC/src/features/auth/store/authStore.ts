@@ -8,9 +8,14 @@ import {
   verifyOtp,
   setupProfile,
   setupOrganization,
+  logoutSession,
+  OTP_LENGTH,
 } from '../api/authApi';
 import { connectSocket, disconnectSocket } from '../../../services/socket';
-
+import { queryClient } from '../../../services/api/queryClient';
+import { registerSessionHandlers } from '../../../services/auth/authSession';
+import { resetToLogin } from '../../../navigation/navigationRef';
+import { loadTokens, saveTokens } from '../../../services/auth/secureTokenStore';
 interface AuthState {
   // Input Settings
   orgCode: string;
@@ -20,6 +25,7 @@ interface AuthState {
 
   // Authentication State
   accessToken: string;
+  refreshToken: string;
   nextStep: 'PROFILE_SETUP' | 'ORGANIZATION_SETUP' | 'LOGIN' | 'HOME';
 
   // UI States
@@ -37,6 +43,7 @@ interface AuthState {
   setSelectedCountry: (country: Country | null) => void;
   setOtp: (otp: string) => void;
   setAccessToken: (token: string) => void;
+  clearSession: () => void;
   setNextStep: (step: 'PROFILE_SETUP' | 'ORGANIZATION_SETUP' | 'LOGIN' | 'HOME') => void;
   setCustomIp: (ip: string) => void;
   setErrorMessage: (msg: string | null) => void;
@@ -47,6 +54,8 @@ interface AuthState {
   handleResendOtp: (navigation: any) => Promise<void>;
   handleBackToLogin: (navigation: any) => void;
   handleLogout: (navigation: any) => void;
+  applySwitchedSession: (tokens: { token: string; refreshToken: string }, navigation: any) => void;
+  endSessionLocally: (navigation: any) => void;
   handleProfileSetupSave: (firstName: string, lastName: string, about: string, navigation: any) => Promise<void>;
   handleOrganizationSetupSave: (organizationCode: string, navigation: any) => Promise<void>;
   testProfileSetupNavigate: (navigation: any) => void;
@@ -60,6 +69,7 @@ export const useAuthStore = create<AuthState>()(
       selectedCountry: null,
       otp: '',
       accessToken: '',
+      refreshToken: '',
       nextStep: 'LOGIN',
       isLoading: false,
       errorMessage: null,
@@ -72,6 +82,12 @@ export const useAuthStore = create<AuthState>()(
       setSelectedCountry: (country) => set({ selectedCountry: country }),
       setOtp: (otp) => set({ otp }),
       setAccessToken: (token) => set({ accessToken: token }),
+      // Also drops cached chats, so the next person on this phone cannot see them.
+      clearSession: () => {
+        disconnectSocket();
+        queryClient.clear();
+        set({ accessToken: '', refreshToken: '', otp: '', errorMessage: null, serverOtpHint: null });
+      },
       setNextStep: (step) => set({ nextStep: step }),
       setCustomIp: (ip) => set({ customIp: ip, apiBaseUrl: getDefaultApiBaseUrl(ip) }),
       setErrorMessage: (msg) => set({ errorMessage: msg }),
@@ -98,11 +114,8 @@ export const useAuthStore = create<AuthState>()(
             state.mobileNo
           );
 
-          const rawOtp =
-            (response && response.data && (response.data as any).otp) ||
-            (response as any)?.otp;
-          if (rawOtp) {
-            set({ serverOtpHint: String(rawOtp) });
+          if (__DEV__ && response?.data?.otp) {
+            set({ serverOtpHint: response.data.otp });
           }
 
           navigation.navigate('otp');
@@ -115,8 +128,8 @@ export const useAuthStore = create<AuthState>()(
 
       handleVerifyOtp: async (navigation) => {
         const state = get();
-        if (state.otp.length < 4) {
-          set({ errorMessage: 'Please enter the 4-digit code' });
+        if (state.otp.length < OTP_LENGTH) {
+          set({ errorMessage: `Please enter the ${OTP_LENGTH}-digit code` });
           return;
         }
 
@@ -132,9 +145,7 @@ export const useAuthStore = create<AuthState>()(
             state.otp
           );
 
-          set({ accessToken: data.token, nextStep: data.nextStep });
-
-
+          set({ accessToken: data.token, refreshToken: data.refreshToken || '', nextStep: data.nextStep });
 
           if (data.nextStep === 'PROFILE_SETUP') {
             navigation.navigate('profile_setup');
@@ -163,56 +174,53 @@ export const useAuthStore = create<AuthState>()(
       },
 
       handleLogout: (navigation) => {
-        disconnectSocket();
+        const { refreshToken, clearSession } = get();
+        // The screen changes immediately, and logging out still works offline.
+        // The server drops this device's session and push token when reachable.
+        logoutSession(refreshToken).catch((err) => {
+          console.warn('Could not end the session on the server:', err?.message);
+        });
+        clearSession();
+        navigation.reset({ index: 0, routes: [{ name: 'login' }] });
+      },
 
-        set({ accessToken: '', otp: '', errorMessage: null, serverOtpHint: null });
+      // Starts over with the new organization's tokens. Cached chats belong to the
+      // previous organization, so they are dropped.
+      applySwitchedSession: ({ token, refreshToken }, navigation) => {
+        disconnectSocket();
+        queryClient.clear();
+        set({ accessToken: token, refreshToken, nextStep: 'LOGIN' });
+        connectSocket(token);
+        navigation.reset({ index: 0, routes: [{ name: 'home' }] });
+      },
+
+      // For when the server has already ended the session (log out everywhere,
+      // account deleted), so there is nothing left to revoke.
+      endSessionLocally: (navigation) => {
+        get().clearSession();
         navigation.reset({ index: 0, routes: [{ name: 'login' }] });
       },
 
       handleProfileSetupSave: async (firstName, lastName, about, navigation) => {
         const state = get();
-        if (!state.selectedCountry) {
-          set({ errorMessage: 'Country details missing' });
-          return;
-        }
         set({ isLoading: true, errorMessage: null });
         try {
           const apiBaseUrl = getDefaultApiBaseUrl(state.customIp);
-          await setupProfile(apiBaseUrl, state.accessToken, {
-            orgCode: state.orgCode,
-            countryId: state.selectedCountry.countryId,
-            mobileNo: state.mobileNo,
+          const { data } = await setupProfile(apiBaseUrl, state.accessToken, {
             firstName,
             lastName,
             about,
           });
 
-          // User profile created successfully.
-          if (state.otp && state.otp.length === 4) {
-            try {
-              const data = await verifyOtp(
-                apiBaseUrl,
-                state.orgCode,
-                state.selectedCountry.countryId,
-                state.mobileNo,
-                state.otp
-              );
-              set({ accessToken: data.token, nextStep: data.nextStep, otp: '' });
-              connectSocket(data.token);
-              navigation.reset({ index: 0, routes: [{ name: 'home' }] });
-              return;
-            } catch (verifyErr) {
-              console.warn('Programmatic OTP auto-login failed, falling back to manual OTP request:', verifyErr);
-            }
+          if (data.status === 'PENDING_APPROVAL') {
+            set({ accessToken: '', refreshToken: '', nextStep: 'LOGIN', otp: '' });
+            navigation.reset({ index: 0, routes: [{ name: 'pending_approval', params: { organizationName: data.organizationName } }] });
+            return;
           }
 
-          // Fallback
-          const response = await sendOtp(apiBaseUrl, state.orgCode, state.selectedCountry.countryId, state.mobileNo);
-          if (response && response.data && response.data.otp) {
-            set({ serverOtpHint: response.data.otp });
-          }
-          set({ otp: '' });
-          navigation.navigate('otp');
+          set({ accessToken: data.token, refreshToken: data.refreshToken, nextStep: 'LOGIN', otp: '' });
+          connectSocket(data.token);
+          navigation.reset({ index: 0, routes: [{ name: 'home' }] });
         } catch (err: any) {
           set({ errorMessage: err.message || 'Profile setup failed. Please check details.' });
         } finally {
@@ -225,36 +233,19 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, errorMessage: null });
         try {
           const apiBaseUrl = getDefaultApiBaseUrl(state.customIp);
-          await setupOrganization(apiBaseUrl, state.accessToken, {
+          const { data } = await setupOrganization(apiBaseUrl, state.accessToken, {
             orgCode: organizationCode,
           });
 
-          // Link completed successfully.
-          if (state.otp && state.otp.length === 4) {
-            try {
-              const data = await verifyOtp(
-                apiBaseUrl,
-                state.orgCode,
-                state.selectedCountry!.countryId,
-                state.mobileNo,
-                state.otp
-              );
-              set({ accessToken: data.token, nextStep: data.nextStep, otp: '' });
-              connectSocket(data.token);
-              navigation.reset({ index: 0, routes: [{ name: 'home' }] });
-              return;
-            } catch (verifyErr) {
-              console.warn('Programmatic OTP auto-login failed, falling back to manual OTP request:', verifyErr);
-            }
+          if (data.status === 'PENDING_APPROVAL') {
+            set({ accessToken: '', refreshToken: '', nextStep: 'LOGIN', otp: '' });
+            navigation.reset({ index: 0, routes: [{ name: 'pending_approval', params: { organizationName: data.organizationName } }] });
+            return;
           }
 
-          // Fallback
-          const response = await sendOtp(apiBaseUrl, state.orgCode, state.selectedCountry!.countryId, state.mobileNo);
-          if (response && response.data && response.data.otp) {
-            set({ serverOtpHint: response.data.otp });
-          }
-          set({ otp: '' });
-          navigation.navigate('otp');
+          set({ accessToken: data.token, refreshToken: data.refreshToken, nextStep: 'LOGIN', otp: '' });
+          connectSocket(data.token);
+          navigation.reset({ index: 0, routes: [{ name: 'home' }] });
         } catch (err: any) {
           set({ errorMessage: err.message || 'Organization connection failed. Check code.' });
         } finally {
@@ -269,9 +260,9 @@ export const useAuthStore = create<AuthState>()(
     {
       name: 'auth-storage', // unique name
       storage: createJSONStorage(() => zustandStorage), // use MMKV
-      // Don't persist sensitive stuff like otp, or transient UI states
+      // Tokens are kept in the Keychain/Keystore, not here. Neither are the
+      // OTP or transient UI states.
       partialize: (state) => ({
-        accessToken: state.accessToken,
         orgCode: state.orgCode,
         mobileNo: state.mobileNo,
         selectedCountry: state.selectedCountry,
@@ -282,3 +273,42 @@ export const useAuthStore = create<AuthState>()(
     }
   )
 );
+
+registerSessionHandlers({
+  getAccessToken: () => useAuthStore.getState().accessToken,
+  getRefreshToken: () => useAuthStore.getState().refreshToken,
+  onTokensRefreshed: ({ token, refreshToken }) => {
+    useAuthStore.setState({ accessToken: token, refreshToken });
+  },
+  onSessionExpired: () => {
+    useAuthStore.getState().clearSession();
+    resetToLogin();
+  },
+});
+
+// Keeps the Keychain/Keystore copy in step with the tokens in memory.
+useAuthStore.subscribe((state, previous) => {
+  if (
+    state.accessToken !== previous.accessToken ||
+    state.refreshToken !== previous.refreshToken
+  ) {
+    saveTokens({ accessToken: state.accessToken, refreshToken: state.refreshToken });
+  }
+});
+
+/**
+ * Loads the tokens before the first screen is chosen. Builds before this one
+ * kept tokens in MMKV; those are moved to the Keychain/Keystore and the next
+ * MMKV write drops them.
+ */
+export const restoreSession = async () => {
+  const stored = await loadTokens();
+  const { accessToken, refreshToken } = useAuthStore.getState();
+
+  if (stored) {
+    useAuthStore.setState(stored);
+  } else if (accessToken || refreshToken) {
+    await saveTokens({ accessToken, refreshToken });
+    useAuthStore.setState({ accessToken, refreshToken });
+  }
+};

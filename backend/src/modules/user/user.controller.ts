@@ -1,5 +1,4 @@
 import {
-  Request,
   Response,
   NextFunction,
 } from "express";
@@ -13,9 +12,10 @@ import {
   validateProfileUpdateRequest,
 } from "./user.validation.js";
 import { AuthRequest } from "../../middleware/auth.middleware.js";
+import { ProfileSetupAuthRequest } from "../../middleware/profileSetup.middleware.js";
 
 export const profileSetupController = async (
-  req: Request,
+  req: ProfileSetupAuthRequest,
   res: Response,
   next: NextFunction,
 ) => {
@@ -31,7 +31,15 @@ export const profileSetupController = async (
       );
     }
 
-    const result = await profileSetup(req.body);
+    const result = await profileSetup(req.profileSetup!, req.body);
+
+    if (result.status === "PENDING_APPROVAL") {
+      return res.status(202).json({
+        success: true,
+        message: "Profile created. An organization admin must approve your request to join.",
+        data: result,
+      });
+    }
 
     return res.status(201).json({
       success: true,
@@ -49,7 +57,6 @@ export const getMyProfileController = async (
   next: NextFunction) => {
   try {
     const userId = req.user?.userId.toString();
-    console.log("userId", userId);
     if (!userId) {
       throw new ApiError(
         401,
@@ -89,7 +96,6 @@ export const updateProfileController = async (
       );
 
     }
-console.log("updateProfileController req.body", req.body);
     const validationError = validateProfileUpdateRequest(req.body);
 
     if (validationError) {

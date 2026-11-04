@@ -11,6 +11,7 @@ export const findOrganizationByCode = async (
   });
 };
 
+// Includes removed memberships, so a removed member cannot rejoin by OTP.
 export const findUserOrganization = async (
   userId: bigint,
   orgId: bigint,
@@ -19,7 +20,6 @@ export const findUserOrganization = async (
     where: {
       user_id: userId,
       org_id: orgId,
-      deleted_at: null,
     },
   });
 };
@@ -29,11 +29,28 @@ export const createUserOrganization = async (data: {
   orgId: bigint;
   role: string;
 }) => {
-  return await prisma.user_organization.create({
-    data: {
-      user_id: data.userId,
-      org_id: data.orgId,
-      role: data.role,
-    },
+  return await prisma.$transaction(async (tx) => {
+    const userOrganization = await tx.user_organization.create({
+      data: {
+        user_id: data.userId,
+        org_id: data.orgId,
+        role: data.role,
+      },
+    });
+
+    await tx.user_setting.create({
+      data: {
+        user_organization_id: userOrganization.user_organization_id,
+      },
+    });
+
+    await tx.conversation_state.create({
+      data: {
+        owner_user_organization_id: userOrganization.user_organization_id,
+        peer_user_organization_id: userOrganization.user_organization_id,
+      },
+    });
+
+    return userOrganization;
   });
 };

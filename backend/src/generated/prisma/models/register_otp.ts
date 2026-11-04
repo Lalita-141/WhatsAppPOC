@@ -660,10 +660,6 @@ export type register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
   deleteMany?: Prisma.register_otpScalarWhereInput | Prisma.register_otpScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number

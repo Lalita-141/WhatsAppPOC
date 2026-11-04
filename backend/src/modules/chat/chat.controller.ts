@@ -15,75 +15,6 @@ import {
     checkContacts,
     getChatContacts,
 } from "./chat.service.js";
-import {
-    SendPersonalMessageRequest,
-    validateSendPersonalMessageRequest,
-} from "./chat.validation.js";
-
-import {
-    sendPersonalMessage,
-} from "./chat.service.js";
-
-
-// send personal message 
-export const sendPersonalMessageController = async (
-    req: AuthRequest,
-    res: Response,
-    next: NextFunction,
-) => {
-    try {
-        const body =
-            req.body as SendPersonalMessageRequest;
-
-        // 1. Validate request
-        const validationError =
-            validateSendPersonalMessageRequest(body);
-
-        if (validationError) {
-            throw new ApiError(
-                400,
-                "VALIDATION_ERROR",
-                validationError,
-            );
-        }
-
-        // 2. Get sender from JWT
-        const senderUserOrganizationId =
-            req.user?.userOrganizationId;
-
-        if (!senderUserOrganizationId) {
-            throw new ApiError(
-                401,
-                "UNAUTHORIZED",
-                "Authentication required",
-            );
-        }
-
-        // 3. Send message
-        const result = await sendPersonalMessage(
-            senderUserOrganizationId,
-            body.receiverUserOrganizationId,
-            body.message,
-            senderUserOrganizationId,
-            "text",
-
-
-        );
-
-        // 4. Return response
-        return res.status(201).json({
-            success: true,
-            message: "Message sent successfully",
-            data: result,
-        });
-    } catch (error) {
-        next(error);
-    }
-};
-
-
-
-
 
 
 // for send contact list
@@ -125,6 +56,7 @@ export const checkContactsController = async (
         // Check contacts
         const result = await checkContacts(
             currentOrganizationId,
+            req.user!.userId,
             body.contacts,
         );
 
@@ -162,8 +94,8 @@ export const getChatContactsController = async (
         }
 
         const result = await getChatContacts(
-            BigInt(userId),
             BigInt(organizationId),
+            BigInt(userId),
         );
 
         return res.status(200).json({

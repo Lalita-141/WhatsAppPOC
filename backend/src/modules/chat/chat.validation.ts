@@ -1,8 +1,3 @@
-export interface SendPersonalMessageRequest {
-    receiverUserOrganizationId: string;
-    message: string;
-}
-
 export interface CheckContactsRequest {
     contacts: {
         name: string;
@@ -10,30 +5,13 @@ export interface CheckContactsRequest {
     }[];
 }
 
-export const validateSendPersonalMessageRequest = (
-    body: SendPersonalMessageRequest,
-): string | null => {
-    if (!body.receiverUserOrganizationId) {
-        return "Receiver is required";
-    }
-
-    if (!body.message || !body.message.trim()) {
-        return "Message is required";
-    }
-
-    if (body.message.trim().length > 5000) {
-        return "Message cannot exceed 5000 characters";
-    }
-
-    return null;
-};
-
-// validate check contacts request
+// One sync request is capped, so a client cannot scan the whole user table.
+export const MAX_CONTACTS_PER_REQUEST = 5000;
 
 export const validateCheckContactsRequest = (
     body: CheckContactsRequest,
 ): string | null => {
-    if (!body.contacts) {
+    if (!body?.contacts) {
         return "Contacts are required";
     }
 
@@ -41,8 +19,11 @@ export const validateCheckContactsRequest = (
         return "Contacts must be an array";
     }
 
+    if (body.contacts.length > MAX_CONTACTS_PER_REQUEST) {
+        return `Contacts cannot exceed ${MAX_CONTACTS_PER_REQUEST} entries`;
+    }
     for (const contact of body.contacts) {
-        if (!contact.phone || !contact.phone.trim()) {
+        if (typeof contact?.phone !== "string" || !contact.phone.trim()) {
             return "Contact phone number is required";
         }
     }

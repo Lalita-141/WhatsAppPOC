@@ -295,6 +295,18 @@ export type organization_masterWhereInput = {
   register_otp?: Prisma.Register_otpListRelationFilter
   user_organization?: Prisma.User_organizationListRelationFilter
   wp_group?: Prisma.Wp_groupListRelationFilter
+  setting?: Prisma.XOR<Prisma.Organization_settingNullableScalarRelationFilter, Prisma.organization_settingWhereInput> | null
+  relationships_requested?: Prisma.Organization_relationshipListRelationFilter
+  relationships_received?: Prisma.Organization_relationshipListRelationFilter
+  audit_logs?: Prisma.Organization_audit_logListRelationFilter
+  departments?: Prisma.DepartmentListRelationFilter
+  invites?: Prisma.Organization_inviteListRelationFilter
+  join_requests?: Prisma.Organization_join_requestListRelationFilter
+  broadcasts?: Prisma.Org_broadcastListRelationFilter
+  broadcast_targets?: Prisma.Org_broadcast_targetListRelationFilter
+  broadcast_recipients?: Prisma.Org_broadcast_recipientListRelationFilter
+  channels?: Prisma.ChannelListRelationFilter
+  communities?: Prisma.CommunityListRelationFilter
 }
 
 export type organization_masterOrderByWithRelationInput = {
@@ -314,15 +326,27 @@ export type organization_masterOrderByWithRelationInput = {
   register_otp?: Prisma.register_otpOrderByRelationAggregateInput
   user_organization?: Prisma.user_organizationOrderByRelationAggregateInput
   wp_group?: Prisma.wp_groupOrderByRelationAggregateInput
+  setting?: Prisma.organization_settingOrderByWithRelationInput
+  relationships_requested?: Prisma.organization_relationshipOrderByRelationAggregateInput
+  relationships_received?: Prisma.organization_relationshipOrderByRelationAggregateInput
+  audit_logs?: Prisma.organization_audit_logOrderByRelationAggregateInput
+  departments?: Prisma.departmentOrderByRelationAggregateInput
+  invites?: Prisma.organization_inviteOrderByRelationAggregateInput
+  join_requests?: Prisma.organization_join_requestOrderByRelationAggregateInput
+  broadcasts?: Prisma.org_broadcastOrderByRelationAggregateInput
+  broadcast_targets?: Prisma.org_broadcast_targetOrderByRelationAggregateInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientOrderByRelationAggregateInput
+  channels?: Prisma.channelOrderByRelationAggregateInput
+  communities?: Prisma.communityOrderByRelationAggregateInput
   _relevance?: Prisma.organization_masterOrderByRelevanceInput
 }
 
 export type organization_masterWhereUniqueInput = Prisma.AtLeast<{
   org_id?: bigint | number
+  org_code?: string
   AND?: Prisma.organization_masterWhereInput | Prisma.organization_masterWhereInput[]
   OR?: Prisma.organization_masterWhereInput[]
   NOT?: Prisma.organization_masterWhereInput | Prisma.organization_masterWhereInput[]
-  org_code?: Prisma.StringFilter<"organization_master"> | string
   organization_name?: Prisma.StringFilter<"organization_master"> | string
   contact?: Prisma.StringNullableFilter<"organization_master"> | string | null
   email?: Prisma.StringNullableFilter<"organization_master"> | string | null
@@ -337,7 +361,19 @@ export type organization_masterWhereUniqueInput = Prisma.AtLeast<{
   register_otp?: Prisma.Register_otpListRelationFilter
   user_organization?: Prisma.User_organizationListRelationFilter
   wp_group?: Prisma.Wp_groupListRelationFilter
-}, "org_id">
+  setting?: Prisma.XOR<Prisma.Organization_settingNullableScalarRelationFilter, Prisma.organization_settingWhereInput> | null
+  relationships_requested?: Prisma.Organization_relationshipListRelationFilter
+  relationships_received?: Prisma.Organization_relationshipListRelationFilter
+  audit_logs?: Prisma.Organization_audit_logListRelationFilter
+  departments?: Prisma.DepartmentListRelationFilter
+  invites?: Prisma.Organization_inviteListRelationFilter
+  join_requests?: Prisma.Organization_join_requestListRelationFilter
+  broadcasts?: Prisma.Org_broadcastListRelationFilter
+  broadcast_targets?: Prisma.Org_broadcast_targetListRelationFilter
+  broadcast_recipients?: Prisma.Org_broadcast_recipientListRelationFilter
+  channels?: Prisma.ChannelListRelationFilter
+  communities?: Prisma.CommunityListRelationFilter
+}, "org_id" | "org_code">
 
 export type organization_masterOrderByWithAggregationInput = {
   org_id?: Prisma.SortOrder
@@ -396,6 +432,18 @@ export type organization_masterCreateInput = {
   register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
   user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
   wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
 }
 
 export type organization_masterUncheckedCreateInput = {
@@ -415,6 +463,18 @@ export type organization_masterUncheckedCreateInput = {
   register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
   user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
   wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type organization_masterUpdateInput = {
@@ -434,6 +494,18 @@ export type organization_masterUpdateInput = {
   register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
   user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
   wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
 }
 
 export type organization_masterUncheckedUpdateInput = {
@@ -453,6 +525,18 @@ export type organization_masterUncheckedUpdateInput = {
   register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
   user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
   wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type organization_masterCreateManyInput = {
@@ -576,10 +660,6 @@ export type Organization_masterScalarRelationFilter = {
   isNot?: Prisma.organization_masterWhereInput
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
 export type organization_masterCreateNestedOneWithoutRegister_otpInput = {
   create?: Prisma.XOR<Prisma.organization_masterCreateWithoutRegister_otpInput, Prisma.organization_masterUncheckedCreateWithoutRegister_otpInput>
   connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutRegister_otpInput
@@ -622,6 +702,174 @@ export type organization_masterUpdateOneRequiredWithoutWp_groupNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutWp_groupInput, Prisma.organization_masterUpdateWithoutWp_groupInput>, Prisma.organization_masterUncheckedUpdateWithoutWp_groupInput>
 }
 
+export type organization_masterCreateNestedOneWithoutSettingInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutSettingInput, Prisma.organization_masterUncheckedCreateWithoutSettingInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutSettingInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutSettingNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutSettingInput, Prisma.organization_masterUncheckedCreateWithoutSettingInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutSettingInput
+  upsert?: Prisma.organization_masterUpsertWithoutSettingInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutSettingInput, Prisma.organization_masterUpdateWithoutSettingInput>, Prisma.organization_masterUncheckedUpdateWithoutSettingInput>
+}
+
+export type organization_masterCreateNestedOneWithoutRelationships_requestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutRelationships_requestedInput, Prisma.organization_masterUncheckedCreateWithoutRelationships_requestedInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutRelationships_requestedInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterCreateNestedOneWithoutRelationships_receivedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutRelationships_receivedInput, Prisma.organization_masterUncheckedCreateWithoutRelationships_receivedInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutRelationships_receivedInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutRelationships_requestedNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutRelationships_requestedInput, Prisma.organization_masterUncheckedCreateWithoutRelationships_requestedInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutRelationships_requestedInput
+  upsert?: Prisma.organization_masterUpsertWithoutRelationships_requestedInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutRelationships_requestedInput, Prisma.organization_masterUpdateWithoutRelationships_requestedInput>, Prisma.organization_masterUncheckedUpdateWithoutRelationships_requestedInput>
+}
+
+export type organization_masterUpdateOneRequiredWithoutRelationships_receivedNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutRelationships_receivedInput, Prisma.organization_masterUncheckedCreateWithoutRelationships_receivedInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutRelationships_receivedInput
+  upsert?: Prisma.organization_masterUpsertWithoutRelationships_receivedInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutRelationships_receivedInput, Prisma.organization_masterUpdateWithoutRelationships_receivedInput>, Prisma.organization_masterUncheckedUpdateWithoutRelationships_receivedInput>
+}
+
+export type organization_masterCreateNestedOneWithoutAudit_logsInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutAudit_logsInput, Prisma.organization_masterUncheckedCreateWithoutAudit_logsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutAudit_logsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutAudit_logsNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutAudit_logsInput, Prisma.organization_masterUncheckedCreateWithoutAudit_logsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutAudit_logsInput
+  upsert?: Prisma.organization_masterUpsertWithoutAudit_logsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutAudit_logsInput, Prisma.organization_masterUpdateWithoutAudit_logsInput>, Prisma.organization_masterUncheckedUpdateWithoutAudit_logsInput>
+}
+
+export type organization_masterCreateNestedOneWithoutDepartmentsInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutDepartmentsInput, Prisma.organization_masterUncheckedCreateWithoutDepartmentsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutDepartmentsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutDepartmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutDepartmentsInput, Prisma.organization_masterUncheckedCreateWithoutDepartmentsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutDepartmentsInput
+  upsert?: Prisma.organization_masterUpsertWithoutDepartmentsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutDepartmentsInput, Prisma.organization_masterUpdateWithoutDepartmentsInput>, Prisma.organization_masterUncheckedUpdateWithoutDepartmentsInput>
+}
+
+export type organization_masterCreateNestedOneWithoutInvitesInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutInvitesInput, Prisma.organization_masterUncheckedCreateWithoutInvitesInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutInvitesInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutInvitesNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutInvitesInput, Prisma.organization_masterUncheckedCreateWithoutInvitesInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutInvitesInput
+  upsert?: Prisma.organization_masterUpsertWithoutInvitesInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutInvitesInput, Prisma.organization_masterUpdateWithoutInvitesInput>, Prisma.organization_masterUncheckedUpdateWithoutInvitesInput>
+}
+
+export type organization_masterCreateNestedOneWithoutJoin_requestsInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutJoin_requestsInput, Prisma.organization_masterUncheckedCreateWithoutJoin_requestsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutJoin_requestsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutJoin_requestsNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutJoin_requestsInput, Prisma.organization_masterUncheckedCreateWithoutJoin_requestsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutJoin_requestsInput
+  upsert?: Prisma.organization_masterUpsertWithoutJoin_requestsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutJoin_requestsInput, Prisma.organization_masterUpdateWithoutJoin_requestsInput>, Prisma.organization_masterUncheckedUpdateWithoutJoin_requestsInput>
+}
+
+export type organization_masterCreateNestedOneWithoutBroadcastsInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcastsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcastsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutBroadcastsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutBroadcastsNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcastsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcastsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutBroadcastsInput
+  upsert?: Prisma.organization_masterUpsertWithoutBroadcastsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutBroadcastsInput, Prisma.organization_masterUpdateWithoutBroadcastsInput>, Prisma.organization_masterUncheckedUpdateWithoutBroadcastsInput>
+}
+
+export type organization_masterCreateNestedOneWithoutBroadcast_targetsInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcast_targetsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcast_targetsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutBroadcast_targetsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutBroadcast_targetsNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcast_targetsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcast_targetsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutBroadcast_targetsInput
+  upsert?: Prisma.organization_masterUpsertWithoutBroadcast_targetsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutBroadcast_targetsInput, Prisma.organization_masterUpdateWithoutBroadcast_targetsInput>, Prisma.organization_masterUncheckedUpdateWithoutBroadcast_targetsInput>
+}
+
+export type organization_masterCreateNestedOneWithoutBroadcast_recipientsInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcast_recipientsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcast_recipientsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutBroadcast_recipientsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutBroadcast_recipientsNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcast_recipientsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcast_recipientsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutBroadcast_recipientsInput
+  upsert?: Prisma.organization_masterUpsertWithoutBroadcast_recipientsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutBroadcast_recipientsInput, Prisma.organization_masterUpdateWithoutBroadcast_recipientsInput>, Prisma.organization_masterUncheckedUpdateWithoutBroadcast_recipientsInput>
+}
+
+export type organization_masterCreateNestedOneWithoutChannelsInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutChannelsInput, Prisma.organization_masterUncheckedCreateWithoutChannelsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutChannelsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutChannelsNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutChannelsInput, Prisma.organization_masterUncheckedCreateWithoutChannelsInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutChannelsInput
+  upsert?: Prisma.organization_masterUpsertWithoutChannelsInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutChannelsInput, Prisma.organization_masterUpdateWithoutChannelsInput>, Prisma.organization_masterUncheckedUpdateWithoutChannelsInput>
+}
+
+export type organization_masterCreateNestedOneWithoutCommunitiesInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutCommunitiesInput, Prisma.organization_masterUncheckedCreateWithoutCommunitiesInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutCommunitiesInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+}
+
+export type organization_masterUpdateOneRequiredWithoutCommunitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.organization_masterCreateWithoutCommunitiesInput, Prisma.organization_masterUncheckedCreateWithoutCommunitiesInput>
+  connectOrCreate?: Prisma.organization_masterCreateOrConnectWithoutCommunitiesInput
+  upsert?: Prisma.organization_masterUpsertWithoutCommunitiesInput
+  connect?: Prisma.organization_masterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.organization_masterUpdateToOneWithWhereWithoutCommunitiesInput, Prisma.organization_masterUpdateWithoutCommunitiesInput>, Prisma.organization_masterUncheckedUpdateWithoutCommunitiesInput>
+}
+
 export type organization_masterCreateWithoutRegister_otpInput = {
   org_id?: bigint | number
   org_code: string
@@ -638,6 +886,18 @@ export type organization_masterCreateWithoutRegister_otpInput = {
   deleted_at?: Date | string | null
   user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
   wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
 }
 
 export type organization_masterUncheckedCreateWithoutRegister_otpInput = {
@@ -656,6 +916,18 @@ export type organization_masterUncheckedCreateWithoutRegister_otpInput = {
   deleted_at?: Date | string | null
   user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
   wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type organization_masterCreateOrConnectWithoutRegister_otpInput = {
@@ -690,6 +962,18 @@ export type organization_masterUpdateWithoutRegister_otpInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
   wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
 }
 
 export type organization_masterUncheckedUpdateWithoutRegister_otpInput = {
@@ -708,6 +992,18 @@ export type organization_masterUncheckedUpdateWithoutRegister_otpInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
   wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type organization_masterCreateWithoutUser_organizationInput = {
@@ -726,6 +1022,18 @@ export type organization_masterCreateWithoutUser_organizationInput = {
   deleted_at?: Date | string | null
   register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
   wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
 }
 
 export type organization_masterUncheckedCreateWithoutUser_organizationInput = {
@@ -744,6 +1052,18 @@ export type organization_masterUncheckedCreateWithoutUser_organizationInput = {
   deleted_at?: Date | string | null
   register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
   wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type organization_masterCreateOrConnectWithoutUser_organizationInput = {
@@ -778,6 +1098,18 @@ export type organization_masterUpdateWithoutUser_organizationInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
   wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
 }
 
 export type organization_masterUncheckedUpdateWithoutUser_organizationInput = {
@@ -796,6 +1128,18 @@ export type organization_masterUncheckedUpdateWithoutUser_organizationInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
   wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type organization_masterCreateWithoutWp_groupInput = {
@@ -814,6 +1158,18 @@ export type organization_masterCreateWithoutWp_groupInput = {
   deleted_at?: Date | string | null
   register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
   user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
 }
 
 export type organization_masterUncheckedCreateWithoutWp_groupInput = {
@@ -832,6 +1188,18 @@ export type organization_masterUncheckedCreateWithoutWp_groupInput = {
   deleted_at?: Date | string | null
   register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
   user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type organization_masterCreateOrConnectWithoutWp_groupInput = {
@@ -866,6 +1234,18 @@ export type organization_masterUpdateWithoutWp_groupInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
   user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
 }
 
 export type organization_masterUncheckedUpdateWithoutWp_groupInput = {
@@ -884,6 +1264,1650 @@ export type organization_masterUncheckedUpdateWithoutWp_groupInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
   user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutSettingInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutSettingInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutSettingInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutSettingInput, Prisma.organization_masterUncheckedCreateWithoutSettingInput>
+}
+
+export type organization_masterUpsertWithoutSettingInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutSettingInput, Prisma.organization_masterUncheckedUpdateWithoutSettingInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutSettingInput, Prisma.organization_masterUncheckedCreateWithoutSettingInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutSettingInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutSettingInput, Prisma.organization_masterUncheckedUpdateWithoutSettingInput>
+}
+
+export type organization_masterUpdateWithoutSettingInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutSettingInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutRelationships_requestedInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutRelationships_requestedInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutRelationships_requestedInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutRelationships_requestedInput, Prisma.organization_masterUncheckedCreateWithoutRelationships_requestedInput>
+}
+
+export type organization_masterCreateWithoutRelationships_receivedInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutRelationships_receivedInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutRelationships_receivedInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutRelationships_receivedInput, Prisma.organization_masterUncheckedCreateWithoutRelationships_receivedInput>
+}
+
+export type organization_masterUpsertWithoutRelationships_requestedInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutRelationships_requestedInput, Prisma.organization_masterUncheckedUpdateWithoutRelationships_requestedInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutRelationships_requestedInput, Prisma.organization_masterUncheckedCreateWithoutRelationships_requestedInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutRelationships_requestedInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutRelationships_requestedInput, Prisma.organization_masterUncheckedUpdateWithoutRelationships_requestedInput>
+}
+
+export type organization_masterUpdateWithoutRelationships_requestedInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutRelationships_requestedInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUpsertWithoutRelationships_receivedInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutRelationships_receivedInput, Prisma.organization_masterUncheckedUpdateWithoutRelationships_receivedInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutRelationships_receivedInput, Prisma.organization_masterUncheckedCreateWithoutRelationships_receivedInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutRelationships_receivedInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutRelationships_receivedInput, Prisma.organization_masterUncheckedUpdateWithoutRelationships_receivedInput>
+}
+
+export type organization_masterUpdateWithoutRelationships_receivedInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutRelationships_receivedInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutAudit_logsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutAudit_logsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutAudit_logsInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutAudit_logsInput, Prisma.organization_masterUncheckedCreateWithoutAudit_logsInput>
+}
+
+export type organization_masterUpsertWithoutAudit_logsInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutAudit_logsInput, Prisma.organization_masterUncheckedUpdateWithoutAudit_logsInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutAudit_logsInput, Prisma.organization_masterUncheckedCreateWithoutAudit_logsInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutAudit_logsInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutAudit_logsInput, Prisma.organization_masterUncheckedUpdateWithoutAudit_logsInput>
+}
+
+export type organization_masterUpdateWithoutAudit_logsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutAudit_logsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutDepartmentsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutDepartmentsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutDepartmentsInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutDepartmentsInput, Prisma.organization_masterUncheckedCreateWithoutDepartmentsInput>
+}
+
+export type organization_masterUpsertWithoutDepartmentsInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutDepartmentsInput, Prisma.organization_masterUncheckedUpdateWithoutDepartmentsInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutDepartmentsInput, Prisma.organization_masterUncheckedCreateWithoutDepartmentsInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutDepartmentsInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutDepartmentsInput, Prisma.organization_masterUncheckedUpdateWithoutDepartmentsInput>
+}
+
+export type organization_masterUpdateWithoutDepartmentsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutDepartmentsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutInvitesInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutInvitesInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutInvitesInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutInvitesInput, Prisma.organization_masterUncheckedCreateWithoutInvitesInput>
+}
+
+export type organization_masterUpsertWithoutInvitesInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutInvitesInput, Prisma.organization_masterUncheckedUpdateWithoutInvitesInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutInvitesInput, Prisma.organization_masterUncheckedCreateWithoutInvitesInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutInvitesInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutInvitesInput, Prisma.organization_masterUncheckedUpdateWithoutInvitesInput>
+}
+
+export type organization_masterUpdateWithoutInvitesInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutInvitesInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutJoin_requestsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutJoin_requestsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutJoin_requestsInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutJoin_requestsInput, Prisma.organization_masterUncheckedCreateWithoutJoin_requestsInput>
+}
+
+export type organization_masterUpsertWithoutJoin_requestsInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutJoin_requestsInput, Prisma.organization_masterUncheckedUpdateWithoutJoin_requestsInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutJoin_requestsInput, Prisma.organization_masterUncheckedCreateWithoutJoin_requestsInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutJoin_requestsInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutJoin_requestsInput, Prisma.organization_masterUncheckedUpdateWithoutJoin_requestsInput>
+}
+
+export type organization_masterUpdateWithoutJoin_requestsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutJoin_requestsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutBroadcastsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutBroadcastsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutBroadcastsInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcastsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcastsInput>
+}
+
+export type organization_masterUpsertWithoutBroadcastsInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutBroadcastsInput, Prisma.organization_masterUncheckedUpdateWithoutBroadcastsInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcastsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcastsInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutBroadcastsInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutBroadcastsInput, Prisma.organization_masterUncheckedUpdateWithoutBroadcastsInput>
+}
+
+export type organization_masterUpdateWithoutBroadcastsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutBroadcastsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutBroadcast_targetsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutBroadcast_targetsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutBroadcast_targetsInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcast_targetsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcast_targetsInput>
+}
+
+export type organization_masterUpsertWithoutBroadcast_targetsInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutBroadcast_targetsInput, Prisma.organization_masterUncheckedUpdateWithoutBroadcast_targetsInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcast_targetsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcast_targetsInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutBroadcast_targetsInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutBroadcast_targetsInput, Prisma.organization_masterUncheckedUpdateWithoutBroadcast_targetsInput>
+}
+
+export type organization_masterUpdateWithoutBroadcast_targetsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutBroadcast_targetsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutBroadcast_recipientsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutBroadcast_recipientsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutBroadcast_recipientsInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcast_recipientsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcast_recipientsInput>
+}
+
+export type organization_masterUpsertWithoutBroadcast_recipientsInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutBroadcast_recipientsInput, Prisma.organization_masterUncheckedUpdateWithoutBroadcast_recipientsInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutBroadcast_recipientsInput, Prisma.organization_masterUncheckedCreateWithoutBroadcast_recipientsInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutBroadcast_recipientsInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutBroadcast_recipientsInput, Prisma.organization_masterUncheckedUpdateWithoutBroadcast_recipientsInput>
+}
+
+export type organization_masterUpdateWithoutBroadcast_recipientsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutBroadcast_recipientsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutChannelsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutChannelsInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  communities?: Prisma.communityUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutChannelsInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutChannelsInput, Prisma.organization_masterUncheckedCreateWithoutChannelsInput>
+}
+
+export type organization_masterUpsertWithoutChannelsInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutChannelsInput, Prisma.organization_masterUncheckedUpdateWithoutChannelsInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutChannelsInput, Prisma.organization_masterUncheckedCreateWithoutChannelsInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutChannelsInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutChannelsInput, Prisma.organization_masterUncheckedUpdateWithoutChannelsInput>
+}
+
+export type organization_masterUpdateWithoutChannelsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutChannelsInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  communities?: Prisma.communityUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterCreateWithoutCommunitiesInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterUncheckedCreateWithoutCommunitiesInput = {
+  org_id?: bigint | number
+  org_code: string
+  organization_name: string
+  contact?: string | null
+  email?: string | null
+  location?: string | null
+  gst?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  register_otp?: Prisma.register_otpUncheckedCreateNestedManyWithoutOrganization_masterInput
+  user_organization?: Prisma.user_organizationUncheckedCreateNestedManyWithoutOrganization_masterInput
+  wp_group?: Prisma.wp_groupUncheckedCreateNestedManyWithoutOrganization_masterInput
+  setting?: Prisma.organization_settingUncheckedCreateNestedOneWithoutOrganizationInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutRequesterInput
+  relationships_received?: Prisma.organization_relationshipUncheckedCreateNestedManyWithoutTargetInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.departmentUncheckedCreateNestedManyWithoutOrganizationInput
+  invites?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutOrganizationInput
+  join_requests?: Prisma.organization_join_requestUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcasts?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSender_organizationInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedCreateNestedManyWithoutOrganizationInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutOrganizationInput
+  channels?: Prisma.channelUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type organization_masterCreateOrConnectWithoutCommunitiesInput = {
+  where: Prisma.organization_masterWhereUniqueInput
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutCommunitiesInput, Prisma.organization_masterUncheckedCreateWithoutCommunitiesInput>
+}
+
+export type organization_masterUpsertWithoutCommunitiesInput = {
+  update: Prisma.XOR<Prisma.organization_masterUpdateWithoutCommunitiesInput, Prisma.organization_masterUncheckedUpdateWithoutCommunitiesInput>
+  create: Prisma.XOR<Prisma.organization_masterCreateWithoutCommunitiesInput, Prisma.organization_masterUncheckedCreateWithoutCommunitiesInput>
+  where?: Prisma.organization_masterWhereInput
+}
+
+export type organization_masterUpdateToOneWithWhereWithoutCommunitiesInput = {
+  where?: Prisma.organization_masterWhereInput
+  data: Prisma.XOR<Prisma.organization_masterUpdateWithoutCommunitiesInput, Prisma.organization_masterUncheckedUpdateWithoutCommunitiesInput>
+}
+
+export type organization_masterUpdateWithoutCommunitiesInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUpdateManyWithoutOrganizationNestedInput
+}
+
+export type organization_masterUncheckedUpdateWithoutCommunitiesInput = {
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_code?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gst?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  register_otp?: Prisma.register_otpUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  user_organization?: Prisma.user_organizationUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  wp_group?: Prisma.wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput
+  setting?: Prisma.organization_settingUncheckedUpdateOneWithoutOrganizationNestedInput
+  relationships_requested?: Prisma.organization_relationshipUncheckedUpdateManyWithoutRequesterNestedInput
+  relationships_received?: Prisma.organization_relationshipUncheckedUpdateManyWithoutTargetNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.departmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  invites?: Prisma.organization_inviteUncheckedUpdateManyWithoutOrganizationNestedInput
+  join_requests?: Prisma.organization_join_requestUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcasts?: Prisma.org_broadcastUncheckedUpdateManyWithoutSender_organizationNestedInput
+  broadcast_targets?: Prisma.org_broadcast_targetUncheckedUpdateManyWithoutOrganizationNestedInput
+  broadcast_recipients?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutOrganizationNestedInput
+  channels?: Prisma.channelUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 
@@ -895,12 +2919,34 @@ export type Organization_masterCountOutputType = {
   register_otp: number
   user_organization: number
   wp_group: number
+  relationships_requested: number
+  relationships_received: number
+  audit_logs: number
+  departments: number
+  invites: number
+  join_requests: number
+  broadcasts: number
+  broadcast_targets: number
+  broadcast_recipients: number
+  channels: number
+  communities: number
 }
 
 export type Organization_masterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   register_otp?: boolean | Organization_masterCountOutputTypeCountRegister_otpArgs
   user_organization?: boolean | Organization_masterCountOutputTypeCountUser_organizationArgs
   wp_group?: boolean | Organization_masterCountOutputTypeCountWp_groupArgs
+  relationships_requested?: boolean | Organization_masterCountOutputTypeCountRelationships_requestedArgs
+  relationships_received?: boolean | Organization_masterCountOutputTypeCountRelationships_receivedArgs
+  audit_logs?: boolean | Organization_masterCountOutputTypeCountAudit_logsArgs
+  departments?: boolean | Organization_masterCountOutputTypeCountDepartmentsArgs
+  invites?: boolean | Organization_masterCountOutputTypeCountInvitesArgs
+  join_requests?: boolean | Organization_masterCountOutputTypeCountJoin_requestsArgs
+  broadcasts?: boolean | Organization_masterCountOutputTypeCountBroadcastsArgs
+  broadcast_targets?: boolean | Organization_masterCountOutputTypeCountBroadcast_targetsArgs
+  broadcast_recipients?: boolean | Organization_masterCountOutputTypeCountBroadcast_recipientsArgs
+  channels?: boolean | Organization_masterCountOutputTypeCountChannelsArgs
+  communities?: boolean | Organization_masterCountOutputTypeCountCommunitiesArgs
 }
 
 /**
@@ -934,6 +2980,83 @@ export type Organization_masterCountOutputTypeCountWp_groupArgs<ExtArgs extends 
   where?: Prisma.wp_groupWhereInput
 }
 
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountRelationships_requestedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.organization_relationshipWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountRelationships_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.organization_relationshipWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountAudit_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.organization_audit_logWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountDepartmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.departmentWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountInvitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.organization_inviteWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountJoin_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.organization_join_requestWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountBroadcastsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.org_broadcastWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountBroadcast_targetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.org_broadcast_targetWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountBroadcast_recipientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.org_broadcast_recipientWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountChannelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.channelWhereInput
+}
+
+/**
+ * Organization_masterCountOutputType without action
+ */
+export type Organization_masterCountOutputTypeCountCommunitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.communityWhereInput
+}
+
 
 export type organization_masterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   org_id?: boolean
@@ -952,6 +3075,18 @@ export type organization_masterSelect<ExtArgs extends runtime.Types.Extensions.I
   register_otp?: boolean | Prisma.organization_master$register_otpArgs<ExtArgs>
   user_organization?: boolean | Prisma.organization_master$user_organizationArgs<ExtArgs>
   wp_group?: boolean | Prisma.organization_master$wp_groupArgs<ExtArgs>
+  setting?: boolean | Prisma.organization_master$settingArgs<ExtArgs>
+  relationships_requested?: boolean | Prisma.organization_master$relationships_requestedArgs<ExtArgs>
+  relationships_received?: boolean | Prisma.organization_master$relationships_receivedArgs<ExtArgs>
+  audit_logs?: boolean | Prisma.organization_master$audit_logsArgs<ExtArgs>
+  departments?: boolean | Prisma.organization_master$departmentsArgs<ExtArgs>
+  invites?: boolean | Prisma.organization_master$invitesArgs<ExtArgs>
+  join_requests?: boolean | Prisma.organization_master$join_requestsArgs<ExtArgs>
+  broadcasts?: boolean | Prisma.organization_master$broadcastsArgs<ExtArgs>
+  broadcast_targets?: boolean | Prisma.organization_master$broadcast_targetsArgs<ExtArgs>
+  broadcast_recipients?: boolean | Prisma.organization_master$broadcast_recipientsArgs<ExtArgs>
+  channels?: boolean | Prisma.organization_master$channelsArgs<ExtArgs>
+  communities?: boolean | Prisma.organization_master$communitiesArgs<ExtArgs>
   _count?: boolean | Prisma.Organization_masterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organization_master"]>
 
@@ -978,6 +3113,18 @@ export type organization_masterInclude<ExtArgs extends runtime.Types.Extensions.
   register_otp?: boolean | Prisma.organization_master$register_otpArgs<ExtArgs>
   user_organization?: boolean | Prisma.organization_master$user_organizationArgs<ExtArgs>
   wp_group?: boolean | Prisma.organization_master$wp_groupArgs<ExtArgs>
+  setting?: boolean | Prisma.organization_master$settingArgs<ExtArgs>
+  relationships_requested?: boolean | Prisma.organization_master$relationships_requestedArgs<ExtArgs>
+  relationships_received?: boolean | Prisma.organization_master$relationships_receivedArgs<ExtArgs>
+  audit_logs?: boolean | Prisma.organization_master$audit_logsArgs<ExtArgs>
+  departments?: boolean | Prisma.organization_master$departmentsArgs<ExtArgs>
+  invites?: boolean | Prisma.organization_master$invitesArgs<ExtArgs>
+  join_requests?: boolean | Prisma.organization_master$join_requestsArgs<ExtArgs>
+  broadcasts?: boolean | Prisma.organization_master$broadcastsArgs<ExtArgs>
+  broadcast_targets?: boolean | Prisma.organization_master$broadcast_targetsArgs<ExtArgs>
+  broadcast_recipients?: boolean | Prisma.organization_master$broadcast_recipientsArgs<ExtArgs>
+  channels?: boolean | Prisma.organization_master$channelsArgs<ExtArgs>
+  communities?: boolean | Prisma.organization_master$communitiesArgs<ExtArgs>
   _count?: boolean | Prisma.Organization_masterCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -987,6 +3134,18 @@ export type $organization_masterPayload<ExtArgs extends runtime.Types.Extensions
     register_otp: Prisma.$register_otpPayload<ExtArgs>[]
     user_organization: Prisma.$user_organizationPayload<ExtArgs>[]
     wp_group: Prisma.$wp_groupPayload<ExtArgs>[]
+    setting: Prisma.$organization_settingPayload<ExtArgs> | null
+    relationships_requested: Prisma.$organization_relationshipPayload<ExtArgs>[]
+    relationships_received: Prisma.$organization_relationshipPayload<ExtArgs>[]
+    audit_logs: Prisma.$organization_audit_logPayload<ExtArgs>[]
+    departments: Prisma.$departmentPayload<ExtArgs>[]
+    invites: Prisma.$organization_invitePayload<ExtArgs>[]
+    join_requests: Prisma.$organization_join_requestPayload<ExtArgs>[]
+    broadcasts: Prisma.$org_broadcastPayload<ExtArgs>[]
+    broadcast_targets: Prisma.$org_broadcast_targetPayload<ExtArgs>[]
+    broadcast_recipients: Prisma.$org_broadcast_recipientPayload<ExtArgs>[]
+    channels: Prisma.$channelPayload<ExtArgs>[]
+    communities: Prisma.$communityPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     org_id: bigint
@@ -1345,6 +3504,18 @@ export interface Prisma__organization_masterClient<T, Null = never, ExtArgs exte
   register_otp<T extends Prisma.organization_master$register_otpArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$register_otpArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$register_otpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user_organization<T extends Prisma.organization_master$user_organizationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$user_organizationArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_organizationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wp_group<T extends Prisma.organization_master$wp_groupArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$wp_groupArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$wp_groupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  setting<T extends Prisma.organization_master$settingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$settingArgs<ExtArgs>>): Prisma.Prisma__organization_settingClient<runtime.Types.Result.GetResult<Prisma.$organization_settingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  relationships_requested<T extends Prisma.organization_master$relationships_requestedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$relationships_requestedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$organization_relationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  relationships_received<T extends Prisma.organization_master$relationships_receivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$relationships_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$organization_relationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  audit_logs<T extends Prisma.organization_master$audit_logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$audit_logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$organization_audit_logPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  departments<T extends Prisma.organization_master$departmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$departmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invites<T extends Prisma.organization_master$invitesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$invitesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$organization_invitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  join_requests<T extends Prisma.organization_master$join_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$join_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$organization_join_requestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  broadcasts<T extends Prisma.organization_master$broadcastsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$broadcastsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$org_broadcastPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  broadcast_targets<T extends Prisma.organization_master$broadcast_targetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$broadcast_targetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$org_broadcast_targetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  broadcast_recipients<T extends Prisma.organization_master$broadcast_recipientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$broadcast_recipientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$org_broadcast_recipientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  channels<T extends Prisma.organization_master$channelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$channelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$channelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  communities<T extends Prisma.organization_master$communitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_master$communitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$communityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1804,6 +3975,289 @@ export type organization_master$wp_groupArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.Wp_groupScalarFieldEnum | Prisma.Wp_groupScalarFieldEnum[]
+}
+
+/**
+ * organization_master.setting
+ */
+export type organization_master$settingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the organization_setting
+   */
+  select?: Prisma.organization_settingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the organization_setting
+   */
+  omit?: Prisma.organization_settingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.organization_settingInclude<ExtArgs> | null
+  where?: Prisma.organization_settingWhereInput
+}
+
+/**
+ * organization_master.relationships_requested
+ */
+export type organization_master$relationships_requestedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the organization_relationship
+   */
+  select?: Prisma.organization_relationshipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the organization_relationship
+   */
+  omit?: Prisma.organization_relationshipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.organization_relationshipInclude<ExtArgs> | null
+  where?: Prisma.organization_relationshipWhereInput
+  orderBy?: Prisma.organization_relationshipOrderByWithRelationInput | Prisma.organization_relationshipOrderByWithRelationInput[]
+  cursor?: Prisma.organization_relationshipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Organization_relationshipScalarFieldEnum | Prisma.Organization_relationshipScalarFieldEnum[]
+}
+
+/**
+ * organization_master.relationships_received
+ */
+export type organization_master$relationships_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the organization_relationship
+   */
+  select?: Prisma.organization_relationshipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the organization_relationship
+   */
+  omit?: Prisma.organization_relationshipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.organization_relationshipInclude<ExtArgs> | null
+  where?: Prisma.organization_relationshipWhereInput
+  orderBy?: Prisma.organization_relationshipOrderByWithRelationInput | Prisma.organization_relationshipOrderByWithRelationInput[]
+  cursor?: Prisma.organization_relationshipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Organization_relationshipScalarFieldEnum | Prisma.Organization_relationshipScalarFieldEnum[]
+}
+
+/**
+ * organization_master.audit_logs
+ */
+export type organization_master$audit_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the organization_audit_log
+   */
+  select?: Prisma.organization_audit_logSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the organization_audit_log
+   */
+  omit?: Prisma.organization_audit_logOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.organization_audit_logInclude<ExtArgs> | null
+  where?: Prisma.organization_audit_logWhereInput
+  orderBy?: Prisma.organization_audit_logOrderByWithRelationInput | Prisma.organization_audit_logOrderByWithRelationInput[]
+  cursor?: Prisma.organization_audit_logWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Organization_audit_logScalarFieldEnum | Prisma.Organization_audit_logScalarFieldEnum[]
+}
+
+/**
+ * organization_master.departments
+ */
+export type organization_master$departmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the department
+   */
+  select?: Prisma.departmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the department
+   */
+  omit?: Prisma.departmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.departmentInclude<ExtArgs> | null
+  where?: Prisma.departmentWhereInput
+  orderBy?: Prisma.departmentOrderByWithRelationInput | Prisma.departmentOrderByWithRelationInput[]
+  cursor?: Prisma.departmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DepartmentScalarFieldEnum | Prisma.DepartmentScalarFieldEnum[]
+}
+
+/**
+ * organization_master.invites
+ */
+export type organization_master$invitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the organization_invite
+   */
+  select?: Prisma.organization_inviteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the organization_invite
+   */
+  omit?: Prisma.organization_inviteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.organization_inviteInclude<ExtArgs> | null
+  where?: Prisma.organization_inviteWhereInput
+  orderBy?: Prisma.organization_inviteOrderByWithRelationInput | Prisma.organization_inviteOrderByWithRelationInput[]
+  cursor?: Prisma.organization_inviteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Organization_inviteScalarFieldEnum | Prisma.Organization_inviteScalarFieldEnum[]
+}
+
+/**
+ * organization_master.join_requests
+ */
+export type organization_master$join_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the organization_join_request
+   */
+  select?: Prisma.organization_join_requestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the organization_join_request
+   */
+  omit?: Prisma.organization_join_requestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.organization_join_requestInclude<ExtArgs> | null
+  where?: Prisma.organization_join_requestWhereInput
+  orderBy?: Prisma.organization_join_requestOrderByWithRelationInput | Prisma.organization_join_requestOrderByWithRelationInput[]
+  cursor?: Prisma.organization_join_requestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Organization_join_requestScalarFieldEnum | Prisma.Organization_join_requestScalarFieldEnum[]
+}
+
+/**
+ * organization_master.broadcasts
+ */
+export type organization_master$broadcastsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the org_broadcast
+   */
+  select?: Prisma.org_broadcastSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the org_broadcast
+   */
+  omit?: Prisma.org_broadcastOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.org_broadcastInclude<ExtArgs> | null
+  where?: Prisma.org_broadcastWhereInput
+  orderBy?: Prisma.org_broadcastOrderByWithRelationInput | Prisma.org_broadcastOrderByWithRelationInput[]
+  cursor?: Prisma.org_broadcastWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Org_broadcastScalarFieldEnum | Prisma.Org_broadcastScalarFieldEnum[]
+}
+
+/**
+ * organization_master.broadcast_targets
+ */
+export type organization_master$broadcast_targetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the org_broadcast_target
+   */
+  select?: Prisma.org_broadcast_targetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the org_broadcast_target
+   */
+  omit?: Prisma.org_broadcast_targetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.org_broadcast_targetInclude<ExtArgs> | null
+  where?: Prisma.org_broadcast_targetWhereInput
+  orderBy?: Prisma.org_broadcast_targetOrderByWithRelationInput | Prisma.org_broadcast_targetOrderByWithRelationInput[]
+  cursor?: Prisma.org_broadcast_targetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Org_broadcast_targetScalarFieldEnum | Prisma.Org_broadcast_targetScalarFieldEnum[]
+}
+
+/**
+ * organization_master.broadcast_recipients
+ */
+export type organization_master$broadcast_recipientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the org_broadcast_recipient
+   */
+  select?: Prisma.org_broadcast_recipientSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the org_broadcast_recipient
+   */
+  omit?: Prisma.org_broadcast_recipientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.org_broadcast_recipientInclude<ExtArgs> | null
+  where?: Prisma.org_broadcast_recipientWhereInput
+  orderBy?: Prisma.org_broadcast_recipientOrderByWithRelationInput | Prisma.org_broadcast_recipientOrderByWithRelationInput[]
+  cursor?: Prisma.org_broadcast_recipientWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Org_broadcast_recipientScalarFieldEnum | Prisma.Org_broadcast_recipientScalarFieldEnum[]
+}
+
+/**
+ * organization_master.channels
+ */
+export type organization_master$channelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the channel
+   */
+  select?: Prisma.channelSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the channel
+   */
+  omit?: Prisma.channelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.channelInclude<ExtArgs> | null
+  where?: Prisma.channelWhereInput
+  orderBy?: Prisma.channelOrderByWithRelationInput | Prisma.channelOrderByWithRelationInput[]
+  cursor?: Prisma.channelWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChannelScalarFieldEnum | Prisma.ChannelScalarFieldEnum[]
+}
+
+/**
+ * organization_master.communities
+ */
+export type organization_master$communitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the community
+   */
+  select?: Prisma.communitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the community
+   */
+  omit?: Prisma.communityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.communityInclude<ExtArgs> | null
+  where?: Prisma.communityWhereInput
+  orderBy?: Prisma.communityOrderByWithRelationInput | Prisma.communityOrderByWithRelationInput[]
+  cursor?: Prisma.communityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommunityScalarFieldEnum | Prisma.CommunityScalarFieldEnum[]
 }
 
 /**

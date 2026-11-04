@@ -49,6 +49,9 @@ export type Wp_groupMinAggregateOutputType = {
   created_by: bigint | null
   group_description: string | null
   group_icon: string | null
+  only_admins_can_send: boolean | null
+  only_admins_can_edit_info: boolean | null
+  invite_code: string | null
   created_at: Date | null
   updated_by: bigint | null
   updated_at: Date | null
@@ -63,6 +66,9 @@ export type Wp_groupMaxAggregateOutputType = {
   created_by: bigint | null
   group_description: string | null
   group_icon: string | null
+  only_admins_can_send: boolean | null
+  only_admins_can_edit_info: boolean | null
+  invite_code: string | null
   created_at: Date | null
   updated_by: bigint | null
   updated_at: Date | null
@@ -77,6 +83,9 @@ export type Wp_groupCountAggregateOutputType = {
   created_by: number
   group_description: number
   group_icon: number
+  only_admins_can_send: number
+  only_admins_can_edit_info: number
+  invite_code: number
   created_at: number
   updated_by: number
   updated_at: number
@@ -109,6 +118,9 @@ export type Wp_groupMinAggregateInputType = {
   created_by?: true
   group_description?: true
   group_icon?: true
+  only_admins_can_send?: true
+  only_admins_can_edit_info?: true
+  invite_code?: true
   created_at?: true
   updated_by?: true
   updated_at?: true
@@ -123,6 +135,9 @@ export type Wp_groupMaxAggregateInputType = {
   created_by?: true
   group_description?: true
   group_icon?: true
+  only_admins_can_send?: true
+  only_admins_can_edit_info?: true
+  invite_code?: true
   created_at?: true
   updated_by?: true
   updated_at?: true
@@ -137,6 +152,9 @@ export type Wp_groupCountAggregateInputType = {
   created_by?: true
   group_description?: true
   group_icon?: true
+  only_admins_can_send?: true
+  only_admins_can_edit_info?: true
+  invite_code?: true
   created_at?: true
   updated_by?: true
   updated_at?: true
@@ -238,6 +256,9 @@ export type Wp_groupGroupByOutputType = {
   created_by: bigint | null
   group_description: string | null
   group_icon: string | null
+  only_admins_can_send: boolean
+  only_admins_can_edit_info: boolean
+  invite_code: string | null
   created_at: Date
   updated_by: bigint | null
   updated_at: Date | null
@@ -275,6 +296,9 @@ export type wp_groupWhereInput = {
   created_by?: Prisma.BigIntNullableFilter<"wp_group"> | bigint | number | null
   group_description?: Prisma.StringNullableFilter<"wp_group"> | string | null
   group_icon?: Prisma.StringNullableFilter<"wp_group"> | string | null
+  only_admins_can_send?: Prisma.BoolFilter<"wp_group"> | boolean
+  only_admins_can_edit_info?: Prisma.BoolFilter<"wp_group"> | boolean
+  invite_code?: Prisma.StringNullableFilter<"wp_group"> | string | null
   created_at?: Prisma.DateTimeFilter<"wp_group"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"wp_group"> | bigint | number | null
   updated_at?: Prisma.DateTimeNullableFilter<"wp_group"> | Date | string | null
@@ -282,6 +306,8 @@ export type wp_groupWhereInput = {
   deleted_at?: Prisma.DateTimeNullableFilter<"wp_group"> | Date | string | null
   group_chat?: Prisma.Group_chatListRelationFilter
   group_member?: Prisma.Group_memberListRelationFilter
+  community_link?: Prisma.XOR<Prisma.Community_groupNullableScalarRelationFilter, Prisma.community_groupWhereInput> | null
+  announces_for?: Prisma.XOR<Prisma.CommunityNullableScalarRelationFilter, Prisma.communityWhereInput> | null
   organization_master?: Prisma.XOR<Prisma.Organization_masterScalarRelationFilter, Prisma.organization_masterWhereInput>
 }
 
@@ -292,6 +318,9 @@ export type wp_groupOrderByWithRelationInput = {
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   group_description?: Prisma.SortOrderInput | Prisma.SortOrder
   group_icon?: Prisma.SortOrderInput | Prisma.SortOrder
+  only_admins_can_send?: Prisma.SortOrder
+  only_admins_can_edit_info?: Prisma.SortOrder
+  invite_code?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -299,12 +328,15 @@ export type wp_groupOrderByWithRelationInput = {
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   group_chat?: Prisma.group_chatOrderByRelationAggregateInput
   group_member?: Prisma.group_memberOrderByRelationAggregateInput
+  community_link?: Prisma.community_groupOrderByWithRelationInput
+  announces_for?: Prisma.communityOrderByWithRelationInput
   organization_master?: Prisma.organization_masterOrderByWithRelationInput
   _relevance?: Prisma.wp_groupOrderByRelevanceInput
 }
 
 export type wp_groupWhereUniqueInput = Prisma.AtLeast<{
   group_id?: bigint | number
+  invite_code?: string
   AND?: Prisma.wp_groupWhereInput | Prisma.wp_groupWhereInput[]
   OR?: Prisma.wp_groupWhereInput[]
   NOT?: Prisma.wp_groupWhereInput | Prisma.wp_groupWhereInput[]
@@ -313,6 +345,8 @@ export type wp_groupWhereUniqueInput = Prisma.AtLeast<{
   created_by?: Prisma.BigIntNullableFilter<"wp_group"> | bigint | number | null
   group_description?: Prisma.StringNullableFilter<"wp_group"> | string | null
   group_icon?: Prisma.StringNullableFilter<"wp_group"> | string | null
+  only_admins_can_send?: Prisma.BoolFilter<"wp_group"> | boolean
+  only_admins_can_edit_info?: Prisma.BoolFilter<"wp_group"> | boolean
   created_at?: Prisma.DateTimeFilter<"wp_group"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"wp_group"> | bigint | number | null
   updated_at?: Prisma.DateTimeNullableFilter<"wp_group"> | Date | string | null
@@ -320,8 +354,10 @@ export type wp_groupWhereUniqueInput = Prisma.AtLeast<{
   deleted_at?: Prisma.DateTimeNullableFilter<"wp_group"> | Date | string | null
   group_chat?: Prisma.Group_chatListRelationFilter
   group_member?: Prisma.Group_memberListRelationFilter
+  community_link?: Prisma.XOR<Prisma.Community_groupNullableScalarRelationFilter, Prisma.community_groupWhereInput> | null
+  announces_for?: Prisma.XOR<Prisma.CommunityNullableScalarRelationFilter, Prisma.communityWhereInput> | null
   organization_master?: Prisma.XOR<Prisma.Organization_masterScalarRelationFilter, Prisma.organization_masterWhereInput>
-}, "group_id">
+}, "group_id" | "invite_code">
 
 export type wp_groupOrderByWithAggregationInput = {
   group_id?: Prisma.SortOrder
@@ -330,6 +366,9 @@ export type wp_groupOrderByWithAggregationInput = {
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   group_description?: Prisma.SortOrderInput | Prisma.SortOrder
   group_icon?: Prisma.SortOrderInput | Prisma.SortOrder
+  only_admins_can_send?: Prisma.SortOrder
+  only_admins_can_edit_info?: Prisma.SortOrder
+  invite_code?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -352,6 +391,9 @@ export type wp_groupScalarWhereWithAggregatesInput = {
   created_by?: Prisma.BigIntNullableWithAggregatesFilter<"wp_group"> | bigint | number | null
   group_description?: Prisma.StringNullableWithAggregatesFilter<"wp_group"> | string | null
   group_icon?: Prisma.StringNullableWithAggregatesFilter<"wp_group"> | string | null
+  only_admins_can_send?: Prisma.BoolWithAggregatesFilter<"wp_group"> | boolean
+  only_admins_can_edit_info?: Prisma.BoolWithAggregatesFilter<"wp_group"> | boolean
+  invite_code?: Prisma.StringNullableWithAggregatesFilter<"wp_group"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"wp_group"> | Date | string
   updated_by?: Prisma.BigIntNullableWithAggregatesFilter<"wp_group"> | bigint | number | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"wp_group"> | Date | string | null
@@ -365,6 +407,9 @@ export type wp_groupCreateInput = {
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
@@ -372,6 +417,8 @@ export type wp_groupCreateInput = {
   deleted_at?: Date | string | null
   group_chat?: Prisma.group_chatCreateNestedManyWithoutWp_groupInput
   group_member?: Prisma.group_memberCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupCreateNestedOneWithoutGroupInput
+  announces_for?: Prisma.communityCreateNestedOneWithoutAnnouncement_groupInput
   organization_master: Prisma.organization_masterCreateNestedOneWithoutWp_groupInput
 }
 
@@ -382,6 +429,9 @@ export type wp_groupUncheckedCreateInput = {
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
@@ -389,6 +439,8 @@ export type wp_groupUncheckedCreateInput = {
   deleted_at?: Date | string | null
   group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutWp_groupInput
   group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupUncheckedCreateNestedOneWithoutGroupInput
+  announces_for?: Prisma.communityUncheckedCreateNestedOneWithoutAnnouncement_groupInput
 }
 
 export type wp_groupUpdateInput = {
@@ -397,6 +449,9 @@ export type wp_groupUpdateInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -404,6 +459,8 @@ export type wp_groupUpdateInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_chat?: Prisma.group_chatUpdateManyWithoutWp_groupNestedInput
   group_member?: Prisma.group_memberUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUpdateOneWithoutGroupNestedInput
+  announces_for?: Prisma.communityUpdateOneWithoutAnnouncement_groupNestedInput
   organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutWp_groupNestedInput
 }
 
@@ -414,6 +471,9 @@ export type wp_groupUncheckedUpdateInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -421,6 +481,8 @@ export type wp_groupUncheckedUpdateInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutWp_groupNestedInput
   group_member?: Prisma.group_memberUncheckedUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUncheckedUpdateOneWithoutGroupNestedInput
+  announces_for?: Prisma.communityUncheckedUpdateOneWithoutAnnouncement_groupNestedInput
 }
 
 export type wp_groupCreateManyInput = {
@@ -430,6 +492,9 @@ export type wp_groupCreateManyInput = {
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
@@ -443,6 +508,9 @@ export type wp_groupUpdateManyMutationInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -457,6 +525,9 @@ export type wp_groupUncheckedUpdateManyInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -492,6 +563,9 @@ export type wp_groupCountOrderByAggregateInput = {
   created_by?: Prisma.SortOrder
   group_description?: Prisma.SortOrder
   group_icon?: Prisma.SortOrder
+  only_admins_can_send?: Prisma.SortOrder
+  only_admins_can_edit_info?: Prisma.SortOrder
+  invite_code?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -514,6 +588,9 @@ export type wp_groupMaxOrderByAggregateInput = {
   created_by?: Prisma.SortOrder
   group_description?: Prisma.SortOrder
   group_icon?: Prisma.SortOrder
+  only_admins_can_send?: Prisma.SortOrder
+  only_admins_can_edit_info?: Prisma.SortOrder
+  invite_code?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -528,6 +605,9 @@ export type wp_groupMinOrderByAggregateInput = {
   created_by?: Prisma.SortOrder
   group_description?: Prisma.SortOrder
   group_icon?: Prisma.SortOrder
+  only_admins_can_send?: Prisma.SortOrder
+  only_admins_can_edit_info?: Prisma.SortOrder
+  invite_code?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -613,18 +693,51 @@ export type wp_groupUncheckedUpdateManyWithoutOrganization_masterNestedInput = {
   deleteMany?: Prisma.wp_groupScalarWhereInput | Prisma.wp_groupScalarWhereInput[]
 }
 
+export type wp_groupCreateNestedOneWithoutAnnounces_forInput = {
+  create?: Prisma.XOR<Prisma.wp_groupCreateWithoutAnnounces_forInput, Prisma.wp_groupUncheckedCreateWithoutAnnounces_forInput>
+  connectOrCreate?: Prisma.wp_groupCreateOrConnectWithoutAnnounces_forInput
+  connect?: Prisma.wp_groupWhereUniqueInput
+}
+
+export type wp_groupUpdateOneRequiredWithoutAnnounces_forNestedInput = {
+  create?: Prisma.XOR<Prisma.wp_groupCreateWithoutAnnounces_forInput, Prisma.wp_groupUncheckedCreateWithoutAnnounces_forInput>
+  connectOrCreate?: Prisma.wp_groupCreateOrConnectWithoutAnnounces_forInput
+  upsert?: Prisma.wp_groupUpsertWithoutAnnounces_forInput
+  connect?: Prisma.wp_groupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.wp_groupUpdateToOneWithWhereWithoutAnnounces_forInput, Prisma.wp_groupUpdateWithoutAnnounces_forInput>, Prisma.wp_groupUncheckedUpdateWithoutAnnounces_forInput>
+}
+
+export type wp_groupCreateNestedOneWithoutCommunity_linkInput = {
+  create?: Prisma.XOR<Prisma.wp_groupCreateWithoutCommunity_linkInput, Prisma.wp_groupUncheckedCreateWithoutCommunity_linkInput>
+  connectOrCreate?: Prisma.wp_groupCreateOrConnectWithoutCommunity_linkInput
+  connect?: Prisma.wp_groupWhereUniqueInput
+}
+
+export type wp_groupUpdateOneRequiredWithoutCommunity_linkNestedInput = {
+  create?: Prisma.XOR<Prisma.wp_groupCreateWithoutCommunity_linkInput, Prisma.wp_groupUncheckedCreateWithoutCommunity_linkInput>
+  connectOrCreate?: Prisma.wp_groupCreateOrConnectWithoutCommunity_linkInput
+  upsert?: Prisma.wp_groupUpsertWithoutCommunity_linkInput
+  connect?: Prisma.wp_groupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.wp_groupUpdateToOneWithWhereWithoutCommunity_linkInput, Prisma.wp_groupUpdateWithoutCommunity_linkInput>, Prisma.wp_groupUncheckedUpdateWithoutCommunity_linkInput>
+}
+
 export type wp_groupCreateWithoutGroup_chatInput = {
   group_id?: bigint | number
   group_name: string
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
   group_member?: Prisma.group_memberCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupCreateNestedOneWithoutGroupInput
+  announces_for?: Prisma.communityCreateNestedOneWithoutAnnouncement_groupInput
   organization_master: Prisma.organization_masterCreateNestedOneWithoutWp_groupInput
 }
 
@@ -635,12 +748,17 @@ export type wp_groupUncheckedCreateWithoutGroup_chatInput = {
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
   group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupUncheckedCreateNestedOneWithoutGroupInput
+  announces_for?: Prisma.communityUncheckedCreateNestedOneWithoutAnnouncement_groupInput
 }
 
 export type wp_groupCreateOrConnectWithoutGroup_chatInput = {
@@ -665,12 +783,17 @@ export type wp_groupUpdateWithoutGroup_chatInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_member?: Prisma.group_memberUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUpdateOneWithoutGroupNestedInput
+  announces_for?: Prisma.communityUpdateOneWithoutAnnouncement_groupNestedInput
   organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutWp_groupNestedInput
 }
 
@@ -681,12 +804,17 @@ export type wp_groupUncheckedUpdateWithoutGroup_chatInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_member?: Prisma.group_memberUncheckedUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUncheckedUpdateOneWithoutGroupNestedInput
+  announces_for?: Prisma.communityUncheckedUpdateOneWithoutAnnouncement_groupNestedInput
 }
 
 export type wp_groupCreateWithoutGroup_memberInput = {
@@ -695,12 +823,17 @@ export type wp_groupCreateWithoutGroup_memberInput = {
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
   group_chat?: Prisma.group_chatCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupCreateNestedOneWithoutGroupInput
+  announces_for?: Prisma.communityCreateNestedOneWithoutAnnouncement_groupInput
   organization_master: Prisma.organization_masterCreateNestedOneWithoutWp_groupInput
 }
 
@@ -711,12 +844,17 @@ export type wp_groupUncheckedCreateWithoutGroup_memberInput = {
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
   group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupUncheckedCreateNestedOneWithoutGroupInput
+  announces_for?: Prisma.communityUncheckedCreateNestedOneWithoutAnnouncement_groupInput
 }
 
 export type wp_groupCreateOrConnectWithoutGroup_memberInput = {
@@ -741,12 +879,17 @@ export type wp_groupUpdateWithoutGroup_memberInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_chat?: Prisma.group_chatUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUpdateOneWithoutGroupNestedInput
+  announces_for?: Prisma.communityUpdateOneWithoutAnnouncement_groupNestedInput
   organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutWp_groupNestedInput
 }
 
@@ -757,12 +900,17 @@ export type wp_groupUncheckedUpdateWithoutGroup_memberInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUncheckedUpdateOneWithoutGroupNestedInput
+  announces_for?: Prisma.communityUncheckedUpdateOneWithoutAnnouncement_groupNestedInput
 }
 
 export type wp_groupCreateWithoutOrganization_masterInput = {
@@ -771,6 +919,9 @@ export type wp_groupCreateWithoutOrganization_masterInput = {
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
@@ -778,6 +929,8 @@ export type wp_groupCreateWithoutOrganization_masterInput = {
   deleted_at?: Date | string | null
   group_chat?: Prisma.group_chatCreateNestedManyWithoutWp_groupInput
   group_member?: Prisma.group_memberCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupCreateNestedOneWithoutGroupInput
+  announces_for?: Prisma.communityCreateNestedOneWithoutAnnouncement_groupInput
 }
 
 export type wp_groupUncheckedCreateWithoutOrganization_masterInput = {
@@ -786,6 +939,9 @@ export type wp_groupUncheckedCreateWithoutOrganization_masterInput = {
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
@@ -793,6 +949,8 @@ export type wp_groupUncheckedCreateWithoutOrganization_masterInput = {
   deleted_at?: Date | string | null
   group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutWp_groupInput
   group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupUncheckedCreateNestedOneWithoutGroupInput
+  announces_for?: Prisma.communityUncheckedCreateNestedOneWithoutAnnouncement_groupInput
 }
 
 export type wp_groupCreateOrConnectWithoutOrganization_masterInput = {
@@ -831,11 +989,206 @@ export type wp_groupScalarWhereInput = {
   created_by?: Prisma.BigIntNullableFilter<"wp_group"> | bigint | number | null
   group_description?: Prisma.StringNullableFilter<"wp_group"> | string | null
   group_icon?: Prisma.StringNullableFilter<"wp_group"> | string | null
+  only_admins_can_send?: Prisma.BoolFilter<"wp_group"> | boolean
+  only_admins_can_edit_info?: Prisma.BoolFilter<"wp_group"> | boolean
+  invite_code?: Prisma.StringNullableFilter<"wp_group"> | string | null
   created_at?: Prisma.DateTimeFilter<"wp_group"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"wp_group"> | bigint | number | null
   updated_at?: Prisma.DateTimeNullableFilter<"wp_group"> | Date | string | null
   deleted_by?: Prisma.BigIntNullableFilter<"wp_group"> | bigint | number | null
   deleted_at?: Prisma.DateTimeNullableFilter<"wp_group"> | Date | string | null
+}
+
+export type wp_groupCreateWithoutAnnounces_forInput = {
+  group_id?: bigint | number
+  group_name: string
+  created_by?: bigint | number | null
+  group_description?: string | null
+  group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutWp_groupInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupCreateNestedOneWithoutGroupInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutWp_groupInput
+}
+
+export type wp_groupUncheckedCreateWithoutAnnounces_forInput = {
+  group_id?: bigint | number
+  org_id: bigint | number
+  group_name: string
+  created_by?: bigint | number | null
+  group_description?: string | null
+  group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutWp_groupInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutWp_groupInput
+  community_link?: Prisma.community_groupUncheckedCreateNestedOneWithoutGroupInput
+}
+
+export type wp_groupCreateOrConnectWithoutAnnounces_forInput = {
+  where: Prisma.wp_groupWhereUniqueInput
+  create: Prisma.XOR<Prisma.wp_groupCreateWithoutAnnounces_forInput, Prisma.wp_groupUncheckedCreateWithoutAnnounces_forInput>
+}
+
+export type wp_groupUpsertWithoutAnnounces_forInput = {
+  update: Prisma.XOR<Prisma.wp_groupUpdateWithoutAnnounces_forInput, Prisma.wp_groupUncheckedUpdateWithoutAnnounces_forInput>
+  create: Prisma.XOR<Prisma.wp_groupCreateWithoutAnnounces_forInput, Prisma.wp_groupUncheckedCreateWithoutAnnounces_forInput>
+  where?: Prisma.wp_groupWhereInput
+}
+
+export type wp_groupUpdateToOneWithWhereWithoutAnnounces_forInput = {
+  where?: Prisma.wp_groupWhereInput
+  data: Prisma.XOR<Prisma.wp_groupUpdateWithoutAnnounces_forInput, Prisma.wp_groupUncheckedUpdateWithoutAnnounces_forInput>
+}
+
+export type wp_groupUpdateWithoutAnnounces_forInput = {
+  group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  group_name?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutWp_groupNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUpdateOneWithoutGroupNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutWp_groupNestedInput
+}
+
+export type wp_groupUncheckedUpdateWithoutAnnounces_forInput = {
+  group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  group_name?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutWp_groupNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUncheckedUpdateOneWithoutGroupNestedInput
+}
+
+export type wp_groupCreateWithoutCommunity_linkInput = {
+  group_id?: bigint | number
+  group_name: string
+  created_by?: bigint | number | null
+  group_description?: string | null
+  group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutWp_groupInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutWp_groupInput
+  announces_for?: Prisma.communityCreateNestedOneWithoutAnnouncement_groupInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutWp_groupInput
+}
+
+export type wp_groupUncheckedCreateWithoutCommunity_linkInput = {
+  group_id?: bigint | number
+  org_id: bigint | number
+  group_name: string
+  created_by?: bigint | number | null
+  group_description?: string | null
+  group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutWp_groupInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutWp_groupInput
+  announces_for?: Prisma.communityUncheckedCreateNestedOneWithoutAnnouncement_groupInput
+}
+
+export type wp_groupCreateOrConnectWithoutCommunity_linkInput = {
+  where: Prisma.wp_groupWhereUniqueInput
+  create: Prisma.XOR<Prisma.wp_groupCreateWithoutCommunity_linkInput, Prisma.wp_groupUncheckedCreateWithoutCommunity_linkInput>
+}
+
+export type wp_groupUpsertWithoutCommunity_linkInput = {
+  update: Prisma.XOR<Prisma.wp_groupUpdateWithoutCommunity_linkInput, Prisma.wp_groupUncheckedUpdateWithoutCommunity_linkInput>
+  create: Prisma.XOR<Prisma.wp_groupCreateWithoutCommunity_linkInput, Prisma.wp_groupUncheckedCreateWithoutCommunity_linkInput>
+  where?: Prisma.wp_groupWhereInput
+}
+
+export type wp_groupUpdateToOneWithWhereWithoutCommunity_linkInput = {
+  where?: Prisma.wp_groupWhereInput
+  data: Prisma.XOR<Prisma.wp_groupUpdateWithoutCommunity_linkInput, Prisma.wp_groupUncheckedUpdateWithoutCommunity_linkInput>
+}
+
+export type wp_groupUpdateWithoutCommunity_linkInput = {
+  group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  group_name?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutWp_groupNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutWp_groupNestedInput
+  announces_for?: Prisma.communityUpdateOneWithoutAnnouncement_groupNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutWp_groupNestedInput
+}
+
+export type wp_groupUncheckedUpdateWithoutCommunity_linkInput = {
+  group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  group_name?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutWp_groupNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutWp_groupNestedInput
+  announces_for?: Prisma.communityUncheckedUpdateOneWithoutAnnouncement_groupNestedInput
 }
 
 export type wp_groupCreateManyOrganization_masterInput = {
@@ -844,6 +1197,9 @@ export type wp_groupCreateManyOrganization_masterInput = {
   created_by?: bigint | number | null
   group_description?: string | null
   group_icon?: string | null
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: string | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
@@ -857,6 +1213,9 @@ export type wp_groupUpdateWithoutOrganization_masterInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -864,6 +1223,8 @@ export type wp_groupUpdateWithoutOrganization_masterInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_chat?: Prisma.group_chatUpdateManyWithoutWp_groupNestedInput
   group_member?: Prisma.group_memberUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUpdateOneWithoutGroupNestedInput
+  announces_for?: Prisma.communityUpdateOneWithoutAnnouncement_groupNestedInput
 }
 
 export type wp_groupUncheckedUpdateWithoutOrganization_masterInput = {
@@ -872,6 +1233,9 @@ export type wp_groupUncheckedUpdateWithoutOrganization_masterInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -879,6 +1243,8 @@ export type wp_groupUncheckedUpdateWithoutOrganization_masterInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutWp_groupNestedInput
   group_member?: Prisma.group_memberUncheckedUpdateManyWithoutWp_groupNestedInput
+  community_link?: Prisma.community_groupUncheckedUpdateOneWithoutGroupNestedInput
+  announces_for?: Prisma.communityUncheckedUpdateOneWithoutAnnouncement_groupNestedInput
 }
 
 export type wp_groupUncheckedUpdateManyWithoutOrganization_masterInput = {
@@ -887,6 +1253,9 @@ export type wp_groupUncheckedUpdateManyWithoutOrganization_masterInput = {
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   group_description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  only_admins_can_send?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  only_admins_can_edit_info?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  invite_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -941,6 +1310,9 @@ export type wp_groupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   created_by?: boolean
   group_description?: boolean
   group_icon?: boolean
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: boolean
   created_at?: boolean
   updated_by?: boolean
   updated_at?: boolean
@@ -948,6 +1320,8 @@ export type wp_groupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   deleted_at?: boolean
   group_chat?: boolean | Prisma.wp_group$group_chatArgs<ExtArgs>
   group_member?: boolean | Prisma.wp_group$group_memberArgs<ExtArgs>
+  community_link?: boolean | Prisma.wp_group$community_linkArgs<ExtArgs>
+  announces_for?: boolean | Prisma.wp_group$announces_forArgs<ExtArgs>
   organization_master?: boolean | Prisma.organization_masterDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.Wp_groupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["wp_group"]>
@@ -961,6 +1335,9 @@ export type wp_groupSelectScalar = {
   created_by?: boolean
   group_description?: boolean
   group_icon?: boolean
+  only_admins_can_send?: boolean
+  only_admins_can_edit_info?: boolean
+  invite_code?: boolean
   created_at?: boolean
   updated_by?: boolean
   updated_at?: boolean
@@ -968,10 +1345,12 @@ export type wp_groupSelectScalar = {
   deleted_at?: boolean
 }
 
-export type wp_groupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"group_id" | "org_id" | "group_name" | "created_by" | "group_description" | "group_icon" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["wp_group"]>
+export type wp_groupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"group_id" | "org_id" | "group_name" | "created_by" | "group_description" | "group_icon" | "only_admins_can_send" | "only_admins_can_edit_info" | "invite_code" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["wp_group"]>
 export type wp_groupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group_chat?: boolean | Prisma.wp_group$group_chatArgs<ExtArgs>
   group_member?: boolean | Prisma.wp_group$group_memberArgs<ExtArgs>
+  community_link?: boolean | Prisma.wp_group$community_linkArgs<ExtArgs>
+  announces_for?: boolean | Prisma.wp_group$announces_forArgs<ExtArgs>
   organization_master?: boolean | Prisma.organization_masterDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.Wp_groupCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -981,6 +1360,8 @@ export type $wp_groupPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     group_chat: Prisma.$group_chatPayload<ExtArgs>[]
     group_member: Prisma.$group_memberPayload<ExtArgs>[]
+    community_link: Prisma.$community_groupPayload<ExtArgs> | null
+    announces_for: Prisma.$communityPayload<ExtArgs> | null
     organization_master: Prisma.$organization_masterPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -990,6 +1371,9 @@ export type $wp_groupPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     created_by: bigint | null
     group_description: string | null
     group_icon: string | null
+    only_admins_can_send: boolean
+    only_admins_can_edit_info: boolean
+    invite_code: string | null
     created_at: Date
     updated_by: bigint | null
     updated_at: Date | null
@@ -1337,6 +1721,8 @@ export interface Prisma__wp_groupClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   group_chat<T extends Prisma.wp_group$group_chatArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.wp_group$group_chatArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$group_chatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   group_member<T extends Prisma.wp_group$group_memberArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.wp_group$group_memberArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$group_memberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  community_link<T extends Prisma.wp_group$community_linkArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.wp_group$community_linkArgs<ExtArgs>>): Prisma.Prisma__community_groupClient<runtime.Types.Result.GetResult<Prisma.$community_groupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  announces_for<T extends Prisma.wp_group$announces_forArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.wp_group$announces_forArgs<ExtArgs>>): Prisma.Prisma__communityClient<runtime.Types.Result.GetResult<Prisma.$communityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   organization_master<T extends Prisma.organization_masterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.organization_masterDefaultArgs<ExtArgs>>): Prisma.Prisma__organization_masterClient<runtime.Types.Result.GetResult<Prisma.$organization_masterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1373,6 +1759,9 @@ export interface wp_groupFieldRefs {
   readonly created_by: Prisma.FieldRef<"wp_group", 'BigInt'>
   readonly group_description: Prisma.FieldRef<"wp_group", 'String'>
   readonly group_icon: Prisma.FieldRef<"wp_group", 'String'>
+  readonly only_admins_can_send: Prisma.FieldRef<"wp_group", 'Boolean'>
+  readonly only_admins_can_edit_info: Prisma.FieldRef<"wp_group", 'Boolean'>
+  readonly invite_code: Prisma.FieldRef<"wp_group", 'String'>
   readonly created_at: Prisma.FieldRef<"wp_group", 'DateTime'>
   readonly updated_by: Prisma.FieldRef<"wp_group", 'BigInt'>
   readonly updated_at: Prisma.FieldRef<"wp_group", 'DateTime'>
@@ -1771,6 +2160,44 @@ export type wp_group$group_memberArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.Group_memberScalarFieldEnum | Prisma.Group_memberScalarFieldEnum[]
+}
+
+/**
+ * wp_group.community_link
+ */
+export type wp_group$community_linkArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the community_group
+   */
+  select?: Prisma.community_groupSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the community_group
+   */
+  omit?: Prisma.community_groupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.community_groupInclude<ExtArgs> | null
+  where?: Prisma.community_groupWhereInput
+}
+
+/**
+ * wp_group.announces_for
+ */
+export type wp_group$announces_forArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the community
+   */
+  select?: Prisma.communitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the community
+   */
+  omit?: Prisma.communityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.communityInclude<ExtArgs> | null
+  where?: Prisma.communityWhereInput
 }
 
 /**

@@ -1,4 +1,4 @@
-import { Platform, PermissionsAndroid, Alert } from 'react-native';
+import { Platform, PermissionsAndroid } from 'react-native';
 import {
     getMessaging,
     getToken,
@@ -12,13 +12,36 @@ import {
 } from '@react-native-firebase/messaging';
 import { apiPath } from '../environments/environment_urls';
 import { fetchApi } from './api/httpService';
+import { currentUserOrganizationId, getLatestAccessToken } from './auth/authSession';
 
 export interface NotificationChatData {
-    type?: string;
+    type?: 'PERSONAL_CHAT' | 'GROUP_CHAT' | 'BROADCAST' | string;
     senderUserOrganizationId?: string;
     senderName?: string;
     chatId?: string;
+    groupId?: string;
+    groupName?: string;
+    broadcastId?: string;
+    receiverUserOrganizationId?: string;
 }
+
+export interface InAppNotice {
+    title: string;
+    body: string;
+    data: NotificationChatData;
+}
+
+/** The chat a notification belongs to, in the same form the open chat is tracked. */
+export const chatKeyOf = (data: NotificationChatData) =>
+    data.type === 'GROUP_CHAT' && data.groupId
+        ? `group:${data.groupId}`
+        : data.senderUserOrganizationId ?? null;
+
+// A phone that switched organization may still get a notification for the old one.
+const isForCurrentMembership = (data: NotificationChatData) => {
+    const current = currentUserOrganizationId();
+    return !data.receiverUserOrganizationId || !current || data.receiverUserOrganizationId === current;
+};
 
 export const requestNotificationPermission = async (): Promise<boolean> => {
     try {
@@ -27,7 +50,6 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
                 PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
             );
             if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-                console.log('Android POST_NOTIFICATIONS permission denied');
                 return false;
             }
         }
@@ -38,7 +60,6 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
             authStatus === AuthorizationStatus.AUTHORIZED ||
             authStatus === AuthorizationStatus.PROVISIONAL;
 
-        console.log('Firebase messaging authorization status:', authStatus, 'enabled:', enabled);
         return enabled;
     } catch (error) {
         console.warn('Failed to request notification permission:', error);
@@ -55,7 +76,6 @@ export const getDeviceFcmToken = async (): Promise<string | null> => {
 
         const messagingInstance = getMessaging();
         const token = await getToken(messagingInstance);
-        console.log('[FCM] Device FCM Token:', token);
         return token;
     } catch (error) {
         console.warn('[FCM] Error getting FCM token:', error);
@@ -72,7 +92,6 @@ export const registerDeviceTokenWithBackend = async (
 
         const tokenToRegister = fcmToken || (await getDeviceFcmToken());
         if (!tokenToRegister) {
-            console.log('[FCM] No token available to register');
             return;
         }
 
@@ -82,7 +101,6 @@ export const registerDeviceTokenWithBackend = async (
             deviceName: `${Platform.OS} device`,
         });
 
-        console.log('[FCM] Device token registered with backend successfully');
     } catch (error) {
         console.warn('[FCM] Failed to register device token with backend:', error);
     }
@@ -99,7 +117,6 @@ export const unregisterDeviceTokenFromBackend = async (
             fcmToken,
         });
 
-        console.log('[FCM] Device token unregistered from backend successfully');
     } catch (error) {
         console.warn('[FCM] Failed to unregister device token:', error);
     }
@@ -107,69 +124,40 @@ export const unregisterDeviceTokenFromBackend = async (
 
 export const setupNotificationListeners = (
     onNotificationClick: (data: NotificationChatData) => void,
-    getActiveChatUserOrgId?: () => string | null
+    getActiveChatKey?: () => string | null,
+    onForegroundNotice?: (notice: InAppNotice) => void,
 ) => {
     const messagingInstance = getMessaging();
+    const open = (remoteMessage: RemoteMessage | null) => {
+        const data = remoteMessage?.data as NotificationChatData | undefined;
+        if (data && isForCurrentMembership(data)) onNotificationClick(data);
+    };
 
-    // 1. Foreground message handler
+    // 1. In the foreground, live events already update the screens, so only a
+    //    small banner is shown, and nothing for the chat that is open.
     const unsubscribeForeground = onMessage(messagingInstance, (remoteMessage: RemoteMessage) => {
-        console.log('[FCM] Foreground message received:', remoteMessage);
-
-        const data = remoteMessage.data as NotificationChatData;
-        const currentActiveChatId = getActiveChatUserOrgId ? getActiveChatUserOrgId() : null;
-
-        // If the user is currently viewing this sender's chat, do not display in-app alert
-        if (
-            currentActiveChatId &&
-            data?.senderUserOrganizationId &&
-            String(currentActiveChatId) === String(data.senderUserOrganizationId)
-        ) {
-            console.log('[FCM] Foreground alert skipped: user is actively viewing this chat');
-            return;
-        }
-
-        // In-app alert when receiving notification while app is in foreground
+        const data = (remoteMessage.data ?? {}) as NotificationChatData;
+        if (!isForCurrentMembership(data)) return;
+        const key = chatKeyOf(data);
+        if (key && getActiveChatKey && getActiveChatKey() === key) return;
         if (remoteMessage.notification?.title) {
-            Alert.alert(
-                remoteMessage.notification.title,
-                remoteMessage.notification.body || '',
-                [
-                    { text: 'Dismiss', style: 'cancel' },
-                    {
-                        text: 'Open',
-                        onPress: () => {
-                            if (data) onNotificationClick(data);
-                        },
-                    },
-                ]
-            );
+            onForegroundNotice?.({
+                title: remoteMessage.notification.title,
+                body: remoteMessage.notification.body || '',
+                data,
+            });
         }
     });
 
-    // 2. Background notification clicked (app was minimized/backgrounded)
-    const unsubscribeNotificationOpened = onNotificationOpenedApp(
-        messagingInstance,
-        (remoteMessage: RemoteMessage) => {
-            console.log('[FCM] Notification caused app to open from background:', remoteMessage);
-            if (remoteMessage.data) {
-                onNotificationClick(remoteMessage.data as NotificationChatData);
-            }
-        }
-    );
+    // 2. Tapped while the app was in the background.
+    const unsubscribeNotificationOpened = onNotificationOpenedApp(messagingInstance, open);
 
-    // 3. Terminated notification clicked (app was completely closed/killed)
-    getInitialNotification(messagingInstance).then((remoteMessage) => {
-        if (remoteMessage) {
-            console.log('[FCM] Notification caused app to open from quit state:', remoteMessage);
-            if (remoteMessage.data) {
-                onNotificationClick(remoteMessage.data as NotificationChatData);
-            }
-        }
-    });
+    // 3. Tapped while the app was closed.
+    getInitialNotification(messagingInstance).then(open);
 
-    // 4. Token refresh listener
+    // 4. A new token is registered against the current session.
     const unsubscribeTokenRefresh = onTokenRefresh(messagingInstance, (newToken: string) => {
-        console.log('[FCM] Token refreshed:', newToken);
+        registerDeviceTokenWithBackend(getLatestAccessToken(), newToken);
     });
 
     return () => {

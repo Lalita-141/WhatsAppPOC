@@ -9,6 +9,11 @@ const adapter = new PrismaMariaDb({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   connectionLimit: 10,
+  // MySQL 8+ needs this for caching_sha2 logins without TLS. Loopback only,
+  // because over a network it would let an attacker supply the key.
+  allowPublicKeyRetrieval: /^(localhost|127\.|::1$)/.test(
+    process.env.DATABASE_HOST ?? "",
+  ),
 });
 
 const prisma = new PrismaClient({ adapter });

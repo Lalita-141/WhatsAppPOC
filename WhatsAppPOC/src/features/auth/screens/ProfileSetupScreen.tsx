@@ -128,7 +128,7 @@ export const ProfileSetupScreen: React.FC = () => {
           />
 
           {/* Collapsible Token Section */}
-          {token && (
+          {__DEV__ && token && (
             <View style={{ marginTop: 16 }}>
               <TouchableOpacity onPress={() => setIsTokenOpen(!isTokenOpen)}>
                 <Text style={{ color: theme.primary, fontSize: 12, fontWeight: '700' }}>

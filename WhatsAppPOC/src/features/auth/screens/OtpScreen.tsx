@@ -13,7 +13,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../../core/theme';
 import { useAuthStore } from '../store/authStore';
-
+import { OTP_LENGTH } from '../api/authApi';
 export const OtpScreen: React.FC = () => {
   const navigation = useNavigation();
   const {
@@ -118,14 +118,14 @@ export const OtpScreen: React.FC = () => {
           )}
         </View>
 
-        {/* Custom 4-Box OTP UI */}
+        {/* OTP boxes */}
         <View style={styles.otpOuterContainer}>
           <TouchableOpacity
             activeOpacity={1}
             onPress={handleBoxPress}
             style={styles.otpGrid}
           >
-            {Array(4)
+            {Array(OTP_LENGTH)
               .fill(0)
               .map((_, idx) => {
                 const digit = otp[idx] || '';
@@ -154,14 +154,14 @@ export const OtpScreen: React.FC = () => {
             style={styles.hiddenInput}
             value={otp}
             onChangeText={handleOtpChange}
-            maxLength={4}
+            maxLength={OTP_LENGTH}
             keyboardType="number-pad"
             autoFocus
           />
         </View>
 
         {/* Server OTP Hint for Testing */}
-        {serverOtpHint && (
+        {__DEV__ && serverOtpHint && (
           <TouchableOpacity
             style={[styles.hintContainer, { backgroundColor: theme.surface, borderColor: theme.border }]}
             onPress={handleManualAutoFill}
@@ -184,7 +184,7 @@ export const OtpScreen: React.FC = () => {
           <TouchableOpacity
             style={[styles.submitButton, { backgroundColor: theme.primary }]}
             onPress={() => handleVerifyOtp(navigation)}
-            disabled={isLoading || otp.length < 4}
+            disabled={isLoading || otp.length < OTP_LENGTH}
           >
             {isLoading ? (
               <ActivityIndicator color={theme.surface} />
@@ -256,11 +256,11 @@ const styles = StyleSheet.create({
   },
   otpGrid: {
     flexDirection: 'row',
-    gap: 16,
+    gap: 8,
   },
   otpBox: {
-    width: 56,
-    height: 56,
+    width: 44,
+    height: 52,
     borderRadius: 12,
     borderWidth: 1.5,
     alignItems: 'center',

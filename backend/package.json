@@ -7,7 +7,9 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
+    "test": "node --import tsx --test --test-concurrency=1 --test-force-exit tests/*.test.ts",
+    "org:make-admin": "tsx scripts/make-admin.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,12 +21,15 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.2",
     "firebase-admin": "^13.10.0",
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
+    "libphonenumber-js": "^1.13.15",
     "mariadb": "^3.5.3",
     "pino": "^10.3.1",
     "pino-http": "^11.0.0",
+    "sharp": "0.35.5",
     "socket.io": "^4.8.3",
     "zod": "^4.4.3"
   },
@@ -34,6 +39,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.2.0",
     "prisma": "^7.9.1",
+    "socket.io-client": "^4.8.4",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"
   }

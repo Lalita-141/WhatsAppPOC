@@ -57,7 +57,6 @@ export const useContactSync = (apiBaseUrl: string, accessToken: string, shouldSy
                     // Read contacts
                     const deviceContacts = await Contacts.getAll();
 
-                    console.log(' device contacts ', JSON.stringify(deviceContacts), ' length of device contacts ', deviceContacts.length);
 
                     // Format payload exactly as backend wants it
                     const formattedContacts = deviceContacts.map(c => {

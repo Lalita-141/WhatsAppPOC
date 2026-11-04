@@ -10,9 +10,20 @@ export const registerDeviceToken = async (
     fcmToken: string,
     deviceType?: string,
     deviceName?: string,
+    sessionId?: bigint,
 ) => {
     if (!fcmToken || typeof fcmToken !== "string" || !fcmToken.trim()) {
         throw new ApiError(400, "FCM_TOKEN_REQUIRED", "FCM token is required");
+    }
+
+    if (
+        fcmToken.length > 500 ||
+        (deviceType !== undefined &&
+            (typeof deviceType !== "string" || deviceType.length > 20)) ||
+        (deviceName !== undefined &&
+            (typeof deviceName !== "string" || deviceName.length > 100))
+    ) {
+        throw new ApiError(400, "VALIDATION_ERROR", "Invalid device details");
     }
 
     const device = await upsertUserDevice(
@@ -20,6 +31,7 @@ export const registerDeviceToken = async (
         fcmToken.trim(),
         deviceType?.toUpperCase(),
         deviceName,
+        sessionId,
     );
 
     return {
@@ -30,12 +42,17 @@ export const registerDeviceToken = async (
     };
 };
 
-export const unregisterDeviceToken = async (fcmToken: string) => {
+export const unregisterDeviceToken = async (
+    fcmToken: string,
+    userOrganizationId: bigint,
+) => {
     if (!fcmToken || typeof fcmToken !== "string" || !fcmToken.trim()) {
         throw new ApiError(400, "FCM_TOKEN_REQUIRED", "FCM token is required");
     }
 
-    await deleteUserDevice(fcmToken.trim());
+    // Only removes the caller's own token. The response does not reveal whether
+    // the token exists for someone else.
+    await deleteUserDevice(fcmToken.trim(), userOrganizationId);
 
     return {
         success: true,

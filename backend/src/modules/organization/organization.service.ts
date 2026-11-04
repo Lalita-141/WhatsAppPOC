@@ -1,14 +1,17 @@
 import { ApiError } from "../../utils/api-error.js";
+import { createSession } from "../auth/session.service.js";
 import {
   findOrganizationByCode,
   findUserOrganization,
-  createUserOrganization,
 } from "./organization.repository.js";
+import { joinOrganization } from "./membership.service.js";
 
 interface OrganizationSetupInput {
   userId: bigint;
   organizationId: bigint;
   orgCode: string;
+  deviceType?: string;
+  deviceName?: string;
 }
 
 export const setupOrganization = async (
@@ -43,6 +46,14 @@ export const setupOrganization = async (
       organization.org_id,
     );
 
+  if (existingUserOrganization?.deleted_at) {
+    throw new ApiError(
+      403,
+      "MEMBERSHIP_REMOVED",
+      "You were removed from this organization",
+    );
+  }
+
   if (existingUserOrganization) {
     throw new ApiError(
       409,
@@ -51,15 +62,37 @@ export const setupOrganization = async (
     );
   }
 
-  // 4. Create relationship
-  const userOrganization =
-    await createUserOrganization({
+  // 4. Join: at once with an invite or an open organization, otherwise
+  //    wait for an admin to approve.
+  const joined = await joinOrganization(input.userId, organization.org_id);
+
+  if (joined.status === "PENDING_APPROVAL") {
+    return {
+      status: "PENDING_APPROVAL" as const,
+      organizationName: organization.organization_name,
+    };
+  }
+
+  const userOrganization = joined.userOrganization;
+
+  // 5. Start the session, so the OTP never has to be submitted twice
+  const session = await createSession(
+    {
       userId: input.userId,
-      orgId: organization.org_id,
-      role: "USER",
-    });
+      organizationId: organization.org_id,
+      userOrganizationId: userOrganization.user_organization_id,
+    },
+    {
+      deviceType: input.deviceType,
+      deviceName: input.deviceName,
+    },
+  );
 
   return {
+    status: "JOINED" as const,
+
+    ...session,
+
     userOrganizationId:
       userOrganization.user_organization_id.toString(),
 

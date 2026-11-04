@@ -1,2 +1,4 @@
 .git-backup/
 .DS_Store
+**/serviceAccountKey.json
+**/*firebase-adminsdk*.json

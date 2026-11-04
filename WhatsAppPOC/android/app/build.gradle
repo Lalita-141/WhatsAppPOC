@@ -93,15 +93,29 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        // The upload key is read from ~/.gradle/gradle.properties (never from
+        // this repository). See docs/DEPLOYMENT.md, "Android release signing".
+        if (project.hasProperty('WHATSAPPPOC_UPLOAD_STORE_FILE')) {
+            release {
+                storeFile file(WHATSAPPPOC_UPLOAD_STORE_FILE)
+                storePassword WHATSAPPPOC_UPLOAD_STORE_PASSWORD
+                keyAlias WHATSAPPPOC_UPLOAD_KEY_ALIAS
+                keyPassword WHATSAPPPOC_UPLOAD_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            if (project.hasProperty('WHATSAPPPOC_UPLOAD_STORE_FILE')) {
+                signingConfig signingConfigs.release
+            } else {
+                // Lets a release build run locally. It cannot be published.
+                logger.warn("WHATSAPPPOC_UPLOAD_STORE_FILE is not set: signing the release build with the debug key")
+                signingConfig signingConfigs.debug
+            }
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }

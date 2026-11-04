@@ -60,9 +60,34 @@ export const ModelName = {
   user_master: 'user_master',
   user_organization: 'user_organization',
   user_device: 'user_device',
+  user_session: 'user_session',
   user_setting: 'user_setting',
   wp_group: 'wp_group',
-  country_master: 'country_master'
+  country_master: 'country_master',
+  conversation_state: 'conversation_state',
+  personal_message_state: 'personal_message_state',
+  message_reaction: 'message_reaction',
+  user_block: 'user_block',
+  user_report: 'user_report',
+  organization_setting: 'organization_setting',
+  organization_relationship: 'organization_relationship',
+  organization_audit_log: 'organization_audit_log',
+  department: 'department',
+  organization_invite: 'organization_invite',
+  organization_join_request: 'organization_join_request',
+  org_broadcast: 'org_broadcast',
+  org_broadcast_target: 'org_broadcast_target',
+  org_broadcast_recipient: 'org_broadcast_recipient',
+  media_file: 'media_file',
+  status_post: 'status_post',
+  status_audience: 'status_audience',
+  status_view: 'status_view',
+  channel: 'channel',
+  channel_member: 'channel_member',
+  channel_post: 'channel_post',
+  community: 'community',
+  community_group: 'community_group',
+  call_session: 'call_session'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -89,6 +114,12 @@ export const Group_chatScalarFieldEnum = {
   media: 'media',
   send_time: 'send_time',
   status: 'status',
+  message_type: 'message_type',
+  client_message_id: 'client_message_id',
+  reply_to_group_chat_id: 'reply_to_group_chat_id',
+  media_id: 'media_id',
+  forwarded: 'forwarded',
+  deleted_for_everyone_at: 'deleted_for_everyone_at',
   created_by: 'created_by',
   created_at: 'created_at',
   updated_by: 'updated_by',
@@ -124,6 +155,11 @@ export const Group_memberScalarFieldEnum = {
   user_organization_id: 'user_organization_id',
   role: 'role',
   joined_at: 'joined_at',
+  last_read_group_chat_id: 'last_read_group_chat_id',
+  muted_until: 'muted_until',
+  pinned_at: 'pinned_at',
+  archived_at: 'archived_at',
+  invited_by: 'invited_by',
   created_by: 'created_by',
   created_at: 'created_at',
   updated_by: 'updated_by',
@@ -163,6 +199,16 @@ export const Personal_chat_historyScalarFieldEnum = {
   send_time: 'send_time',
   receive_time: 'receive_time',
   status: 'status',
+  client_message_id: 'client_message_id',
+  media_id: 'media_id',
+  message_type: 'message_type',
+  reply_to_chat_id: 'reply_to_chat_id',
+  forwarded: 'forwarded',
+  edited_at: 'edited_at',
+  deleted_for_everyone_at: 'deleted_for_everyone_at',
+  read_time: 'read_time',
+  pinned_at: 'pinned_at',
+  pinned_by: 'pinned_by',
   created_by: 'created_by',
   created_at: 'created_at',
   updated_by: 'updated_by',
@@ -199,6 +245,7 @@ export const User_masterScalarFieldEnum = {
   user_id: 'user_id',
   first_name: 'first_name',
   last_name: 'last_name',
+  country_code: 'country_code',
   mobile_no: 'mobile_no',
   profile_photo: 'profile_photo',
   about: 'about',
@@ -208,7 +255,8 @@ export const User_masterScalarFieldEnum = {
   updated_by: 'updated_by',
   updated_at: 'updated_at',
   deleted_by: 'deleted_by',
-  deleted_at: 'deleted_at'
+  deleted_at: 'deleted_at',
+  profile_photo_media_id: 'profile_photo_media_id'
 } as const
 
 export type User_masterScalarFieldEnum = (typeof User_masterScalarFieldEnum)[keyof typeof User_masterScalarFieldEnum]
@@ -219,6 +267,7 @@ export const User_organizationScalarFieldEnum = {
   user_id: 'user_id',
   org_id: 'org_id',
   role: 'role',
+  department_id: 'department_id',
   created_by: 'created_by',
   created_at: 'created_at',
   updated_by: 'updated_by',
@@ -237,11 +286,30 @@ export const User_deviceScalarFieldEnum = {
   device_type: 'device_type',
   device_name: 'device_name',
   is_active: 'is_active',
+  session_id: 'session_id',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const
 
 export type User_deviceScalarFieldEnum = (typeof User_deviceScalarFieldEnum)[keyof typeof User_deviceScalarFieldEnum]
+
+
+export const User_sessionScalarFieldEnum = {
+  session_id: 'session_id',
+  user_organization_id: 'user_organization_id',
+  refresh_token_hash: 'refresh_token_hash',
+  previous_refresh_token_hash: 'previous_refresh_token_hash',
+  rotated_at: 'rotated_at',
+  device_type: 'device_type',
+  device_name: 'device_name',
+  created_at: 'created_at',
+  last_used_at: 'last_used_at',
+  expires_at: 'expires_at',
+  revoked_at: 'revoked_at',
+  revoke_reason: 'revoke_reason'
+} as const
+
+export type User_sessionScalarFieldEnum = (typeof User_sessionScalarFieldEnum)[keyof typeof User_sessionScalarFieldEnum]
 
 
 export const User_settingScalarFieldEnum = {
@@ -253,6 +321,11 @@ export const User_settingScalarFieldEnum = {
   read_receipts: 'read_receipts',
   typing_indicator: 'typing_indicator',
   status_privacy: 'status_privacy',
+  notify_messages: 'notify_messages',
+  notify_groups: 'notify_groups',
+  notify_announcements: 'notify_announcements',
+  notify_calls: 'notify_calls',
+  show_preview: 'show_preview',
   created_by: 'created_by',
   created_at: 'created_at',
   updated_by: 'updated_by',
@@ -271,6 +344,9 @@ export const Wp_groupScalarFieldEnum = {
   created_by: 'created_by',
   group_description: 'group_description',
   group_icon: 'group_icon',
+  only_admins_can_send: 'only_admins_can_send',
+  only_admins_can_edit_info: 'only_admins_can_edit_info',
+  invite_code: 'invite_code',
   created_at: 'created_at',
   updated_by: 'updated_by',
   updated_at: 'updated_at',
@@ -298,6 +374,322 @@ export const Country_masterScalarFieldEnum = {
 } as const
 
 export type Country_masterScalarFieldEnum = (typeof Country_masterScalarFieldEnum)[keyof typeof Country_masterScalarFieldEnum]
+
+
+export const Conversation_stateScalarFieldEnum = {
+  conversation_state_id: 'conversation_state_id',
+  owner_user_organization_id: 'owner_user_organization_id',
+  peer_user_organization_id: 'peer_user_organization_id',
+  last_message_id: 'last_message_id',
+  unread_count: 'unread_count',
+  pinned_at: 'pinned_at',
+  muted_until: 'muted_until',
+  archived_at: 'archived_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Conversation_stateScalarFieldEnum = (typeof Conversation_stateScalarFieldEnum)[keyof typeof Conversation_stateScalarFieldEnum]
+
+
+export const Personal_message_stateScalarFieldEnum = {
+  personal_message_state_id: 'personal_message_state_id',
+  chat_id: 'chat_id',
+  user_organization_id: 'user_organization_id',
+  starred_at: 'starred_at',
+  deleted_at: 'deleted_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Personal_message_stateScalarFieldEnum = (typeof Personal_message_stateScalarFieldEnum)[keyof typeof Personal_message_stateScalarFieldEnum]
+
+
+export const Message_reactionScalarFieldEnum = {
+  message_reaction_id: 'message_reaction_id',
+  chat_id: 'chat_id',
+  user_organization_id: 'user_organization_id',
+  emoji: 'emoji',
+  created_at: 'created_at'
+} as const
+
+export type Message_reactionScalarFieldEnum = (typeof Message_reactionScalarFieldEnum)[keyof typeof Message_reactionScalarFieldEnum]
+
+
+export const User_blockScalarFieldEnum = {
+  user_block_id: 'user_block_id',
+  blocker_user_organization_id: 'blocker_user_organization_id',
+  blocked_user_organization_id: 'blocked_user_organization_id',
+  created_at: 'created_at'
+} as const
+
+export type User_blockScalarFieldEnum = (typeof User_blockScalarFieldEnum)[keyof typeof User_blockScalarFieldEnum]
+
+
+export const User_reportScalarFieldEnum = {
+  user_report_id: 'user_report_id',
+  reporter_user_organization_id: 'reporter_user_organization_id',
+  reported_user_organization_id: 'reported_user_organization_id',
+  chat_id: 'chat_id',
+  reason: 'reason',
+  details: 'details',
+  created_at: 'created_at'
+} as const
+
+export type User_reportScalarFieldEnum = (typeof User_reportScalarFieldEnum)[keyof typeof User_reportScalarFieldEnum]
+
+
+export const Organization_settingScalarFieldEnum = {
+  org_id: 'org_id',
+  internal_chat_enabled: 'internal_chat_enabled',
+  external_policy: 'external_policy',
+  group_creation: 'group_creation',
+  external_participants: 'external_participants',
+  broadcast_permission: 'broadcast_permission',
+  file_sharing_enabled: 'file_sharing_enabled',
+  calls_enabled: 'calls_enabled',
+  max_upload_mb: 'max_upload_mb',
+  join_mode: 'join_mode',
+  updated_by: 'updated_by',
+  updated_at: 'updated_at'
+} as const
+
+export type Organization_settingScalarFieldEnum = (typeof Organization_settingScalarFieldEnum)[keyof typeof Organization_settingScalarFieldEnum]
+
+
+export const Organization_relationshipScalarFieldEnum = {
+  relationship_id: 'relationship_id',
+  pair_key: 'pair_key',
+  requester_org_id: 'requester_org_id',
+  target_org_id: 'target_org_id',
+  status: 'status',
+  requested_by: 'requested_by',
+  responded_by: 'responded_by',
+  created_at: 'created_at',
+  responded_at: 'responded_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Organization_relationshipScalarFieldEnum = (typeof Organization_relationshipScalarFieldEnum)[keyof typeof Organization_relationshipScalarFieldEnum]
+
+
+export const Organization_audit_logScalarFieldEnum = {
+  audit_log_id: 'audit_log_id',
+  org_id: 'org_id',
+  actor_user_org_id: 'actor_user_org_id',
+  action: 'action',
+  target_type: 'target_type',
+  target_id: 'target_id',
+  details: 'details',
+  created_at: 'created_at'
+} as const
+
+export type Organization_audit_logScalarFieldEnum = (typeof Organization_audit_logScalarFieldEnum)[keyof typeof Organization_audit_logScalarFieldEnum]
+
+
+export const DepartmentScalarFieldEnum = {
+  department_id: 'department_id',
+  org_id: 'org_id',
+  name: 'name',
+  created_at: 'created_at'
+} as const
+
+export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof typeof DepartmentScalarFieldEnum]
+
+
+export const Organization_inviteScalarFieldEnum = {
+  invite_id: 'invite_id',
+  org_id: 'org_id',
+  country_code: 'country_code',
+  mobile_no: 'mobile_no',
+  invited_by: 'invited_by',
+  created_at: 'created_at',
+  expires_at: 'expires_at',
+  accepted_at: 'accepted_at',
+  revoked_at: 'revoked_at'
+} as const
+
+export type Organization_inviteScalarFieldEnum = (typeof Organization_inviteScalarFieldEnum)[keyof typeof Organization_inviteScalarFieldEnum]
+
+
+export const Organization_join_requestScalarFieldEnum = {
+  join_request_id: 'join_request_id',
+  org_id: 'org_id',
+  user_id: 'user_id',
+  status: 'status',
+  decided_by: 'decided_by',
+  created_at: 'created_at',
+  decided_at: 'decided_at'
+} as const
+
+export type Organization_join_requestScalarFieldEnum = (typeof Organization_join_requestScalarFieldEnum)[keyof typeof Organization_join_requestScalarFieldEnum]
+
+
+export const Org_broadcastScalarFieldEnum = {
+  broadcast_id: 'broadcast_id',
+  sender_user_org_id: 'sender_user_org_id',
+  sender_org_id: 'sender_org_id',
+  title: 'title',
+  message: 'message',
+  is_announcement: 'is_announcement',
+  created_at: 'created_at'
+} as const
+
+export type Org_broadcastScalarFieldEnum = (typeof Org_broadcastScalarFieldEnum)[keyof typeof Org_broadcastScalarFieldEnum]
+
+
+export const Org_broadcast_targetScalarFieldEnum = {
+  broadcast_target_id: 'broadcast_target_id',
+  broadcast_id: 'broadcast_id',
+  org_id: 'org_id',
+  department_id: 'department_id'
+} as const
+
+export type Org_broadcast_targetScalarFieldEnum = (typeof Org_broadcast_targetScalarFieldEnum)[keyof typeof Org_broadcast_targetScalarFieldEnum]
+
+
+export const Org_broadcast_recipientScalarFieldEnum = {
+  broadcast_recipient_id: 'broadcast_recipient_id',
+  broadcast_id: 'broadcast_id',
+  recipient_user_org_id: 'recipient_user_org_id',
+  org_id: 'org_id',
+  delivered_at: 'delivered_at',
+  read_at: 'read_at'
+} as const
+
+export type Org_broadcast_recipientScalarFieldEnum = (typeof Org_broadcast_recipientScalarFieldEnum)[keyof typeof Org_broadcast_recipientScalarFieldEnum]
+
+
+export const Media_fileScalarFieldEnum = {
+  media_id: 'media_id',
+  owner_user_org_id: 'owner_user_org_id',
+  kind: 'kind',
+  status: 'status',
+  storage_provider: 'storage_provider',
+  storage_key: 'storage_key',
+  thumbnail_key: 'thumbnail_key',
+  original_name: 'original_name',
+  mime_type: 'mime_type',
+  declared_size: 'declared_size',
+  size_bytes: 'size_bytes',
+  checksum_sha256: 'checksum_sha256',
+  width: 'width',
+  height: 'height',
+  duration_ms: 'duration_ms',
+  created_at: 'created_at',
+  completed_at: 'completed_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type Media_fileScalarFieldEnum = (typeof Media_fileScalarFieldEnum)[keyof typeof Media_fileScalarFieldEnum]
+
+
+export const Status_postScalarFieldEnum = {
+  status_id: 'status_id',
+  owner_user_org_id: 'owner_user_org_id',
+  kind: 'kind',
+  text: 'text',
+  background_color: 'background_color',
+  media_id: 'media_id',
+  audience: 'audience',
+  created_at: 'created_at',
+  expires_at: 'expires_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type Status_postScalarFieldEnum = (typeof Status_postScalarFieldEnum)[keyof typeof Status_postScalarFieldEnum]
+
+
+export const Status_audienceScalarFieldEnum = {
+  status_id: 'status_id',
+  user_organization_id: 'user_organization_id'
+} as const
+
+export type Status_audienceScalarFieldEnum = (typeof Status_audienceScalarFieldEnum)[keyof typeof Status_audienceScalarFieldEnum]
+
+
+export const Status_viewScalarFieldEnum = {
+  status_id: 'status_id',
+  viewer_user_org_id: 'viewer_user_org_id',
+  viewed_at: 'viewed_at'
+} as const
+
+export type Status_viewScalarFieldEnum = (typeof Status_viewScalarFieldEnum)[keyof typeof Status_viewScalarFieldEnum]
+
+
+export const ChannelScalarFieldEnum = {
+  channel_id: 'channel_id',
+  org_id: 'org_id',
+  name: 'name',
+  description: 'description',
+  created_at: 'created_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type ChannelScalarFieldEnum = (typeof ChannelScalarFieldEnum)[keyof typeof ChannelScalarFieldEnum]
+
+
+export const Channel_memberScalarFieldEnum = {
+  channel_id: 'channel_id',
+  user_organization_id: 'user_organization_id',
+  role: 'role',
+  muted: 'muted',
+  last_read_post_id: 'last_read_post_id',
+  created_at: 'created_at'
+} as const
+
+export type Channel_memberScalarFieldEnum = (typeof Channel_memberScalarFieldEnum)[keyof typeof Channel_memberScalarFieldEnum]
+
+
+export const Channel_postScalarFieldEnum = {
+  post_id: 'post_id',
+  channel_id: 'channel_id',
+  author_user_org_id: 'author_user_org_id',
+  text: 'text',
+  media_id: 'media_id',
+  created_at: 'created_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type Channel_postScalarFieldEnum = (typeof Channel_postScalarFieldEnum)[keyof typeof Channel_postScalarFieldEnum]
+
+
+export const CommunityScalarFieldEnum = {
+  community_id: 'community_id',
+  org_id: 'org_id',
+  name: 'name',
+  description: 'description',
+  announcement_group_id: 'announcement_group_id',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type CommunityScalarFieldEnum = (typeof CommunityScalarFieldEnum)[keyof typeof CommunityScalarFieldEnum]
+
+
+export const Community_groupScalarFieldEnum = {
+  community_id: 'community_id',
+  group_id: 'group_id',
+  added_at: 'added_at'
+} as const
+
+export type Community_groupScalarFieldEnum = (typeof Community_groupScalarFieldEnum)[keyof typeof Community_groupScalarFieldEnum]
+
+
+export const Call_sessionScalarFieldEnum = {
+  call_id: 'call_id',
+  caller_user_org_id: 'caller_user_org_id',
+  callee_user_org_id: 'callee_user_org_id',
+  type: 'type',
+  status: 'status',
+  end_reason: 'end_reason',
+  created_at: 'created_at',
+  answered_at: 'answered_at',
+  ended_at: 'ended_at'
+} as const
+
+export type Call_sessionScalarFieldEnum = (typeof Call_sessionScalarFieldEnum)[keyof typeof Call_sessionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -342,7 +734,9 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const group_chatOrderByRelevanceFieldEnum = {
-  message: 'message'
+  message: 'message',
+  message_type: 'message_type',
+  client_message_id: 'client_message_id'
 } as const
 
 export type group_chatOrderByRelevanceFieldEnum = (typeof group_chatOrderByRelevanceFieldEnum)[keyof typeof group_chatOrderByRelevanceFieldEnum]
@@ -361,7 +755,9 @@ export type organization_masterOrderByRelevanceFieldEnum = (typeof organization_
 
 
 export const personal_chat_historyOrderByRelevanceFieldEnum = {
-  message: 'message'
+  message: 'message',
+  client_message_id: 'client_message_id',
+  message_type: 'message_type'
 } as const
 
 export type personal_chat_historyOrderByRelevanceFieldEnum = (typeof personal_chat_historyOrderByRelevanceFieldEnum)[keyof typeof personal_chat_historyOrderByRelevanceFieldEnum]
@@ -379,6 +775,7 @@ export type register_otpOrderByRelevanceFieldEnum = (typeof register_otpOrderByR
 export const user_masterOrderByRelevanceFieldEnum = {
   first_name: 'first_name',
   last_name: 'last_name',
+  country_code: 'country_code',
   mobile_no: 'mobile_no',
   profile_photo: 'profile_photo',
   about: 'about'
@@ -403,10 +800,22 @@ export const user_deviceOrderByRelevanceFieldEnum = {
 export type user_deviceOrderByRelevanceFieldEnum = (typeof user_deviceOrderByRelevanceFieldEnum)[keyof typeof user_deviceOrderByRelevanceFieldEnum]
 
 
+export const user_sessionOrderByRelevanceFieldEnum = {
+  refresh_token_hash: 'refresh_token_hash',
+  previous_refresh_token_hash: 'previous_refresh_token_hash',
+  device_type: 'device_type',
+  device_name: 'device_name',
+  revoke_reason: 'revoke_reason'
+} as const
+
+export type user_sessionOrderByRelevanceFieldEnum = (typeof user_sessionOrderByRelevanceFieldEnum)[keyof typeof user_sessionOrderByRelevanceFieldEnum]
+
+
 export const wp_groupOrderByRelevanceFieldEnum = {
   group_name: 'group_name',
   group_description: 'group_description',
-  group_icon: 'group_icon'
+  group_icon: 'group_icon',
+  invite_code: 'invite_code'
 } as const
 
 export type wp_groupOrderByRelevanceFieldEnum = (typeof wp_groupOrderByRelevanceFieldEnum)[keyof typeof wp_groupOrderByRelevanceFieldEnum]
@@ -421,4 +830,108 @@ export const country_masterOrderByRelevanceFieldEnum = {
 } as const
 
 export type country_masterOrderByRelevanceFieldEnum = (typeof country_masterOrderByRelevanceFieldEnum)[keyof typeof country_masterOrderByRelevanceFieldEnum]
+
+
+export const message_reactionOrderByRelevanceFieldEnum = {
+  emoji: 'emoji'
+} as const
+
+export type message_reactionOrderByRelevanceFieldEnum = (typeof message_reactionOrderByRelevanceFieldEnum)[keyof typeof message_reactionOrderByRelevanceFieldEnum]
+
+
+export const user_reportOrderByRelevanceFieldEnum = {
+  reason: 'reason',
+  details: 'details'
+} as const
+
+export type user_reportOrderByRelevanceFieldEnum = (typeof user_reportOrderByRelevanceFieldEnum)[keyof typeof user_reportOrderByRelevanceFieldEnum]
+
+
+export const organization_relationshipOrderByRelevanceFieldEnum = {
+  pair_key: 'pair_key'
+} as const
+
+export type organization_relationshipOrderByRelevanceFieldEnum = (typeof organization_relationshipOrderByRelevanceFieldEnum)[keyof typeof organization_relationshipOrderByRelevanceFieldEnum]
+
+
+export const organization_audit_logOrderByRelevanceFieldEnum = {
+  action: 'action',
+  target_type: 'target_type',
+  target_id: 'target_id'
+} as const
+
+export type organization_audit_logOrderByRelevanceFieldEnum = (typeof organization_audit_logOrderByRelevanceFieldEnum)[keyof typeof organization_audit_logOrderByRelevanceFieldEnum]
+
+
+export const departmentOrderByRelevanceFieldEnum = {
+  name: 'name'
+} as const
+
+export type departmentOrderByRelevanceFieldEnum = (typeof departmentOrderByRelevanceFieldEnum)[keyof typeof departmentOrderByRelevanceFieldEnum]
+
+
+export const organization_inviteOrderByRelevanceFieldEnum = {
+  country_code: 'country_code',
+  mobile_no: 'mobile_no'
+} as const
+
+export type organization_inviteOrderByRelevanceFieldEnum = (typeof organization_inviteOrderByRelevanceFieldEnum)[keyof typeof organization_inviteOrderByRelevanceFieldEnum]
+
+
+export const org_broadcastOrderByRelevanceFieldEnum = {
+  title: 'title',
+  message: 'message'
+} as const
+
+export type org_broadcastOrderByRelevanceFieldEnum = (typeof org_broadcastOrderByRelevanceFieldEnum)[keyof typeof org_broadcastOrderByRelevanceFieldEnum]
+
+
+export const media_fileOrderByRelevanceFieldEnum = {
+  storage_provider: 'storage_provider',
+  storage_key: 'storage_key',
+  thumbnail_key: 'thumbnail_key',
+  original_name: 'original_name',
+  mime_type: 'mime_type',
+  checksum_sha256: 'checksum_sha256'
+} as const
+
+export type media_fileOrderByRelevanceFieldEnum = (typeof media_fileOrderByRelevanceFieldEnum)[keyof typeof media_fileOrderByRelevanceFieldEnum]
+
+
+export const status_postOrderByRelevanceFieldEnum = {
+  text: 'text',
+  background_color: 'background_color'
+} as const
+
+export type status_postOrderByRelevanceFieldEnum = (typeof status_postOrderByRelevanceFieldEnum)[keyof typeof status_postOrderByRelevanceFieldEnum]
+
+
+export const channelOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description'
+} as const
+
+export type channelOrderByRelevanceFieldEnum = (typeof channelOrderByRelevanceFieldEnum)[keyof typeof channelOrderByRelevanceFieldEnum]
+
+
+export const channel_postOrderByRelevanceFieldEnum = {
+  text: 'text'
+} as const
+
+export type channel_postOrderByRelevanceFieldEnum = (typeof channel_postOrderByRelevanceFieldEnum)[keyof typeof channel_postOrderByRelevanceFieldEnum]
+
+
+export const communityOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description'
+} as const
+
+export type communityOrderByRelevanceFieldEnum = (typeof communityOrderByRelevanceFieldEnum)[keyof typeof communityOrderByRelevanceFieldEnum]
+
+
+export const call_sessionOrderByRelevanceFieldEnum = {
+  end_reason: 'end_reason'
+} as const
+
+export type call_sessionOrderByRelevanceFieldEnum = (typeof call_sessionOrderByRelevanceFieldEnum)[keyof typeof call_sessionOrderByRelevanceFieldEnum]
 

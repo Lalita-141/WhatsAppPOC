@@ -1,18 +1,17 @@
 import { ApiError } from "../../utils/api-error.js";
+import { joinOrganization } from "../organization/membership.service.js";
 import prisma from "../../config/database.js";
-import { normalizeIndianPhoneNumber } from "../../utils/phone.js";
+import { ProfileSetupTokenPayload } from "../../utils/jwt.js";
+import { createSession } from "../auth/session.service.js";
 import {
   findUserByMobile,
   createUser,
-  createUserOrganization,
-  createUserSetting,
   getUserById,
 } from "./user.repository.js";
 
 import {
   ProfileSetupRequest,
 } from "./user.validation.js";
-import { AuthRequest } from "../../middleware/auth.middleware.js";
 
 
 interface profileUpdateInputs {
@@ -22,15 +21,16 @@ interface profileUpdateInputs {
 }
 
 export const profileSetup = async (
+  claims: ProfileSetupTokenPayload,
   input: ProfileSetupRequest,
 ) => {
   /*
-   * 1. Check whether organization exists
+   * 1. Organization and phone number come from the verified setup token
    */
 
   const organization = await prisma.organization_master.findFirst({
     where: {
-      org_code: input.orgCode,
+      org_id: BigInt(claims.orgId),
       deleted_at: null,
     },
   });
@@ -43,14 +43,29 @@ export const profileSetup = async (
     );
   }
 
+  const country = await prisma.country_master.findFirst({
+    where: {
+      country_id: BigInt(claims.countryId),
+      deleted_at: null,
+    },
+  });
+
+  if (!country) {
+    throw new ApiError(
+      404,
+      "COUNTRY_NOT_FOUND",
+      "Country not found",
+    );
+  }
+
   /*
    * 2. Check whether user already exists
    */
 
-  const normalizedMobileNo =
-    normalizeIndianPhoneNumber(input.mobileNo);
+  const normalizedMobileNo = claims.mobileNo;
 
   const existingUser = await findUserByMobile(
+    country.country_code,
     normalizedMobileNo,
   );
 
@@ -63,52 +78,57 @@ export const profileSetup = async (
   }
 
   /*
-   * 3. Create everything inside one transaction
+   * 3. Create the person, then join the organization. Without an invite (or an
+   *    open organization) the join waits for an admin, and no session starts.
    */
 
-  const result = await prisma.$transaction(async (tx) => {
-    /*
-     * Create user
-     */
-
-    const user = await createUser(tx, {
+  const user = await prisma.$transaction((tx) =>
+    createUser(tx, {
       firstName: input.firstName.trim(),
       lastName: input.lastName?.trim(),
+      countryCode: country.country_code,
       mobileNo: normalizedMobileNo,
       about: input.about?.trim(),
-    });
+    }),
+  );
 
-    /*
-     * Create user ↔ organization relationship
-     */
+  const joined = await joinOrganization(user.user_id, organization.org_id);
 
-    const userOrganization =
-      await createUserOrganization(tx, {
-        userId: user.user_id,
-        orgId: organization.org_id,
-      });
-
-    /*
-     * Create default settings
-     */
-
-    const userSetting = await createUserSetting(
-      tx,
-      userOrganization.user_organization_id,
-    );
-
+  if (joined.status === "PENDING_APPROVAL") {
     return {
-      user,
-      userOrganization,
-      userSetting,
+      status: "PENDING_APPROVAL" as const,
+      userId: user.user_id.toString(),
+      organizationName: organization.organization_name,
     };
-  });
+  }
+
+  const result = { user, userOrganization: joined.userOrganization };
 
   /*
-   * 4. Return safe response
+   * 4. Start the session, so the OTP never has to be submitted twice
+   */
+
+  const session = await createSession(
+    {
+      userId: result.user.user_id,
+      organizationId: organization.org_id,
+      userOrganizationId: result.userOrganization.user_organization_id,
+    },
+    {
+      deviceType: input.deviceType?.toUpperCase(),
+      deviceName: input.deviceName,
+    },
+  );
+
+  /*
+   * 5. Return safe response
    */
 
   return {
+    status: "JOINED" as const,
+
+    ...session,
+
     userId: result.user.user_id.toString(),
 
     userOrganizationId:
@@ -129,13 +149,13 @@ export const profileSetup = async (
 
 export const getMyProfile = async (userId: string) => {
   const user = await getUserById(userId);
-  console.log(" getMyProfile user", user);
   return {
     userId: user?.user_id.toString(),
     firstName: user?.first_name,
     lastName: user?.last_name,
     mobileNo: user?.mobile_no,
     about: user?.about,
+    profilePhotoMediaId: user?.profile_photo_media_id?.toString() ?? null,
   };
 }
 

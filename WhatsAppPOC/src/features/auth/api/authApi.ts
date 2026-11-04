@@ -11,7 +11,8 @@ export interface SendOtpResponse {
   success: boolean;
   message: string;
   data: {
-    otp: string; // for development testing purposes
+    expiresIn: number;
+    otp?: string; // only when the backend has OTP_DEV_ECHO enabled in development
   };
 }
 
@@ -20,14 +21,13 @@ export interface VerifyOtpResponse {
   isNewUser: boolean;
   nextStep: 'PROFILE_SETUP' | 'ORGANIZATION_SETUP' | 'LOGIN';
   token: string; // profileSetupToken / organizationSetupToken / accessToken
+  refreshToken?: string; // only when nextStep is LOGIN
+  sessionId?: string;
   userId?: string;
   userOrganizationId?: string;
 }
 
 export interface ProfileSetupData {
-  orgCode: string;
-  countryId: string;
-  mobileNo: string;
   firstName: string;
   lastName?: string;
   about?: string;
@@ -37,6 +37,12 @@ export interface ProfileSetupResponse {
   success: boolean;
   message: string;
   data: {
+    // PENDING_APPROVAL: an organization admin must approve; no tokens yet.
+    status?: 'JOINED' | 'PENDING_APPROVAL';
+    organizationName?: string;
+    token: string;
+    refreshToken: string;
+    sessionId: string;
     userId: string;
     userOrganizationId: string;
     firstName: string;
@@ -55,6 +61,11 @@ export interface OrganizationSetupResponse {
   success: boolean;
   message: string;
   data: {
+    status?: 'JOINED' | 'PENDING_APPROVAL';
+    organizationName?: string;
+    token: string;
+    refreshToken: string;
+    sessionId: string;
     userOrganizationId: string;
     userId: string;
     organizationId: string;
@@ -72,9 +83,16 @@ export interface MeResponse {
   about?: string;
 }
 
+import { Platform } from 'react-native';
 import { apiPath } from '../../../environments/environment_urls';
 import { fetchApi } from '../../../services/api/httpService';
 
+export const OTP_LENGTH = 6;
+
+const deviceInfo = () => ({
+  deviceType: Platform.OS.toUpperCase(),
+  deviceName: `${Platform.OS} device`,
+});
 // Fetch all supported country prefixes
 export const getCountries = async (_baseUrl?: string): Promise<Country[]> => {
   const result = await fetchApi('GET', apiPath.countries);
@@ -96,7 +114,7 @@ export const sendOtp = async (
   return result;
 };
 
-// Validate 4-digit code
+// Validate the SMS code
 export const verifyOtp = async (
   _baseUrl: string,
   orgCode: string,
@@ -109,6 +127,7 @@ export const verifyOtp = async (
     countryId: countryId.trim(),
     mobileNo: mobileNo.trim(),
     otp: otp.trim(),
+    ...deviceInfo(),
   });
   return result.data;
 };
@@ -120,12 +139,10 @@ export const setupProfile = async (
   data: ProfileSetupData
 ): Promise<ProfileSetupResponse> => {
   const result = await fetchApi('POST', apiPath.userProfile, token, false, {
-    orgCode: data.orgCode.trim(),
-    countryId: data.countryId.trim(),
-    mobileNo: data.mobileNo.trim(),
     firstName: data.firstName.trim(),
     lastName: data.lastName?.trim() || undefined,
     about: data.about?.trim() || undefined,
+    ...deviceInfo(),
   });
   return result;
 };
@@ -138,10 +155,15 @@ export const setupOrganization = async (
 ): Promise<OrganizationSetupResponse> => {
   const result = await fetchApi('POST', apiPath.orgSetup, token, false, {
     orgCode: data.orgCode.trim(),
+    ...deviceInfo(),
   });
   return result;
 };
 
+// End this device's session on the server, including its push token
+export const logoutSession = async (refreshToken: string): Promise<void> => {
+  await fetchApi('POST', apiPath.revoke, undefined, false, { refreshToken });
+};
 // Retrieve authenticated /me user details (authenticated via accessToken)
 export const getMe = async (_baseUrl: string, token: string): Promise<MeResponse> => {
   const result = await fetchApi('GET', apiPath.me, token);

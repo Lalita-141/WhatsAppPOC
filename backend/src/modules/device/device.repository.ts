@@ -5,6 +5,7 @@ export const upsertUserDevice = async (
     fcmToken: string,
     deviceType?: string,
     deviceName?: string,
+    sessionId?: bigint,
 ) => {
     return await prisma.user_device.upsert({
         where: {
@@ -14,6 +15,7 @@ export const upsertUserDevice = async (
             user_organization_id: userOrganizationId,
             device_type: deviceType,
             device_name: deviceName,
+            session_id: sessionId,
             is_active: true,
             updated_at: new Date(),
         },
@@ -22,15 +24,20 @@ export const upsertUserDevice = async (
             fcm_token: fcmToken,
             device_type: deviceType,
             device_name: deviceName,
+            session_id: sessionId,
             is_active: true,
         },
     });
 };
 
-export const deleteUserDevice = async (fcmToken: string) => {
+export const deleteUserDevice = async (
+    fcmToken: string,
+    userOrganizationId: bigint,
+) => {
     return await prisma.user_device.deleteMany({
         where: {
             fcm_token: fcmToken,
+            user_organization_id: userOrganizationId,
         },
     });
 };

@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import {
+  Alert,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  ActivityIndicator,
   Platform,
-  Modal,
-  ScrollView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useTheme, ThemeMode } from '../../../core/theme';
+import { useTheme } from '../../../core/theme';
 import { useAuthStore } from '../../auth/store/authStore';
-import { getMe, MeResponse } from '../../auth/api/authApi';
 import { ChatsTab } from './tabs/ChatsTab';
+import { SettingsTab } from '../../settings/screens/SettingsTab';
 import { UpdatesTab } from './tabs/UpdatesTab';
 import { CommunitiesTab } from './tabs/CommunitiesTab';
 import { CallsTab } from './tabs/CallsTab';
+import { initCallSignaling } from '../../calls/state/callStore';
+import { GroupChatScreen } from '../../group/screens/GroupChatScreen';
+import { CreateGroupModal, JoinGroupModal } from '../../group/screens/CreateGroupModal';
 import { useContactSync } from '../../contacts/hooks/useContactSync';
 import { ContactsModal } from '../../contacts/components/ContactsModal';
 import { ChatScreen, ChatRecipient } from '../../chat/screens/ChatScreen';
@@ -26,30 +26,73 @@ import {
   registerDeviceTokenWithBackend,
   setupNotificationListeners,
   NotificationChatData,
+  InAppNotice,
 } from '../../../services/notificationService';
 
 export const HomeScreen: React.FC = () => {
-  type TabType = 'chats' | 'updates' | 'communities' | 'calls';
-  const navigation = useNavigation();
+  type TabType = 'chats' | 'updates' | 'communities' | 'calls' | 'settings';
   const {
     apiBaseUrl,
-    accessToken,
+    accessToken: latestAccessToken,
     nextStep,
-    handleLogout,
-    testProfileSetupNavigate,
   } = useAuthStore();
-  const { theme, isDark, themeMode, setThemeMode } = useTheme();
+  // Fixed for this session. Token refresh must not re-run the effects below,
+  // such as re-uploading contacts. fetchApi and the socket use the newest token.
+  const [accessToken] = useState(latestAccessToken);
+  const { theme, isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('chats');
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [profile, setProfile] = useState<MeResponse | null>(null);
-  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
-  const [profileError, setProfileError] = useState<string | null>(null);
+  const [unreadAnnouncements, setUnreadAnnouncements] = useState(0);
+  const [updatesSection, setUpdatesSection] = useState<'status' | 'channels' | 'announcements'>('status');
 
   // Call our new contact sync hook
   const { isSyncing, syncMessage, syncedContacts } = useContactSync(apiBaseUrl, accessToken, nextStep === 'LOGIN');
 
   const [isContactsModalVisible, setIsContactsModalVisible] = useState(false);
   const [activeChatRecipient, setActiveChatRecipient] = useState<ChatRecipient | null>(null);
+  const [activeGroup, setActiveGroup] = useState<{ groupId: string; name: string } | null>(null);
+  const [isCreateGroupOpen, setIsCreateGroupOpen] = useState(false);
+  const [isJoinGroupOpen, setIsJoinGroupOpen] = useState(false);
+  const registeredContacts = syncedContacts?.registered ?? [];
+  const [notice, setNotice] = useState<InAppNotice | null>(null);
+
+  // Opens what a notification is about: a chat, a group or the announcements.
+  const openFromNotification = (data: NotificationChatData) => {
+    setNotice(null);
+    if (data.type === 'GROUP_CHAT' && data.groupId) {
+      setActiveChatRecipient(null);
+      setActiveGroup({ groupId: data.groupId, name: data.groupName || 'Group' });
+    } else if (data.type === 'BROADCAST' || data.type === 'CHANNEL_POST') {
+      setActiveChatRecipient(null);
+      setActiveGroup(null);
+      setUpdatesSection(data.type === 'BROADCAST' ? 'announcements' : 'channels');
+      setActiveTab('updates');
+    } else if (data.type === 'INCOMING_CALL') {
+      // Nothing to open: the server re-sends a still-ringing call when the socket connects.
+      return;
+    } else if (data.senderUserOrganizationId) {
+      setActiveGroup(null);
+      handleOpenChat({ userOrganizationId: data.senderUserOrganizationId, name: data.senderName || 'Chat' });
+    }
+  };
+
+  const banner = notice ? (
+    <TouchableOpacity
+      style={[styles.banner, { backgroundColor: theme.surface, borderColor: theme.border }]}
+      onPress={() => openFromNotification(notice.data)}
+      accessibilityRole="button"
+    >
+      <Text style={{ color: theme.text, fontWeight: '700' }} numberOfLines={1}>{notice.title}</Text>
+      <Text style={{ color: theme.textSecondary }} numberOfLines={2}>{notice.body}</Text>
+    </TouchableOpacity>
+  ) : null;
+
+  const openNewMenu = () =>
+    Alert.alert('Start', undefined, [
+      { text: 'New chat', onPress: () => setIsContactsModalVisible(true) },
+      { text: 'New group', onPress: () => setIsCreateGroupOpen(true) },
+      { text: 'Join group with a code', onPress: () => setIsJoinGroupOpen(true) },
+      { text: 'Cancel', style: 'cancel' },
+    ]);
   const [activeChatLastMessage, setActiveChatLastMessage] = useState<LastMessage | null>(null);
   const [chatRefreshKey, setChatRefreshKey] = useState(0);
 
@@ -58,30 +101,14 @@ export const HomeScreen: React.FC = () => {
     setActiveChatLastMessage(initialLastMessage || null);
   };
 
-  // Fetch user profile /me if successfully logged in
   useEffect(() => {
     if (accessToken) {
       connectSocket(accessToken);
     }
+  }, [accessToken]);
 
-    if (nextStep === 'LOGIN') {
-      const fetchProfile = async () => {
-        setIsLoadingProfile(true);
-        setProfileError(null);
-        try {
-          const data = await getMe(apiBaseUrl, accessToken);
-          setProfile(data);
-        } catch (err: any) {
-          console.error(err);
-          setProfileError(err.message || 'Failed to load user profile');
-        } finally {
-          setIsLoadingProfile(false);
-        }
-      };
-
-      fetchProfile();
-    }
-  }, [apiBaseUrl, accessToken, nextStep]);
+  // Incoming calls can arrive on any screen.
+  useEffect(() => initCallSignaling(), []);
 
   // Setup push notifications: register token with backend & listen for notification taps
   useEffect(() => {
@@ -90,23 +117,23 @@ export const HomeScreen: React.FC = () => {
     // Register FCM device token
     registerDeviceTokenWithBackend(accessToken);
 
-    // Setup notification handlers (foreground alert & notification tap navigation)
     const unsubscribeNotifications = setupNotificationListeners(
-      (data: NotificationChatData) => {
-        if (data.senderUserOrganizationId) {
-          handleOpenChat({
-            userOrganizationId: data.senderUserOrganizationId,
-            name: data.senderName || 'Chat',
-          });
-        }
-      },
-      () => activeChatRecipient?.userOrganizationId || null
+      openFromNotification,
+      () => (activeGroup ? `group:${activeGroup.groupId}` : activeChatRecipient?.userOrganizationId || null),
+      setNotice,
     );
 
     return () => {
       unsubscribeNotifications();
     };
-  }, [accessToken, activeChatRecipient]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessToken, activeChatRecipient, activeGroup]);
+
+  useEffect(() => {
+    if (!notice) return;
+    const timer = setTimeout(() => setNotice(null), 4000);
+    return () => clearTimeout(timer);
+  }, [notice]);
 
   // Render correct tab contents
   const renderTabContent = () => {
@@ -118,15 +145,26 @@ export const HomeScreen: React.FC = () => {
             apiBaseUrl={apiBaseUrl}
             accessToken={accessToken}
             onOpenChat={handleOpenChat}
+            onOpenGroup={(groupId, name) => setActiveGroup({ groupId, name })}
             onOpenContacts={() => setIsContactsModalVisible(true)}
           />
         );
       case 'updates':
-        return <UpdatesTab />;
+        return (
+          <UpdatesTab
+            key={updatesSection}
+            accessToken={accessToken}
+            unreadAnnouncements={unreadAnnouncements}
+            onUnreadAnnouncementsChange={setUnreadAnnouncements}
+            initialSection={updatesSection}
+          />
+        );
       case 'communities':
-        return <CommunitiesTab />;
+        return <CommunitiesTab accessToken={accessToken} onOpenGroup={(groupId, name) => setActiveGroup({ groupId, name })} />;
       case 'calls':
         return <CallsTab />;
+      case 'settings':
+        return <SettingsTab accessToken={accessToken} />;
       default:
         return (
           <ChatsTab
@@ -134,15 +172,35 @@ export const HomeScreen: React.FC = () => {
             apiBaseUrl={apiBaseUrl}
             accessToken={accessToken}
             onOpenChat={handleOpenChat}
+            onOpenGroup={(groupId, name) => setActiveGroup({ groupId, name })}
             onOpenContacts={() => setIsContactsModalVisible(true)}
           />
         );
     }
   };
 
+  if (activeGroup) {
+    return (
+      <View style={{ flex: 1 }}>
+      <GroupChatScreen
+        accessToken={accessToken}
+        groupId={activeGroup.groupId}
+        initialName={activeGroup.name}
+        contacts={registeredContacts}
+        onBack={() => {
+          setActiveGroup(null);
+          setChatRefreshKey((k) => k + 1);
+        }}
+      />
+      {banner}
+      </View>
+    );
+  }
+
   // Render ChatScreen directly when a conversation is open
   if (activeChatRecipient) {
     return (
+      <View style={{ flex: 1 }}>
       <ChatScreen
         apiBaseUrl={apiBaseUrl}
         accessToken={accessToken}
@@ -154,6 +212,8 @@ export const HomeScreen: React.FC = () => {
         }}
         onMessageSent={() => setChatRefreshKey((k) => k + 1)}
       />
+      {banner}
+      </View>
     );
   }
 
@@ -167,20 +227,12 @@ export const HomeScreen: React.FC = () => {
 
         {/* Right Action Icons */}
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.headerIcon}>
-            <Text style={{ fontSize: 20 }}>📷</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerIcon}>
-            <Text style={{ fontSize: 20 }}>🔍</Text>
-          </TouchableOpacity>
-          {/* Settings Profile Avatar */}
           <TouchableOpacity
             style={[styles.profileAvatar, { backgroundColor: theme.border }]}
-            onPress={() => setIsSettingsOpen(true)}
+            onPress={() => setActiveTab('settings')}
+            accessibilityLabel="Open settings"
           >
-            <Text style={{ fontSize: 13, fontWeight: '700', color: theme.text }}>
-              {profile ? 'Me' : '👤'}
-            </Text>
+            <Text style={{ fontSize: 13, fontWeight: '700', color: theme.text }}>Me</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -202,7 +254,8 @@ export const HomeScreen: React.FC = () => {
         {activeTab === 'chats' && (
           <TouchableOpacity
             style={[styles.fab, { backgroundColor: theme.primary }]}
-            onPress={() => setIsContactsModalVisible(true)}
+            onPress={openNewMenu}
+            accessibilityLabel="New chat or group"
           >
             <Text style={styles.fabIcon}>💬</Text>
           </TouchableOpacity>
@@ -211,216 +264,62 @@ export const HomeScreen: React.FC = () => {
 
       {/* Bottom Tab Navigation Bar */}
       <View style={[styles.tabBar, { backgroundColor: theme.surface, borderTopColor: theme.border }]}>
-        {/* Chats Tab Button */}
-        <TouchableOpacity
-          style={styles.tabButton}
-          onPress={() => setActiveTab('chats')}
-        >
+        <TouchableOpacity style={styles.tabButton} onPress={() => setActiveTab('chats')} accessibilityRole="tab" accessibilityState={{ selected: activeTab === 'chats' }}>
           <Text style={[styles.tabIcon, { color: activeTab === 'chats' ? theme.primary : theme.textSecondary }]}>
             💬
           </Text>
-          <Text
-            style={[
-              styles.tabLabel,
-              {
-                color: activeTab === 'chats' ? theme.primary : theme.textSecondary,
-                fontWeight: activeTab === 'chats' ? '700' : '500',
-              },
-            ]}
-          >
+          <Text style={[styles.tabLabel, { color: activeTab === 'chats' ? theme.primary : theme.textSecondary, fontWeight: activeTab === 'chats' ? '700' : '500' }]}>
             Chats
           </Text>
         </TouchableOpacity>
-
-        {/* Updates Tab Button */}
-        <TouchableOpacity
-          style={styles.tabButton}
-          onPress={() => setActiveTab('updates')}
-        >
+        <TouchableOpacity style={styles.tabButton} onPress={() => setActiveTab('updates')} accessibilityRole="tab" accessibilityState={{ selected: activeTab === 'updates' }}>
           <Text style={[styles.tabIcon, { color: activeTab === 'updates' ? theme.primary : theme.textSecondary }]}>
-            🔄
+            🔄{unreadAnnouncements > 0 ? ` ${unreadAnnouncements > 99 ? '99+' : unreadAnnouncements}` : ''}
           </Text>
-          <Text
-            style={[
-              styles.tabLabel,
-              {
-                color: activeTab === 'updates' ? theme.primary : theme.textSecondary,
-                fontWeight: activeTab === 'updates' ? '700' : '500',
-              },
-            ]}
-          >
+          <Text style={[styles.tabLabel, { color: activeTab === 'updates' ? theme.primary : theme.textSecondary, fontWeight: activeTab === 'updates' ? '700' : '500' }]}>
             Updates
           </Text>
         </TouchableOpacity>
-
-        {/* Communities Tab Button */}
-        <TouchableOpacity
-          style={styles.tabButton}
-          onPress={() => setActiveTab('communities')}
-        >
+        <TouchableOpacity style={styles.tabButton} onPress={() => setActiveTab('communities')} accessibilityRole="tab" accessibilityState={{ selected: activeTab === 'communities' }}>
           <Text style={[styles.tabIcon, { color: activeTab === 'communities' ? theme.primary : theme.textSecondary }]}>
             👥
           </Text>
-          <Text
-            style={[
-              styles.tabLabel,
-              {
-                color: activeTab === 'communities' ? theme.primary : theme.textSecondary,
-                fontWeight: activeTab === 'communities' ? '700' : '500',
-              },
-            ]}
-          >
+          <Text style={[styles.tabLabel, { color: activeTab === 'communities' ? theme.primary : theme.textSecondary, fontWeight: activeTab === 'communities' ? '700' : '500' }]}>
             Communities
           </Text>
         </TouchableOpacity>
-
-        {/* Calls Tab Button */}
-        <TouchableOpacity
-          style={styles.tabButton}
-          onPress={() => setActiveTab('calls')}
-        >
+        <TouchableOpacity style={styles.tabButton} onPress={() => setActiveTab('calls')} accessibilityRole="tab" accessibilityState={{ selected: activeTab === 'calls' }}>
           <Text style={[styles.tabIcon, { color: activeTab === 'calls' ? theme.primary : theme.textSecondary }]}>
             📞
           </Text>
-          <Text
-            style={[
-              styles.tabLabel,
-              {
-                color: activeTab === 'calls' ? theme.primary : theme.textSecondary,
-                fontWeight: activeTab === 'calls' ? '700' : '500',
-              },
-            ]}
-          >
+          <Text style={[styles.tabLabel, { color: activeTab === 'calls' ? theme.primary : theme.textSecondary, fontWeight: activeTab === 'calls' ? '700' : '500' }]}>
             Calls
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.tabButton} onPress={() => setActiveTab('settings')} accessibilityRole="tab" accessibilityState={{ selected: activeTab === 'settings' }}>
+          <Text style={[styles.tabIcon, { color: activeTab === 'settings' ? theme.primary : theme.textSecondary }]}>
+            ⚙️
+          </Text>
+          <Text style={[styles.tabLabel, { color: activeTab === 'settings' ? theme.primary : theme.textSecondary, fontWeight: activeTab === 'settings' ? '700' : '500' }]}>
+            Settings
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Settings Modal Overlay */}
-      <Modal visible={isSettingsOpen} transparent animationType="slide">
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
-            {/* Modal Header */}
-            <View style={[styles.modalHeader, { borderBottomColor: theme.border }]}>
-              <Text style={[styles.modalTitle, { color: theme.text }]}>Settings</Text>
-              <TouchableOpacity onPress={() => setIsSettingsOpen(false)}>
-                <Text style={{ color: theme.primary, fontWeight: '700', fontSize: 16 }}>Done</Text>
-              </TouchableOpacity>
-            </View>
-
-            <ScrollView contentContainerStyle={styles.modalScroll}>
-              {/* Account Details */}
-              <View style={[styles.settingsCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
-                <Text style={[styles.cardTitle, { color: theme.text }]}>Verification Info</Text>
-
-                <View style={styles.detailRow}>
-                  <Text style={[styles.label, { color: theme.textSecondary }]}>Flow Status</Text>
-                  <View style={[styles.badge, { backgroundColor: nextStep === 'LOGIN' ? theme.success : theme.warning }]}>
-                    <Text style={[styles.badgeText, { color: theme.surface }]}>{nextStep}</Text>
-                  </View>
-                </View>
-
-                <Text style={[styles.label, { color: theme.textSecondary, marginTop: 12 }]}>Auth Token</Text>
-                <Text
-                  numberOfLines={2}
-                  ellipsizeMode="tail"
-                  style={[styles.tokenText, { color: theme.text, backgroundColor: theme.background }]}
-                >
-                  {accessToken}
-                </Text>
-              </View>
-
-              {/* Profile Details (/me) */}
-              {nextStep === 'LOGIN' && (
-                <View style={[styles.settingsCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
-                  <Text style={[styles.cardTitle, { color: theme.text }]}>User Profile (/me)</Text>
-
-                  {isLoadingProfile ? (
-                    <ActivityIndicator size="small" color={theme.primary} style={{ marginVertical: 16 }} />
-                  ) : profileError ? (
-                    <Text style={{ color: theme.error, fontSize: 13 }}>{profileError}</Text>
-                  ) : profile ? (
-                    <View style={styles.profileDetails}>
-                      <View style={[styles.profileRow, { borderBottomColor: theme.border }]}>
-                        <Text style={{ color: theme.textSecondary }}>User ID</Text>
-                        <Text style={{ color: theme.text, fontWeight: '700' }}>{profile.userId}</Text>
-                      </View>
-                      <View style={[styles.profileRow, { borderBottomColor: theme.border }]}>
-                        <Text style={{ color: theme.textSecondary }}>Organization ID</Text>
-                        <Text style={{ color: theme.text, fontWeight: '700' }}>{profile.organizationId}</Text>
-                      </View>
-                      <View style={styles.profileRow}>
-                        <Text style={{ color: theme.textSecondary }}>User Org ID</Text>
-                        <Text style={{ color: theme.text, fontWeight: '700' }}>{profile.userOrganizationId}</Text>
-                      </View>
-                    </View>
-                  ) : (
-                    <Text style={{ color: theme.textSecondary }}>No data loaded</Text>
-                  )}
-                </View>
-              )}
-
-              {/* Theme Selector */}
-              <View style={[styles.settingsCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
-                <Text style={[styles.cardTitle, { color: theme.text }]}>Theme settings</Text>
-                <View style={styles.buttonGroup}>
-                  {(['system', 'light', 'dark'] as ThemeMode[]).map((mode) => {
-                    const isActive = themeMode === mode;
-                    return (
-                      <TouchableOpacity
-                        key={mode}
-                        onPress={() => setThemeMode(mode)}
-                        style={[
-                          styles.modeButton,
-                          {
-                            backgroundColor: isActive ? theme.primary : theme.background,
-                            borderColor: theme.border,
-                          },
-                        ]}
-                      >
-                        <Text
-                          style={[
-                            styles.modeButtonText,
-                            {
-                              color: isActive ? theme.surface : theme.text,
-                              fontWeight: isActive ? '700' : '500',
-                            },
-                          ]}
-                        >
-                          {mode.charAt(0).toUpperCase() + mode.slice(1)}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-              </View>
-
-              {/* Action Buttons */}
-              <View style={{ gap: 8, marginTop: 12 }}>
-                <TouchableOpacity
-                  style={[styles.actionButton, { borderColor: theme.error }]}
-                  onPress={() => {
-                    setIsSettingsOpen(false);
-                    handleLogout(navigation);
-                  }}
-                >
-                  <Text style={[styles.actionButtonText, { color: theme.error }]}>Log Out</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[styles.actionButton, { borderColor: theme.primary }]}
-                  onPress={() => {
-                    setIsSettingsOpen(false);
-                    testProfileSetupNavigate(navigation);
-                  }}
-                >
-                  <Text style={[styles.actionButtonText, { color: theme.primary }]}>🔧 Test Profile Setup UI</Text>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
+      <CreateGroupModal
+        visible={isCreateGroupOpen}
+        accessToken={accessToken}
+        contacts={registeredContacts}
+        onClose={() => setIsCreateGroupOpen(false)}
+        onCreated={(group) => setActiveGroup({ groupId: group.groupId, name: group.name })}
+      />
+      <JoinGroupModal
+        visible={isJoinGroupOpen}
+        accessToken={accessToken}
+        onClose={() => setIsJoinGroupOpen(false)}
+        onJoined={(group) => setActiveGroup({ groupId: group.groupId, name: group.name })}
+      />
+      {banner}
       <ContactsModal
         isVisible={isContactsModalVisible}
         onClose={() => setIsContactsModalVisible(false)}
@@ -438,6 +337,20 @@ export const HomeScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  banner: {
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 54 : 16,
+    left: 12,
+    right: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    padding: 12,
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+  },
   container: {
     flex: 1,
   },

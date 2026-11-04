@@ -29,11 +29,13 @@ export type AggregateUser_device = {
 export type User_deviceAvgAggregateOutputType = {
   device_id: number | null
   user_organization_id: number | null
+  session_id: number | null
 }
 
 export type User_deviceSumAggregateOutputType = {
   device_id: bigint | null
   user_organization_id: bigint | null
+  session_id: bigint | null
 }
 
 export type User_deviceMinAggregateOutputType = {
@@ -43,6 +45,7 @@ export type User_deviceMinAggregateOutputType = {
   device_type: string | null
   device_name: string | null
   is_active: boolean | null
+  session_id: bigint | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -54,6 +57,7 @@ export type User_deviceMaxAggregateOutputType = {
   device_type: string | null
   device_name: string | null
   is_active: boolean | null
+  session_id: bigint | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -65,6 +69,7 @@ export type User_deviceCountAggregateOutputType = {
   device_type: number
   device_name: number
   is_active: number
+  session_id: number
   created_at: number
   updated_at: number
   _all: number
@@ -74,11 +79,13 @@ export type User_deviceCountAggregateOutputType = {
 export type User_deviceAvgAggregateInputType = {
   device_id?: true
   user_organization_id?: true
+  session_id?: true
 }
 
 export type User_deviceSumAggregateInputType = {
   device_id?: true
   user_organization_id?: true
+  session_id?: true
 }
 
 export type User_deviceMinAggregateInputType = {
@@ -88,6 +95,7 @@ export type User_deviceMinAggregateInputType = {
   device_type?: true
   device_name?: true
   is_active?: true
+  session_id?: true
   created_at?: true
   updated_at?: true
 }
@@ -99,6 +107,7 @@ export type User_deviceMaxAggregateInputType = {
   device_type?: true
   device_name?: true
   is_active?: true
+  session_id?: true
   created_at?: true
   updated_at?: true
 }
@@ -110,6 +119,7 @@ export type User_deviceCountAggregateInputType = {
   device_type?: true
   device_name?: true
   is_active?: true
+  session_id?: true
   created_at?: true
   updated_at?: true
   _all?: true
@@ -208,6 +218,7 @@ export type User_deviceGroupByOutputType = {
   device_type: string | null
   device_name: string | null
   is_active: boolean
+  session_id: bigint | null
   created_at: Date
   updated_at: Date | null
   _count: User_deviceCountAggregateOutputType | null
@@ -242,9 +253,11 @@ export type user_deviceWhereInput = {
   device_type?: Prisma.StringNullableFilter<"user_device"> | string | null
   device_name?: Prisma.StringNullableFilter<"user_device"> | string | null
   is_active?: Prisma.BoolFilter<"user_device"> | boolean
+  session_id?: Prisma.BigIntNullableFilter<"user_device"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"user_device"> | Date | string
   updated_at?: Prisma.DateTimeNullableFilter<"user_device"> | Date | string | null
   user_organization?: Prisma.XOR<Prisma.User_organizationScalarRelationFilter, Prisma.user_organizationWhereInput>
+  user_session?: Prisma.XOR<Prisma.User_sessionNullableScalarRelationFilter, Prisma.user_sessionWhereInput> | null
 }
 
 export type user_deviceOrderByWithRelationInput = {
@@ -254,9 +267,11 @@ export type user_deviceOrderByWithRelationInput = {
   device_type?: Prisma.SortOrderInput | Prisma.SortOrder
   device_name?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  session_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   user_organization?: Prisma.user_organizationOrderByWithRelationInput
+  user_session?: Prisma.user_sessionOrderByWithRelationInput
   _relevance?: Prisma.user_deviceOrderByRelevanceInput
 }
 
@@ -270,9 +285,11 @@ export type user_deviceWhereUniqueInput = Prisma.AtLeast<{
   device_type?: Prisma.StringNullableFilter<"user_device"> | string | null
   device_name?: Prisma.StringNullableFilter<"user_device"> | string | null
   is_active?: Prisma.BoolFilter<"user_device"> | boolean
+  session_id?: Prisma.BigIntNullableFilter<"user_device"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"user_device"> | Date | string
   updated_at?: Prisma.DateTimeNullableFilter<"user_device"> | Date | string | null
   user_organization?: Prisma.XOR<Prisma.User_organizationScalarRelationFilter, Prisma.user_organizationWhereInput>
+  user_session?: Prisma.XOR<Prisma.User_sessionNullableScalarRelationFilter, Prisma.user_sessionWhereInput> | null
 }, "device_id" | "fcm_token">
 
 export type user_deviceOrderByWithAggregationInput = {
@@ -282,6 +299,7 @@ export type user_deviceOrderByWithAggregationInput = {
   device_type?: Prisma.SortOrderInput | Prisma.SortOrder
   device_name?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  session_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.user_deviceCountOrderByAggregateInput
@@ -301,6 +319,7 @@ export type user_deviceScalarWhereWithAggregatesInput = {
   device_type?: Prisma.StringNullableWithAggregatesFilter<"user_device"> | string | null
   device_name?: Prisma.StringNullableWithAggregatesFilter<"user_device"> | string | null
   is_active?: Prisma.BoolWithAggregatesFilter<"user_device"> | boolean
+  session_id?: Prisma.BigIntNullableWithAggregatesFilter<"user_device"> | bigint | number | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"user_device"> | Date | string
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"user_device"> | Date | string | null
 }
@@ -314,6 +333,7 @@ export type user_deviceCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string | null
   user_organization: Prisma.user_organizationCreateNestedOneWithoutUser_devicesInput
+  user_session?: Prisma.user_sessionCreateNestedOneWithoutUser_devicesInput
 }
 
 export type user_deviceUncheckedCreateInput = {
@@ -323,6 +343,7 @@ export type user_deviceUncheckedCreateInput = {
   device_type?: string | null
   device_name?: string | null
   is_active?: boolean
+  session_id?: bigint | number | null
   created_at?: Date | string
   updated_at?: Date | string | null
 }
@@ -336,6 +357,7 @@ export type user_deviceUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_organization?: Prisma.user_organizationUpdateOneRequiredWithoutUser_devicesNestedInput
+  user_session?: Prisma.user_sessionUpdateOneWithoutUser_devicesNestedInput
 }
 
 export type user_deviceUncheckedUpdateInput = {
@@ -345,6 +367,7 @@ export type user_deviceUncheckedUpdateInput = {
   device_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   device_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  session_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -356,6 +379,7 @@ export type user_deviceCreateManyInput = {
   device_type?: string | null
   device_name?: string | null
   is_active?: boolean
+  session_id?: bigint | number | null
   created_at?: Date | string
   updated_at?: Date | string | null
 }
@@ -377,6 +401,7 @@ export type user_deviceUncheckedUpdateManyInput = {
   device_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   device_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  session_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -404,6 +429,7 @@ export type user_deviceCountOrderByAggregateInput = {
   device_type?: Prisma.SortOrder
   device_name?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  session_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -411,6 +437,7 @@ export type user_deviceCountOrderByAggregateInput = {
 export type user_deviceAvgOrderByAggregateInput = {
   device_id?: Prisma.SortOrder
   user_organization_id?: Prisma.SortOrder
+  session_id?: Prisma.SortOrder
 }
 
 export type user_deviceMaxOrderByAggregateInput = {
@@ -420,6 +447,7 @@ export type user_deviceMaxOrderByAggregateInput = {
   device_type?: Prisma.SortOrder
   device_name?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  session_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -431,6 +459,7 @@ export type user_deviceMinOrderByAggregateInput = {
   device_type?: Prisma.SortOrder
   device_name?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  session_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -438,6 +467,7 @@ export type user_deviceMinOrderByAggregateInput = {
 export type user_deviceSumOrderByAggregateInput = {
   device_id?: Prisma.SortOrder
   user_organization_id?: Prisma.SortOrder
+  session_id?: Prisma.SortOrder
 }
 
 export type user_deviceCreateNestedManyWithoutUser_organizationInput = {
@@ -482,6 +512,48 @@ export type user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput = 
   deleteMany?: Prisma.user_deviceScalarWhereInput | Prisma.user_deviceScalarWhereInput[]
 }
 
+export type user_deviceCreateNestedManyWithoutUser_sessionInput = {
+  create?: Prisma.XOR<Prisma.user_deviceCreateWithoutUser_sessionInput, Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput> | Prisma.user_deviceCreateWithoutUser_sessionInput[] | Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput[]
+  connectOrCreate?: Prisma.user_deviceCreateOrConnectWithoutUser_sessionInput | Prisma.user_deviceCreateOrConnectWithoutUser_sessionInput[]
+  createMany?: Prisma.user_deviceCreateManyUser_sessionInputEnvelope
+  connect?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+}
+
+export type user_deviceUncheckedCreateNestedManyWithoutUser_sessionInput = {
+  create?: Prisma.XOR<Prisma.user_deviceCreateWithoutUser_sessionInput, Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput> | Prisma.user_deviceCreateWithoutUser_sessionInput[] | Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput[]
+  connectOrCreate?: Prisma.user_deviceCreateOrConnectWithoutUser_sessionInput | Prisma.user_deviceCreateOrConnectWithoutUser_sessionInput[]
+  createMany?: Prisma.user_deviceCreateManyUser_sessionInputEnvelope
+  connect?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+}
+
+export type user_deviceUpdateManyWithoutUser_sessionNestedInput = {
+  create?: Prisma.XOR<Prisma.user_deviceCreateWithoutUser_sessionInput, Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput> | Prisma.user_deviceCreateWithoutUser_sessionInput[] | Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput[]
+  connectOrCreate?: Prisma.user_deviceCreateOrConnectWithoutUser_sessionInput | Prisma.user_deviceCreateOrConnectWithoutUser_sessionInput[]
+  upsert?: Prisma.user_deviceUpsertWithWhereUniqueWithoutUser_sessionInput | Prisma.user_deviceUpsertWithWhereUniqueWithoutUser_sessionInput[]
+  createMany?: Prisma.user_deviceCreateManyUser_sessionInputEnvelope
+  set?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+  disconnect?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+  delete?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+  connect?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+  update?: Prisma.user_deviceUpdateWithWhereUniqueWithoutUser_sessionInput | Prisma.user_deviceUpdateWithWhereUniqueWithoutUser_sessionInput[]
+  updateMany?: Prisma.user_deviceUpdateManyWithWhereWithoutUser_sessionInput | Prisma.user_deviceUpdateManyWithWhereWithoutUser_sessionInput[]
+  deleteMany?: Prisma.user_deviceScalarWhereInput | Prisma.user_deviceScalarWhereInput[]
+}
+
+export type user_deviceUncheckedUpdateManyWithoutUser_sessionNestedInput = {
+  create?: Prisma.XOR<Prisma.user_deviceCreateWithoutUser_sessionInput, Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput> | Prisma.user_deviceCreateWithoutUser_sessionInput[] | Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput[]
+  connectOrCreate?: Prisma.user_deviceCreateOrConnectWithoutUser_sessionInput | Prisma.user_deviceCreateOrConnectWithoutUser_sessionInput[]
+  upsert?: Prisma.user_deviceUpsertWithWhereUniqueWithoutUser_sessionInput | Prisma.user_deviceUpsertWithWhereUniqueWithoutUser_sessionInput[]
+  createMany?: Prisma.user_deviceCreateManyUser_sessionInputEnvelope
+  set?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+  disconnect?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+  delete?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+  connect?: Prisma.user_deviceWhereUniqueInput | Prisma.user_deviceWhereUniqueInput[]
+  update?: Prisma.user_deviceUpdateWithWhereUniqueWithoutUser_sessionInput | Prisma.user_deviceUpdateWithWhereUniqueWithoutUser_sessionInput[]
+  updateMany?: Prisma.user_deviceUpdateManyWithWhereWithoutUser_sessionInput | Prisma.user_deviceUpdateManyWithWhereWithoutUser_sessionInput[]
+  deleteMany?: Prisma.user_deviceScalarWhereInput | Prisma.user_deviceScalarWhereInput[]
+}
+
 export type user_deviceCreateWithoutUser_organizationInput = {
   device_id?: bigint | number
   fcm_token: string
@@ -490,6 +562,7 @@ export type user_deviceCreateWithoutUser_organizationInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string | null
+  user_session?: Prisma.user_sessionCreateNestedOneWithoutUser_devicesInput
 }
 
 export type user_deviceUncheckedCreateWithoutUser_organizationInput = {
@@ -498,6 +571,7 @@ export type user_deviceUncheckedCreateWithoutUser_organizationInput = {
   device_type?: string | null
   device_name?: string | null
   is_active?: boolean
+  session_id?: bigint | number | null
   created_at?: Date | string
   updated_at?: Date | string | null
 }
@@ -538,8 +612,57 @@ export type user_deviceScalarWhereInput = {
   device_type?: Prisma.StringNullableFilter<"user_device"> | string | null
   device_name?: Prisma.StringNullableFilter<"user_device"> | string | null
   is_active?: Prisma.BoolFilter<"user_device"> | boolean
+  session_id?: Prisma.BigIntNullableFilter<"user_device"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"user_device"> | Date | string
   updated_at?: Prisma.DateTimeNullableFilter<"user_device"> | Date | string | null
+}
+
+export type user_deviceCreateWithoutUser_sessionInput = {
+  device_id?: bigint | number
+  fcm_token: string
+  device_type?: string | null
+  device_name?: string | null
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string | null
+  user_organization: Prisma.user_organizationCreateNestedOneWithoutUser_devicesInput
+}
+
+export type user_deviceUncheckedCreateWithoutUser_sessionInput = {
+  device_id?: bigint | number
+  user_organization_id: bigint | number
+  fcm_token: string
+  device_type?: string | null
+  device_name?: string | null
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string | null
+}
+
+export type user_deviceCreateOrConnectWithoutUser_sessionInput = {
+  where: Prisma.user_deviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_deviceCreateWithoutUser_sessionInput, Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput>
+}
+
+export type user_deviceCreateManyUser_sessionInputEnvelope = {
+  data: Prisma.user_deviceCreateManyUser_sessionInput | Prisma.user_deviceCreateManyUser_sessionInput[]
+  skipDuplicates?: boolean
+}
+
+export type user_deviceUpsertWithWhereUniqueWithoutUser_sessionInput = {
+  where: Prisma.user_deviceWhereUniqueInput
+  update: Prisma.XOR<Prisma.user_deviceUpdateWithoutUser_sessionInput, Prisma.user_deviceUncheckedUpdateWithoutUser_sessionInput>
+  create: Prisma.XOR<Prisma.user_deviceCreateWithoutUser_sessionInput, Prisma.user_deviceUncheckedCreateWithoutUser_sessionInput>
+}
+
+export type user_deviceUpdateWithWhereUniqueWithoutUser_sessionInput = {
+  where: Prisma.user_deviceWhereUniqueInput
+  data: Prisma.XOR<Prisma.user_deviceUpdateWithoutUser_sessionInput, Prisma.user_deviceUncheckedUpdateWithoutUser_sessionInput>
+}
+
+export type user_deviceUpdateManyWithWhereWithoutUser_sessionInput = {
+  where: Prisma.user_deviceScalarWhereInput
+  data: Prisma.XOR<Prisma.user_deviceUpdateManyMutationInput, Prisma.user_deviceUncheckedUpdateManyWithoutUser_sessionInput>
 }
 
 export type user_deviceCreateManyUser_organizationInput = {
@@ -548,6 +671,7 @@ export type user_deviceCreateManyUser_organizationInput = {
   device_type?: string | null
   device_name?: string | null
   is_active?: boolean
+  session_id?: bigint | number | null
   created_at?: Date | string
   updated_at?: Date | string | null
 }
@@ -560,6 +684,7 @@ export type user_deviceUpdateWithoutUser_organizationInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_session?: Prisma.user_sessionUpdateOneWithoutUser_devicesNestedInput
 }
 
 export type user_deviceUncheckedUpdateWithoutUser_organizationInput = {
@@ -568,12 +693,58 @@ export type user_deviceUncheckedUpdateWithoutUser_organizationInput = {
   device_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   device_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  session_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type user_deviceUncheckedUpdateManyWithoutUser_organizationInput = {
   device_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  fcm_token?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  device_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  session_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type user_deviceCreateManyUser_sessionInput = {
+  device_id?: bigint | number
+  user_organization_id: bigint | number
+  fcm_token: string
+  device_type?: string | null
+  device_name?: string | null
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string | null
+}
+
+export type user_deviceUpdateWithoutUser_sessionInput = {
+  device_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  fcm_token?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  device_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_organization?: Prisma.user_organizationUpdateOneRequiredWithoutUser_devicesNestedInput
+}
+
+export type user_deviceUncheckedUpdateWithoutUser_sessionInput = {
+  device_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  fcm_token?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  device_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type user_deviceUncheckedUpdateManyWithoutUser_sessionInput = {
+  device_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   fcm_token?: Prisma.StringFieldUpdateOperationsInput | string
   device_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   device_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -591,9 +762,11 @@ export type user_deviceSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   device_type?: boolean
   device_name?: boolean
   is_active?: boolean
+  session_id?: boolean
   created_at?: boolean
   updated_at?: boolean
   user_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
+  user_session?: boolean | Prisma.user_device$user_sessionArgs<ExtArgs>
 }, ExtArgs["result"]["user_device"]>
 
 
@@ -605,19 +778,22 @@ export type user_deviceSelectScalar = {
   device_type?: boolean
   device_name?: boolean
   is_active?: boolean
+  session_id?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type user_deviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"device_id" | "user_organization_id" | "fcm_token" | "device_type" | "device_name" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["user_device"]>
+export type user_deviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"device_id" | "user_organization_id" | "fcm_token" | "device_type" | "device_name" | "is_active" | "session_id" | "created_at" | "updated_at", ExtArgs["result"]["user_device"]>
 export type user_deviceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
+  user_session?: boolean | Prisma.user_device$user_sessionArgs<ExtArgs>
 }
 
 export type $user_devicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "user_device"
   objects: {
     user_organization: Prisma.$user_organizationPayload<ExtArgs>
+    user_session: Prisma.$user_sessionPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     device_id: bigint
@@ -626,6 +802,7 @@ export type $user_devicePayload<ExtArgs extends runtime.Types.Extensions.Interna
     device_type: string | null
     device_name: string | null
     is_active: boolean
+    session_id: bigint | null
     created_at: Date
     updated_at: Date | null
   }, ExtArgs["result"]["user_device"]>
@@ -969,6 +1146,7 @@ readonly fields: user_deviceFieldRefs;
 export interface Prisma__user_deviceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user_organization<T extends Prisma.user_organizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organizationDefaultArgs<ExtArgs>>): Prisma.Prisma__user_organizationClient<runtime.Types.Result.GetResult<Prisma.$user_organizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user_session<T extends Prisma.user_device$user_sessionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_device$user_sessionArgs<ExtArgs>>): Prisma.Prisma__user_sessionClient<runtime.Types.Result.GetResult<Prisma.$user_sessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1004,6 +1182,7 @@ export interface user_deviceFieldRefs {
   readonly device_type: Prisma.FieldRef<"user_device", 'String'>
   readonly device_name: Prisma.FieldRef<"user_device", 'String'>
   readonly is_active: Prisma.FieldRef<"user_device", 'Boolean'>
+  readonly session_id: Prisma.FieldRef<"user_device", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"user_device", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"user_device", 'DateTime'>
 }
@@ -1351,6 +1530,25 @@ export type user_deviceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many user_devices to delete.
    */
   limit?: number
+}
+
+/**
+ * user_device.user_session
+ */
+export type user_device$user_sessionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_session
+   */
+  select?: Prisma.user_sessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_session
+   */
+  omit?: Prisma.user_sessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_sessionInclude<ExtArgs> | null
+  where?: Prisma.user_sessionWhereInput
 }
 
 /**

@@ -1,48 +1,35 @@
 import prisma from "../../config/database.js";
 
-export const createPersonalMessage = async (data: {
-    senderUserOrganizationId: bigint;
-    receiverUserOrganizationId: bigint;
-    message: string;
-    createdBy: bigint;
-    media: string;
-    // messageType: string;
-
-}) => {
-    return await prisma.personal_chat_history.create({
-        data: {
-            sender_user_organization_id:
-                data.senderUserOrganizationId,
-
-            receiver_user_organization_id:
-                data.receiverUserOrganizationId,
-
-            message: data.message,
-            created_by: data.createdBy,
-            media: data.media,
-            status: "SENT",
-        },
-    });
-};
-
-
-// 
-export const findUsersByMobileNumbers = async (
-    mobileNumbers: string[],
+export const findUsersByPhones = async (
+    phones: {
+        countryCode: string;
+        mobileNo: string;
+    }[],
 ) => {
+    const numbersByCountry = new Map<string, string[]>();
+    for (const phone of phones) {
+        const numbers = numbersByCountry.get(phone.countryCode) ?? [];
+        numbers.push(phone.mobileNo);
+        numbersByCountry.set(phone.countryCode, numbers);
+    }
     return await prisma.user_master.findMany({
         where: {
-            mobile_no: {
-                in: mobileNumbers,
-            },
             deleted_at: null,
+            OR: [...numbersByCountry.entries()].map(
+                ([countryCode, mobileNumbers]) => ({
+                    country_code: countryCode,
+                    mobile_no: {
+                        in: mobileNumbers,
+                    },
+                }),
+            ),
         },
         select: {
             user_id: true,
+            country_code: true,
             mobile_no: true,
             first_name: true,
             last_name: true,
-
             user_organization: {
                 where: {
                     deleted_at: null,
@@ -55,8 +42,29 @@ export const findUsersByMobileNumbers = async (
         },
     });
 };
-
-
+export const findActiveCountryCodes = async () => {
+    return await prisma.country_master.findMany({
+        where: {
+            is_active: true,
+            deleted_at: null,
+        },
+        select: {
+            country_code: true,
+            iso_code: true,
+        },
+    });
+};
+export const findUserCountryCode = async (userId: bigint) => {
+    const user = await prisma.user_master.findUnique({
+        where: {
+            user_id: userId,
+        },
+        select: {
+            country_code: true,
+        },
+    });
+    return user?.country_code ?? null;
+};
 export const getUsersForChat = async (
     organizationId: bigint,
     currentUserId: bigint,

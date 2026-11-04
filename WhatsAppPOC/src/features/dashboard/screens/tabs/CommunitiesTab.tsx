@@ -1,197 +1,138 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../../../../core/theme';
+import { socket } from '../../../../services/socket';
+import { GroupSummary, listGroups } from '../../../group/api/groupApi';
+import * as api from '../../../updates/api/updatesApi';
 
-export const CommunitiesTab: React.FC = () => {
+interface Props {
+  accessToken: string;
+  onOpenGroup: (groupId: string, name: string) => void;
+}
+
+/** Communities the member belongs to, with their announcement group and linked groups. */
+export const CommunitiesTab: React.FC<Props> = ({ accessToken, onOpenGroup }) => {
   const { theme } = useTheme();
+  const [communities, setCommunities] = useState<api.Community[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isCreating, setIsCreating] = useState(false);
+  const [name, setName] = useState('');
+  const [myGroups, setMyGroups] = useState<GroupSummary[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const load = useCallback(() => {
+    api.getCommunities(accessToken).then(setCommunities).catch(() => undefined).finally(() => setIsLoading(false));
+  }, [accessToken]);
+
+  useEffect(() => {
+    load();
+    socket.on('group:added', load);
+    return () => {
+      socket.off('group:added', load);
+    };
+  }, [load]);
+
+  const startCreating = async () => {
+    setIsCreating(true);
+    // Only groups the member runs can be brought into a new community.
+    setMyGroups((await listGroups(accessToken).catch(() => [])).filter((g) => g.isAdmin));
+  };
+
+  const create = async () => {
+    try {
+      await api.createCommunity(accessToken, name.trim(), selected);
+      setIsCreating(false);
+      setName('');
+      setSelected([]);
+      load();
+    } catch (err: any) {
+      Alert.alert('Could not create community', err?.message || 'Please try again.');
+    }
+  };
+
+  const join = async (community: api.Community, group: api.Community['groups'][number]) => {
+    try {
+      await api.joinCommunityGroup(accessToken, community.communityId, group.groupId);
+      load();
+      onOpenGroup(group.groupId, group.name);
+    } catch (err: any) {
+      Alert.alert('Could not join', err?.message || 'Please try again.');
+    }
+  };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* Community Banner Card */}
-      <View style={[styles.bannerCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
-        <View style={[styles.illustration, { backgroundColor: theme.surface, borderColor: theme.border }]}>
-          <Text style={styles.bannerEmoji}>👥</Text>
-        </View>
-        <Text style={[styles.bannerTitle, { color: theme.text }]}>Stay connected with communities</Text>
-        <Text style={[styles.bannerDescription, { color: theme.textSecondary }]}>
-          Communities bring members together in topic-based groups, making it easy to send announcements and stay organized.
+    <ScrollView contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: 40 }}>
+      <TouchableOpacity style={[styles.newButton, { borderColor: theme.primary }]} onPress={startCreating}>
+        <Text style={{ color: theme.primary, fontWeight: '700' }}>+ New community</Text>
+      </TouchableOpacity>
+
+      {isLoading && <ActivityIndicator color={theme.primary} />}
+      {!isLoading && communities.length === 0 && (
+        <Text style={{ color: theme.textSecondary, textAlign: 'center', marginTop: 20 }}>
+          Communities bring related groups together, with one announcement group for everyone in them.
         </Text>
-        
-        <TouchableOpacity style={[styles.actionButton, { backgroundColor: theme.primary }]}>
-          <Text style={[styles.actionButtonText, { color: theme.surface }]}>New Community</Text>
-        </TouchableOpacity>
-      </View>
+      )}
 
-      {/* Community Item List */}
-      <View style={styles.communityList}>
-        <Text style={[styles.sectionTitle, { color: theme.text }]}>Your Communities</Text>
-        
-        <View style={[styles.communityItem, { borderBottomColor: theme.border }]}>
-          <View style={styles.communityAvatar}>
-            <Text style={styles.communityAvatarText}>💻</Text>
-          </View>
-          <View style={styles.communityInfo}>
-            <Text style={[styles.communityName, { color: theme.text }]}>Enterprise Chat POC</Text>
-            <Text style={[styles.communitySubText, { color: theme.textSecondary }]} numberOfLines={1}>
-              Announcements, Frontend & Backend Syncs
-            </Text>
-          </View>
+      {communities.map((c) => (
+        <View key={c.communityId} style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          <Text style={{ color: theme.text, fontSize: 17, fontWeight: '800' }}>{c.name}</Text>
+          {c.description ? <Text style={{ color: theme.textSecondary, marginTop: 2 }}>{c.description}</Text> : null}
+          <TouchableOpacity style={[styles.row, { borderBottomColor: theme.border }]} onPress={() => onOpenGroup(c.announcementGroupId, `${c.name} · Announcements`)}>
+            <Text style={{ fontSize: 18, marginRight: 10 }}>📣</Text>
+            <Text style={{ color: theme.text, flex: 1, fontWeight: '600' }}>Announcements</Text>
+          </TouchableOpacity>
+          {c.groups.map((g) => (
+            <TouchableOpacity
+              key={g.groupId}
+              style={[styles.row, { borderBottomColor: theme.border }]}
+              onPress={() => (g.isMember ? onOpenGroup(g.groupId, g.name) : join(c, g))}
+            >
+              <Text style={{ fontSize: 18, marginRight: 10 }}>👥</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={{ color: theme.text }}>{g.name}</Text>
+                <Text style={{ color: theme.textSecondary, fontSize: 12 }}>{g.memberCount} members</Text>
+              </View>
+              {!g.isMember && <Text style={{ color: theme.primary, fontWeight: '700' }}>Join</Text>}
+            </TouchableOpacity>
+          ))}
         </View>
+      ))}
 
-        {/* Subgroups of this Community */}
-        <TouchableOpacity style={styles.subgroupRow}>
-          <View style={[styles.subgroupIcon, { backgroundColor: theme.surface }]}>
-            <Text style={{ fontSize: 14 }}>📢</Text>
+      <Modal visible={isCreating} animationType="slide" onRequestClose={() => setIsCreating(false)}>
+        <View style={{ flex: 1, backgroundColor: theme.background }}>
+          <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border }]}>
+            <TouchableOpacity onPress={() => setIsCreating(false)}>
+              <Text style={{ color: theme.primary }}>Cancel</Text>
+            </TouchableOpacity>
+            <Text style={{ color: theme.text, fontWeight: '700', fontSize: 17 }}>New community</Text>
+            <TouchableOpacity onPress={create} disabled={!name.trim()}>
+              <Text style={{ color: name.trim() ? theme.primary : theme.textSecondary, fontWeight: '700' }}>Create</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.subgroupInfo}>
-            <Text style={[styles.subgroupName, { color: theme.text }]}>Announcements</Text>
-            <Text style={[styles.subgroupPreview, { color: theme.textSecondary }]} numberOfLines={1}>
-              System: Welcome everyone! The backend port is now 5001.
-            </Text>
-          </View>
-          <Text style={[styles.subgroupTime, { color: theme.textSecondary }]}>Yesterday</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.subgroupRow}>
-          <View style={[styles.subgroupIcon, { backgroundColor: theme.surface }]}>
-            <Text style={{ fontSize: 14 }}>💬</Text>
-          </View>
-          <View style={styles.subgroupInfo}>
-            <Text style={[styles.subgroupName, { color: theme.text }]}>Frontend Developers</Text>
-            <Text style={[styles.subgroupPreview, { color: theme.textSecondary }]} numberOfLines={1}>
-              John: Hooked up the new useTheme configuration.
-            </Text>
-          </View>
-          <Text style={[styles.subgroupTime, { color: theme.textSecondary }]}>11:15 AM</Text>
-        </TouchableOpacity>
-      </View>
+          <TextInput style={[styles.input, { color: theme.text, borderColor: theme.border }]} value={name} onChangeText={setName} placeholder="Community name" placeholderTextColor={theme.placeholder} maxLength={150} />
+          <Text style={{ color: theme.textSecondary, paddingHorizontal: 16 }}>Groups you admin to include:</Text>
+          <ScrollView>
+            {myGroups.length === 0 && <Text style={{ color: theme.textSecondary, padding: 16 }}>You do not admin any groups. You can still create the community and add groups later.</Text>}
+            {myGroups.map((g) => {
+              const on = selected.includes(g.groupId);
+              return (
+                <TouchableOpacity key={g.groupId} style={[styles.row, { borderBottomColor: theme.border, paddingHorizontal: 16 }]} onPress={() => setSelected((s) => (on ? s.filter((x) => x !== g.groupId) : [...s, g.groupId]))}>
+                  <Text style={{ color: theme.text, flex: 1 }}>{g.name}</Text>
+                  <Text style={{ color: on ? theme.primary : theme.textSecondary, fontSize: 18 }}>{on ? '☑' : '☐'}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    paddingBottom: 32,
-    gap: 16,
-  },
-  bannerCard: {
-    borderRadius: 16,
-    padding: 20,
-    borderWidth: 1,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  illustration: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-  },
-  bannerEmoji: {
-    fontSize: 44,
-  },
-  bannerTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  bannerDescription: {
-    fontSize: 13,
-    lineHeight: 18,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  actionButton: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  actionButtonText: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  communityList: {
-    marginTop: 8,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '800',
-    marginBottom: 12,
-  },
-  communityItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-  },
-  communityAvatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 10,
-    backgroundColor: '#00A884',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  communityAvatarText: {
-    color: '#FFFFFF',
-    fontSize: 20,
-  },
-  communityInfo: {
-    flex: 1,
-  },
-  communityName: {
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  communitySubText: {
-    fontSize: 12,
-    marginTop: 2,
-  },
-  subgroupRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingLeft: 32,
-  },
-  subgroupIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  subgroupInfo: {
-    flex: 1,
-  },
-  subgroupName: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  subgroupPreview: {
-    fontSize: 12,
-    marginTop: 2,
-  },
-  subgroupTime: {
-    fontSize: 10,
-    marginLeft: 8,
-  },
+  newButton: { borderWidth: 1, borderRadius: 20, paddingVertical: 10, alignItems: 'center' },
+  card: { borderWidth: 1, borderRadius: 12, padding: 14 },
+  row: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16, borderBottomWidth: 1 },
+  input: { borderWidth: 1, borderRadius: 8, padding: 12, fontSize: 16, margin: 16 },
 });

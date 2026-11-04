@@ -26,6 +26,17 @@ const OFFLINE_FALLBACK_COUNTRIES: Country[] = [
   { countryId: '5', countryName: 'Singapore', countryCode: '+65', isoCode: 'SG', iso3Code: 'SGP', flag: '🇸🇬' },
 ];
 
+/**
+ * The country to show once the server's list arrives. IDs come from the
+ * server's country table, so a saved or fallback choice is matched again by its
+ * ISO code: the fallback list's IDs are not the server's (there, ID 1 is
+ * Afghanistan), and sending one would ask for an Afghan number.
+ */
+export const pickCountry = (fetched: Country[], current: Country | null) =>
+  fetched.find((c) => current?.isoCode && c.isoCode === current.isoCode) ??
+  fetched.find((c) => c.isoCode === 'IN') ??
+  fetched[0];
+
 export const LoginScreen: React.FC = () => {
   const navigation = useNavigation();
   const {
@@ -57,10 +68,7 @@ export const LoginScreen: React.FC = () => {
         const fetched = await getCountries(apiBaseUrl);
         if (fetched && fetched.length > 0) {
           setCountries(fetched);
-          // Set default country if none selected
-          if (!selectedCountry) {
-            setSelectedCountry(fetched[0]);
-          }
+          setSelectedCountry(pickCountry(fetched, selectedCountry));
         }
       } catch (err) {
         console.warn('Could not fetch countries from server, using offline fallbacks:', err);
@@ -104,7 +112,7 @@ export const LoginScreen: React.FC = () => {
           <Text style={[styles.title, { color: theme.primary }]}>WhatsAppPOC</Text>
           <Text style={[styles.subtitle, { color: theme.text }]}>Verify your phone number</Text>
           <Text style={[styles.description, { color: theme.textSecondary }]}>
-            WhatsAppPOC will send a 4-digit verification code to your device.
+            WhatsAppPOC will send a 6-digit verification code to your device.
           </Text>
         </View>
 
@@ -209,7 +217,7 @@ export const LoginScreen: React.FC = () => {
         </View>
 
         {/* Developer Settings Toggle */}
-        <View style={styles.devSettingsContainer}>
+        {__DEV__ && <View style={styles.devSettingsContainer}>
           <TouchableOpacity
             onPress={() => setIsDevSettingsOpen(!isDevSettingsOpen)}
             style={styles.devSettingsHeader}
@@ -243,7 +251,7 @@ export const LoginScreen: React.FC = () => {
               </Text>
             </View>
           )}
-        </View>
+        </View>}
 
         {/* Country Picker Modal */}
         <Modal

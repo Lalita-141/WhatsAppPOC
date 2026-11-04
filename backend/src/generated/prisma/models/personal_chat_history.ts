@@ -30,6 +30,9 @@ export type Personal_chat_historyAvgAggregateOutputType = {
   chat_id: number | null
   sender_user_organization_id: number | null
   receiver_user_organization_id: number | null
+  media_id: number | null
+  reply_to_chat_id: number | null
+  pinned_by: number | null
   created_by: number | null
   updated_by: number | null
   deleted_by: number | null
@@ -39,6 +42,9 @@ export type Personal_chat_historySumAggregateOutputType = {
   chat_id: bigint | null
   sender_user_organization_id: bigint | null
   receiver_user_organization_id: bigint | null
+  media_id: bigint | null
+  reply_to_chat_id: bigint | null
+  pinned_by: bigint | null
   created_by: bigint | null
   updated_by: bigint | null
   deleted_by: bigint | null
@@ -52,6 +58,16 @@ export type Personal_chat_historyMinAggregateOutputType = {
   send_time: Date | null
   receive_time: Date | null
   status: $Enums.personal_chat_history_status | null
+  client_message_id: string | null
+  media_id: bigint | null
+  message_type: string | null
+  reply_to_chat_id: bigint | null
+  forwarded: boolean | null
+  edited_at: Date | null
+  deleted_for_everyone_at: Date | null
+  read_time: Date | null
+  pinned_at: Date | null
+  pinned_by: bigint | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -68,6 +84,16 @@ export type Personal_chat_historyMaxAggregateOutputType = {
   send_time: Date | null
   receive_time: Date | null
   status: $Enums.personal_chat_history_status | null
+  client_message_id: string | null
+  media_id: bigint | null
+  message_type: string | null
+  reply_to_chat_id: bigint | null
+  forwarded: boolean | null
+  edited_at: Date | null
+  deleted_for_everyone_at: Date | null
+  read_time: Date | null
+  pinned_at: Date | null
+  pinned_by: bigint | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -85,6 +111,16 @@ export type Personal_chat_historyCountAggregateOutputType = {
   send_time: number
   receive_time: number
   status: number
+  client_message_id: number
+  media_id: number
+  message_type: number
+  reply_to_chat_id: number
+  forwarded: number
+  edited_at: number
+  deleted_for_everyone_at: number
+  read_time: number
+  pinned_at: number
+  pinned_by: number
   created_by: number
   created_at: number
   updated_by: number
@@ -99,6 +135,9 @@ export type Personal_chat_historyAvgAggregateInputType = {
   chat_id?: true
   sender_user_organization_id?: true
   receiver_user_organization_id?: true
+  media_id?: true
+  reply_to_chat_id?: true
+  pinned_by?: true
   created_by?: true
   updated_by?: true
   deleted_by?: true
@@ -108,6 +147,9 @@ export type Personal_chat_historySumAggregateInputType = {
   chat_id?: true
   sender_user_organization_id?: true
   receiver_user_organization_id?: true
+  media_id?: true
+  reply_to_chat_id?: true
+  pinned_by?: true
   created_by?: true
   updated_by?: true
   deleted_by?: true
@@ -121,6 +163,16 @@ export type Personal_chat_historyMinAggregateInputType = {
   send_time?: true
   receive_time?: true
   status?: true
+  client_message_id?: true
+  media_id?: true
+  message_type?: true
+  reply_to_chat_id?: true
+  forwarded?: true
+  edited_at?: true
+  deleted_for_everyone_at?: true
+  read_time?: true
+  pinned_at?: true
+  pinned_by?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -137,6 +189,16 @@ export type Personal_chat_historyMaxAggregateInputType = {
   send_time?: true
   receive_time?: true
   status?: true
+  client_message_id?: true
+  media_id?: true
+  message_type?: true
+  reply_to_chat_id?: true
+  forwarded?: true
+  edited_at?: true
+  deleted_for_everyone_at?: true
+  read_time?: true
+  pinned_at?: true
+  pinned_by?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -154,6 +216,16 @@ export type Personal_chat_historyCountAggregateInputType = {
   send_time?: true
   receive_time?: true
   status?: true
+  client_message_id?: true
+  media_id?: true
+  message_type?: true
+  reply_to_chat_id?: true
+  forwarded?: true
+  edited_at?: true
+  deleted_for_everyone_at?: true
+  read_time?: true
+  pinned_at?: true
+  pinned_by?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -258,6 +330,16 @@ export type Personal_chat_historyGroupByOutputType = {
   send_time: Date
   receive_time: Date | null
   status: $Enums.personal_chat_history_status
+  client_message_id: string | null
+  media_id: bigint | null
+  message_type: string
+  reply_to_chat_id: bigint | null
+  forwarded: boolean
+  edited_at: Date | null
+  deleted_for_everyone_at: Date | null
+  read_time: Date | null
+  pinned_at: Date | null
+  pinned_by: bigint | null
   created_by: bigint | null
   created_at: Date
   updated_by: bigint | null
@@ -298,12 +380,28 @@ export type personal_chat_historyWhereInput = {
   send_time?: Prisma.DateTimeFilter<"personal_chat_history"> | Date | string
   receive_time?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFilter<"personal_chat_history"> | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.StringNullableFilter<"personal_chat_history"> | string | null
+  media_id?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  message_type?: Prisma.StringFilter<"personal_chat_history"> | string
+  reply_to_chat_id?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  forwarded?: Prisma.BoolFilter<"personal_chat_history"> | boolean
+  edited_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  deleted_for_everyone_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  read_time?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  pinned_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  pinned_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
   created_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"personal_chat_history"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
   updated_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
   deleted_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
   deleted_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  conversation_states?: Prisma.Conversation_stateListRelationFilter
+  reply_to?: Prisma.XOR<Prisma.Personal_chat_historyNullableScalarRelationFilter, Prisma.personal_chat_historyWhereInput> | null
+  replies?: Prisma.Personal_chat_historyListRelationFilter
+  message_states?: Prisma.Personal_message_stateListRelationFilter
+  media_file?: Prisma.XOR<Prisma.Media_fileNullableScalarRelationFilter, Prisma.media_fileWhereInput> | null
+  reactions?: Prisma.Message_reactionListRelationFilter
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.XOR<Prisma.User_organizationScalarRelationFilter, Prisma.user_organizationWhereInput>
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.XOR<Prisma.User_organizationScalarRelationFilter, Prisma.user_organizationWhereInput>
 }
@@ -317,12 +415,28 @@ export type personal_chat_historyOrderByWithRelationInput = {
   send_time?: Prisma.SortOrder
   receive_time?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  media_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  reply_to_chat_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  edited_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  read_time?: Prisma.SortOrderInput | Prisma.SortOrder
+  pinned_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  pinned_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_by?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  conversation_states?: Prisma.conversation_stateOrderByRelationAggregateInput
+  reply_to?: Prisma.personal_chat_historyOrderByWithRelationInput
+  replies?: Prisma.personal_chat_historyOrderByRelationAggregateInput
+  message_states?: Prisma.personal_message_stateOrderByRelationAggregateInput
+  media_file?: Prisma.media_fileOrderByWithRelationInput
+  reactions?: Prisma.message_reactionOrderByRelationAggregateInput
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.user_organizationOrderByWithRelationInput
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.user_organizationOrderByWithRelationInput
   _relevance?: Prisma.personal_chat_historyOrderByRelevanceInput
@@ -330,6 +444,7 @@ export type personal_chat_historyOrderByWithRelationInput = {
 
 export type personal_chat_historyWhereUniqueInput = Prisma.AtLeast<{
   chat_id?: bigint | number
+  sender_user_organization_id_client_message_id?: Prisma.personal_chat_historySender_user_organization_idClient_message_idCompoundUniqueInput
   AND?: Prisma.personal_chat_historyWhereInput | Prisma.personal_chat_historyWhereInput[]
   OR?: Prisma.personal_chat_historyWhereInput[]
   NOT?: Prisma.personal_chat_historyWhereInput | Prisma.personal_chat_historyWhereInput[]
@@ -340,15 +455,31 @@ export type personal_chat_historyWhereUniqueInput = Prisma.AtLeast<{
   send_time?: Prisma.DateTimeFilter<"personal_chat_history"> | Date | string
   receive_time?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFilter<"personal_chat_history"> | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.StringNullableFilter<"personal_chat_history"> | string | null
+  media_id?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  message_type?: Prisma.StringFilter<"personal_chat_history"> | string
+  reply_to_chat_id?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  forwarded?: Prisma.BoolFilter<"personal_chat_history"> | boolean
+  edited_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  deleted_for_everyone_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  read_time?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  pinned_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  pinned_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
   created_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"personal_chat_history"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
   updated_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
   deleted_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
   deleted_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  conversation_states?: Prisma.Conversation_stateListRelationFilter
+  reply_to?: Prisma.XOR<Prisma.Personal_chat_historyNullableScalarRelationFilter, Prisma.personal_chat_historyWhereInput> | null
+  replies?: Prisma.Personal_chat_historyListRelationFilter
+  message_states?: Prisma.Personal_message_stateListRelationFilter
+  media_file?: Prisma.XOR<Prisma.Media_fileNullableScalarRelationFilter, Prisma.media_fileWhereInput> | null
+  reactions?: Prisma.Message_reactionListRelationFilter
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.XOR<Prisma.User_organizationScalarRelationFilter, Prisma.user_organizationWhereInput>
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.XOR<Prisma.User_organizationScalarRelationFilter, Prisma.user_organizationWhereInput>
-}, "chat_id">
+}, "chat_id" | "sender_user_organization_id_client_message_id">
 
 export type personal_chat_historyOrderByWithAggregationInput = {
   chat_id?: Prisma.SortOrder
@@ -359,6 +490,16 @@ export type personal_chat_historyOrderByWithAggregationInput = {
   send_time?: Prisma.SortOrder
   receive_time?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  media_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  reply_to_chat_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  edited_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  read_time?: Prisma.SortOrderInput | Prisma.SortOrder
+  pinned_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  pinned_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -384,6 +525,16 @@ export type personal_chat_historyScalarWhereWithAggregatesInput = {
   send_time?: Prisma.DateTimeWithAggregatesFilter<"personal_chat_history"> | Date | string
   receive_time?: Prisma.DateTimeNullableWithAggregatesFilter<"personal_chat_history"> | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusWithAggregatesFilter<"personal_chat_history"> | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.StringNullableWithAggregatesFilter<"personal_chat_history"> | string | null
+  media_id?: Prisma.BigIntNullableWithAggregatesFilter<"personal_chat_history"> | bigint | number | null
+  message_type?: Prisma.StringWithAggregatesFilter<"personal_chat_history"> | string
+  reply_to_chat_id?: Prisma.BigIntNullableWithAggregatesFilter<"personal_chat_history"> | bigint | number | null
+  forwarded?: Prisma.BoolWithAggregatesFilter<"personal_chat_history"> | boolean
+  edited_at?: Prisma.DateTimeNullableWithAggregatesFilter<"personal_chat_history"> | Date | string | null
+  deleted_for_everyone_at?: Prisma.DateTimeNullableWithAggregatesFilter<"personal_chat_history"> | Date | string | null
+  read_time?: Prisma.DateTimeNullableWithAggregatesFilter<"personal_chat_history"> | Date | string | null
+  pinned_at?: Prisma.DateTimeNullableWithAggregatesFilter<"personal_chat_history"> | Date | string | null
+  pinned_by?: Prisma.BigIntNullableWithAggregatesFilter<"personal_chat_history"> | bigint | number | null
   created_by?: Prisma.BigIntNullableWithAggregatesFilter<"personal_chat_history"> | bigint | number | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"personal_chat_history"> | Date | string
   updated_by?: Prisma.BigIntNullableWithAggregatesFilter<"personal_chat_history"> | bigint | number | null
@@ -399,12 +550,26 @@ export type personal_chat_historyCreateInput = {
   send_time?: Date | string
   receive_time?: Date | string | null
   status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutLast_messageInput
+  reply_to?: Prisma.personal_chat_historyCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.personal_chat_historyCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutMessageInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutPersonal_messagesInput
+  reactions?: Prisma.message_reactionCreateNestedManyWithoutMessageInput
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput
 }
@@ -418,12 +583,26 @@ export type personal_chat_historyUncheckedCreateInput = {
   send_time?: Date | string
   receive_time?: Date | string | null
   status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutLast_messageInput
+  replies?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutMessageInput
+  reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutMessageInput
 }
 
 export type personal_chat_historyUpdateInput = {
@@ -433,12 +612,26 @@ export type personal_chat_historyUpdateInput = {
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUpdateManyWithoutLast_messageNestedInput
+  reply_to?: Prisma.personal_chat_historyUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.personal_chat_historyUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutMessageNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutPersonal_messagesNestedInput
+  reactions?: Prisma.message_reactionUpdateManyWithoutMessageNestedInput
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
 }
@@ -452,12 +645,26 @@ export type personal_chat_historyUncheckedUpdateInput = {
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutLast_messageNestedInput
+  replies?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutMessageNestedInput
+  reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutMessageNestedInput
 }
 
 export type personal_chat_historyCreateManyInput = {
@@ -469,6 +676,16 @@ export type personal_chat_historyCreateManyInput = {
   send_time?: Date | string
   receive_time?: Date | string | null
   status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -484,6 +701,14 @@ export type personal_chat_historyUpdateManyMutationInput = {
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -501,6 +726,16 @@ export type personal_chat_historyUncheckedUpdateManyInput = {
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -509,10 +744,30 @@ export type personal_chat_historyUncheckedUpdateManyInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type Personal_chat_historyNullableScalarRelationFilter = {
+  is?: Prisma.personal_chat_historyWhereInput | null
+  isNot?: Prisma.personal_chat_historyWhereInput | null
+}
+
+export type Personal_chat_historyListRelationFilter = {
+  every?: Prisma.personal_chat_historyWhereInput
+  some?: Prisma.personal_chat_historyWhereInput
+  none?: Prisma.personal_chat_historyWhereInput
+}
+
+export type personal_chat_historyOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type personal_chat_historyOrderByRelevanceInput = {
   fields: Prisma.personal_chat_historyOrderByRelevanceFieldEnum | Prisma.personal_chat_historyOrderByRelevanceFieldEnum[]
   sort: Prisma.SortOrder
   search: string
+}
+
+export type personal_chat_historySender_user_organization_idClient_message_idCompoundUniqueInput = {
+  sender_user_organization_id: bigint | number
+  client_message_id: string
 }
 
 export type personal_chat_historyCountOrderByAggregateInput = {
@@ -524,6 +779,16 @@ export type personal_chat_historyCountOrderByAggregateInput = {
   send_time?: Prisma.SortOrder
   receive_time?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  reply_to_chat_id?: Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  edited_at?: Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrder
+  read_time?: Prisma.SortOrder
+  pinned_at?: Prisma.SortOrder
+  pinned_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -536,6 +801,9 @@ export type personal_chat_historyAvgOrderByAggregateInput = {
   chat_id?: Prisma.SortOrder
   sender_user_organization_id?: Prisma.SortOrder
   receiver_user_organization_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
+  reply_to_chat_id?: Prisma.SortOrder
+  pinned_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
@@ -549,6 +817,16 @@ export type personal_chat_historyMaxOrderByAggregateInput = {
   send_time?: Prisma.SortOrder
   receive_time?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  reply_to_chat_id?: Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  edited_at?: Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrder
+  read_time?: Prisma.SortOrder
+  pinned_at?: Prisma.SortOrder
+  pinned_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -565,6 +843,16 @@ export type personal_chat_historyMinOrderByAggregateInput = {
   send_time?: Prisma.SortOrder
   receive_time?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  client_message_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
+  message_type?: Prisma.SortOrder
+  reply_to_chat_id?: Prisma.SortOrder
+  forwarded?: Prisma.SortOrder
+  edited_at?: Prisma.SortOrder
+  deleted_for_everyone_at?: Prisma.SortOrder
+  read_time?: Prisma.SortOrder
+  pinned_at?: Prisma.SortOrder
+  pinned_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -577,23 +865,79 @@ export type personal_chat_historySumOrderByAggregateInput = {
   chat_id?: Prisma.SortOrder
   sender_user_organization_id?: Prisma.SortOrder
   receiver_user_organization_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
+  reply_to_chat_id?: Prisma.SortOrder
+  pinned_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
 }
 
-export type Personal_chat_historyListRelationFilter = {
-  every?: Prisma.personal_chat_historyWhereInput
-  some?: Prisma.personal_chat_historyWhereInput
-  none?: Prisma.personal_chat_historyWhereInput
+export type Personal_chat_historyScalarRelationFilter = {
+  is?: Prisma.personal_chat_historyWhereInput
+  isNot?: Prisma.personal_chat_historyWhereInput
 }
 
-export type personal_chat_historyOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type personal_chat_historyCreateNestedOneWithoutRepliesInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutRepliesInput, Prisma.personal_chat_historyUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutRepliesInput
+  connect?: Prisma.personal_chat_historyWhereUniqueInput
+}
+
+export type personal_chat_historyCreateNestedManyWithoutReply_toInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReply_toInput, Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput> | Prisma.personal_chat_historyCreateWithoutReply_toInput[] | Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput[]
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutReply_toInput | Prisma.personal_chat_historyCreateOrConnectWithoutReply_toInput[]
+  createMany?: Prisma.personal_chat_historyCreateManyReply_toInputEnvelope
+  connect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+}
+
+export type personal_chat_historyUncheckedCreateNestedManyWithoutReply_toInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReply_toInput, Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput> | Prisma.personal_chat_historyCreateWithoutReply_toInput[] | Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput[]
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutReply_toInput | Prisma.personal_chat_historyCreateOrConnectWithoutReply_toInput[]
+  createMany?: Prisma.personal_chat_historyCreateManyReply_toInputEnvelope
+  connect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
 }
 
 export type Enumpersonal_chat_history_statusFieldUpdateOperationsInput = {
   set?: $Enums.personal_chat_history_status
+}
+
+export type personal_chat_historyUpdateOneWithoutRepliesNestedInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutRepliesInput, Prisma.personal_chat_historyUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutRepliesInput
+  upsert?: Prisma.personal_chat_historyUpsertWithoutRepliesInput
+  disconnect?: Prisma.personal_chat_historyWhereInput | boolean
+  delete?: Prisma.personal_chat_historyWhereInput | boolean
+  connect?: Prisma.personal_chat_historyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.personal_chat_historyUpdateToOneWithWhereWithoutRepliesInput, Prisma.personal_chat_historyUpdateWithoutRepliesInput>, Prisma.personal_chat_historyUncheckedUpdateWithoutRepliesInput>
+}
+
+export type personal_chat_historyUpdateManyWithoutReply_toNestedInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReply_toInput, Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput> | Prisma.personal_chat_historyCreateWithoutReply_toInput[] | Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput[]
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutReply_toInput | Prisma.personal_chat_historyCreateOrConnectWithoutReply_toInput[]
+  upsert?: Prisma.personal_chat_historyUpsertWithWhereUniqueWithoutReply_toInput | Prisma.personal_chat_historyUpsertWithWhereUniqueWithoutReply_toInput[]
+  createMany?: Prisma.personal_chat_historyCreateManyReply_toInputEnvelope
+  set?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  disconnect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  delete?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  connect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  update?: Prisma.personal_chat_historyUpdateWithWhereUniqueWithoutReply_toInput | Prisma.personal_chat_historyUpdateWithWhereUniqueWithoutReply_toInput[]
+  updateMany?: Prisma.personal_chat_historyUpdateManyWithWhereWithoutReply_toInput | Prisma.personal_chat_historyUpdateManyWithWhereWithoutReply_toInput[]
+  deleteMany?: Prisma.personal_chat_historyScalarWhereInput | Prisma.personal_chat_historyScalarWhereInput[]
+}
+
+export type personal_chat_historyUncheckedUpdateManyWithoutReply_toNestedInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReply_toInput, Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput> | Prisma.personal_chat_historyCreateWithoutReply_toInput[] | Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput[]
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutReply_toInput | Prisma.personal_chat_historyCreateOrConnectWithoutReply_toInput[]
+  upsert?: Prisma.personal_chat_historyUpsertWithWhereUniqueWithoutReply_toInput | Prisma.personal_chat_historyUpsertWithWhereUniqueWithoutReply_toInput[]
+  createMany?: Prisma.personal_chat_historyCreateManyReply_toInputEnvelope
+  set?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  disconnect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  delete?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  connect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  update?: Prisma.personal_chat_historyUpdateWithWhereUniqueWithoutReply_toInput | Prisma.personal_chat_historyUpdateWithWhereUniqueWithoutReply_toInput[]
+  updateMany?: Prisma.personal_chat_historyUpdateManyWithWhereWithoutReply_toInput | Prisma.personal_chat_historyUpdateManyWithWhereWithoutReply_toInput[]
+  deleteMany?: Prisma.personal_chat_historyScalarWhereInput | Prisma.personal_chat_historyScalarWhereInput[]
 }
 
 export type personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput = {
@@ -680,6 +1024,344 @@ export type personal_chat_historyUncheckedUpdateManyWithoutUser_organization_per
   deleteMany?: Prisma.personal_chat_historyScalarWhereInput | Prisma.personal_chat_historyScalarWhereInput[]
 }
 
+export type personal_chat_historyCreateNestedOneWithoutConversation_statesInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutConversation_statesInput, Prisma.personal_chat_historyUncheckedCreateWithoutConversation_statesInput>
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutConversation_statesInput
+  connect?: Prisma.personal_chat_historyWhereUniqueInput
+}
+
+export type personal_chat_historyUpdateOneWithoutConversation_statesNestedInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutConversation_statesInput, Prisma.personal_chat_historyUncheckedCreateWithoutConversation_statesInput>
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutConversation_statesInput
+  upsert?: Prisma.personal_chat_historyUpsertWithoutConversation_statesInput
+  disconnect?: Prisma.personal_chat_historyWhereInput | boolean
+  delete?: Prisma.personal_chat_historyWhereInput | boolean
+  connect?: Prisma.personal_chat_historyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.personal_chat_historyUpdateToOneWithWhereWithoutConversation_statesInput, Prisma.personal_chat_historyUpdateWithoutConversation_statesInput>, Prisma.personal_chat_historyUncheckedUpdateWithoutConversation_statesInput>
+}
+
+export type personal_chat_historyCreateNestedOneWithoutMessage_statesInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMessage_statesInput, Prisma.personal_chat_historyUncheckedCreateWithoutMessage_statesInput>
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutMessage_statesInput
+  connect?: Prisma.personal_chat_historyWhereUniqueInput
+}
+
+export type personal_chat_historyUpdateOneRequiredWithoutMessage_statesNestedInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMessage_statesInput, Prisma.personal_chat_historyUncheckedCreateWithoutMessage_statesInput>
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutMessage_statesInput
+  upsert?: Prisma.personal_chat_historyUpsertWithoutMessage_statesInput
+  connect?: Prisma.personal_chat_historyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.personal_chat_historyUpdateToOneWithWhereWithoutMessage_statesInput, Prisma.personal_chat_historyUpdateWithoutMessage_statesInput>, Prisma.personal_chat_historyUncheckedUpdateWithoutMessage_statesInput>
+}
+
+export type personal_chat_historyCreateNestedOneWithoutReactionsInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReactionsInput, Prisma.personal_chat_historyUncheckedCreateWithoutReactionsInput>
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutReactionsInput
+  connect?: Prisma.personal_chat_historyWhereUniqueInput
+}
+
+export type personal_chat_historyUpdateOneRequiredWithoutReactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReactionsInput, Prisma.personal_chat_historyUncheckedCreateWithoutReactionsInput>
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutReactionsInput
+  upsert?: Prisma.personal_chat_historyUpsertWithoutReactionsInput
+  connect?: Prisma.personal_chat_historyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.personal_chat_historyUpdateToOneWithWhereWithoutReactionsInput, Prisma.personal_chat_historyUpdateWithoutReactionsInput>, Prisma.personal_chat_historyUncheckedUpdateWithoutReactionsInput>
+}
+
+export type personal_chat_historyCreateNestedManyWithoutMedia_fileInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMedia_fileInput, Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput> | Prisma.personal_chat_historyCreateWithoutMedia_fileInput[] | Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput[]
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutMedia_fileInput | Prisma.personal_chat_historyCreateOrConnectWithoutMedia_fileInput[]
+  createMany?: Prisma.personal_chat_historyCreateManyMedia_fileInputEnvelope
+  connect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+}
+
+export type personal_chat_historyUncheckedCreateNestedManyWithoutMedia_fileInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMedia_fileInput, Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput> | Prisma.personal_chat_historyCreateWithoutMedia_fileInput[] | Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput[]
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutMedia_fileInput | Prisma.personal_chat_historyCreateOrConnectWithoutMedia_fileInput[]
+  createMany?: Prisma.personal_chat_historyCreateManyMedia_fileInputEnvelope
+  connect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+}
+
+export type personal_chat_historyUpdateManyWithoutMedia_fileNestedInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMedia_fileInput, Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput> | Prisma.personal_chat_historyCreateWithoutMedia_fileInput[] | Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput[]
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutMedia_fileInput | Prisma.personal_chat_historyCreateOrConnectWithoutMedia_fileInput[]
+  upsert?: Prisma.personal_chat_historyUpsertWithWhereUniqueWithoutMedia_fileInput | Prisma.personal_chat_historyUpsertWithWhereUniqueWithoutMedia_fileInput[]
+  createMany?: Prisma.personal_chat_historyCreateManyMedia_fileInputEnvelope
+  set?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  disconnect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  delete?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  connect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  update?: Prisma.personal_chat_historyUpdateWithWhereUniqueWithoutMedia_fileInput | Prisma.personal_chat_historyUpdateWithWhereUniqueWithoutMedia_fileInput[]
+  updateMany?: Prisma.personal_chat_historyUpdateManyWithWhereWithoutMedia_fileInput | Prisma.personal_chat_historyUpdateManyWithWhereWithoutMedia_fileInput[]
+  deleteMany?: Prisma.personal_chat_historyScalarWhereInput | Prisma.personal_chat_historyScalarWhereInput[]
+}
+
+export type personal_chat_historyUncheckedUpdateManyWithoutMedia_fileNestedInput = {
+  create?: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMedia_fileInput, Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput> | Prisma.personal_chat_historyCreateWithoutMedia_fileInput[] | Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput[]
+  connectOrCreate?: Prisma.personal_chat_historyCreateOrConnectWithoutMedia_fileInput | Prisma.personal_chat_historyCreateOrConnectWithoutMedia_fileInput[]
+  upsert?: Prisma.personal_chat_historyUpsertWithWhereUniqueWithoutMedia_fileInput | Prisma.personal_chat_historyUpsertWithWhereUniqueWithoutMedia_fileInput[]
+  createMany?: Prisma.personal_chat_historyCreateManyMedia_fileInputEnvelope
+  set?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  disconnect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  delete?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  connect?: Prisma.personal_chat_historyWhereUniqueInput | Prisma.personal_chat_historyWhereUniqueInput[]
+  update?: Prisma.personal_chat_historyUpdateWithWhereUniqueWithoutMedia_fileInput | Prisma.personal_chat_historyUpdateWithWhereUniqueWithoutMedia_fileInput[]
+  updateMany?: Prisma.personal_chat_historyUpdateManyWithWhereWithoutMedia_fileInput | Prisma.personal_chat_historyUpdateManyWithWhereWithoutMedia_fileInput[]
+  deleteMany?: Prisma.personal_chat_historyScalarWhereInput | Prisma.personal_chat_historyScalarWhereInput[]
+}
+
+export type personal_chat_historyCreateWithoutRepliesInput = {
+  chat_id?: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutLast_messageInput
+  reply_to?: Prisma.personal_chat_historyCreateNestedOneWithoutRepliesInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutMessageInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutPersonal_messagesInput
+  reactions?: Prisma.message_reactionCreateNestedManyWithoutMessageInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput
+}
+
+export type personal_chat_historyUncheckedCreateWithoutRepliesInput = {
+  chat_id?: bigint | number
+  sender_user_organization_id: bigint | number
+  receiver_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutLast_messageInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutMessageInput
+  reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutMessageInput
+}
+
+export type personal_chat_historyCreateOrConnectWithoutRepliesInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutRepliesInput, Prisma.personal_chat_historyUncheckedCreateWithoutRepliesInput>
+}
+
+export type personal_chat_historyCreateWithoutReply_toInput = {
+  chat_id?: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutLast_messageInput
+  replies?: Prisma.personal_chat_historyCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutMessageInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutPersonal_messagesInput
+  reactions?: Prisma.message_reactionCreateNestedManyWithoutMessageInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput
+}
+
+export type personal_chat_historyUncheckedCreateWithoutReply_toInput = {
+  chat_id?: bigint | number
+  sender_user_organization_id: bigint | number
+  receiver_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutLast_messageInput
+  replies?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutMessageInput
+  reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutMessageInput
+}
+
+export type personal_chat_historyCreateOrConnectWithoutReply_toInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReply_toInput, Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput>
+}
+
+export type personal_chat_historyCreateManyReply_toInputEnvelope = {
+  data: Prisma.personal_chat_historyCreateManyReply_toInput | Prisma.personal_chat_historyCreateManyReply_toInput[]
+  skipDuplicates?: boolean
+}
+
+export type personal_chat_historyUpsertWithoutRepliesInput = {
+  update: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutRepliesInput, Prisma.personal_chat_historyUncheckedUpdateWithoutRepliesInput>
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutRepliesInput, Prisma.personal_chat_historyUncheckedCreateWithoutRepliesInput>
+  where?: Prisma.personal_chat_historyWhereInput
+}
+
+export type personal_chat_historyUpdateToOneWithWhereWithoutRepliesInput = {
+  where?: Prisma.personal_chat_historyWhereInput
+  data: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutRepliesInput, Prisma.personal_chat_historyUncheckedUpdateWithoutRepliesInput>
+}
+
+export type personal_chat_historyUpdateWithoutRepliesInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUpdateManyWithoutLast_messageNestedInput
+  reply_to?: Prisma.personal_chat_historyUpdateOneWithoutRepliesNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutMessageNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutPersonal_messagesNestedInput
+  reactions?: Prisma.message_reactionUpdateManyWithoutMessageNestedInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+}
+
+export type personal_chat_historyUncheckedUpdateWithoutRepliesInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  receiver_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutLast_messageNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutMessageNestedInput
+  reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutMessageNestedInput
+}
+
+export type personal_chat_historyUpsertWithWhereUniqueWithoutReply_toInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  update: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutReply_toInput, Prisma.personal_chat_historyUncheckedUpdateWithoutReply_toInput>
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReply_toInput, Prisma.personal_chat_historyUncheckedCreateWithoutReply_toInput>
+}
+
+export type personal_chat_historyUpdateWithWhereUniqueWithoutReply_toInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  data: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutReply_toInput, Prisma.personal_chat_historyUncheckedUpdateWithoutReply_toInput>
+}
+
+export type personal_chat_historyUpdateManyWithWhereWithoutReply_toInput = {
+  where: Prisma.personal_chat_historyScalarWhereInput
+  data: Prisma.XOR<Prisma.personal_chat_historyUpdateManyMutationInput, Prisma.personal_chat_historyUncheckedUpdateManyWithoutReply_toInput>
+}
+
+export type personal_chat_historyScalarWhereInput = {
+  AND?: Prisma.personal_chat_historyScalarWhereInput | Prisma.personal_chat_historyScalarWhereInput[]
+  OR?: Prisma.personal_chat_historyScalarWhereInput[]
+  NOT?: Prisma.personal_chat_historyScalarWhereInput | Prisma.personal_chat_historyScalarWhereInput[]
+  chat_id?: Prisma.BigIntFilter<"personal_chat_history"> | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFilter<"personal_chat_history"> | bigint | number
+  receiver_user_organization_id?: Prisma.BigIntFilter<"personal_chat_history"> | bigint | number
+  message?: Prisma.StringNullableFilter<"personal_chat_history"> | string | null
+  media?: Prisma.JsonNullableFilter<"personal_chat_history">
+  send_time?: Prisma.DateTimeFilter<"personal_chat_history"> | Date | string
+  receive_time?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFilter<"personal_chat_history"> | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.StringNullableFilter<"personal_chat_history"> | string | null
+  media_id?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  message_type?: Prisma.StringFilter<"personal_chat_history"> | string
+  reply_to_chat_id?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  forwarded?: Prisma.BoolFilter<"personal_chat_history"> | boolean
+  edited_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  deleted_for_everyone_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  read_time?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  pinned_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  pinned_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  created_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  created_at?: Prisma.DateTimeFilter<"personal_chat_history"> | Date | string
+  updated_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  updated_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+  deleted_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
+}
+
 export type personal_chat_historyCreateWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput = {
   chat_id?: bigint | number
   message?: string | null
@@ -687,12 +1369,26 @@ export type personal_chat_historyCreateWithoutUser_organization_personal_chat_hi
   send_time?: Date | string
   receive_time?: Date | string | null
   status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutLast_messageInput
+  reply_to?: Prisma.personal_chat_historyCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.personal_chat_historyCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutMessageInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutPersonal_messagesInput
+  reactions?: Prisma.message_reactionCreateNestedManyWithoutMessageInput
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput
 }
 
@@ -704,12 +1400,26 @@ export type personal_chat_historyUncheckedCreateWithoutUser_organization_persona
   send_time?: Date | string
   receive_time?: Date | string | null
   status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutLast_messageInput
+  replies?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutMessageInput
+  reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutMessageInput
 }
 
 export type personal_chat_historyCreateOrConnectWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput = {
@@ -729,12 +1439,26 @@ export type personal_chat_historyCreateWithoutUser_organization_personal_chat_hi
   send_time?: Date | string
   receive_time?: Date | string | null
   status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutLast_messageInput
+  reply_to?: Prisma.personal_chat_historyCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.personal_chat_historyCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutMessageInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutPersonal_messagesInput
+  reactions?: Prisma.message_reactionCreateNestedManyWithoutMessageInput
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput
 }
 
@@ -746,12 +1470,26 @@ export type personal_chat_historyUncheckedCreateWithoutUser_organization_persona
   send_time?: Date | string
   receive_time?: Date | string | null
   status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
   updated_at?: Date | string | null
   deleted_by?: bigint | number | null
   deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutLast_messageInput
+  replies?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutMessageInput
+  reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutMessageInput
 }
 
 export type personal_chat_historyCreateOrConnectWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput = {
@@ -780,26 +1518,6 @@ export type personal_chat_historyUpdateManyWithWhereWithoutUser_organization_per
   data: Prisma.XOR<Prisma.personal_chat_historyUpdateManyMutationInput, Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput>
 }
 
-export type personal_chat_historyScalarWhereInput = {
-  AND?: Prisma.personal_chat_historyScalarWhereInput | Prisma.personal_chat_historyScalarWhereInput[]
-  OR?: Prisma.personal_chat_historyScalarWhereInput[]
-  NOT?: Prisma.personal_chat_historyScalarWhereInput | Prisma.personal_chat_historyScalarWhereInput[]
-  chat_id?: Prisma.BigIntFilter<"personal_chat_history"> | bigint | number
-  sender_user_organization_id?: Prisma.BigIntFilter<"personal_chat_history"> | bigint | number
-  receiver_user_organization_id?: Prisma.BigIntFilter<"personal_chat_history"> | bigint | number
-  message?: Prisma.StringNullableFilter<"personal_chat_history"> | string | null
-  media?: Prisma.JsonNullableFilter<"personal_chat_history">
-  send_time?: Prisma.DateTimeFilter<"personal_chat_history"> | Date | string
-  receive_time?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
-  status?: Prisma.Enumpersonal_chat_history_statusFilter<"personal_chat_history"> | $Enums.personal_chat_history_status
-  created_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
-  created_at?: Prisma.DateTimeFilter<"personal_chat_history"> | Date | string
-  updated_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
-  updated_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
-  deleted_by?: Prisma.BigIntNullableFilter<"personal_chat_history"> | bigint | number | null
-  deleted_at?: Prisma.DateTimeNullableFilter<"personal_chat_history"> | Date | string | null
-}
-
 export type personal_chat_historyUpsertWithWhereUniqueWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput = {
   where: Prisma.personal_chat_historyWhereUniqueInput
   update: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput, Prisma.personal_chat_historyUncheckedUpdateWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput>
@@ -816,6 +1534,612 @@ export type personal_chat_historyUpdateManyWithWhereWithoutUser_organization_per
   data: Prisma.XOR<Prisma.personal_chat_historyUpdateManyMutationInput, Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput>
 }
 
+export type personal_chat_historyCreateWithoutConversation_statesInput = {
+  chat_id?: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  reply_to?: Prisma.personal_chat_historyCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.personal_chat_historyCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutMessageInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutPersonal_messagesInput
+  reactions?: Prisma.message_reactionCreateNestedManyWithoutMessageInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput
+}
+
+export type personal_chat_historyUncheckedCreateWithoutConversation_statesInput = {
+  chat_id?: bigint | number
+  sender_user_organization_id: bigint | number
+  receiver_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  replies?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutMessageInput
+  reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutMessageInput
+}
+
+export type personal_chat_historyCreateOrConnectWithoutConversation_statesInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutConversation_statesInput, Prisma.personal_chat_historyUncheckedCreateWithoutConversation_statesInput>
+}
+
+export type personal_chat_historyUpsertWithoutConversation_statesInput = {
+  update: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutConversation_statesInput, Prisma.personal_chat_historyUncheckedUpdateWithoutConversation_statesInput>
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutConversation_statesInput, Prisma.personal_chat_historyUncheckedCreateWithoutConversation_statesInput>
+  where?: Prisma.personal_chat_historyWhereInput
+}
+
+export type personal_chat_historyUpdateToOneWithWhereWithoutConversation_statesInput = {
+  where?: Prisma.personal_chat_historyWhereInput
+  data: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutConversation_statesInput, Prisma.personal_chat_historyUncheckedUpdateWithoutConversation_statesInput>
+}
+
+export type personal_chat_historyUpdateWithoutConversation_statesInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reply_to?: Prisma.personal_chat_historyUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.personal_chat_historyUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutMessageNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutPersonal_messagesNestedInput
+  reactions?: Prisma.message_reactionUpdateManyWithoutMessageNestedInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+}
+
+export type personal_chat_historyUncheckedUpdateWithoutConversation_statesInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  receiver_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutMessageNestedInput
+  reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutMessageNestedInput
+}
+
+export type personal_chat_historyCreateWithoutMessage_statesInput = {
+  chat_id?: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutLast_messageInput
+  reply_to?: Prisma.personal_chat_historyCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.personal_chat_historyCreateNestedManyWithoutReply_toInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutPersonal_messagesInput
+  reactions?: Prisma.message_reactionCreateNestedManyWithoutMessageInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput
+}
+
+export type personal_chat_historyUncheckedCreateWithoutMessage_statesInput = {
+  chat_id?: bigint | number
+  sender_user_organization_id: bigint | number
+  receiver_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutLast_messageInput
+  replies?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutReply_toInput
+  reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutMessageInput
+}
+
+export type personal_chat_historyCreateOrConnectWithoutMessage_statesInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMessage_statesInput, Prisma.personal_chat_historyUncheckedCreateWithoutMessage_statesInput>
+}
+
+export type personal_chat_historyUpsertWithoutMessage_statesInput = {
+  update: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutMessage_statesInput, Prisma.personal_chat_historyUncheckedUpdateWithoutMessage_statesInput>
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMessage_statesInput, Prisma.personal_chat_historyUncheckedCreateWithoutMessage_statesInput>
+  where?: Prisma.personal_chat_historyWhereInput
+}
+
+export type personal_chat_historyUpdateToOneWithWhereWithoutMessage_statesInput = {
+  where?: Prisma.personal_chat_historyWhereInput
+  data: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutMessage_statesInput, Prisma.personal_chat_historyUncheckedUpdateWithoutMessage_statesInput>
+}
+
+export type personal_chat_historyUpdateWithoutMessage_statesInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUpdateManyWithoutLast_messageNestedInput
+  reply_to?: Prisma.personal_chat_historyUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.personal_chat_historyUpdateManyWithoutReply_toNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutPersonal_messagesNestedInput
+  reactions?: Prisma.message_reactionUpdateManyWithoutMessageNestedInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+}
+
+export type personal_chat_historyUncheckedUpdateWithoutMessage_statesInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  receiver_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutLast_messageNestedInput
+  replies?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutReply_toNestedInput
+  reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutMessageNestedInput
+}
+
+export type personal_chat_historyCreateWithoutReactionsInput = {
+  chat_id?: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutLast_messageInput
+  reply_to?: Prisma.personal_chat_historyCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.personal_chat_historyCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutMessageInput
+  media_file?: Prisma.media_fileCreateNestedOneWithoutPersonal_messagesInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput
+}
+
+export type personal_chat_historyUncheckedCreateWithoutReactionsInput = {
+  chat_id?: bigint | number
+  sender_user_organization_id: bigint | number
+  receiver_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutLast_messageInput
+  replies?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutMessageInput
+}
+
+export type personal_chat_historyCreateOrConnectWithoutReactionsInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReactionsInput, Prisma.personal_chat_historyUncheckedCreateWithoutReactionsInput>
+}
+
+export type personal_chat_historyUpsertWithoutReactionsInput = {
+  update: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutReactionsInput, Prisma.personal_chat_historyUncheckedUpdateWithoutReactionsInput>
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutReactionsInput, Prisma.personal_chat_historyUncheckedCreateWithoutReactionsInput>
+  where?: Prisma.personal_chat_historyWhereInput
+}
+
+export type personal_chat_historyUpdateToOneWithWhereWithoutReactionsInput = {
+  where?: Prisma.personal_chat_historyWhereInput
+  data: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutReactionsInput, Prisma.personal_chat_historyUncheckedUpdateWithoutReactionsInput>
+}
+
+export type personal_chat_historyUpdateWithoutReactionsInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUpdateManyWithoutLast_messageNestedInput
+  reply_to?: Prisma.personal_chat_historyUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.personal_chat_historyUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutMessageNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutPersonal_messagesNestedInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+}
+
+export type personal_chat_historyUncheckedUpdateWithoutReactionsInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  receiver_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutLast_messageNestedInput
+  replies?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutMessageNestedInput
+}
+
+export type personal_chat_historyCreateWithoutMedia_fileInput = {
+  chat_id?: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutLast_messageInput
+  reply_to?: Prisma.personal_chat_historyCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.personal_chat_historyCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutMessageInput
+  reactions?: Prisma.message_reactionCreateNestedManyWithoutMessageInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization: Prisma.user_organizationCreateNestedOneWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput
+}
+
+export type personal_chat_historyUncheckedCreateWithoutMedia_fileInput = {
+  chat_id?: bigint | number
+  sender_user_organization_id: bigint | number
+  receiver_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutLast_messageInput
+  replies?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutReply_toInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutMessageInput
+  reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutMessageInput
+}
+
+export type personal_chat_historyCreateOrConnectWithoutMedia_fileInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMedia_fileInput, Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput>
+}
+
+export type personal_chat_historyCreateManyMedia_fileInputEnvelope = {
+  data: Prisma.personal_chat_historyCreateManyMedia_fileInput | Prisma.personal_chat_historyCreateManyMedia_fileInput[]
+  skipDuplicates?: boolean
+}
+
+export type personal_chat_historyUpsertWithWhereUniqueWithoutMedia_fileInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  update: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutMedia_fileInput, Prisma.personal_chat_historyUncheckedUpdateWithoutMedia_fileInput>
+  create: Prisma.XOR<Prisma.personal_chat_historyCreateWithoutMedia_fileInput, Prisma.personal_chat_historyUncheckedCreateWithoutMedia_fileInput>
+}
+
+export type personal_chat_historyUpdateWithWhereUniqueWithoutMedia_fileInput = {
+  where: Prisma.personal_chat_historyWhereUniqueInput
+  data: Prisma.XOR<Prisma.personal_chat_historyUpdateWithoutMedia_fileInput, Prisma.personal_chat_historyUncheckedUpdateWithoutMedia_fileInput>
+}
+
+export type personal_chat_historyUpdateManyWithWhereWithoutMedia_fileInput = {
+  where: Prisma.personal_chat_historyScalarWhereInput
+  data: Prisma.XOR<Prisma.personal_chat_historyUpdateManyMutationInput, Prisma.personal_chat_historyUncheckedUpdateManyWithoutMedia_fileInput>
+}
+
+export type personal_chat_historyCreateManyReply_toInput = {
+  chat_id?: bigint | number
+  sender_user_organization_id: bigint | number
+  receiver_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+}
+
+export type personal_chat_historyUpdateWithoutReply_toInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUpdateManyWithoutLast_messageNestedInput
+  replies?: Prisma.personal_chat_historyUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutMessageNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutPersonal_messagesNestedInput
+  reactions?: Prisma.message_reactionUpdateManyWithoutMessageNestedInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+}
+
+export type personal_chat_historyUncheckedUpdateWithoutReply_toInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  receiver_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutLast_messageNestedInput
+  replies?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutMessageNestedInput
+  reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutMessageNestedInput
+}
+
+export type personal_chat_historyUncheckedUpdateManyWithoutReply_toInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  receiver_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 export type personal_chat_historyCreateManyUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput = {
   chat_id?: bigint | number
   sender_user_organization_id: bigint | number
@@ -824,6 +2148,16 @@ export type personal_chat_historyCreateManyUser_organization_personal_chat_histo
   send_time?: Date | string
   receive_time?: Date | string | null
   status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -840,6 +2174,16 @@ export type personal_chat_historyCreateManyUser_organization_personal_chat_histo
   send_time?: Date | string
   receive_time?: Date | string | null
   status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  media_id?: bigint | number | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -855,12 +2199,26 @@ export type personal_chat_historyUpdateWithoutUser_organization_personal_chat_hi
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUpdateManyWithoutLast_messageNestedInput
+  reply_to?: Prisma.personal_chat_historyUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.personal_chat_historyUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutMessageNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutPersonal_messagesNestedInput
+  reactions?: Prisma.message_reactionUpdateManyWithoutMessageNestedInput
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
 }
 
@@ -872,12 +2230,26 @@ export type personal_chat_historyUncheckedUpdateWithoutUser_organization_persona
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutLast_messageNestedInput
+  replies?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutMessageNestedInput
+  reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutMessageNestedInput
 }
 
 export type personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput = {
@@ -888,6 +2260,16 @@ export type personal_chat_historyUncheckedUpdateManyWithoutUser_organization_per
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -903,12 +2285,26 @@ export type personal_chat_historyUpdateWithoutUser_organization_personal_chat_hi
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUpdateManyWithoutLast_messageNestedInput
+  reply_to?: Prisma.personal_chat_historyUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.personal_chat_historyUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutMessageNestedInput
+  media_file?: Prisma.media_fileUpdateOneWithoutPersonal_messagesNestedInput
+  reactions?: Prisma.message_reactionUpdateManyWithoutMessageNestedInput
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
 }
 
@@ -920,12 +2316,26 @@ export type personal_chat_historyUncheckedUpdateWithoutUser_organization_persona
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutLast_messageNestedInput
+  replies?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutMessageNestedInput
+  reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutMessageNestedInput
 }
 
 export type personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput = {
@@ -936,6 +2346,16 @@ export type personal_chat_historyUncheckedUpdateManyWithoutUser_organization_per
   send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -944,6 +2364,174 @@ export type personal_chat_historyUncheckedUpdateManyWithoutUser_organization_per
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type personal_chat_historyCreateManyMedia_fileInput = {
+  chat_id?: bigint | number
+  sender_user_organization_id: bigint | number
+  receiver_user_organization_id: bigint | number
+  message?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Date | string
+  receive_time?: Date | string | null
+  status?: $Enums.personal_chat_history_status
+  client_message_id?: string | null
+  message_type?: string
+  reply_to_chat_id?: bigint | number | null
+  forwarded?: boolean
+  edited_at?: Date | string | null
+  deleted_for_everyone_at?: Date | string | null
+  read_time?: Date | string | null
+  pinned_at?: Date | string | null
+  pinned_by?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+}
+
+export type personal_chat_historyUpdateWithoutMedia_fileInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUpdateManyWithoutLast_messageNestedInput
+  reply_to?: Prisma.personal_chat_historyUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.personal_chat_historyUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutMessageNestedInput
+  reactions?: Prisma.message_reactionUpdateManyWithoutMessageNestedInput
+  user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.user_organizationUpdateOneRequiredWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+}
+
+export type personal_chat_historyUncheckedUpdateWithoutMedia_fileInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  receiver_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutLast_messageNestedInput
+  replies?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutReply_toNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutMessageNestedInput
+  reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutMessageNestedInput
+}
+
+export type personal_chat_historyUncheckedUpdateManyWithoutMedia_fileInput = {
+  chat_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  sender_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  receiver_user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  send_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receive_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enumpersonal_chat_history_statusFieldUpdateOperationsInput | $Enums.personal_chat_history_status
+  client_message_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reply_to_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  forwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edited_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_for_everyone_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  read_time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+
+/**
+ * Count Type Personal_chat_historyCountOutputType
+ */
+
+export type Personal_chat_historyCountOutputType = {
+  conversation_states: number
+  replies: number
+  message_states: number
+  reactions: number
+}
+
+export type Personal_chat_historyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  conversation_states?: boolean | Personal_chat_historyCountOutputTypeCountConversation_statesArgs
+  replies?: boolean | Personal_chat_historyCountOutputTypeCountRepliesArgs
+  message_states?: boolean | Personal_chat_historyCountOutputTypeCountMessage_statesArgs
+  reactions?: boolean | Personal_chat_historyCountOutputTypeCountReactionsArgs
+}
+
+/**
+ * Personal_chat_historyCountOutputType without action
+ */
+export type Personal_chat_historyCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Personal_chat_historyCountOutputType
+   */
+  select?: Prisma.Personal_chat_historyCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Personal_chat_historyCountOutputType without action
+ */
+export type Personal_chat_historyCountOutputTypeCountConversation_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.conversation_stateWhereInput
+}
+
+/**
+ * Personal_chat_historyCountOutputType without action
+ */
+export type Personal_chat_historyCountOutputTypeCountRepliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.personal_chat_historyWhereInput
+}
+
+/**
+ * Personal_chat_historyCountOutputType without action
+ */
+export type Personal_chat_historyCountOutputTypeCountMessage_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.personal_message_stateWhereInput
+}
+
+/**
+ * Personal_chat_historyCountOutputType without action
+ */
+export type Personal_chat_historyCountOutputTypeCountReactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.message_reactionWhereInput
+}
 
 
 export type personal_chat_historySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -955,14 +2543,31 @@ export type personal_chat_historySelect<ExtArgs extends runtime.Types.Extensions
   send_time?: boolean
   receive_time?: boolean
   status?: boolean
+  client_message_id?: boolean
+  media_id?: boolean
+  message_type?: boolean
+  reply_to_chat_id?: boolean
+  forwarded?: boolean
+  edited_at?: boolean
+  deleted_for_everyone_at?: boolean
+  read_time?: boolean
+  pinned_at?: boolean
+  pinned_by?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
   updated_at?: boolean
   deleted_by?: boolean
   deleted_at?: boolean
+  conversation_states?: boolean | Prisma.personal_chat_history$conversation_statesArgs<ExtArgs>
+  reply_to?: boolean | Prisma.personal_chat_history$reply_toArgs<ExtArgs>
+  replies?: boolean | Prisma.personal_chat_history$repliesArgs<ExtArgs>
+  message_states?: boolean | Prisma.personal_chat_history$message_statesArgs<ExtArgs>
+  media_file?: boolean | Prisma.personal_chat_history$media_fileArgs<ExtArgs>
+  reactions?: boolean | Prisma.personal_chat_history$reactionsArgs<ExtArgs>
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.Personal_chat_historyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["personal_chat_history"]>
 
 
@@ -976,6 +2581,16 @@ export type personal_chat_historySelectScalar = {
   send_time?: boolean
   receive_time?: boolean
   status?: boolean
+  client_message_id?: boolean
+  media_id?: boolean
+  message_type?: boolean
+  reply_to_chat_id?: boolean
+  forwarded?: boolean
+  edited_at?: boolean
+  deleted_for_everyone_at?: boolean
+  read_time?: boolean
+  pinned_at?: boolean
+  pinned_by?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
@@ -984,15 +2599,28 @@ export type personal_chat_historySelectScalar = {
   deleted_at?: boolean
 }
 
-export type personal_chat_historyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"chat_id" | "sender_user_organization_id" | "receiver_user_organization_id" | "message" | "media" | "send_time" | "receive_time" | "status" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["personal_chat_history"]>
+export type personal_chat_historyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"chat_id" | "sender_user_organization_id" | "receiver_user_organization_id" | "message" | "media" | "send_time" | "receive_time" | "status" | "client_message_id" | "media_id" | "message_type" | "reply_to_chat_id" | "forwarded" | "edited_at" | "deleted_for_everyone_at" | "read_time" | "pinned_at" | "pinned_by" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["personal_chat_history"]>
 export type personal_chat_historyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  conversation_states?: boolean | Prisma.personal_chat_history$conversation_statesArgs<ExtArgs>
+  reply_to?: boolean | Prisma.personal_chat_history$reply_toArgs<ExtArgs>
+  replies?: boolean | Prisma.personal_chat_history$repliesArgs<ExtArgs>
+  message_states?: boolean | Prisma.personal_chat_history$message_statesArgs<ExtArgs>
+  media_file?: boolean | Prisma.personal_chat_history$media_fileArgs<ExtArgs>
+  reactions?: boolean | Prisma.personal_chat_history$reactionsArgs<ExtArgs>
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.Personal_chat_historyCountOutputTypeDefaultArgs<ExtArgs>
 }
 
 export type $personal_chat_historyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "personal_chat_history"
   objects: {
+    conversation_states: Prisma.$conversation_statePayload<ExtArgs>[]
+    reply_to: Prisma.$personal_chat_historyPayload<ExtArgs> | null
+    replies: Prisma.$personal_chat_historyPayload<ExtArgs>[]
+    message_states: Prisma.$personal_message_statePayload<ExtArgs>[]
+    media_file: Prisma.$media_filePayload<ExtArgs> | null
+    reactions: Prisma.$message_reactionPayload<ExtArgs>[]
     user_organization_personal_chat_history_receiver_user_organization_idTouser_organization: Prisma.$user_organizationPayload<ExtArgs>
     user_organization_personal_chat_history_sender_user_organization_idTouser_organization: Prisma.$user_organizationPayload<ExtArgs>
   }
@@ -1005,6 +2633,16 @@ export type $personal_chat_historyPayload<ExtArgs extends runtime.Types.Extensio
     send_time: Date
     receive_time: Date | null
     status: $Enums.personal_chat_history_status
+    client_message_id: string | null
+    media_id: bigint | null
+    message_type: string
+    reply_to_chat_id: bigint | null
+    forwarded: boolean
+    edited_at: Date | null
+    deleted_for_everyone_at: Date | null
+    read_time: Date | null
+    pinned_at: Date | null
+    pinned_by: bigint | null
     created_by: bigint | null
     created_at: Date
     updated_by: bigint | null
@@ -1351,6 +2989,12 @@ readonly fields: personal_chat_historyFieldRefs;
  */
 export interface Prisma__personal_chat_historyClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  conversation_states<T extends Prisma.personal_chat_history$conversation_statesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.personal_chat_history$conversation_statesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$conversation_statePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reply_to<T extends Prisma.personal_chat_history$reply_toArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.personal_chat_history$reply_toArgs<ExtArgs>>): Prisma.Prisma__personal_chat_historyClient<runtime.Types.Result.GetResult<Prisma.$personal_chat_historyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  replies<T extends Prisma.personal_chat_history$repliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.personal_chat_history$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$personal_chat_historyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  message_states<T extends Prisma.personal_chat_history$message_statesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.personal_chat_history$message_statesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$personal_message_statePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  media_file<T extends Prisma.personal_chat_history$media_fileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.personal_chat_history$media_fileArgs<ExtArgs>>): Prisma.Prisma__media_fileClient<runtime.Types.Result.GetResult<Prisma.$media_filePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  reactions<T extends Prisma.personal_chat_history$reactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.personal_chat_history$reactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$message_reactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user_organization_personal_chat_history_receiver_user_organization_idTouser_organization<T extends Prisma.user_organizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organizationDefaultArgs<ExtArgs>>): Prisma.Prisma__user_organizationClient<runtime.Types.Result.GetResult<Prisma.$user_organizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user_organization_personal_chat_history_sender_user_organization_idTouser_organization<T extends Prisma.user_organizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organizationDefaultArgs<ExtArgs>>): Prisma.Prisma__user_organizationClient<runtime.Types.Result.GetResult<Prisma.$user_organizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1390,6 +3034,16 @@ export interface personal_chat_historyFieldRefs {
   readonly send_time: Prisma.FieldRef<"personal_chat_history", 'DateTime'>
   readonly receive_time: Prisma.FieldRef<"personal_chat_history", 'DateTime'>
   readonly status: Prisma.FieldRef<"personal_chat_history", 'personal_chat_history_status'>
+  readonly client_message_id: Prisma.FieldRef<"personal_chat_history", 'String'>
+  readonly media_id: Prisma.FieldRef<"personal_chat_history", 'BigInt'>
+  readonly message_type: Prisma.FieldRef<"personal_chat_history", 'String'>
+  readonly reply_to_chat_id: Prisma.FieldRef<"personal_chat_history", 'BigInt'>
+  readonly forwarded: Prisma.FieldRef<"personal_chat_history", 'Boolean'>
+  readonly edited_at: Prisma.FieldRef<"personal_chat_history", 'DateTime'>
+  readonly deleted_for_everyone_at: Prisma.FieldRef<"personal_chat_history", 'DateTime'>
+  readonly read_time: Prisma.FieldRef<"personal_chat_history", 'DateTime'>
+  readonly pinned_at: Prisma.FieldRef<"personal_chat_history", 'DateTime'>
+  readonly pinned_by: Prisma.FieldRef<"personal_chat_history", 'BigInt'>
   readonly created_by: Prisma.FieldRef<"personal_chat_history", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"personal_chat_history", 'DateTime'>
   readonly updated_by: Prisma.FieldRef<"personal_chat_history", 'BigInt'>
@@ -1741,6 +3395,140 @@ export type personal_chat_historyDeleteManyArgs<ExtArgs extends runtime.Types.Ex
    * Limit how many personal_chat_histories to delete.
    */
   limit?: number
+}
+
+/**
+ * personal_chat_history.conversation_states
+ */
+export type personal_chat_history$conversation_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the conversation_state
+   */
+  select?: Prisma.conversation_stateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the conversation_state
+   */
+  omit?: Prisma.conversation_stateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.conversation_stateInclude<ExtArgs> | null
+  where?: Prisma.conversation_stateWhereInput
+  orderBy?: Prisma.conversation_stateOrderByWithRelationInput | Prisma.conversation_stateOrderByWithRelationInput[]
+  cursor?: Prisma.conversation_stateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Conversation_stateScalarFieldEnum | Prisma.Conversation_stateScalarFieldEnum[]
+}
+
+/**
+ * personal_chat_history.reply_to
+ */
+export type personal_chat_history$reply_toArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the personal_chat_history
+   */
+  select?: Prisma.personal_chat_historySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the personal_chat_history
+   */
+  omit?: Prisma.personal_chat_historyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.personal_chat_historyInclude<ExtArgs> | null
+  where?: Prisma.personal_chat_historyWhereInput
+}
+
+/**
+ * personal_chat_history.replies
+ */
+export type personal_chat_history$repliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the personal_chat_history
+   */
+  select?: Prisma.personal_chat_historySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the personal_chat_history
+   */
+  omit?: Prisma.personal_chat_historyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.personal_chat_historyInclude<ExtArgs> | null
+  where?: Prisma.personal_chat_historyWhereInput
+  orderBy?: Prisma.personal_chat_historyOrderByWithRelationInput | Prisma.personal_chat_historyOrderByWithRelationInput[]
+  cursor?: Prisma.personal_chat_historyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Personal_chat_historyScalarFieldEnum | Prisma.Personal_chat_historyScalarFieldEnum[]
+}
+
+/**
+ * personal_chat_history.message_states
+ */
+export type personal_chat_history$message_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the personal_message_state
+   */
+  select?: Prisma.personal_message_stateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the personal_message_state
+   */
+  omit?: Prisma.personal_message_stateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.personal_message_stateInclude<ExtArgs> | null
+  where?: Prisma.personal_message_stateWhereInput
+  orderBy?: Prisma.personal_message_stateOrderByWithRelationInput | Prisma.personal_message_stateOrderByWithRelationInput[]
+  cursor?: Prisma.personal_message_stateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Personal_message_stateScalarFieldEnum | Prisma.Personal_message_stateScalarFieldEnum[]
+}
+
+/**
+ * personal_chat_history.media_file
+ */
+export type personal_chat_history$media_fileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the media_file
+   */
+  select?: Prisma.media_fileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the media_file
+   */
+  omit?: Prisma.media_fileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.media_fileInclude<ExtArgs> | null
+  where?: Prisma.media_fileWhereInput
+}
+
+/**
+ * personal_chat_history.reactions
+ */
+export type personal_chat_history$reactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the message_reaction
+   */
+  select?: Prisma.message_reactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the message_reaction
+   */
+  omit?: Prisma.message_reactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.message_reactionInclude<ExtArgs> | null
+  where?: Prisma.message_reactionWhereInput
+  orderBy?: Prisma.message_reactionOrderByWithRelationInput | Prisma.message_reactionOrderByWithRelationInput[]
+  cursor?: Prisma.message_reactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Message_reactionScalarFieldEnum | Prisma.Message_reactionScalarFieldEnum[]
 }
 
 /**

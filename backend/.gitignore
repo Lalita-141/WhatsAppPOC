@@ -5,3 +5,9 @@ dist/
 coverage/
 *.log
 .DS_Store
+serviceAccountKey.json
+*firebase-adminsdk*.json
+*service-account*.json
+
+# Uploaded files (MEDIA_STORAGE_DIR)
+storage/

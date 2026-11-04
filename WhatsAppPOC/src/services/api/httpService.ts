@@ -1,15 +1,21 @@
 import { environments } from '../../environments/environment_constant';
 import { storageService } from '../storage';
-
+import {
+  expireSession,
+  getLatestAccessToken,
+  refreshAccessToken,
+} from '../auth/authSession';
 /**
  * Common fetchApi method for network requests across the application
  */
 export const fetchApi = async (...args: any[]): Promise<any> => {
-  let [method, url, token, isForm, body, resType, contentType] = args;
-
+  let [method, url, token, isForm, body, resType, contentType, isRetry] = args;
   let headers: Record<string, string> = {};
 
-  const resolvedToken = token || storageService.getToken();
+  // Screens can hold an older token, so prefer the newest one in the session.
+  const resolvedToken = token
+    ? getLatestAccessToken() || token
+    : storageService.getToken();
   if (resolvedToken) {
     headers['Authorization'] = 'Bearer ' + resolvedToken;
   }
@@ -33,10 +39,11 @@ export const fetchApi = async (...args: any[]): Promise<any> => {
     url = `${url}${separator}timeZone=${encodeURIComponent(timeZone)}`;
   }
 
+  // Add 60 second timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 60000);
+
   try {
-    // Add 60 second timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     const response = await fetch(url, { ...options, signal: controller.signal });
     clearTimeout(timeoutId);
@@ -44,6 +51,19 @@ export const fetchApi = async (...args: any[]): Promise<any> => {
     // Check if response is OK
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({ message: `HTTP ${response.status}` }));
+
+      if (response.status === 401 && resolvedToken && !isRetry) {
+        if (errorData.errorCode === 'TOKEN_EXPIRED') {
+          const newToken = await refreshAccessToken();
+
+          if (newToken) {
+            return fetchApi(method, url, newToken, isForm, body, resType, contentType, true);
+          }
+        } else if (errorData.errorCode === 'SESSION_REVOKED') {
+          expireSession();
+        }
+      }
+
       const apiError: any = new Error(`${errorData.message || response.statusText}`);
       apiError.status = response.status;
       apiError.data = errorData;
@@ -53,6 +73,8 @@ export const fetchApi = async (...args: any[]): Promise<any> => {
 
     return resType ? response.blob() : response.json();
   } catch (error: any) {
+    clearTimeout(timeoutId);
+
     if (error.name === 'AbortError' || error.message === 'Aborted') {
       console.log('Fetch request aborted/cancelled (Timeout or screen navigation).');
     } else {

@@ -30,6 +30,8 @@ export type Group_memberAvgAggregateOutputType = {
   group_member_id: number | null
   group_id: number | null
   user_organization_id: number | null
+  last_read_group_chat_id: number | null
+  invited_by: number | null
   created_by: number | null
   updated_by: number | null
   deleted_by: number | null
@@ -39,6 +41,8 @@ export type Group_memberSumAggregateOutputType = {
   group_member_id: bigint | null
   group_id: bigint | null
   user_organization_id: bigint | null
+  last_read_group_chat_id: bigint | null
+  invited_by: bigint | null
   created_by: bigint | null
   updated_by: bigint | null
   deleted_by: bigint | null
@@ -50,6 +54,11 @@ export type Group_memberMinAggregateOutputType = {
   user_organization_id: bigint | null
   role: $Enums.group_member_role | null
   joined_at: Date | null
+  last_read_group_chat_id: bigint | null
+  muted_until: Date | null
+  pinned_at: Date | null
+  archived_at: Date | null
+  invited_by: bigint | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -64,6 +73,11 @@ export type Group_memberMaxAggregateOutputType = {
   user_organization_id: bigint | null
   role: $Enums.group_member_role | null
   joined_at: Date | null
+  last_read_group_chat_id: bigint | null
+  muted_until: Date | null
+  pinned_at: Date | null
+  archived_at: Date | null
+  invited_by: bigint | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -78,6 +92,11 @@ export type Group_memberCountAggregateOutputType = {
   user_organization_id: number
   role: number
   joined_at: number
+  last_read_group_chat_id: number
+  muted_until: number
+  pinned_at: number
+  archived_at: number
+  invited_by: number
   created_by: number
   created_at: number
   updated_by: number
@@ -92,6 +111,8 @@ export type Group_memberAvgAggregateInputType = {
   group_member_id?: true
   group_id?: true
   user_organization_id?: true
+  last_read_group_chat_id?: true
+  invited_by?: true
   created_by?: true
   updated_by?: true
   deleted_by?: true
@@ -101,6 +122,8 @@ export type Group_memberSumAggregateInputType = {
   group_member_id?: true
   group_id?: true
   user_organization_id?: true
+  last_read_group_chat_id?: true
+  invited_by?: true
   created_by?: true
   updated_by?: true
   deleted_by?: true
@@ -112,6 +135,11 @@ export type Group_memberMinAggregateInputType = {
   user_organization_id?: true
   role?: true
   joined_at?: true
+  last_read_group_chat_id?: true
+  muted_until?: true
+  pinned_at?: true
+  archived_at?: true
+  invited_by?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -126,6 +154,11 @@ export type Group_memberMaxAggregateInputType = {
   user_organization_id?: true
   role?: true
   joined_at?: true
+  last_read_group_chat_id?: true
+  muted_until?: true
+  pinned_at?: true
+  archived_at?: true
+  invited_by?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -140,6 +173,11 @@ export type Group_memberCountAggregateInputType = {
   user_organization_id?: true
   role?: true
   joined_at?: true
+  last_read_group_chat_id?: true
+  muted_until?: true
+  pinned_at?: true
+  archived_at?: true
+  invited_by?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -241,6 +279,11 @@ export type Group_memberGroupByOutputType = {
   user_organization_id: bigint
   role: $Enums.group_member_role
   joined_at: Date
+  last_read_group_chat_id: bigint | null
+  muted_until: Date | null
+  pinned_at: Date | null
+  archived_at: Date | null
+  invited_by: bigint | null
   created_by: bigint | null
   created_at: Date
   updated_by: bigint | null
@@ -278,6 +321,11 @@ export type group_memberWhereInput = {
   user_organization_id?: Prisma.BigIntFilter<"group_member"> | bigint | number
   role?: Prisma.Enumgroup_member_roleFilter<"group_member"> | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFilter<"group_member"> | Date | string
+  last_read_group_chat_id?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
+  muted_until?: Prisma.DateTimeNullableFilter<"group_member"> | Date | string | null
+  pinned_at?: Prisma.DateTimeNullableFilter<"group_member"> | Date | string | null
+  archived_at?: Prisma.DateTimeNullableFilter<"group_member"> | Date | string | null
+  invited_by?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
   created_by?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"group_member"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
@@ -294,6 +342,11 @@ export type group_memberOrderByWithRelationInput = {
   user_organization_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   joined_at?: Prisma.SortOrder
+  last_read_group_chat_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  muted_until?: Prisma.SortOrderInput | Prisma.SortOrder
+  pinned_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  archived_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  invited_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -314,6 +367,11 @@ export type group_memberWhereUniqueInput = Prisma.AtLeast<{
   user_organization_id?: Prisma.BigIntFilter<"group_member"> | bigint | number
   role?: Prisma.Enumgroup_member_roleFilter<"group_member"> | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFilter<"group_member"> | Date | string
+  last_read_group_chat_id?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
+  muted_until?: Prisma.DateTimeNullableFilter<"group_member"> | Date | string | null
+  pinned_at?: Prisma.DateTimeNullableFilter<"group_member"> | Date | string | null
+  archived_at?: Prisma.DateTimeNullableFilter<"group_member"> | Date | string | null
+  invited_by?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
   created_by?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"group_member"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
@@ -330,6 +388,11 @@ export type group_memberOrderByWithAggregationInput = {
   user_organization_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   joined_at?: Prisma.SortOrder
+  last_read_group_chat_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  muted_until?: Prisma.SortOrderInput | Prisma.SortOrder
+  pinned_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  archived_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  invited_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -352,6 +415,11 @@ export type group_memberScalarWhereWithAggregatesInput = {
   user_organization_id?: Prisma.BigIntWithAggregatesFilter<"group_member"> | bigint | number
   role?: Prisma.Enumgroup_member_roleWithAggregatesFilter<"group_member"> | $Enums.group_member_role
   joined_at?: Prisma.DateTimeWithAggregatesFilter<"group_member"> | Date | string
+  last_read_group_chat_id?: Prisma.BigIntNullableWithAggregatesFilter<"group_member"> | bigint | number | null
+  muted_until?: Prisma.DateTimeNullableWithAggregatesFilter<"group_member"> | Date | string | null
+  pinned_at?: Prisma.DateTimeNullableWithAggregatesFilter<"group_member"> | Date | string | null
+  archived_at?: Prisma.DateTimeNullableWithAggregatesFilter<"group_member"> | Date | string | null
+  invited_by?: Prisma.BigIntNullableWithAggregatesFilter<"group_member"> | bigint | number | null
   created_by?: Prisma.BigIntNullableWithAggregatesFilter<"group_member"> | bigint | number | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"group_member"> | Date | string
   updated_by?: Prisma.BigIntNullableWithAggregatesFilter<"group_member"> | bigint | number | null
@@ -364,6 +432,11 @@ export type group_memberCreateInput = {
   group_member_id?: bigint | number
   role?: $Enums.group_member_role
   joined_at?: Date | string
+  last_read_group_chat_id?: bigint | number | null
+  muted_until?: Date | string | null
+  pinned_at?: Date | string | null
+  archived_at?: Date | string | null
+  invited_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -380,6 +453,11 @@ export type group_memberUncheckedCreateInput = {
   user_organization_id: bigint | number
   role?: $Enums.group_member_role
   joined_at?: Date | string
+  last_read_group_chat_id?: bigint | number | null
+  muted_until?: Date | string | null
+  pinned_at?: Date | string | null
+  archived_at?: Date | string | null
+  invited_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -392,6 +470,11 @@ export type group_memberUpdateInput = {
   group_member_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -408,6 +491,11 @@ export type group_memberUncheckedUpdateInput = {
   user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -422,6 +510,11 @@ export type group_memberCreateManyInput = {
   user_organization_id: bigint | number
   role?: $Enums.group_member_role
   joined_at?: Date | string
+  last_read_group_chat_id?: bigint | number | null
+  muted_until?: Date | string | null
+  pinned_at?: Date | string | null
+  archived_at?: Date | string | null
+  invited_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -434,6 +527,11 @@ export type group_memberUpdateManyMutationInput = {
   group_member_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -448,6 +546,11 @@ export type group_memberUncheckedUpdateManyInput = {
   user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -467,6 +570,11 @@ export type group_memberCountOrderByAggregateInput = {
   user_organization_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   joined_at?: Prisma.SortOrder
+  last_read_group_chat_id?: Prisma.SortOrder
+  muted_until?: Prisma.SortOrder
+  pinned_at?: Prisma.SortOrder
+  archived_at?: Prisma.SortOrder
+  invited_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -479,6 +587,8 @@ export type group_memberAvgOrderByAggregateInput = {
   group_member_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
   user_organization_id?: Prisma.SortOrder
+  last_read_group_chat_id?: Prisma.SortOrder
+  invited_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
@@ -490,6 +600,11 @@ export type group_memberMaxOrderByAggregateInput = {
   user_organization_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   joined_at?: Prisma.SortOrder
+  last_read_group_chat_id?: Prisma.SortOrder
+  muted_until?: Prisma.SortOrder
+  pinned_at?: Prisma.SortOrder
+  archived_at?: Prisma.SortOrder
+  invited_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -504,6 +619,11 @@ export type group_memberMinOrderByAggregateInput = {
   user_organization_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   joined_at?: Prisma.SortOrder
+  last_read_group_chat_id?: Prisma.SortOrder
+  muted_until?: Prisma.SortOrder
+  pinned_at?: Prisma.SortOrder
+  archived_at?: Prisma.SortOrder
+  invited_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -516,6 +636,8 @@ export type group_memberSumOrderByAggregateInput = {
   group_member_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
   user_organization_id?: Prisma.SortOrder
+  last_read_group_chat_id?: Prisma.SortOrder
+  invited_by?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
@@ -623,6 +745,11 @@ export type group_memberCreateWithoutUser_organizationInput = {
   group_member_id?: bigint | number
   role?: $Enums.group_member_role
   joined_at?: Date | string
+  last_read_group_chat_id?: bigint | number | null
+  muted_until?: Date | string | null
+  pinned_at?: Date | string | null
+  archived_at?: Date | string | null
+  invited_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -637,6 +764,11 @@ export type group_memberUncheckedCreateWithoutUser_organizationInput = {
   group_id: bigint | number
   role?: $Enums.group_member_role
   joined_at?: Date | string
+  last_read_group_chat_id?: bigint | number | null
+  muted_until?: Date | string | null
+  pinned_at?: Date | string | null
+  archived_at?: Date | string | null
+  invited_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -680,6 +812,11 @@ export type group_memberScalarWhereInput = {
   user_organization_id?: Prisma.BigIntFilter<"group_member"> | bigint | number
   role?: Prisma.Enumgroup_member_roleFilter<"group_member"> | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFilter<"group_member"> | Date | string
+  last_read_group_chat_id?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
+  muted_until?: Prisma.DateTimeNullableFilter<"group_member"> | Date | string | null
+  pinned_at?: Prisma.DateTimeNullableFilter<"group_member"> | Date | string | null
+  archived_at?: Prisma.DateTimeNullableFilter<"group_member"> | Date | string | null
+  invited_by?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
   created_by?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"group_member"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"group_member"> | bigint | number | null
@@ -692,6 +829,11 @@ export type group_memberCreateWithoutWp_groupInput = {
   group_member_id?: bigint | number
   role?: $Enums.group_member_role
   joined_at?: Date | string
+  last_read_group_chat_id?: bigint | number | null
+  muted_until?: Date | string | null
+  pinned_at?: Date | string | null
+  archived_at?: Date | string | null
+  invited_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -706,6 +848,11 @@ export type group_memberUncheckedCreateWithoutWp_groupInput = {
   user_organization_id: bigint | number
   role?: $Enums.group_member_role
   joined_at?: Date | string
+  last_read_group_chat_id?: bigint | number | null
+  muted_until?: Date | string | null
+  pinned_at?: Date | string | null
+  archived_at?: Date | string | null
+  invited_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -745,6 +892,11 @@ export type group_memberCreateManyUser_organizationInput = {
   group_id: bigint | number
   role?: $Enums.group_member_role
   joined_at?: Date | string
+  last_read_group_chat_id?: bigint | number | null
+  muted_until?: Date | string | null
+  pinned_at?: Date | string | null
+  archived_at?: Date | string | null
+  invited_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -757,6 +909,11 @@ export type group_memberUpdateWithoutUser_organizationInput = {
   group_member_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -771,6 +928,11 @@ export type group_memberUncheckedUpdateWithoutUser_organizationInput = {
   group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -784,6 +946,11 @@ export type group_memberUncheckedUpdateManyWithoutUser_organizationInput = {
   group_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -797,6 +964,11 @@ export type group_memberCreateManyWp_groupInput = {
   user_organization_id: bigint | number
   role?: $Enums.group_member_role
   joined_at?: Date | string
+  last_read_group_chat_id?: bigint | number | null
+  muted_until?: Date | string | null
+  pinned_at?: Date | string | null
+  archived_at?: Date | string | null
+  invited_by?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -809,6 +981,11 @@ export type group_memberUpdateWithoutWp_groupInput = {
   group_member_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -823,6 +1000,11 @@ export type group_memberUncheckedUpdateWithoutWp_groupInput = {
   user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -836,6 +1018,11 @@ export type group_memberUncheckedUpdateManyWithoutWp_groupInput = {
   user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.Enumgroup_member_roleFieldUpdateOperationsInput | $Enums.group_member_role
   joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  last_read_group_chat_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  muted_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pinned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  archived_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invited_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -852,6 +1039,11 @@ export type group_memberSelect<ExtArgs extends runtime.Types.Extensions.Internal
   user_organization_id?: boolean
   role?: boolean
   joined_at?: boolean
+  last_read_group_chat_id?: boolean
+  muted_until?: boolean
+  pinned_at?: boolean
+  archived_at?: boolean
+  invited_by?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
@@ -870,6 +1062,11 @@ export type group_memberSelectScalar = {
   user_organization_id?: boolean
   role?: boolean
   joined_at?: boolean
+  last_read_group_chat_id?: boolean
+  muted_until?: boolean
+  pinned_at?: boolean
+  archived_at?: boolean
+  invited_by?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
@@ -878,7 +1075,7 @@ export type group_memberSelectScalar = {
   deleted_at?: boolean
 }
 
-export type group_memberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"group_member_id" | "group_id" | "user_organization_id" | "role" | "joined_at" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["group_member"]>
+export type group_memberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"group_member_id" | "group_id" | "user_organization_id" | "role" | "joined_at" | "last_read_group_chat_id" | "muted_until" | "pinned_at" | "archived_at" | "invited_by" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["group_member"]>
 export type group_memberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   wp_group?: boolean | Prisma.wp_groupDefaultArgs<ExtArgs>
   user_organization?: boolean | Prisma.user_organizationDefaultArgs<ExtArgs>
@@ -896,6 +1093,11 @@ export type $group_memberPayload<ExtArgs extends runtime.Types.Extensions.Intern
     user_organization_id: bigint
     role: $Enums.group_member_role
     joined_at: Date
+    last_read_group_chat_id: bigint | null
+    muted_until: Date | null
+    pinned_at: Date | null
+    archived_at: Date | null
+    invited_by: bigint | null
     created_by: bigint | null
     created_at: Date
     updated_by: bigint | null
@@ -1278,6 +1480,11 @@ export interface group_memberFieldRefs {
   readonly user_organization_id: Prisma.FieldRef<"group_member", 'BigInt'>
   readonly role: Prisma.FieldRef<"group_member", 'group_member_role'>
   readonly joined_at: Prisma.FieldRef<"group_member", 'DateTime'>
+  readonly last_read_group_chat_id: Prisma.FieldRef<"group_member", 'BigInt'>
+  readonly muted_until: Prisma.FieldRef<"group_member", 'DateTime'>
+  readonly pinned_at: Prisma.FieldRef<"group_member", 'DateTime'>
+  readonly archived_at: Prisma.FieldRef<"group_member", 'DateTime'>
+  readonly invited_by: Prisma.FieldRef<"group_member", 'BigInt'>
   readonly created_by: Prisma.FieldRef<"group_member", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"group_member", 'DateTime'>
   readonly updated_by: Prisma.FieldRef<"group_member", 'BigInt'>

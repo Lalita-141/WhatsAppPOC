@@ -1,10 +1,11 @@
+import { validateDeviceInfo } from "../auth/auth.validation.js";
+
 export interface ProfileSetupRequest {
-  orgCode: string;
-  countryId: string;
-  mobileNo: string;
   firstName: string;
   lastName?: string;
   about?: string;
+  deviceType?: string;
+  deviceName?: string;
 }
 
 export interface ProfileUpdateRequest {
@@ -16,23 +17,7 @@ export interface ProfileUpdateRequest {
 export const validateProfileSetupRequest = (
   body: ProfileSetupRequest,
 ): string | null => {
-  if (!body.orgCode?.trim()) {
-    return "Organization code is required";
-  }
-
-  if (!body.countryId?.trim()) {
-    return "Country is required";
-  }
-
-  if (!body.mobileNo?.trim()) {
-    return "Mobile number is required";
-  }
-
-  if (!/^\d{6,15}$/.test(body.mobileNo)) {
-    return "Invalid mobile number";
-  }
-
-  if (!body.firstName?.trim()) {
+  if (typeof body?.firstName !== "string" || !body.firstName.trim()) {
     return "First name is required";
   }
 
@@ -40,15 +25,21 @@ export const validateProfileSetupRequest = (
     return "First name cannot exceed 100 characters";
   }
 
-  if (body.lastName && body.lastName.trim().length > 100) {
+  if (
+    body.lastName !== undefined &&
+    (typeof body.lastName !== "string" || body.lastName.trim().length > 100)
+  ) {
     return "Last name cannot exceed 100 characters";
   }
 
-  if (body.about && body.about.trim().length > 500) {
+  if (
+    body.about !== undefined &&
+    (typeof body.about !== "string" || body.about.trim().length > 500)
+  ) {
     return "About cannot exceed 500 characters";
   }
 
-  return null;
+  return validateDeviceInfo(body);
 };
 
 export const validateProfileUpdateRequest = (

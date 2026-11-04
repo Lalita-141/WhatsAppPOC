@@ -30,6 +30,7 @@ export type User_organizationAvgAggregateOutputType = {
   user_organization_id: number | null
   user_id: number | null
   org_id: number | null
+  department_id: number | null
   created_by: number | null
   updated_by: number | null
   deleted_by: number | null
@@ -39,6 +40,7 @@ export type User_organizationSumAggregateOutputType = {
   user_organization_id: bigint | null
   user_id: bigint | null
   org_id: bigint | null
+  department_id: bigint | null
   created_by: bigint | null
   updated_by: bigint | null
   deleted_by: bigint | null
@@ -49,6 +51,7 @@ export type User_organizationMinAggregateOutputType = {
   user_id: bigint | null
   org_id: bigint | null
   role: string | null
+  department_id: bigint | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -62,6 +65,7 @@ export type User_organizationMaxAggregateOutputType = {
   user_id: bigint | null
   org_id: bigint | null
   role: string | null
+  department_id: bigint | null
   created_by: bigint | null
   created_at: Date | null
   updated_by: bigint | null
@@ -75,6 +79,7 @@ export type User_organizationCountAggregateOutputType = {
   user_id: number
   org_id: number
   role: number
+  department_id: number
   created_by: number
   created_at: number
   updated_by: number
@@ -89,6 +94,7 @@ export type User_organizationAvgAggregateInputType = {
   user_organization_id?: true
   user_id?: true
   org_id?: true
+  department_id?: true
   created_by?: true
   updated_by?: true
   deleted_by?: true
@@ -98,6 +104,7 @@ export type User_organizationSumAggregateInputType = {
   user_organization_id?: true
   user_id?: true
   org_id?: true
+  department_id?: true
   created_by?: true
   updated_by?: true
   deleted_by?: true
@@ -108,6 +115,7 @@ export type User_organizationMinAggregateInputType = {
   user_id?: true
   org_id?: true
   role?: true
+  department_id?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -121,6 +129,7 @@ export type User_organizationMaxAggregateInputType = {
   user_id?: true
   org_id?: true
   role?: true
+  department_id?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -134,6 +143,7 @@ export type User_organizationCountAggregateInputType = {
   user_id?: true
   org_id?: true
   role?: true
+  department_id?: true
   created_by?: true
   created_at?: true
   updated_by?: true
@@ -234,6 +244,7 @@ export type User_organizationGroupByOutputType = {
   user_id: bigint
   org_id: bigint
   role: string | null
+  department_id: bigint | null
   created_by: bigint | null
   created_at: Date
   updated_by: bigint | null
@@ -270,6 +281,7 @@ export type user_organizationWhereInput = {
   user_id?: Prisma.BigIntFilter<"user_organization"> | bigint | number
   org_id?: Prisma.BigIntFilter<"user_organization"> | bigint | number
   role?: Prisma.StringNullableFilter<"user_organization"> | string | null
+  department_id?: Prisma.BigIntNullableFilter<"user_organization"> | bigint | number | null
   created_by?: Prisma.BigIntNullableFilter<"user_organization"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"user_organization"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"user_organization"> | bigint | number | null
@@ -286,6 +298,28 @@ export type user_organizationWhereInput = {
   user_master?: Prisma.XOR<Prisma.User_masterScalarRelationFilter, Prisma.user_masterWhereInput>
   user_setting?: Prisma.XOR<Prisma.User_settingNullableScalarRelationFilter, Prisma.user_settingWhereInput> | null
   user_devices?: Prisma.User_deviceListRelationFilter
+  user_sessions?: Prisma.User_sessionListRelationFilter
+  owned_conversation_states?: Prisma.Conversation_stateListRelationFilter
+  peer_conversation_states?: Prisma.Conversation_stateListRelationFilter
+  message_states?: Prisma.Personal_message_stateListRelationFilter
+  message_reactions?: Prisma.Message_reactionListRelationFilter
+  blocks_made?: Prisma.User_blockListRelationFilter
+  blocks_received?: Prisma.User_blockListRelationFilter
+  reports_made?: Prisma.User_reportListRelationFilter
+  reports_received?: Prisma.User_reportListRelationFilter
+  department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.departmentWhereInput> | null
+  audit_logs?: Prisma.Organization_audit_logListRelationFilter
+  broadcasts_sent?: Prisma.Org_broadcastListRelationFilter
+  broadcasts_received?: Prisma.Org_broadcast_recipientListRelationFilter
+  invites_sent?: Prisma.Organization_inviteListRelationFilter
+  media_files?: Prisma.Media_fileListRelationFilter
+  status_posts?: Prisma.Status_postListRelationFilter
+  status_views?: Prisma.Status_viewListRelationFilter
+  status_audiences?: Prisma.Status_audienceListRelationFilter
+  channel_memberships?: Prisma.Channel_memberListRelationFilter
+  channel_posts?: Prisma.Channel_postListRelationFilter
+  calls_made?: Prisma.Call_sessionListRelationFilter
+  calls_received?: Prisma.Call_sessionListRelationFilter
 }
 
 export type user_organizationOrderByWithRelationInput = {
@@ -293,6 +327,7 @@ export type user_organizationOrderByWithRelationInput = {
   user_id?: Prisma.SortOrder
   org_id?: Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
+  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -309,6 +344,28 @@ export type user_organizationOrderByWithRelationInput = {
   user_master?: Prisma.user_masterOrderByWithRelationInput
   user_setting?: Prisma.user_settingOrderByWithRelationInput
   user_devices?: Prisma.user_deviceOrderByRelationAggregateInput
+  user_sessions?: Prisma.user_sessionOrderByRelationAggregateInput
+  owned_conversation_states?: Prisma.conversation_stateOrderByRelationAggregateInput
+  peer_conversation_states?: Prisma.conversation_stateOrderByRelationAggregateInput
+  message_states?: Prisma.personal_message_stateOrderByRelationAggregateInput
+  message_reactions?: Prisma.message_reactionOrderByRelationAggregateInput
+  blocks_made?: Prisma.user_blockOrderByRelationAggregateInput
+  blocks_received?: Prisma.user_blockOrderByRelationAggregateInput
+  reports_made?: Prisma.user_reportOrderByRelationAggregateInput
+  reports_received?: Prisma.user_reportOrderByRelationAggregateInput
+  department?: Prisma.departmentOrderByWithRelationInput
+  audit_logs?: Prisma.organization_audit_logOrderByRelationAggregateInput
+  broadcasts_sent?: Prisma.org_broadcastOrderByRelationAggregateInput
+  broadcasts_received?: Prisma.org_broadcast_recipientOrderByRelationAggregateInput
+  invites_sent?: Prisma.organization_inviteOrderByRelationAggregateInput
+  media_files?: Prisma.media_fileOrderByRelationAggregateInput
+  status_posts?: Prisma.status_postOrderByRelationAggregateInput
+  status_views?: Prisma.status_viewOrderByRelationAggregateInput
+  status_audiences?: Prisma.status_audienceOrderByRelationAggregateInput
+  channel_memberships?: Prisma.channel_memberOrderByRelationAggregateInput
+  channel_posts?: Prisma.channel_postOrderByRelationAggregateInput
+  calls_made?: Prisma.call_sessionOrderByRelationAggregateInput
+  calls_received?: Prisma.call_sessionOrderByRelationAggregateInput
   _relevance?: Prisma.user_organizationOrderByRelevanceInput
 }
 
@@ -321,6 +378,7 @@ export type user_organizationWhereUniqueInput = Prisma.AtLeast<{
   user_id?: Prisma.BigIntFilter<"user_organization"> | bigint | number
   org_id?: Prisma.BigIntFilter<"user_organization"> | bigint | number
   role?: Prisma.StringNullableFilter<"user_organization"> | string | null
+  department_id?: Prisma.BigIntNullableFilter<"user_organization"> | bigint | number | null
   created_by?: Prisma.BigIntNullableFilter<"user_organization"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"user_organization"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"user_organization"> | bigint | number | null
@@ -337,6 +395,28 @@ export type user_organizationWhereUniqueInput = Prisma.AtLeast<{
   user_master?: Prisma.XOR<Prisma.User_masterScalarRelationFilter, Prisma.user_masterWhereInput>
   user_setting?: Prisma.XOR<Prisma.User_settingNullableScalarRelationFilter, Prisma.user_settingWhereInput> | null
   user_devices?: Prisma.User_deviceListRelationFilter
+  user_sessions?: Prisma.User_sessionListRelationFilter
+  owned_conversation_states?: Prisma.Conversation_stateListRelationFilter
+  peer_conversation_states?: Prisma.Conversation_stateListRelationFilter
+  message_states?: Prisma.Personal_message_stateListRelationFilter
+  message_reactions?: Prisma.Message_reactionListRelationFilter
+  blocks_made?: Prisma.User_blockListRelationFilter
+  blocks_received?: Prisma.User_blockListRelationFilter
+  reports_made?: Prisma.User_reportListRelationFilter
+  reports_received?: Prisma.User_reportListRelationFilter
+  department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.departmentWhereInput> | null
+  audit_logs?: Prisma.Organization_audit_logListRelationFilter
+  broadcasts_sent?: Prisma.Org_broadcastListRelationFilter
+  broadcasts_received?: Prisma.Org_broadcast_recipientListRelationFilter
+  invites_sent?: Prisma.Organization_inviteListRelationFilter
+  media_files?: Prisma.Media_fileListRelationFilter
+  status_posts?: Prisma.Status_postListRelationFilter
+  status_views?: Prisma.Status_viewListRelationFilter
+  status_audiences?: Prisma.Status_audienceListRelationFilter
+  channel_memberships?: Prisma.Channel_memberListRelationFilter
+  channel_posts?: Prisma.Channel_postListRelationFilter
+  calls_made?: Prisma.Call_sessionListRelationFilter
+  calls_received?: Prisma.Call_sessionListRelationFilter
 }, "user_organization_id" | "user_id_org_id">
 
 export type user_organizationOrderByWithAggregationInput = {
@@ -344,6 +424,7 @@ export type user_organizationOrderByWithAggregationInput = {
   user_id?: Prisma.SortOrder
   org_id?: Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
+  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -365,6 +446,7 @@ export type user_organizationScalarWhereWithAggregatesInput = {
   user_id?: Prisma.BigIntWithAggregatesFilter<"user_organization"> | bigint | number
   org_id?: Prisma.BigIntWithAggregatesFilter<"user_organization"> | bigint | number
   role?: Prisma.StringNullableWithAggregatesFilter<"user_organization"> | string | null
+  department_id?: Prisma.BigIntNullableWithAggregatesFilter<"user_organization"> | bigint | number | null
   created_by?: Prisma.BigIntNullableWithAggregatesFilter<"user_organization"> | bigint | number | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"user_organization"> | Date | string
   updated_by?: Prisma.BigIntNullableWithAggregatesFilter<"user_organization"> | bigint | number | null
@@ -392,6 +474,28 @@ export type user_organizationCreateInput = {
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateInput = {
@@ -399,6 +503,7 @@ export type user_organizationUncheckedCreateInput = {
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -413,6 +518,27 @@ export type user_organizationUncheckedCreateInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUpdateInput = {
@@ -434,6 +560,28 @@ export type user_organizationUpdateInput = {
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateInput = {
@@ -441,6 +589,7 @@ export type user_organizationUncheckedUpdateInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -455,6 +604,27 @@ export type user_organizationUncheckedUpdateInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationCreateManyInput = {
@@ -462,6 +632,7 @@ export type user_organizationCreateManyInput = {
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -486,6 +657,7 @@ export type user_organizationUncheckedUpdateManyInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -530,6 +702,7 @@ export type user_organizationCountOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   org_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -542,6 +715,7 @@ export type user_organizationAvgOrderByAggregateInput = {
   user_organization_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   org_id?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
@@ -552,6 +726,7 @@ export type user_organizationMaxOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   org_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -565,6 +740,7 @@ export type user_organizationMinOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   org_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
@@ -577,6 +753,7 @@ export type user_organizationSumOrderByAggregateInput = {
   user_organization_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   org_id?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_by?: Prisma.SortOrder
   deleted_by?: Prisma.SortOrder
@@ -766,6 +943,20 @@ export type user_organizationUpdateOneRequiredWithoutUser_devicesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutUser_devicesInput, Prisma.user_organizationUpdateWithoutUser_devicesInput>, Prisma.user_organizationUncheckedUpdateWithoutUser_devicesInput>
 }
 
+export type user_organizationCreateNestedOneWithoutUser_sessionsInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutUser_sessionsInput, Prisma.user_organizationUncheckedCreateWithoutUser_sessionsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutUser_sessionsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutUser_sessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutUser_sessionsInput, Prisma.user_organizationUncheckedCreateWithoutUser_sessionsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutUser_sessionsInput
+  upsert?: Prisma.user_organizationUpsertWithoutUser_sessionsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutUser_sessionsInput, Prisma.user_organizationUpdateWithoutUser_sessionsInput>, Prisma.user_organizationUncheckedUpdateWithoutUser_sessionsInput>
+}
+
 export type user_organizationCreateNestedOneWithoutUser_settingInput = {
   create?: Prisma.XOR<Prisma.user_organizationCreateWithoutUser_settingInput, Prisma.user_organizationUncheckedCreateWithoutUser_settingInput>
   connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutUser_settingInput
@@ -778,6 +969,332 @@ export type user_organizationUpdateOneRequiredWithoutUser_settingNestedInput = {
   upsert?: Prisma.user_organizationUpsertWithoutUser_settingInput
   connect?: Prisma.user_organizationWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutUser_settingInput, Prisma.user_organizationUpdateWithoutUser_settingInput>, Prisma.user_organizationUncheckedUpdateWithoutUser_settingInput>
+}
+
+export type user_organizationCreateNestedOneWithoutOwned_conversation_statesInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutOwned_conversation_statesInput, Prisma.user_organizationUncheckedCreateWithoutOwned_conversation_statesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutOwned_conversation_statesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationCreateNestedOneWithoutPeer_conversation_statesInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutPeer_conversation_statesInput, Prisma.user_organizationUncheckedCreateWithoutPeer_conversation_statesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutPeer_conversation_statesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutOwned_conversation_statesNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutOwned_conversation_statesInput, Prisma.user_organizationUncheckedCreateWithoutOwned_conversation_statesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutOwned_conversation_statesInput
+  upsert?: Prisma.user_organizationUpsertWithoutOwned_conversation_statesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutOwned_conversation_statesInput, Prisma.user_organizationUpdateWithoutOwned_conversation_statesInput>, Prisma.user_organizationUncheckedUpdateWithoutOwned_conversation_statesInput>
+}
+
+export type user_organizationUpdateOneRequiredWithoutPeer_conversation_statesNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutPeer_conversation_statesInput, Prisma.user_organizationUncheckedCreateWithoutPeer_conversation_statesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutPeer_conversation_statesInput
+  upsert?: Prisma.user_organizationUpsertWithoutPeer_conversation_statesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutPeer_conversation_statesInput, Prisma.user_organizationUpdateWithoutPeer_conversation_statesInput>, Prisma.user_organizationUncheckedUpdateWithoutPeer_conversation_statesInput>
+}
+
+export type user_organizationCreateNestedOneWithoutMessage_statesInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutMessage_statesInput, Prisma.user_organizationUncheckedCreateWithoutMessage_statesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutMessage_statesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutMessage_statesNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutMessage_statesInput, Prisma.user_organizationUncheckedCreateWithoutMessage_statesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutMessage_statesInput
+  upsert?: Prisma.user_organizationUpsertWithoutMessage_statesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutMessage_statesInput, Prisma.user_organizationUpdateWithoutMessage_statesInput>, Prisma.user_organizationUncheckedUpdateWithoutMessage_statesInput>
+}
+
+export type user_organizationCreateNestedOneWithoutMessage_reactionsInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutMessage_reactionsInput, Prisma.user_organizationUncheckedCreateWithoutMessage_reactionsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutMessage_reactionsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutMessage_reactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutMessage_reactionsInput, Prisma.user_organizationUncheckedCreateWithoutMessage_reactionsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutMessage_reactionsInput
+  upsert?: Prisma.user_organizationUpsertWithoutMessage_reactionsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutMessage_reactionsInput, Prisma.user_organizationUpdateWithoutMessage_reactionsInput>, Prisma.user_organizationUncheckedUpdateWithoutMessage_reactionsInput>
+}
+
+export type user_organizationCreateNestedOneWithoutBlocks_madeInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutBlocks_madeInput, Prisma.user_organizationUncheckedCreateWithoutBlocks_madeInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutBlocks_madeInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationCreateNestedOneWithoutBlocks_receivedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutBlocks_receivedInput, Prisma.user_organizationUncheckedCreateWithoutBlocks_receivedInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutBlocks_receivedInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutBlocks_madeNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutBlocks_madeInput, Prisma.user_organizationUncheckedCreateWithoutBlocks_madeInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutBlocks_madeInput
+  upsert?: Prisma.user_organizationUpsertWithoutBlocks_madeInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutBlocks_madeInput, Prisma.user_organizationUpdateWithoutBlocks_madeInput>, Prisma.user_organizationUncheckedUpdateWithoutBlocks_madeInput>
+}
+
+export type user_organizationUpdateOneRequiredWithoutBlocks_receivedNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutBlocks_receivedInput, Prisma.user_organizationUncheckedCreateWithoutBlocks_receivedInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutBlocks_receivedInput
+  upsert?: Prisma.user_organizationUpsertWithoutBlocks_receivedInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutBlocks_receivedInput, Prisma.user_organizationUpdateWithoutBlocks_receivedInput>, Prisma.user_organizationUncheckedUpdateWithoutBlocks_receivedInput>
+}
+
+export type user_organizationCreateNestedOneWithoutReports_madeInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutReports_madeInput, Prisma.user_organizationUncheckedCreateWithoutReports_madeInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutReports_madeInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationCreateNestedOneWithoutReports_receivedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutReports_receivedInput, Prisma.user_organizationUncheckedCreateWithoutReports_receivedInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutReports_receivedInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutReports_madeNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutReports_madeInput, Prisma.user_organizationUncheckedCreateWithoutReports_madeInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutReports_madeInput
+  upsert?: Prisma.user_organizationUpsertWithoutReports_madeInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutReports_madeInput, Prisma.user_organizationUpdateWithoutReports_madeInput>, Prisma.user_organizationUncheckedUpdateWithoutReports_madeInput>
+}
+
+export type user_organizationUpdateOneRequiredWithoutReports_receivedNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutReports_receivedInput, Prisma.user_organizationUncheckedCreateWithoutReports_receivedInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutReports_receivedInput
+  upsert?: Prisma.user_organizationUpsertWithoutReports_receivedInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutReports_receivedInput, Prisma.user_organizationUpdateWithoutReports_receivedInput>, Prisma.user_organizationUncheckedUpdateWithoutReports_receivedInput>
+}
+
+export type user_organizationCreateNestedOneWithoutAudit_logsInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutAudit_logsInput, Prisma.user_organizationUncheckedCreateWithoutAudit_logsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutAudit_logsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneWithoutAudit_logsNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutAudit_logsInput, Prisma.user_organizationUncheckedCreateWithoutAudit_logsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutAudit_logsInput
+  upsert?: Prisma.user_organizationUpsertWithoutAudit_logsInput
+  disconnect?: Prisma.user_organizationWhereInput | boolean
+  delete?: Prisma.user_organizationWhereInput | boolean
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutAudit_logsInput, Prisma.user_organizationUpdateWithoutAudit_logsInput>, Prisma.user_organizationUncheckedUpdateWithoutAudit_logsInput>
+}
+
+export type user_organizationCreateNestedManyWithoutDepartmentInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutDepartmentInput, Prisma.user_organizationUncheckedCreateWithoutDepartmentInput> | Prisma.user_organizationCreateWithoutDepartmentInput[] | Prisma.user_organizationUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutDepartmentInput | Prisma.user_organizationCreateOrConnectWithoutDepartmentInput[]
+  createMany?: Prisma.user_organizationCreateManyDepartmentInputEnvelope
+  connect?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+}
+
+export type user_organizationUncheckedCreateNestedManyWithoutDepartmentInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutDepartmentInput, Prisma.user_organizationUncheckedCreateWithoutDepartmentInput> | Prisma.user_organizationCreateWithoutDepartmentInput[] | Prisma.user_organizationUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutDepartmentInput | Prisma.user_organizationCreateOrConnectWithoutDepartmentInput[]
+  createMany?: Prisma.user_organizationCreateManyDepartmentInputEnvelope
+  connect?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+}
+
+export type user_organizationUpdateManyWithoutDepartmentNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutDepartmentInput, Prisma.user_organizationUncheckedCreateWithoutDepartmentInput> | Prisma.user_organizationCreateWithoutDepartmentInput[] | Prisma.user_organizationUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutDepartmentInput | Prisma.user_organizationCreateOrConnectWithoutDepartmentInput[]
+  upsert?: Prisma.user_organizationUpsertWithWhereUniqueWithoutDepartmentInput | Prisma.user_organizationUpsertWithWhereUniqueWithoutDepartmentInput[]
+  createMany?: Prisma.user_organizationCreateManyDepartmentInputEnvelope
+  set?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+  disconnect?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+  delete?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+  connect?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+  update?: Prisma.user_organizationUpdateWithWhereUniqueWithoutDepartmentInput | Prisma.user_organizationUpdateWithWhereUniqueWithoutDepartmentInput[]
+  updateMany?: Prisma.user_organizationUpdateManyWithWhereWithoutDepartmentInput | Prisma.user_organizationUpdateManyWithWhereWithoutDepartmentInput[]
+  deleteMany?: Prisma.user_organizationScalarWhereInput | Prisma.user_organizationScalarWhereInput[]
+}
+
+export type user_organizationUncheckedUpdateManyWithoutDepartmentNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutDepartmentInput, Prisma.user_organizationUncheckedCreateWithoutDepartmentInput> | Prisma.user_organizationCreateWithoutDepartmentInput[] | Prisma.user_organizationUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutDepartmentInput | Prisma.user_organizationCreateOrConnectWithoutDepartmentInput[]
+  upsert?: Prisma.user_organizationUpsertWithWhereUniqueWithoutDepartmentInput | Prisma.user_organizationUpsertWithWhereUniqueWithoutDepartmentInput[]
+  createMany?: Prisma.user_organizationCreateManyDepartmentInputEnvelope
+  set?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+  disconnect?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+  delete?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+  connect?: Prisma.user_organizationWhereUniqueInput | Prisma.user_organizationWhereUniqueInput[]
+  update?: Prisma.user_organizationUpdateWithWhereUniqueWithoutDepartmentInput | Prisma.user_organizationUpdateWithWhereUniqueWithoutDepartmentInput[]
+  updateMany?: Prisma.user_organizationUpdateManyWithWhereWithoutDepartmentInput | Prisma.user_organizationUpdateManyWithWhereWithoutDepartmentInput[]
+  deleteMany?: Prisma.user_organizationScalarWhereInput | Prisma.user_organizationScalarWhereInput[]
+}
+
+export type user_organizationCreateNestedOneWithoutInvites_sentInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutInvites_sentInput, Prisma.user_organizationUncheckedCreateWithoutInvites_sentInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutInvites_sentInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneWithoutInvites_sentNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutInvites_sentInput, Prisma.user_organizationUncheckedCreateWithoutInvites_sentInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutInvites_sentInput
+  upsert?: Prisma.user_organizationUpsertWithoutInvites_sentInput
+  disconnect?: Prisma.user_organizationWhereInput | boolean
+  delete?: Prisma.user_organizationWhereInput | boolean
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutInvites_sentInput, Prisma.user_organizationUpdateWithoutInvites_sentInput>, Prisma.user_organizationUncheckedUpdateWithoutInvites_sentInput>
+}
+
+export type user_organizationCreateNestedOneWithoutBroadcasts_sentInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutBroadcasts_sentInput, Prisma.user_organizationUncheckedCreateWithoutBroadcasts_sentInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutBroadcasts_sentInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutBroadcasts_sentNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutBroadcasts_sentInput, Prisma.user_organizationUncheckedCreateWithoutBroadcasts_sentInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutBroadcasts_sentInput
+  upsert?: Prisma.user_organizationUpsertWithoutBroadcasts_sentInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutBroadcasts_sentInput, Prisma.user_organizationUpdateWithoutBroadcasts_sentInput>, Prisma.user_organizationUncheckedUpdateWithoutBroadcasts_sentInput>
+}
+
+export type user_organizationCreateNestedOneWithoutBroadcasts_receivedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutBroadcasts_receivedInput, Prisma.user_organizationUncheckedCreateWithoutBroadcasts_receivedInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutBroadcasts_receivedInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutBroadcasts_receivedNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutBroadcasts_receivedInput, Prisma.user_organizationUncheckedCreateWithoutBroadcasts_receivedInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutBroadcasts_receivedInput
+  upsert?: Prisma.user_organizationUpsertWithoutBroadcasts_receivedInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutBroadcasts_receivedInput, Prisma.user_organizationUpdateWithoutBroadcasts_receivedInput>, Prisma.user_organizationUncheckedUpdateWithoutBroadcasts_receivedInput>
+}
+
+export type user_organizationCreateNestedOneWithoutMedia_filesInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutMedia_filesInput, Prisma.user_organizationUncheckedCreateWithoutMedia_filesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutMedia_filesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutMedia_filesNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutMedia_filesInput, Prisma.user_organizationUncheckedCreateWithoutMedia_filesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutMedia_filesInput
+  upsert?: Prisma.user_organizationUpsertWithoutMedia_filesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutMedia_filesInput, Prisma.user_organizationUpdateWithoutMedia_filesInput>, Prisma.user_organizationUncheckedUpdateWithoutMedia_filesInput>
+}
+
+export type user_organizationCreateNestedOneWithoutStatus_postsInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_postsInput, Prisma.user_organizationUncheckedCreateWithoutStatus_postsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutStatus_postsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutStatus_postsNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_postsInput, Prisma.user_organizationUncheckedCreateWithoutStatus_postsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutStatus_postsInput
+  upsert?: Prisma.user_organizationUpsertWithoutStatus_postsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutStatus_postsInput, Prisma.user_organizationUpdateWithoutStatus_postsInput>, Prisma.user_organizationUncheckedUpdateWithoutStatus_postsInput>
+}
+
+export type user_organizationCreateNestedOneWithoutStatus_audiencesInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_audiencesInput, Prisma.user_organizationUncheckedCreateWithoutStatus_audiencesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutStatus_audiencesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutStatus_audiencesNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_audiencesInput, Prisma.user_organizationUncheckedCreateWithoutStatus_audiencesInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutStatus_audiencesInput
+  upsert?: Prisma.user_organizationUpsertWithoutStatus_audiencesInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutStatus_audiencesInput, Prisma.user_organizationUpdateWithoutStatus_audiencesInput>, Prisma.user_organizationUncheckedUpdateWithoutStatus_audiencesInput>
+}
+
+export type user_organizationCreateNestedOneWithoutStatus_viewsInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_viewsInput, Prisma.user_organizationUncheckedCreateWithoutStatus_viewsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutStatus_viewsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutStatus_viewsNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_viewsInput, Prisma.user_organizationUncheckedCreateWithoutStatus_viewsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutStatus_viewsInput
+  upsert?: Prisma.user_organizationUpsertWithoutStatus_viewsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutStatus_viewsInput, Prisma.user_organizationUpdateWithoutStatus_viewsInput>, Prisma.user_organizationUncheckedUpdateWithoutStatus_viewsInput>
+}
+
+export type user_organizationCreateNestedOneWithoutChannel_membershipsInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutChannel_membershipsInput, Prisma.user_organizationUncheckedCreateWithoutChannel_membershipsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutChannel_membershipsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutChannel_membershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutChannel_membershipsInput, Prisma.user_organizationUncheckedCreateWithoutChannel_membershipsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutChannel_membershipsInput
+  upsert?: Prisma.user_organizationUpsertWithoutChannel_membershipsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutChannel_membershipsInput, Prisma.user_organizationUpdateWithoutChannel_membershipsInput>, Prisma.user_organizationUncheckedUpdateWithoutChannel_membershipsInput>
+}
+
+export type user_organizationCreateNestedOneWithoutChannel_postsInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutChannel_postsInput, Prisma.user_organizationUncheckedCreateWithoutChannel_postsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutChannel_postsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutChannel_postsNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutChannel_postsInput, Prisma.user_organizationUncheckedCreateWithoutChannel_postsInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutChannel_postsInput
+  upsert?: Prisma.user_organizationUpsertWithoutChannel_postsInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutChannel_postsInput, Prisma.user_organizationUpdateWithoutChannel_postsInput>, Prisma.user_organizationUncheckedUpdateWithoutChannel_postsInput>
+}
+
+export type user_organizationCreateNestedOneWithoutCalls_madeInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutCalls_madeInput, Prisma.user_organizationUncheckedCreateWithoutCalls_madeInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutCalls_madeInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationCreateNestedOneWithoutCalls_receivedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutCalls_receivedInput, Prisma.user_organizationUncheckedCreateWithoutCalls_receivedInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutCalls_receivedInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+}
+
+export type user_organizationUpdateOneRequiredWithoutCalls_madeNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutCalls_madeInput, Prisma.user_organizationUncheckedCreateWithoutCalls_madeInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutCalls_madeInput
+  upsert?: Prisma.user_organizationUpsertWithoutCalls_madeInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutCalls_madeInput, Prisma.user_organizationUpdateWithoutCalls_madeInput>, Prisma.user_organizationUncheckedUpdateWithoutCalls_madeInput>
+}
+
+export type user_organizationUpdateOneRequiredWithoutCalls_receivedNestedInput = {
+  create?: Prisma.XOR<Prisma.user_organizationCreateWithoutCalls_receivedInput, Prisma.user_organizationUncheckedCreateWithoutCalls_receivedInput>
+  connectOrCreate?: Prisma.user_organizationCreateOrConnectWithoutCalls_receivedInput
+  upsert?: Prisma.user_organizationUpsertWithoutCalls_receivedInput
+  connect?: Prisma.user_organizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_organizationUpdateToOneWithWhereWithoutCalls_receivedInput, Prisma.user_organizationUpdateWithoutCalls_receivedInput>, Prisma.user_organizationUncheckedUpdateWithoutCalls_receivedInput>
 }
 
 export type user_organizationCreateWithoutGroup_chatInput = {
@@ -798,6 +1315,28 @@ export type user_organizationCreateWithoutGroup_chatInput = {
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutGroup_chatInput = {
@@ -805,6 +1344,7 @@ export type user_organizationUncheckedCreateWithoutGroup_chatInput = {
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -818,6 +1358,27 @@ export type user_organizationUncheckedCreateWithoutGroup_chatInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutGroup_chatInput = {
@@ -854,6 +1415,28 @@ export type user_organizationUpdateWithoutGroup_chatInput = {
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutGroup_chatInput = {
@@ -861,6 +1444,7 @@ export type user_organizationUncheckedUpdateWithoutGroup_chatInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -874,6 +1458,27 @@ export type user_organizationUncheckedUpdateWithoutGroup_chatInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationCreateWithoutGroup_chat_view_group_chat_view_read_by_user_organization_idTouser_organizationInput = {
@@ -894,6 +1499,28 @@ export type user_organizationCreateWithoutGroup_chat_view_group_chat_view_read_b
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutGroup_chat_view_group_chat_view_read_by_user_organization_idTouser_organizationInput = {
@@ -901,6 +1528,7 @@ export type user_organizationUncheckedCreateWithoutGroup_chat_view_group_chat_vi
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -914,6 +1542,27 @@ export type user_organizationUncheckedCreateWithoutGroup_chat_view_group_chat_vi
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutGroup_chat_view_group_chat_view_read_by_user_organization_idTouser_organizationInput = {
@@ -939,6 +1588,28 @@ export type user_organizationCreateWithoutGroup_chat_view_group_chat_view_receiv
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutGroup_chat_view_group_chat_view_received_to_user_organization_idTouser_organizationInput = {
@@ -946,6 +1617,7 @@ export type user_organizationUncheckedCreateWithoutGroup_chat_view_group_chat_vi
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -959,6 +1631,27 @@ export type user_organizationUncheckedCreateWithoutGroup_chat_view_group_chat_vi
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutGroup_chat_view_group_chat_view_received_to_user_organization_idTouser_organizationInput = {
@@ -995,6 +1688,28 @@ export type user_organizationUpdateWithoutGroup_chat_view_group_chat_view_read_b
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutGroup_chat_view_group_chat_view_read_by_user_organization_idTouser_organizationInput = {
@@ -1002,6 +1717,7 @@ export type user_organizationUncheckedUpdateWithoutGroup_chat_view_group_chat_vi
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1015,6 +1731,27 @@ export type user_organizationUncheckedUpdateWithoutGroup_chat_view_group_chat_vi
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUpsertWithoutGroup_chat_view_group_chat_view_received_to_user_organization_idTouser_organizationInput = {
@@ -1046,6 +1783,28 @@ export type user_organizationUpdateWithoutGroup_chat_view_group_chat_view_receiv
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutGroup_chat_view_group_chat_view_received_to_user_organization_idTouser_organizationInput = {
@@ -1053,6 +1812,7 @@ export type user_organizationUncheckedUpdateWithoutGroup_chat_view_group_chat_vi
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1066,6 +1826,27 @@ export type user_organizationUncheckedUpdateWithoutGroup_chat_view_group_chat_vi
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationCreateWithoutGroup_memberInput = {
@@ -1086,6 +1867,28 @@ export type user_organizationCreateWithoutGroup_memberInput = {
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutGroup_memberInput = {
@@ -1093,6 +1896,7 @@ export type user_organizationUncheckedCreateWithoutGroup_memberInput = {
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1106,6 +1910,27 @@ export type user_organizationUncheckedCreateWithoutGroup_memberInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutGroup_memberInput = {
@@ -1142,6 +1967,28 @@ export type user_organizationUpdateWithoutGroup_memberInput = {
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutGroup_memberInput = {
@@ -1149,6 +1996,7 @@ export type user_organizationUncheckedUpdateWithoutGroup_memberInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1162,6 +2010,27 @@ export type user_organizationUncheckedUpdateWithoutGroup_memberInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationCreateWithoutOrganization_masterInput = {
@@ -1182,12 +2051,35 @@ export type user_organizationCreateWithoutOrganization_masterInput = {
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutOrganization_masterInput = {
   user_organization_id?: bigint | number
   user_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1202,6 +2094,27 @@ export type user_organizationUncheckedCreateWithoutOrganization_masterInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutOrganization_masterInput = {
@@ -1238,6 +2151,7 @@ export type user_organizationScalarWhereInput = {
   user_id?: Prisma.BigIntFilter<"user_organization"> | bigint | number
   org_id?: Prisma.BigIntFilter<"user_organization"> | bigint | number
   role?: Prisma.StringNullableFilter<"user_organization"> | string | null
+  department_id?: Prisma.BigIntNullableFilter<"user_organization"> | bigint | number | null
   created_by?: Prisma.BigIntNullableFilter<"user_organization"> | bigint | number | null
   created_at?: Prisma.DateTimeFilter<"user_organization"> | Date | string
   updated_by?: Prisma.BigIntNullableFilter<"user_organization"> | bigint | number | null
@@ -1264,6 +2178,28 @@ export type user_organizationCreateWithoutPersonal_chat_history_personal_chat_hi
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput = {
@@ -1271,6 +2207,7 @@ export type user_organizationUncheckedCreateWithoutPersonal_chat_history_persona
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1284,6 +2221,27 @@ export type user_organizationUncheckedCreateWithoutPersonal_chat_history_persona
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput = {
@@ -1309,6 +2267,28 @@ export type user_organizationCreateWithoutPersonal_chat_history_personal_chat_hi
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput = {
@@ -1316,6 +2296,7 @@ export type user_organizationUncheckedCreateWithoutPersonal_chat_history_persona
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1329,6 +2310,27 @@ export type user_organizationUncheckedCreateWithoutPersonal_chat_history_persona
   personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput = {
@@ -1365,6 +2367,28 @@ export type user_organizationUpdateWithoutPersonal_chat_history_personal_chat_hi
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationInput = {
@@ -1372,6 +2396,7 @@ export type user_organizationUncheckedUpdateWithoutPersonal_chat_history_persona
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1385,6 +2410,27 @@ export type user_organizationUncheckedUpdateWithoutPersonal_chat_history_persona
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUpsertWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput = {
@@ -1416,6 +2462,28 @@ export type user_organizationUpdateWithoutPersonal_chat_history_personal_chat_hi
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationInput = {
@@ -1423,6 +2491,7 @@ export type user_organizationUncheckedUpdateWithoutPersonal_chat_history_persona
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1436,6 +2505,27 @@ export type user_organizationUncheckedUpdateWithoutPersonal_chat_history_persona
   personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationCreateWithoutUser_masterInput = {
@@ -1456,12 +2546,35 @@ export type user_organizationCreateWithoutUser_masterInput = {
   organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutUser_masterInput = {
   user_organization_id?: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1476,6 +2589,27 @@ export type user_organizationUncheckedCreateWithoutUser_masterInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutUser_masterInput = {
@@ -1522,6 +2656,28 @@ export type user_organizationCreateWithoutUser_devicesInput = {
   organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutUser_devicesInput = {
@@ -1529,6 +2685,7 @@ export type user_organizationUncheckedCreateWithoutUser_devicesInput = {
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1542,6 +2699,27 @@ export type user_organizationUncheckedCreateWithoutUser_devicesInput = {
   personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutUser_devicesInput = {
@@ -1578,6 +2756,28 @@ export type user_organizationUpdateWithoutUser_devicesInput = {
   organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutUser_devicesInput = {
@@ -1585,6 +2785,7 @@ export type user_organizationUncheckedUpdateWithoutUser_devicesInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1598,6 +2799,211 @@ export type user_organizationUncheckedUpdateWithoutUser_devicesInput = {
   personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutUser_sessionsInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutUser_sessionsInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutUser_sessionsInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutUser_sessionsInput, Prisma.user_organizationUncheckedCreateWithoutUser_sessionsInput>
+}
+
+export type user_organizationUpsertWithoutUser_sessionsInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutUser_sessionsInput, Prisma.user_organizationUncheckedUpdateWithoutUser_sessionsInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutUser_sessionsInput, Prisma.user_organizationUncheckedCreateWithoutUser_sessionsInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutUser_sessionsInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutUser_sessionsInput, Prisma.user_organizationUncheckedUpdateWithoutUser_sessionsInput>
+}
+
+export type user_organizationUpdateWithoutUser_sessionsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutUser_sessionsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationCreateWithoutUser_settingInput = {
@@ -1618,6 +3024,28 @@ export type user_organizationCreateWithoutUser_settingInput = {
   organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
   user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
   user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationUncheckedCreateWithoutUser_settingInput = {
@@ -1625,6 +3053,7 @@ export type user_organizationUncheckedCreateWithoutUser_settingInput = {
   user_id: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1638,6 +3067,27 @@ export type user_organizationUncheckedCreateWithoutUser_settingInput = {
   personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
   user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
 }
 
 export type user_organizationCreateOrConnectWithoutUser_settingInput = {
@@ -1674,6 +3124,28 @@ export type user_organizationUpdateWithoutUser_settingInput = {
   organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutUser_settingInput = {
@@ -1681,6 +3153,7 @@ export type user_organizationUncheckedUpdateWithoutUser_settingInput = {
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1694,12 +3167,3824 @@ export type user_organizationUncheckedUpdateWithoutUser_settingInput = {
   personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutOwned_conversation_statesInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutOwned_conversation_statesInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutOwned_conversation_statesInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutOwned_conversation_statesInput, Prisma.user_organizationUncheckedCreateWithoutOwned_conversation_statesInput>
+}
+
+export type user_organizationCreateWithoutPeer_conversation_statesInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutPeer_conversation_statesInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutPeer_conversation_statesInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutPeer_conversation_statesInput, Prisma.user_organizationUncheckedCreateWithoutPeer_conversation_statesInput>
+}
+
+export type user_organizationUpsertWithoutOwned_conversation_statesInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutOwned_conversation_statesInput, Prisma.user_organizationUncheckedUpdateWithoutOwned_conversation_statesInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutOwned_conversation_statesInput, Prisma.user_organizationUncheckedCreateWithoutOwned_conversation_statesInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutOwned_conversation_statesInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutOwned_conversation_statesInput, Prisma.user_organizationUncheckedUpdateWithoutOwned_conversation_statesInput>
+}
+
+export type user_organizationUpdateWithoutOwned_conversation_statesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutOwned_conversation_statesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUpsertWithoutPeer_conversation_statesInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutPeer_conversation_statesInput, Prisma.user_organizationUncheckedUpdateWithoutPeer_conversation_statesInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutPeer_conversation_statesInput, Prisma.user_organizationUncheckedCreateWithoutPeer_conversation_statesInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutPeer_conversation_statesInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutPeer_conversation_statesInput, Prisma.user_organizationUncheckedUpdateWithoutPeer_conversation_statesInput>
+}
+
+export type user_organizationUpdateWithoutPeer_conversation_statesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutPeer_conversation_statesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutMessage_statesInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutMessage_statesInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutMessage_statesInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutMessage_statesInput, Prisma.user_organizationUncheckedCreateWithoutMessage_statesInput>
+}
+
+export type user_organizationUpsertWithoutMessage_statesInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutMessage_statesInput, Prisma.user_organizationUncheckedUpdateWithoutMessage_statesInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutMessage_statesInput, Prisma.user_organizationUncheckedCreateWithoutMessage_statesInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutMessage_statesInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutMessage_statesInput, Prisma.user_organizationUncheckedUpdateWithoutMessage_statesInput>
+}
+
+export type user_organizationUpdateWithoutMessage_statesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutMessage_statesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutMessage_reactionsInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutMessage_reactionsInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutMessage_reactionsInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutMessage_reactionsInput, Prisma.user_organizationUncheckedCreateWithoutMessage_reactionsInput>
+}
+
+export type user_organizationUpsertWithoutMessage_reactionsInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutMessage_reactionsInput, Prisma.user_organizationUncheckedUpdateWithoutMessage_reactionsInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutMessage_reactionsInput, Prisma.user_organizationUncheckedCreateWithoutMessage_reactionsInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutMessage_reactionsInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutMessage_reactionsInput, Prisma.user_organizationUncheckedUpdateWithoutMessage_reactionsInput>
+}
+
+export type user_organizationUpdateWithoutMessage_reactionsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutMessage_reactionsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutBlocks_madeInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutBlocks_madeInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutBlocks_madeInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutBlocks_madeInput, Prisma.user_organizationUncheckedCreateWithoutBlocks_madeInput>
+}
+
+export type user_organizationCreateWithoutBlocks_receivedInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutBlocks_receivedInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutBlocks_receivedInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutBlocks_receivedInput, Prisma.user_organizationUncheckedCreateWithoutBlocks_receivedInput>
+}
+
+export type user_organizationUpsertWithoutBlocks_madeInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutBlocks_madeInput, Prisma.user_organizationUncheckedUpdateWithoutBlocks_madeInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutBlocks_madeInput, Prisma.user_organizationUncheckedCreateWithoutBlocks_madeInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutBlocks_madeInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutBlocks_madeInput, Prisma.user_organizationUncheckedUpdateWithoutBlocks_madeInput>
+}
+
+export type user_organizationUpdateWithoutBlocks_madeInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutBlocks_madeInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUpsertWithoutBlocks_receivedInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutBlocks_receivedInput, Prisma.user_organizationUncheckedUpdateWithoutBlocks_receivedInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutBlocks_receivedInput, Prisma.user_organizationUncheckedCreateWithoutBlocks_receivedInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutBlocks_receivedInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutBlocks_receivedInput, Prisma.user_organizationUncheckedUpdateWithoutBlocks_receivedInput>
+}
+
+export type user_organizationUpdateWithoutBlocks_receivedInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutBlocks_receivedInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutReports_madeInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutReports_madeInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutReports_madeInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutReports_madeInput, Prisma.user_organizationUncheckedCreateWithoutReports_madeInput>
+}
+
+export type user_organizationCreateWithoutReports_receivedInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutReports_receivedInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutReports_receivedInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutReports_receivedInput, Prisma.user_organizationUncheckedCreateWithoutReports_receivedInput>
+}
+
+export type user_organizationUpsertWithoutReports_madeInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutReports_madeInput, Prisma.user_organizationUncheckedUpdateWithoutReports_madeInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutReports_madeInput, Prisma.user_organizationUncheckedCreateWithoutReports_madeInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutReports_madeInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutReports_madeInput, Prisma.user_organizationUncheckedUpdateWithoutReports_madeInput>
+}
+
+export type user_organizationUpdateWithoutReports_madeInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutReports_madeInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUpsertWithoutReports_receivedInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutReports_receivedInput, Prisma.user_organizationUncheckedUpdateWithoutReports_receivedInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutReports_receivedInput, Prisma.user_organizationUncheckedCreateWithoutReports_receivedInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutReports_receivedInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutReports_receivedInput, Prisma.user_organizationUncheckedUpdateWithoutReports_receivedInput>
+}
+
+export type user_organizationUpdateWithoutReports_receivedInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutReports_receivedInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutAudit_logsInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutAudit_logsInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutAudit_logsInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutAudit_logsInput, Prisma.user_organizationUncheckedCreateWithoutAudit_logsInput>
+}
+
+export type user_organizationUpsertWithoutAudit_logsInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutAudit_logsInput, Prisma.user_organizationUncheckedUpdateWithoutAudit_logsInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutAudit_logsInput, Prisma.user_organizationUncheckedCreateWithoutAudit_logsInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutAudit_logsInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutAudit_logsInput, Prisma.user_organizationUncheckedUpdateWithoutAudit_logsInput>
+}
+
+export type user_organizationUpdateWithoutAudit_logsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutAudit_logsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutDepartmentInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutDepartmentInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutDepartmentInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutDepartmentInput, Prisma.user_organizationUncheckedCreateWithoutDepartmentInput>
+}
+
+export type user_organizationCreateManyDepartmentInputEnvelope = {
+  data: Prisma.user_organizationCreateManyDepartmentInput | Prisma.user_organizationCreateManyDepartmentInput[]
+  skipDuplicates?: boolean
+}
+
+export type user_organizationUpsertWithWhereUniqueWithoutDepartmentInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutDepartmentInput, Prisma.user_organizationUncheckedUpdateWithoutDepartmentInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutDepartmentInput, Prisma.user_organizationUncheckedCreateWithoutDepartmentInput>
+}
+
+export type user_organizationUpdateWithWhereUniqueWithoutDepartmentInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutDepartmentInput, Prisma.user_organizationUncheckedUpdateWithoutDepartmentInput>
+}
+
+export type user_organizationUpdateManyWithWhereWithoutDepartmentInput = {
+  where: Prisma.user_organizationScalarWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateManyMutationInput, Prisma.user_organizationUncheckedUpdateManyWithoutDepartmentInput>
+}
+
+export type user_organizationCreateWithoutInvites_sentInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutInvites_sentInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutInvites_sentInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutInvites_sentInput, Prisma.user_organizationUncheckedCreateWithoutInvites_sentInput>
+}
+
+export type user_organizationUpsertWithoutInvites_sentInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutInvites_sentInput, Prisma.user_organizationUncheckedUpdateWithoutInvites_sentInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutInvites_sentInput, Prisma.user_organizationUncheckedCreateWithoutInvites_sentInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutInvites_sentInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutInvites_sentInput, Prisma.user_organizationUncheckedUpdateWithoutInvites_sentInput>
+}
+
+export type user_organizationUpdateWithoutInvites_sentInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutInvites_sentInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutBroadcasts_sentInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutBroadcasts_sentInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutBroadcasts_sentInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutBroadcasts_sentInput, Prisma.user_organizationUncheckedCreateWithoutBroadcasts_sentInput>
+}
+
+export type user_organizationUpsertWithoutBroadcasts_sentInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutBroadcasts_sentInput, Prisma.user_organizationUncheckedUpdateWithoutBroadcasts_sentInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutBroadcasts_sentInput, Prisma.user_organizationUncheckedCreateWithoutBroadcasts_sentInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutBroadcasts_sentInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutBroadcasts_sentInput, Prisma.user_organizationUncheckedUpdateWithoutBroadcasts_sentInput>
+}
+
+export type user_organizationUpdateWithoutBroadcasts_sentInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutBroadcasts_sentInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutBroadcasts_receivedInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutBroadcasts_receivedInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutBroadcasts_receivedInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutBroadcasts_receivedInput, Prisma.user_organizationUncheckedCreateWithoutBroadcasts_receivedInput>
+}
+
+export type user_organizationUpsertWithoutBroadcasts_receivedInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutBroadcasts_receivedInput, Prisma.user_organizationUncheckedUpdateWithoutBroadcasts_receivedInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutBroadcasts_receivedInput, Prisma.user_organizationUncheckedCreateWithoutBroadcasts_receivedInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutBroadcasts_receivedInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutBroadcasts_receivedInput, Prisma.user_organizationUncheckedUpdateWithoutBroadcasts_receivedInput>
+}
+
+export type user_organizationUpdateWithoutBroadcasts_receivedInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutBroadcasts_receivedInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutMedia_filesInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutMedia_filesInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutMedia_filesInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutMedia_filesInput, Prisma.user_organizationUncheckedCreateWithoutMedia_filesInput>
+}
+
+export type user_organizationUpsertWithoutMedia_filesInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutMedia_filesInput, Prisma.user_organizationUncheckedUpdateWithoutMedia_filesInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutMedia_filesInput, Prisma.user_organizationUncheckedCreateWithoutMedia_filesInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutMedia_filesInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutMedia_filesInput, Prisma.user_organizationUncheckedUpdateWithoutMedia_filesInput>
+}
+
+export type user_organizationUpdateWithoutMedia_filesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutMedia_filesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutStatus_postsInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutStatus_postsInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutStatus_postsInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_postsInput, Prisma.user_organizationUncheckedCreateWithoutStatus_postsInput>
+}
+
+export type user_organizationUpsertWithoutStatus_postsInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutStatus_postsInput, Prisma.user_organizationUncheckedUpdateWithoutStatus_postsInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_postsInput, Prisma.user_organizationUncheckedCreateWithoutStatus_postsInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutStatus_postsInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutStatus_postsInput, Prisma.user_organizationUncheckedUpdateWithoutStatus_postsInput>
+}
+
+export type user_organizationUpdateWithoutStatus_postsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutStatus_postsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutStatus_audiencesInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutStatus_audiencesInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutStatus_audiencesInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_audiencesInput, Prisma.user_organizationUncheckedCreateWithoutStatus_audiencesInput>
+}
+
+export type user_organizationUpsertWithoutStatus_audiencesInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutStatus_audiencesInput, Prisma.user_organizationUncheckedUpdateWithoutStatus_audiencesInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_audiencesInput, Prisma.user_organizationUncheckedCreateWithoutStatus_audiencesInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutStatus_audiencesInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutStatus_audiencesInput, Prisma.user_organizationUncheckedUpdateWithoutStatus_audiencesInput>
+}
+
+export type user_organizationUpdateWithoutStatus_audiencesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutStatus_audiencesInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutStatus_viewsInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutStatus_viewsInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutStatus_viewsInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_viewsInput, Prisma.user_organizationUncheckedCreateWithoutStatus_viewsInput>
+}
+
+export type user_organizationUpsertWithoutStatus_viewsInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutStatus_viewsInput, Prisma.user_organizationUncheckedUpdateWithoutStatus_viewsInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutStatus_viewsInput, Prisma.user_organizationUncheckedCreateWithoutStatus_viewsInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutStatus_viewsInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutStatus_viewsInput, Prisma.user_organizationUncheckedUpdateWithoutStatus_viewsInput>
+}
+
+export type user_organizationUpdateWithoutStatus_viewsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutStatus_viewsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutChannel_membershipsInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutChannel_membershipsInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutChannel_membershipsInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutChannel_membershipsInput, Prisma.user_organizationUncheckedCreateWithoutChannel_membershipsInput>
+}
+
+export type user_organizationUpsertWithoutChannel_membershipsInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutChannel_membershipsInput, Prisma.user_organizationUncheckedUpdateWithoutChannel_membershipsInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutChannel_membershipsInput, Prisma.user_organizationUncheckedCreateWithoutChannel_membershipsInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutChannel_membershipsInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutChannel_membershipsInput, Prisma.user_organizationUncheckedUpdateWithoutChannel_membershipsInput>
+}
+
+export type user_organizationUpdateWithoutChannel_membershipsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutChannel_membershipsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutChannel_postsInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutChannel_postsInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutChannel_postsInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutChannel_postsInput, Prisma.user_organizationUncheckedCreateWithoutChannel_postsInput>
+}
+
+export type user_organizationUpsertWithoutChannel_postsInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutChannel_postsInput, Prisma.user_organizationUncheckedUpdateWithoutChannel_postsInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutChannel_postsInput, Prisma.user_organizationUncheckedCreateWithoutChannel_postsInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutChannel_postsInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutChannel_postsInput, Prisma.user_organizationUncheckedUpdateWithoutChannel_postsInput>
+}
+
+export type user_organizationUpdateWithoutChannel_postsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutChannel_postsInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationCreateWithoutCalls_madeInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_received?: Prisma.call_sessionCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationUncheckedCreateWithoutCalls_madeInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_received?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCalleeInput
+}
+
+export type user_organizationCreateOrConnectWithoutCalls_madeInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutCalls_madeInput, Prisma.user_organizationUncheckedCreateWithoutCalls_madeInput>
+}
+
+export type user_organizationCreateWithoutCalls_receivedInput = {
+  user_organization_id?: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  organization_master: Prisma.organization_masterCreateNestedOneWithoutUser_organizationInput
+  user_master: Prisma.user_masterCreateNestedOneWithoutUser_organizationInput
+  user_setting?: Prisma.user_settingCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportCreateNestedManyWithoutReportedInput
+  department?: Prisma.departmentCreateNestedOneWithoutMembersInput
+  audit_logs?: Prisma.organization_audit_logCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionCreateNestedManyWithoutCallerInput
+}
+
+export type user_organizationUncheckedCreateWithoutCalls_receivedInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  department_id?: bigint | number | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+  group_chat?: Prisma.group_chatUncheckedCreateNestedManyWithoutUser_organizationInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedCreateNestedManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationInput
+  group_member?: Prisma.group_memberUncheckedCreateNestedManyWithoutUser_organizationInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedCreateNestedManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationInput
+  user_setting?: Prisma.user_settingUncheckedCreateNestedOneWithoutUser_organizationInput
+  user_devices?: Prisma.user_deviceUncheckedCreateNestedManyWithoutUser_organizationInput
+  user_sessions?: Prisma.user_sessionUncheckedCreateNestedManyWithoutUser_organizationInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutOwnerInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedCreateNestedManyWithoutPeerInput
+  message_states?: Prisma.personal_message_stateUncheckedCreateNestedManyWithoutUser_organizationInput
+  message_reactions?: Prisma.message_reactionUncheckedCreateNestedManyWithoutUser_organizationInput
+  blocks_made?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockerInput
+  blocks_received?: Prisma.user_blockUncheckedCreateNestedManyWithoutBlockedInput
+  reports_made?: Prisma.user_reportUncheckedCreateNestedManyWithoutReporterInput
+  reports_received?: Prisma.user_reportUncheckedCreateNestedManyWithoutReportedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedCreateNestedManyWithoutActorInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedCreateNestedManyWithoutSenderInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedCreateNestedManyWithoutRecipientInput
+  invites_sent?: Prisma.organization_inviteUncheckedCreateNestedManyWithoutInviterInput
+  media_files?: Prisma.media_fileUncheckedCreateNestedManyWithoutOwnerInput
+  status_posts?: Prisma.status_postUncheckedCreateNestedManyWithoutOwnerInput
+  status_views?: Prisma.status_viewUncheckedCreateNestedManyWithoutViewerInput
+  status_audiences?: Prisma.status_audienceUncheckedCreateNestedManyWithoutMemberInput
+  channel_memberships?: Prisma.channel_memberUncheckedCreateNestedManyWithoutMemberInput
+  channel_posts?: Prisma.channel_postUncheckedCreateNestedManyWithoutAuthorInput
+  calls_made?: Prisma.call_sessionUncheckedCreateNestedManyWithoutCallerInput
+}
+
+export type user_organizationCreateOrConnectWithoutCalls_receivedInput = {
+  where: Prisma.user_organizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutCalls_receivedInput, Prisma.user_organizationUncheckedCreateWithoutCalls_receivedInput>
+}
+
+export type user_organizationUpsertWithoutCalls_madeInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutCalls_madeInput, Prisma.user_organizationUncheckedUpdateWithoutCalls_madeInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutCalls_madeInput, Prisma.user_organizationUncheckedCreateWithoutCalls_madeInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutCalls_madeInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutCalls_madeInput, Prisma.user_organizationUncheckedUpdateWithoutCalls_madeInput>
+}
+
+export type user_organizationUpdateWithoutCalls_madeInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutCalls_madeInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUpsertWithoutCalls_receivedInput = {
+  update: Prisma.XOR<Prisma.user_organizationUpdateWithoutCalls_receivedInput, Prisma.user_organizationUncheckedUpdateWithoutCalls_receivedInput>
+  create: Prisma.XOR<Prisma.user_organizationCreateWithoutCalls_receivedInput, Prisma.user_organizationUncheckedCreateWithoutCalls_receivedInput>
+  where?: Prisma.user_organizationWhereInput
+}
+
+export type user_organizationUpdateToOneWithWhereWithoutCalls_receivedInput = {
+  where?: Prisma.user_organizationWhereInput
+  data: Prisma.XOR<Prisma.user_organizationUpdateWithoutCalls_receivedInput, Prisma.user_organizationUncheckedUpdateWithoutCalls_receivedInput>
+}
+
+export type user_organizationUpdateWithoutCalls_receivedInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutCalls_receivedInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
 }
 
 export type user_organizationCreateManyOrganization_masterInput = {
   user_organization_id?: bigint | number
   user_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1726,12 +7011,35 @@ export type user_organizationUpdateWithoutOrganization_masterInput = {
   user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutOrganization_masterInput = {
   user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1746,12 +7054,34 @@ export type user_organizationUncheckedUpdateWithoutOrganization_masterInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateManyWithoutOrganization_masterInput = {
   user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1764,6 +7094,7 @@ export type user_organizationCreateManyUser_masterInput = {
   user_organization_id?: bigint | number
   org_id: bigint | number
   role?: string | null
+  department_id?: bigint | number | null
   created_by?: bigint | number | null
   created_at?: Date | string
   updated_by?: bigint | number | null
@@ -1790,10 +7121,143 @@ export type user_organizationUpdateWithoutUser_masterInput = {
   organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
   user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  department?: Prisma.departmentUpdateOneWithoutMembersNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
 }
 
 export type user_organizationUncheckedUpdateWithoutUser_masterInput = {
   user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUncheckedUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUncheckedUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUncheckedUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateManyWithoutUser_masterInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type user_organizationCreateManyDepartmentInput = {
+  user_organization_id?: bigint | number
+  user_id: bigint | number
+  org_id: bigint | number
+  role?: string | null
+  created_by?: bigint | number | null
+  created_at?: Date | string
+  updated_by?: bigint | number | null
+  updated_at?: Date | string | null
+  deleted_by?: bigint | number | null
+  deleted_at?: Date | string | null
+}
+
+export type user_organizationUpdateWithoutDepartmentInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_chat?: Prisma.group_chatUpdateManyWithoutUser_organizationNestedInput
+  group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_read_by_user_organization_idTouser_organizationNestedInput
+  group_chat_view_group_chat_view_received_to_user_organization_idTouser_organization?: Prisma.group_chat_viewUpdateManyWithoutUser_organization_group_chat_view_received_to_user_organization_idTouser_organizationNestedInput
+  group_member?: Prisma.group_memberUpdateManyWithoutUser_organizationNestedInput
+  personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_receiver_user_organization_idTouser_organizationNestedInput
+  personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
+  organization_master?: Prisma.organization_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_master?: Prisma.user_masterUpdateOneRequiredWithoutUser_organizationNestedInput
+  user_setting?: Prisma.user_settingUpdateOneWithoutUser_organizationNestedInput
+  user_devices?: Prisma.user_deviceUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUpdateManyWithoutCalleeNestedInput
+}
+
+export type user_organizationUncheckedUpdateWithoutDepartmentInput = {
+  user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1810,10 +7274,32 @@ export type user_organizationUncheckedUpdateWithoutUser_masterInput = {
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: Prisma.personal_chat_historyUncheckedUpdateManyWithoutUser_organization_personal_chat_history_sender_user_organization_idTouser_organizationNestedInput
   user_setting?: Prisma.user_settingUncheckedUpdateOneWithoutUser_organizationNestedInput
   user_devices?: Prisma.user_deviceUncheckedUpdateManyWithoutUser_organizationNestedInput
+  user_sessions?: Prisma.user_sessionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  owned_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutOwnerNestedInput
+  peer_conversation_states?: Prisma.conversation_stateUncheckedUpdateManyWithoutPeerNestedInput
+  message_states?: Prisma.personal_message_stateUncheckedUpdateManyWithoutUser_organizationNestedInput
+  message_reactions?: Prisma.message_reactionUncheckedUpdateManyWithoutUser_organizationNestedInput
+  blocks_made?: Prisma.user_blockUncheckedUpdateManyWithoutBlockerNestedInput
+  blocks_received?: Prisma.user_blockUncheckedUpdateManyWithoutBlockedNestedInput
+  reports_made?: Prisma.user_reportUncheckedUpdateManyWithoutReporterNestedInput
+  reports_received?: Prisma.user_reportUncheckedUpdateManyWithoutReportedNestedInput
+  audit_logs?: Prisma.organization_audit_logUncheckedUpdateManyWithoutActorNestedInput
+  broadcasts_sent?: Prisma.org_broadcastUncheckedUpdateManyWithoutSenderNestedInput
+  broadcasts_received?: Prisma.org_broadcast_recipientUncheckedUpdateManyWithoutRecipientNestedInput
+  invites_sent?: Prisma.organization_inviteUncheckedUpdateManyWithoutInviterNestedInput
+  media_files?: Prisma.media_fileUncheckedUpdateManyWithoutOwnerNestedInput
+  status_posts?: Prisma.status_postUncheckedUpdateManyWithoutOwnerNestedInput
+  status_views?: Prisma.status_viewUncheckedUpdateManyWithoutViewerNestedInput
+  status_audiences?: Prisma.status_audienceUncheckedUpdateManyWithoutMemberNestedInput
+  channel_memberships?: Prisma.channel_memberUncheckedUpdateManyWithoutMemberNestedInput
+  channel_posts?: Prisma.channel_postUncheckedUpdateManyWithoutAuthorNestedInput
+  calls_made?: Prisma.call_sessionUncheckedUpdateManyWithoutCallerNestedInput
+  calls_received?: Prisma.call_sessionUncheckedUpdateManyWithoutCalleeNestedInput
 }
 
-export type user_organizationUncheckedUpdateManyWithoutUser_masterInput = {
+export type user_organizationUncheckedUpdateManyWithoutDepartmentInput = {
   user_organization_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   org_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1837,6 +7323,27 @@ export type User_organizationCountOutputType = {
   personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization: number
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization: number
   user_devices: number
+  user_sessions: number
+  owned_conversation_states: number
+  peer_conversation_states: number
+  message_states: number
+  message_reactions: number
+  blocks_made: number
+  blocks_received: number
+  reports_made: number
+  reports_received: number
+  audit_logs: number
+  broadcasts_sent: number
+  broadcasts_received: number
+  invites_sent: number
+  media_files: number
+  status_posts: number
+  status_views: number
+  status_audiences: number
+  channel_memberships: number
+  channel_posts: number
+  calls_made: number
+  calls_received: number
 }
 
 export type User_organizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1847,6 +7354,27 @@ export type User_organizationCountOutputTypeSelect<ExtArgs extends runtime.Types
   personal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organization?: boolean | User_organizationCountOutputTypeCountPersonal_chat_history_personal_chat_history_receiver_user_organization_idTouser_organizationArgs
   personal_chat_history_personal_chat_history_sender_user_organization_idTouser_organization?: boolean | User_organizationCountOutputTypeCountPersonal_chat_history_personal_chat_history_sender_user_organization_idTouser_organizationArgs
   user_devices?: boolean | User_organizationCountOutputTypeCountUser_devicesArgs
+  user_sessions?: boolean | User_organizationCountOutputTypeCountUser_sessionsArgs
+  owned_conversation_states?: boolean | User_organizationCountOutputTypeCountOwned_conversation_statesArgs
+  peer_conversation_states?: boolean | User_organizationCountOutputTypeCountPeer_conversation_statesArgs
+  message_states?: boolean | User_organizationCountOutputTypeCountMessage_statesArgs
+  message_reactions?: boolean | User_organizationCountOutputTypeCountMessage_reactionsArgs
+  blocks_made?: boolean | User_organizationCountOutputTypeCountBlocks_madeArgs
+  blocks_received?: boolean | User_organizationCountOutputTypeCountBlocks_receivedArgs
+  reports_made?: boolean | User_organizationCountOutputTypeCountReports_madeArgs
+  reports_received?: boolean | User_organizationCountOutputTypeCountReports_receivedArgs
+  audit_logs?: boolean | User_organizationCountOutputTypeCountAudit_logsArgs
+  broadcasts_sent?: boolean | User_organizationCountOutputTypeCountBroadcasts_sentArgs
+  broadcasts_received?: boolean | User_organizationCountOutputTypeCountBroadcasts_receivedArgs
+  invites_sent?: boolean | User_organizationCountOutputTypeCountInvites_sentArgs
+  media_files?: boolean | User_organizationCountOutputTypeCountMedia_filesArgs
+  status_posts?: boolean | User_organizationCountOutputTypeCountStatus_postsArgs
+  status_views?: boolean | User_organizationCountOutputTypeCountStatus_viewsArgs
+  status_audiences?: boolean | User_organizationCountOutputTypeCountStatus_audiencesArgs
+  channel_memberships?: boolean | User_organizationCountOutputTypeCountChannel_membershipsArgs
+  channel_posts?: boolean | User_organizationCountOutputTypeCountChannel_postsArgs
+  calls_made?: boolean | User_organizationCountOutputTypeCountCalls_madeArgs
+  calls_received?: boolean | User_organizationCountOutputTypeCountCalls_receivedArgs
 }
 
 /**
@@ -1908,12 +7436,160 @@ export type User_organizationCountOutputTypeCountUser_devicesArgs<ExtArgs extend
   where?: Prisma.user_deviceWhereInput
 }
 
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountUser_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.user_sessionWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountOwned_conversation_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.conversation_stateWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountPeer_conversation_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.conversation_stateWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountMessage_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.personal_message_stateWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountMessage_reactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.message_reactionWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountBlocks_madeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.user_blockWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountBlocks_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.user_blockWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountReports_madeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.user_reportWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountReports_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.user_reportWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountAudit_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.organization_audit_logWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountBroadcasts_sentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.org_broadcastWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountBroadcasts_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.org_broadcast_recipientWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountInvites_sentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.organization_inviteWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountMedia_filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.media_fileWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountStatus_postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.status_postWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountStatus_viewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.status_viewWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountStatus_audiencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.status_audienceWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountChannel_membershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.channel_memberWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountChannel_postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.channel_postWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountCalls_madeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.call_sessionWhereInput
+}
+
+/**
+ * User_organizationCountOutputType without action
+ */
+export type User_organizationCountOutputTypeCountCalls_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.call_sessionWhereInput
+}
+
 
 export type user_organizationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   user_organization_id?: boolean
   user_id?: boolean
   org_id?: boolean
   role?: boolean
+  department_id?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
@@ -1930,6 +7606,28 @@ export type user_organizationSelect<ExtArgs extends runtime.Types.Extensions.Int
   user_master?: boolean | Prisma.user_masterDefaultArgs<ExtArgs>
   user_setting?: boolean | Prisma.user_organization$user_settingArgs<ExtArgs>
   user_devices?: boolean | Prisma.user_organization$user_devicesArgs<ExtArgs>
+  user_sessions?: boolean | Prisma.user_organization$user_sessionsArgs<ExtArgs>
+  owned_conversation_states?: boolean | Prisma.user_organization$owned_conversation_statesArgs<ExtArgs>
+  peer_conversation_states?: boolean | Prisma.user_organization$peer_conversation_statesArgs<ExtArgs>
+  message_states?: boolean | Prisma.user_organization$message_statesArgs<ExtArgs>
+  message_reactions?: boolean | Prisma.user_organization$message_reactionsArgs<ExtArgs>
+  blocks_made?: boolean | Prisma.user_organization$blocks_madeArgs<ExtArgs>
+  blocks_received?: boolean | Prisma.user_organization$blocks_receivedArgs<ExtArgs>
+  reports_made?: boolean | Prisma.user_organization$reports_madeArgs<ExtArgs>
+  reports_received?: boolean | Prisma.user_organization$reports_receivedArgs<ExtArgs>
+  department?: boolean | Prisma.user_organization$departmentArgs<ExtArgs>
+  audit_logs?: boolean | Prisma.user_organization$audit_logsArgs<ExtArgs>
+  broadcasts_sent?: boolean | Prisma.user_organization$broadcasts_sentArgs<ExtArgs>
+  broadcasts_received?: boolean | Prisma.user_organization$broadcasts_receivedArgs<ExtArgs>
+  invites_sent?: boolean | Prisma.user_organization$invites_sentArgs<ExtArgs>
+  media_files?: boolean | Prisma.user_organization$media_filesArgs<ExtArgs>
+  status_posts?: boolean | Prisma.user_organization$status_postsArgs<ExtArgs>
+  status_views?: boolean | Prisma.user_organization$status_viewsArgs<ExtArgs>
+  status_audiences?: boolean | Prisma.user_organization$status_audiencesArgs<ExtArgs>
+  channel_memberships?: boolean | Prisma.user_organization$channel_membershipsArgs<ExtArgs>
+  channel_posts?: boolean | Prisma.user_organization$channel_postsArgs<ExtArgs>
+  calls_made?: boolean | Prisma.user_organization$calls_madeArgs<ExtArgs>
+  calls_received?: boolean | Prisma.user_organization$calls_receivedArgs<ExtArgs>
   _count?: boolean | Prisma.User_organizationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user_organization"]>
 
@@ -1940,6 +7638,7 @@ export type user_organizationSelectScalar = {
   user_id?: boolean
   org_id?: boolean
   role?: boolean
+  department_id?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_by?: boolean
@@ -1948,7 +7647,7 @@ export type user_organizationSelectScalar = {
   deleted_at?: boolean
 }
 
-export type user_organizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_organization_id" | "user_id" | "org_id" | "role" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["user_organization"]>
+export type user_organizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_organization_id" | "user_id" | "org_id" | "role" | "department_id" | "created_by" | "created_at" | "updated_by" | "updated_at" | "deleted_by" | "deleted_at", ExtArgs["result"]["user_organization"]>
 export type user_organizationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group_chat?: boolean | Prisma.user_organization$group_chatArgs<ExtArgs>
   group_chat_view_group_chat_view_read_by_user_organization_idTouser_organization?: boolean | Prisma.user_organization$group_chat_view_group_chat_view_read_by_user_organization_idTouser_organizationArgs<ExtArgs>
@@ -1960,6 +7659,28 @@ export type user_organizationInclude<ExtArgs extends runtime.Types.Extensions.In
   user_master?: boolean | Prisma.user_masterDefaultArgs<ExtArgs>
   user_setting?: boolean | Prisma.user_organization$user_settingArgs<ExtArgs>
   user_devices?: boolean | Prisma.user_organization$user_devicesArgs<ExtArgs>
+  user_sessions?: boolean | Prisma.user_organization$user_sessionsArgs<ExtArgs>
+  owned_conversation_states?: boolean | Prisma.user_organization$owned_conversation_statesArgs<ExtArgs>
+  peer_conversation_states?: boolean | Prisma.user_organization$peer_conversation_statesArgs<ExtArgs>
+  message_states?: boolean | Prisma.user_organization$message_statesArgs<ExtArgs>
+  message_reactions?: boolean | Prisma.user_organization$message_reactionsArgs<ExtArgs>
+  blocks_made?: boolean | Prisma.user_organization$blocks_madeArgs<ExtArgs>
+  blocks_received?: boolean | Prisma.user_organization$blocks_receivedArgs<ExtArgs>
+  reports_made?: boolean | Prisma.user_organization$reports_madeArgs<ExtArgs>
+  reports_received?: boolean | Prisma.user_organization$reports_receivedArgs<ExtArgs>
+  department?: boolean | Prisma.user_organization$departmentArgs<ExtArgs>
+  audit_logs?: boolean | Prisma.user_organization$audit_logsArgs<ExtArgs>
+  broadcasts_sent?: boolean | Prisma.user_organization$broadcasts_sentArgs<ExtArgs>
+  broadcasts_received?: boolean | Prisma.user_organization$broadcasts_receivedArgs<ExtArgs>
+  invites_sent?: boolean | Prisma.user_organization$invites_sentArgs<ExtArgs>
+  media_files?: boolean | Prisma.user_organization$media_filesArgs<ExtArgs>
+  status_posts?: boolean | Prisma.user_organization$status_postsArgs<ExtArgs>
+  status_views?: boolean | Prisma.user_organization$status_viewsArgs<ExtArgs>
+  status_audiences?: boolean | Prisma.user_organization$status_audiencesArgs<ExtArgs>
+  channel_memberships?: boolean | Prisma.user_organization$channel_membershipsArgs<ExtArgs>
+  channel_posts?: boolean | Prisma.user_organization$channel_postsArgs<ExtArgs>
+  calls_made?: boolean | Prisma.user_organization$calls_madeArgs<ExtArgs>
+  calls_received?: boolean | Prisma.user_organization$calls_receivedArgs<ExtArgs>
   _count?: boolean | Prisma.User_organizationCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1976,12 +7697,35 @@ export type $user_organizationPayload<ExtArgs extends runtime.Types.Extensions.I
     user_master: Prisma.$user_masterPayload<ExtArgs>
     user_setting: Prisma.$user_settingPayload<ExtArgs> | null
     user_devices: Prisma.$user_devicePayload<ExtArgs>[]
+    user_sessions: Prisma.$user_sessionPayload<ExtArgs>[]
+    owned_conversation_states: Prisma.$conversation_statePayload<ExtArgs>[]
+    peer_conversation_states: Prisma.$conversation_statePayload<ExtArgs>[]
+    message_states: Prisma.$personal_message_statePayload<ExtArgs>[]
+    message_reactions: Prisma.$message_reactionPayload<ExtArgs>[]
+    blocks_made: Prisma.$user_blockPayload<ExtArgs>[]
+    blocks_received: Prisma.$user_blockPayload<ExtArgs>[]
+    reports_made: Prisma.$user_reportPayload<ExtArgs>[]
+    reports_received: Prisma.$user_reportPayload<ExtArgs>[]
+    department: Prisma.$departmentPayload<ExtArgs> | null
+    audit_logs: Prisma.$organization_audit_logPayload<ExtArgs>[]
+    broadcasts_sent: Prisma.$org_broadcastPayload<ExtArgs>[]
+    broadcasts_received: Prisma.$org_broadcast_recipientPayload<ExtArgs>[]
+    invites_sent: Prisma.$organization_invitePayload<ExtArgs>[]
+    media_files: Prisma.$media_filePayload<ExtArgs>[]
+    status_posts: Prisma.$status_postPayload<ExtArgs>[]
+    status_views: Prisma.$status_viewPayload<ExtArgs>[]
+    status_audiences: Prisma.$status_audiencePayload<ExtArgs>[]
+    channel_memberships: Prisma.$channel_memberPayload<ExtArgs>[]
+    channel_posts: Prisma.$channel_postPayload<ExtArgs>[]
+    calls_made: Prisma.$call_sessionPayload<ExtArgs>[]
+    calls_received: Prisma.$call_sessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     user_organization_id: bigint
     user_id: bigint
     org_id: bigint
     role: string | null
+    department_id: bigint | null
     created_by: bigint | null
     created_at: Date
     updated_by: bigint | null
@@ -2338,6 +8082,28 @@ export interface Prisma__user_organizationClient<T, Null = never, ExtArgs extend
   user_master<T extends Prisma.user_masterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_masterDefaultArgs<ExtArgs>>): Prisma.Prisma__user_masterClient<runtime.Types.Result.GetResult<Prisma.$user_masterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user_setting<T extends Prisma.user_organization$user_settingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$user_settingArgs<ExtArgs>>): Prisma.Prisma__user_settingClient<runtime.Types.Result.GetResult<Prisma.$user_settingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user_devices<T extends Prisma.user_organization$user_devicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$user_devicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_devicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user_sessions<T extends Prisma.user_organization$user_sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$user_sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_sessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  owned_conversation_states<T extends Prisma.user_organization$owned_conversation_statesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$owned_conversation_statesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$conversation_statePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  peer_conversation_states<T extends Prisma.user_organization$peer_conversation_statesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$peer_conversation_statesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$conversation_statePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  message_states<T extends Prisma.user_organization$message_statesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$message_statesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$personal_message_statePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  message_reactions<T extends Prisma.user_organization$message_reactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$message_reactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$message_reactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  blocks_made<T extends Prisma.user_organization$blocks_madeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$blocks_madeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_blockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  blocks_received<T extends Prisma.user_organization$blocks_receivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$blocks_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_blockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reports_made<T extends Prisma.user_organization$reports_madeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$reports_madeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_reportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reports_received<T extends Prisma.user_organization$reports_receivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$reports_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_reportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  department<T extends Prisma.user_organization$departmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$departmentArgs<ExtArgs>>): Prisma.Prisma__departmentClient<runtime.Types.Result.GetResult<Prisma.$departmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  audit_logs<T extends Prisma.user_organization$audit_logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$audit_logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$organization_audit_logPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  broadcasts_sent<T extends Prisma.user_organization$broadcasts_sentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$broadcasts_sentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$org_broadcastPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  broadcasts_received<T extends Prisma.user_organization$broadcasts_receivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$broadcasts_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$org_broadcast_recipientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invites_sent<T extends Prisma.user_organization$invites_sentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$invites_sentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$organization_invitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  media_files<T extends Prisma.user_organization$media_filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$media_filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$media_filePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  status_posts<T extends Prisma.user_organization$status_postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$status_postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$status_postPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  status_views<T extends Prisma.user_organization$status_viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$status_viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$status_viewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  status_audiences<T extends Prisma.user_organization$status_audiencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$status_audiencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$status_audiencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  channel_memberships<T extends Prisma.user_organization$channel_membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$channel_membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$channel_memberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  channel_posts<T extends Prisma.user_organization$channel_postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$channel_postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$channel_postPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  calls_made<T extends Prisma.user_organization$calls_madeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$calls_madeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$call_sessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  calls_received<T extends Prisma.user_organization$calls_receivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_organization$calls_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$call_sessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2371,6 +8137,7 @@ export interface user_organizationFieldRefs {
   readonly user_id: Prisma.FieldRef<"user_organization", 'BigInt'>
   readonly org_id: Prisma.FieldRef<"user_organization", 'BigInt'>
   readonly role: Prisma.FieldRef<"user_organization", 'String'>
+  readonly department_id: Prisma.FieldRef<"user_organization", 'BigInt'>
   readonly created_by: Prisma.FieldRef<"user_organization", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"user_organization", 'DateTime'>
   readonly updated_by: Prisma.FieldRef<"user_organization", 'BigInt'>
@@ -2909,6 +8676,529 @@ export type user_organization$user_devicesArgs<ExtArgs extends runtime.Types.Ext
   take?: number
   skip?: number
   distinct?: Prisma.User_deviceScalarFieldEnum | Prisma.User_deviceScalarFieldEnum[]
+}
+
+/**
+ * user_organization.user_sessions
+ */
+export type user_organization$user_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_session
+   */
+  select?: Prisma.user_sessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_session
+   */
+  omit?: Prisma.user_sessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_sessionInclude<ExtArgs> | null
+  where?: Prisma.user_sessionWhereInput
+  orderBy?: Prisma.user_sessionOrderByWithRelationInput | Prisma.user_sessionOrderByWithRelationInput[]
+  cursor?: Prisma.user_sessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.User_sessionScalarFieldEnum | Prisma.User_sessionScalarFieldEnum[]
+}
+
+/**
+ * user_organization.owned_conversation_states
+ */
+export type user_organization$owned_conversation_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the conversation_state
+   */
+  select?: Prisma.conversation_stateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the conversation_state
+   */
+  omit?: Prisma.conversation_stateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.conversation_stateInclude<ExtArgs> | null
+  where?: Prisma.conversation_stateWhereInput
+  orderBy?: Prisma.conversation_stateOrderByWithRelationInput | Prisma.conversation_stateOrderByWithRelationInput[]
+  cursor?: Prisma.conversation_stateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Conversation_stateScalarFieldEnum | Prisma.Conversation_stateScalarFieldEnum[]
+}
+
+/**
+ * user_organization.peer_conversation_states
+ */
+export type user_organization$peer_conversation_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the conversation_state
+   */
+  select?: Prisma.conversation_stateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the conversation_state
+   */
+  omit?: Prisma.conversation_stateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.conversation_stateInclude<ExtArgs> | null
+  where?: Prisma.conversation_stateWhereInput
+  orderBy?: Prisma.conversation_stateOrderByWithRelationInput | Prisma.conversation_stateOrderByWithRelationInput[]
+  cursor?: Prisma.conversation_stateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Conversation_stateScalarFieldEnum | Prisma.Conversation_stateScalarFieldEnum[]
+}
+
+/**
+ * user_organization.message_states
+ */
+export type user_organization$message_statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the personal_message_state
+   */
+  select?: Prisma.personal_message_stateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the personal_message_state
+   */
+  omit?: Prisma.personal_message_stateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.personal_message_stateInclude<ExtArgs> | null
+  where?: Prisma.personal_message_stateWhereInput
+  orderBy?: Prisma.personal_message_stateOrderByWithRelationInput | Prisma.personal_message_stateOrderByWithRelationInput[]
+  cursor?: Prisma.personal_message_stateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Personal_message_stateScalarFieldEnum | Prisma.Personal_message_stateScalarFieldEnum[]
+}
+
+/**
+ * user_organization.message_reactions
+ */
+export type user_organization$message_reactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the message_reaction
+   */
+  select?: Prisma.message_reactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the message_reaction
+   */
+  omit?: Prisma.message_reactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.message_reactionInclude<ExtArgs> | null
+  where?: Prisma.message_reactionWhereInput
+  orderBy?: Prisma.message_reactionOrderByWithRelationInput | Prisma.message_reactionOrderByWithRelationInput[]
+  cursor?: Prisma.message_reactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Message_reactionScalarFieldEnum | Prisma.Message_reactionScalarFieldEnum[]
+}
+
+/**
+ * user_organization.blocks_made
+ */
+export type user_organization$blocks_madeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_block
+   */
+  select?: Prisma.user_blockSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_block
+   */
+  omit?: Prisma.user_blockOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_blockInclude<ExtArgs> | null
+  where?: Prisma.user_blockWhereInput
+  orderBy?: Prisma.user_blockOrderByWithRelationInput | Prisma.user_blockOrderByWithRelationInput[]
+  cursor?: Prisma.user_blockWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.User_blockScalarFieldEnum | Prisma.User_blockScalarFieldEnum[]
+}
+
+/**
+ * user_organization.blocks_received
+ */
+export type user_organization$blocks_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_block
+   */
+  select?: Prisma.user_blockSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_block
+   */
+  omit?: Prisma.user_blockOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_blockInclude<ExtArgs> | null
+  where?: Prisma.user_blockWhereInput
+  orderBy?: Prisma.user_blockOrderByWithRelationInput | Prisma.user_blockOrderByWithRelationInput[]
+  cursor?: Prisma.user_blockWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.User_blockScalarFieldEnum | Prisma.User_blockScalarFieldEnum[]
+}
+
+/**
+ * user_organization.reports_made
+ */
+export type user_organization$reports_madeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_report
+   */
+  select?: Prisma.user_reportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_report
+   */
+  omit?: Prisma.user_reportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_reportInclude<ExtArgs> | null
+  where?: Prisma.user_reportWhereInput
+  orderBy?: Prisma.user_reportOrderByWithRelationInput | Prisma.user_reportOrderByWithRelationInput[]
+  cursor?: Prisma.user_reportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.User_reportScalarFieldEnum | Prisma.User_reportScalarFieldEnum[]
+}
+
+/**
+ * user_organization.reports_received
+ */
+export type user_organization$reports_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_report
+   */
+  select?: Prisma.user_reportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_report
+   */
+  omit?: Prisma.user_reportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_reportInclude<ExtArgs> | null
+  where?: Prisma.user_reportWhereInput
+  orderBy?: Prisma.user_reportOrderByWithRelationInput | Prisma.user_reportOrderByWithRelationInput[]
+  cursor?: Prisma.user_reportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.User_reportScalarFieldEnum | Prisma.User_reportScalarFieldEnum[]
+}
+
+/**
+ * user_organization.department
+ */
+export type user_organization$departmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the department
+   */
+  select?: Prisma.departmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the department
+   */
+  omit?: Prisma.departmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.departmentInclude<ExtArgs> | null
+  where?: Prisma.departmentWhereInput
+}
+
+/**
+ * user_organization.audit_logs
+ */
+export type user_organization$audit_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the organization_audit_log
+   */
+  select?: Prisma.organization_audit_logSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the organization_audit_log
+   */
+  omit?: Prisma.organization_audit_logOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.organization_audit_logInclude<ExtArgs> | null
+  where?: Prisma.organization_audit_logWhereInput
+  orderBy?: Prisma.organization_audit_logOrderByWithRelationInput | Prisma.organization_audit_logOrderByWithRelationInput[]
+  cursor?: Prisma.organization_audit_logWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Organization_audit_logScalarFieldEnum | Prisma.Organization_audit_logScalarFieldEnum[]
+}
+
+/**
+ * user_organization.broadcasts_sent
+ */
+export type user_organization$broadcasts_sentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the org_broadcast
+   */
+  select?: Prisma.org_broadcastSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the org_broadcast
+   */
+  omit?: Prisma.org_broadcastOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.org_broadcastInclude<ExtArgs> | null
+  where?: Prisma.org_broadcastWhereInput
+  orderBy?: Prisma.org_broadcastOrderByWithRelationInput | Prisma.org_broadcastOrderByWithRelationInput[]
+  cursor?: Prisma.org_broadcastWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Org_broadcastScalarFieldEnum | Prisma.Org_broadcastScalarFieldEnum[]
+}
+
+/**
+ * user_organization.broadcasts_received
+ */
+export type user_organization$broadcasts_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the org_broadcast_recipient
+   */
+  select?: Prisma.org_broadcast_recipientSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the org_broadcast_recipient
+   */
+  omit?: Prisma.org_broadcast_recipientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.org_broadcast_recipientInclude<ExtArgs> | null
+  where?: Prisma.org_broadcast_recipientWhereInput
+  orderBy?: Prisma.org_broadcast_recipientOrderByWithRelationInput | Prisma.org_broadcast_recipientOrderByWithRelationInput[]
+  cursor?: Prisma.org_broadcast_recipientWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Org_broadcast_recipientScalarFieldEnum | Prisma.Org_broadcast_recipientScalarFieldEnum[]
+}
+
+/**
+ * user_organization.invites_sent
+ */
+export type user_organization$invites_sentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the organization_invite
+   */
+  select?: Prisma.organization_inviteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the organization_invite
+   */
+  omit?: Prisma.organization_inviteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.organization_inviteInclude<ExtArgs> | null
+  where?: Prisma.organization_inviteWhereInput
+  orderBy?: Prisma.organization_inviteOrderByWithRelationInput | Prisma.organization_inviteOrderByWithRelationInput[]
+  cursor?: Prisma.organization_inviteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Organization_inviteScalarFieldEnum | Prisma.Organization_inviteScalarFieldEnum[]
+}
+
+/**
+ * user_organization.media_files
+ */
+export type user_organization$media_filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the media_file
+   */
+  select?: Prisma.media_fileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the media_file
+   */
+  omit?: Prisma.media_fileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.media_fileInclude<ExtArgs> | null
+  where?: Prisma.media_fileWhereInput
+  orderBy?: Prisma.media_fileOrderByWithRelationInput | Prisma.media_fileOrderByWithRelationInput[]
+  cursor?: Prisma.media_fileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Media_fileScalarFieldEnum | Prisma.Media_fileScalarFieldEnum[]
+}
+
+/**
+ * user_organization.status_posts
+ */
+export type user_organization$status_postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the status_post
+   */
+  select?: Prisma.status_postSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the status_post
+   */
+  omit?: Prisma.status_postOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.status_postInclude<ExtArgs> | null
+  where?: Prisma.status_postWhereInput
+  orderBy?: Prisma.status_postOrderByWithRelationInput | Prisma.status_postOrderByWithRelationInput[]
+  cursor?: Prisma.status_postWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Status_postScalarFieldEnum | Prisma.Status_postScalarFieldEnum[]
+}
+
+/**
+ * user_organization.status_views
+ */
+export type user_organization$status_viewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the status_view
+   */
+  select?: Prisma.status_viewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the status_view
+   */
+  omit?: Prisma.status_viewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.status_viewInclude<ExtArgs> | null
+  where?: Prisma.status_viewWhereInput
+  orderBy?: Prisma.status_viewOrderByWithRelationInput | Prisma.status_viewOrderByWithRelationInput[]
+  cursor?: Prisma.status_viewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Status_viewScalarFieldEnum | Prisma.Status_viewScalarFieldEnum[]
+}
+
+/**
+ * user_organization.status_audiences
+ */
+export type user_organization$status_audiencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the status_audience
+   */
+  select?: Prisma.status_audienceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the status_audience
+   */
+  omit?: Prisma.status_audienceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.status_audienceInclude<ExtArgs> | null
+  where?: Prisma.status_audienceWhereInput
+  orderBy?: Prisma.status_audienceOrderByWithRelationInput | Prisma.status_audienceOrderByWithRelationInput[]
+  cursor?: Prisma.status_audienceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Status_audienceScalarFieldEnum | Prisma.Status_audienceScalarFieldEnum[]
+}
+
+/**
+ * user_organization.channel_memberships
+ */
+export type user_organization$channel_membershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the channel_member
+   */
+  select?: Prisma.channel_memberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the channel_member
+   */
+  omit?: Prisma.channel_memberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.channel_memberInclude<ExtArgs> | null
+  where?: Prisma.channel_memberWhereInput
+  orderBy?: Prisma.channel_memberOrderByWithRelationInput | Prisma.channel_memberOrderByWithRelationInput[]
+  cursor?: Prisma.channel_memberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Channel_memberScalarFieldEnum | Prisma.Channel_memberScalarFieldEnum[]
+}
+
+/**
+ * user_organization.channel_posts
+ */
+export type user_organization$channel_postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the channel_post
+   */
+  select?: Prisma.channel_postSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the channel_post
+   */
+  omit?: Prisma.channel_postOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.channel_postInclude<ExtArgs> | null
+  where?: Prisma.channel_postWhereInput
+  orderBy?: Prisma.channel_postOrderByWithRelationInput | Prisma.channel_postOrderByWithRelationInput[]
+  cursor?: Prisma.channel_postWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Channel_postScalarFieldEnum | Prisma.Channel_postScalarFieldEnum[]
+}
+
+/**
+ * user_organization.calls_made
+ */
+export type user_organization$calls_madeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the call_session
+   */
+  select?: Prisma.call_sessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the call_session
+   */
+  omit?: Prisma.call_sessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.call_sessionInclude<ExtArgs> | null
+  where?: Prisma.call_sessionWhereInput
+  orderBy?: Prisma.call_sessionOrderByWithRelationInput | Prisma.call_sessionOrderByWithRelationInput[]
+  cursor?: Prisma.call_sessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Call_sessionScalarFieldEnum | Prisma.Call_sessionScalarFieldEnum[]
+}
+
+/**
+ * user_organization.calls_received
+ */
+export type user_organization$calls_receivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the call_session
+   */
+  select?: Prisma.call_sessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the call_session
+   */
+  omit?: Prisma.call_sessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.call_sessionInclude<ExtArgs> | null
+  where?: Prisma.call_sessionWhereInput
+  orderBy?: Prisma.call_sessionOrderByWithRelationInput | Prisma.call_sessionOrderByWithRelationInput[]
+  cursor?: Prisma.call_sessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Call_sessionScalarFieldEnum | Prisma.Call_sessionScalarFieldEnum[]
 }
 
 /**

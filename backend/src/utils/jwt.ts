@@ -1,25 +1,16 @@
 import jwt from "jsonwebtoken";
+import { env } from "../config/env.js";
 
-const accessSecret = process.env.JWT_ACCESS_SECRET;
-const profileSetupSecret =
-  process.env.JWT_PROFILE_SETUP_SECRET;
+export const ACCESS_TOKEN_TTL_SECONDS = 15 * 60;
+const SETUP_TOKEN_TTL_SECONDS = 10 * 60;
 
-if (!accessSecret) {
-  throw new Error(
-    "JWT_ACCESS_SECRET is not configured",
-  );
-}
-
-if (!profileSetupSecret) {
-  throw new Error(
-    "JWT_PROFILE_SETUP_SECRET is not configured",
-  );
-}
+const verifyOptions = { algorithms: ["HS256"] as jwt.Algorithm[] };
 
 export interface AccessTokenPayload {
   userId: string;
   organizationId: string;
   userOrganizationId: string;
+  sessionId: string;
   type: "ACCESS";
 }
 
@@ -39,8 +30,9 @@ export interface OrganizationSetupTokenPayload {
 export const generateAccessToken = (
   payload: AccessTokenPayload,
 ) => {
-  return jwt.sign(payload, accessSecret, {
-    expiresIn: "15m",
+  return jwt.sign(payload, env.jwtAccessSecret, {
+    algorithm: "HS256",
+    expiresIn: ACCESS_TOKEN_TTL_SECONDS,
   });
 };
 
@@ -49,9 +41,10 @@ export const generateProfileSetupToken = (
 ) => {
   return jwt.sign(
     payload,
-    profileSetupSecret,
+    env.jwtProfileSetupSecret,
     {
-      expiresIn: "10m",
+      algorithm: "HS256",
+      expiresIn: SETUP_TOKEN_TTL_SECONDS,
     },
   );
 };
@@ -61,9 +54,27 @@ export const generateOrganizationSetupToken = (
 ) => {
   return jwt.sign(
     payload,
-    accessSecret,
+    env.jwtAccessSecret,
     {
-      expiresIn: "10m",
+      algorithm: "HS256",
+      expiresIn: SETUP_TOKEN_TTL_SECONDS,
     },
   );
 };
+
+export const verifyAccessToken = (token: string) =>
+  jwt.verify(token, env.jwtAccessSecret, verifyOptions) as AccessTokenPayload;
+
+export const verifyProfileSetupToken = (token: string) =>
+  jwt.verify(
+    token,
+    env.jwtProfileSetupSecret,
+    verifyOptions,
+  ) as ProfileSetupTokenPayload;
+
+export const verifyOrganizationSetupToken = (token: string) =>
+  jwt.verify(
+    token,
+    env.jwtAccessSecret,
+    verifyOptions,
+  ) as OrganizationSetupTokenPayload;
